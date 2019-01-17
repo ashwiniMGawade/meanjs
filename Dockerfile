@@ -16,6 +16,9 @@ EXPOSE 80 443 3000 35729 8080
 # Set development environment as default
 ENV NODE_ENV development
 
+ENV https_proxy https://10.66.80.122:8080
+ENV http_proxy http://10.66.80.122:8080
+
 # Install Utilities
 RUN apt-get update -q  \
  && apt-get install -yqq \

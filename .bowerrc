@@ -1,4 +1,6 @@
 {
   "directory": "public/lib",
-  "interactive": false 
+  "interactive": false,
+ "proxy":"http://babu_jayaraman:Jan%402019@10.66.80.122:8080",
+ "https-proxy":"http://babu_jayaraman:Jan%402019@10.66.80.122:8080" 
 }
