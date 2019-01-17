@@ -12,11 +12,11 @@ module.exports = function (config) {
   // Use active directory strategy
 	passport.use(new LdapStrategy({
 	    server: {
-	      url: 'ldap://10.128.113.50',
-	      bindDN: 'uid=administrator,ou=users,dc=ausngs,dc=netapp,dc=au', // 'cn='root''
-	      bindCredentials: 'netapp1', //Password for bindDN
-	      searchBase: 'ou=users,dc=ausngs,dc=netapp,dc=au',
-		  searchFilter: '(uid={{username}})'
+	      url: 'ldap://10.128.113.50:389',
+	      bindDN: 'nse-dc-admin@ausngs.netapp.au', // 'cn='root''
+	      bindCredentials: 'Qwerty1234%', //Password for bindDN
+	      searchBase: 'cn=users,dc=ausngs,dc=netapp,dc=au',
+		  searchFilter: '(samaccountname={{username}})'
 		},
 	  	usernameField: 'usernameOrEmail',
 		//searchAttributes: ['displayName', 'mail'],
@@ -24,10 +24,29 @@ module.exports = function (config) {
 	    
 	  },
 	  function(req, user, done) {
-		  //code to authenticate
-		  console.log("##########################################")
-		  console.log(user)
-		  done(null, user);
+		  // Set the provider data and include tokens
+		    var providerData = {};
+		    providerData.memberOf = user.memberOf;
+		    providerData.email = user.userPrincipalName
+
+		    //Decide user role
+
+
+		    // Create the user OAuth profile
+		    var providerUserProfile = {
+		      firstName: user.givenName,
+		      lastName: user.sn,
+		      displayName: user.displayName,
+		      email: user.userPrincipalName,
+		      username: user.sAMAccountName,
+		      profileImageURL: (user.pictureUrl) ? user.pictureUrl : undefined,
+		      provider: 'activeDirectory',
+		      providerIdentifierField: 'email',
+		      providerData: providerData
+		    };
+
+		    // Save the user OAuth profile
+		    users.saveOAuthUserProfile(req, providerUserProfile, done);
 		}
 	));
 }

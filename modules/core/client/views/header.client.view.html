@@ -1,4 +1,10 @@
 <div class="container" ng-controller="HeaderController as vm">
+  <configuration>
+  <system.webServer>
+    <!-- ... -->
+    <iisnode promoteServerVars="LOGON_USER" />
+  </system.webServer>
+</configuration>
   <div class="navbar-header">
     <button class="navbar-toggle" type="button" ng-click="vm.isCollapsed = !vm.isCollapsed">
       <span class="sr-only">Toggle navigation</span>
@@ -21,9 +27,9 @@
       </li>
     </ul>
     <ul class="nav navbar-nav navbar-right" ng-hide="vm.authentication.user">
-      <li ui-sref-active="active">
+      <!-- <li ui-sref-active="active">
         <a ui-sref="authentication.signup">Sign Up</a>
-      </li>
+      </li> -->
       <li class="divider-vertical"></li>
       <li ui-sref-active="active">
         <a ui-sref="authentication.signin">Sign In</a>
