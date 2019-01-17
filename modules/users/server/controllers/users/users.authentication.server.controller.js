@@ -52,28 +52,29 @@ exports.signup = function (req, res) {
 /**
  * Signin after passport authentication
  */
-exports.signin = function (req, res, next) {
-  passport.authenticate('local', function (err, user, info) {
-    if (err || !user) {
-      res.status(422).send(info);
-    } else {
-      // Remove sensitive data before login
-      user.password = undefined;
-      user.salt = undefined;
+// exports.signin = function (req, res, next) {
+//   passport.authenticate('local', function (err, user, info) {
+//     if (err || !user) {
+//       res.status(422).send(info);
+//     } else {
+//       // Remove sensitive data before login
+//       user.password = undefined;
+//       user.salt = undefined;
 
-      req.login(user, function (err) {
-        if (err) {
-          res.status(400).send(err);
-        } else {
-          res.json(user);
-        }
-      });
-    }
-  })(req, res, next);
-};
+//       req.login(user, function (err) {
+//         if (err) {
+//           res.status(400).send(err);
+//         } else {
+//           res.json(user);
+//         }
+//       });
+//     }
+//   })(req, res, next);
+// };
 
 //LDAP SIGNIN
-exports.ldap_signin = function (req, res, next) {
+exports.signin = function (req, res, next) {
+ 
   passport.authenticate('ldapauth', function (err, user, info) {
     console.log(err, "err", user, "user", info, "info")
     if (err || !user) {
@@ -83,10 +84,15 @@ exports.ldap_signin = function (req, res, next) {
       user.password = undefined;
       user.salt = undefined;
 
+      console.log(user);
+
       req.login(user, function (err) {
+        console.log("err in logging in user", err)
         if (err) {
+          console.log("inside error")
           res.status(400).send(err);
         } else {
+          console.log("inside else")
           res.json(user);
         }
       });
@@ -139,6 +145,7 @@ exports.oauthCallback = function (req, res, next) {
  * Helper function to save or update a OAuth user profile
  */
 exports.saveOAuthUserProfile = function (req, providerUserProfile, done) {
+  console.log("save oauth user profile called", providerUserProfile)
   // Setup info and user objects
   var info = {};
   var user;
@@ -166,6 +173,8 @@ exports.saveOAuthUserProfile = function (req, providerUserProfile, done) {
   var searchQuery = {
     $or: [mainProviderSearchQuery, additionalProviderSearchQuery]
   };
+
+  console.log("search query:", searchQuery)
 
   // Find existing user with this provider account
   User.findOne(searchQuery, function (err, existingUser) {
