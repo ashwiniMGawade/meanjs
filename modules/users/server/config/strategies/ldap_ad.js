@@ -12,11 +12,11 @@ module.exports = function (config) {
   // Use active directory strategy
 	passport.use(new LdapStrategy({
 	    server: {
-	      url: 'ldap://10.128.113.50:389',
-	      bindDN: 'nse-dc-admin@ausngs.netapp.au', // 'cn='root''
-	      bindCredentials: 'Qwerty1234%', //Password for bindDN
-	      searchBase: 'cn=users,dc=ausngs,dc=netapp,dc=au',
-		  searchFilter: '(samaccountname={{username}})'
+	      url: 'LDAP://192.168.200.51:389/DC=AD,DC=INFOSYS,DC=COM',
+	      bindDN: 'CN=_VFMAdmin,OU=SPL,OU=Users,OU=KEC,OU=BLR,OU=IND,DC=ad,DC=infosys,DC=com', // 'cn='root''
+	      bindCredentials: '%Serv1Df$@5#', //Password for bindDN
+	      searchBase: 'DC=AD,DC=INFOSYS,DC=COM',
+		  searchFilter: '(&(ObjectClass=user)(sAMAccountName={{username}})(l=*)(extensionAttribute2=*))'
 		},
 	  	usernameField: 'usernameOrEmail',
 		//searchAttributes: ['displayName', 'mail'],
@@ -25,6 +25,7 @@ module.exports = function (config) {
 	  },
 	  function(req, user, done) {
 		  // Set the provider data and include tokens
+		console.log(user)
 		    var providerData = {};
 		    providerData.memberOf = user.memberOf;
 		    providerData.email = user.userPrincipalName
