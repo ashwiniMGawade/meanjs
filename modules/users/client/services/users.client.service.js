@@ -39,6 +39,10 @@
       signin: {
         method: 'POST',
         url: '/api/auth/signin'
+      },
+      getUserProjectDetails: {
+        method: 'GET',
+        url: 'api/users/projectInfo'
       }
     });
 

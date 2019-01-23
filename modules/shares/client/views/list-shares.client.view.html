@@ -1,0 +1,30 @@
+<section>
+    <div class="page-header">
+        <div class="row">
+            <div class="col-md-4">
+                <h1>
+                    Shares                
+                </h1>            
+            </div>
+            <div class="col-md-4" style="margin-top: 2em">
+                <input class="form-control col-md-4" type="text" ng-model="vm.search" placeholder="Search" ng-change="vm.figureOutItemsToDisplay()" />
+            </div>
+            <div class="col-md-4" style="margin-top: 2em">
+                <a class="btn btn-primary pull-right" data-ui-sref="shares.create">
+                        <i class="glyphicon glyphicon-plus"></i>
+                    </a>
+            </div>
+        </div>
+    </div>
+    <div class="list-group">
+        <a ng-repeat="user in vm.pagedItems" ui-sref="share.view({shareId: share._id})" class="list-group-item">
+        test
+        <!-- <h4 class="list-group-item-heading" ng-bind="user.username"></h4>
+        <p class="list-group-item-text pull-right small" ng-bind="user.roles"></p>
+        <p class="list-group-item-text" ng-bind="user.email"></p> -->
+        </a>
+    </div>
+
+    <uib-pagination boundary-links="true" max-size="8" items-per-page="vm.itemsPerPage" total-items="vm.filterLength" ng-model="vm.currentPage" ng-change="vm.pageChanged()"></uib-pagination>
+</section>
+      

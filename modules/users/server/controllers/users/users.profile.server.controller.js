@@ -14,6 +14,8 @@ var _ = require('lodash'),
   amazonS3URI = require('amazon-s3-uri'),
   config = require(path.resolve('./config/config')),
   User = mongoose.model('User'),
+  sql = require(path.resolve('./config/lib/sql')),
+  Request = require('tedious').Request,
   validator = require('validator');
 
 var whitelistedFields = ['firstName', 'lastName', 'email', 'username'];
@@ -224,3 +226,29 @@ exports.me = function (req, res) {
 
   res.json(safeUserObject || null);
 };
+
+exports.projectInfo = function(req, res) {
+  
+  var request = new Request("select Name, Value, Article_Id from [tableone] where Id = '1'", function (err, rowCount, rows) {
+
+    if (err) {
+        console.log(err);
+    } else {
+        console.log(rowCount + ' rows');
+    }
+    console.log(rows) // this is the full array of row objects
+    // it just needs some manipulating
+
+    jsonArray = []
+    rows.forEach(function (columns) {
+        var rowObject ={};
+        columns.forEach(function(column) {
+            rowObject[column.metadata.colName] = column.value;
+        });
+        jsonArray.push(rowObject)
+    });
+    res.send(null, rowCount, jsonArray);
+  });
+
+  sql.getConnction().execSql(request);
+}

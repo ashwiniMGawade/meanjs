@@ -241,6 +241,7 @@ exports.saveOAuthUserProfile = function (req, providerUserProfile, done) {
   });
 };
 
+
 /**
  * Remove OAuth provider
  */

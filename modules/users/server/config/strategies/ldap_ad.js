@@ -5,17 +5,19 @@
  */
 var passport = require('passport'),
   LdapStrategy = require('passport-ldapauth'),
-  users = require('../../controllers/users.server.controller');
+  users = require('../../controllers/users.server.controller'),
+  path = require("path"),
+  config = require(path.resolve('./config/config'));
 
 
 module.exports = function (config) {
   // Use active directory strategy
 	passport.use(new LdapStrategy({
 	    server: {
-	      url: 'LDAP://192.168.200.51:389/DC=AD,DC=INFOSYS,DC=COM',
-	      bindDN: 'CN=_VFMAdmin,OU=SPL,OU=Users,OU=KEC,OU=BLR,OU=IND,DC=ad,DC=infosys,DC=com', // 'cn='root''
-	      bindCredentials: '%Serv1Df$@5#', //Password for bindDN
-	      searchBase: 'DC=AD,DC=INFOSYS,DC=COM',
+	      url: config.ldap.url,
+	      bindDN: config.ldap.bindDN, 
+	      bindCredentials: config.ldap.bindCredentials, 
+	      searchBase: config.ldap.searchBase,
 		  searchFilter: '(&(ObjectClass=user)(sAMAccountName={{username}})(l=*)(extensionAttribute2=*))'
 		},
 	  	usernameField: 'usernameOrEmail',

@@ -8,18 +8,18 @@
   menuConfig.$inject = ['menuService'];
 
   function menuConfig(menuService) {
-    menuService.addMenuItem('topbar', {
-      title: 'Articles',
-      state: 'articles',
-      type: 'dropdown',
-      roles: ['user', 'admin']
-    });
+    // menuService.addMenuItem('topbar', {
+    //   title: 'Articles',
+    //   state: 'articles',
+    //   type: 'dropdown',
+    //   roles: ['user', 'admin']
+    // });
 
     // Add the dropdown list item
-    menuService.addSubMenuItem('topbar', 'articles', {
-      title: 'List Articles',
-      state: 'articles.list',
-      roles: ['user', 'admin']
-    });
+    // menuService.addSubMenuItem('topbar', 'articles', {
+    //   title: 'List Articles',
+    //   state: 'articles.list',
+    //   roles: ['user', 'admin']
+    // });
   }
 }());
