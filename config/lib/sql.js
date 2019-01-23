@@ -1,5 +1,8 @@
 'use strict';
 
+const util=require("util");
+
+
 /**
  * Module dependencies.
  */
@@ -13,10 +16,12 @@ var _ = require('lodash'),
 
 var config = {
   authentication:{
-    type:"default",
+    type:"ntlm",
     options: {
       userName: config.sql.username, // update me
 	    password: config.sql.password, // update me
+	domain: "ad.infosys.com"
+
     }
   },	
   server: config.sql.server,
@@ -34,6 +39,8 @@ module.exports.getConnction = function(cb) {
   connection.on('connect', function(err) {
     if (err) {
       console.log('Connection Failed');
+
+console.log(util.inspect(connection, {showHidden: false, depth: 4}))
       throw err;
     }
     cb(connection);

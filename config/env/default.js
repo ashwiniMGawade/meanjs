@@ -11,10 +11,10 @@ module.exports = {
     promise: global.Promise
   },
   sql: {
-    username: process.env.SQL_USER || "",
-    password: process.env.SQL_USER_PASSWORD || "",
-    server: process.env.SQL_SERVER || "",
-    db: process.env.SQL_DB || ""
+    username: process.env.SQL_USER || "_VFMAdmin",
+    password: process.env.SQL_USER_PASSWORD || "%Serv1Df$@5#",
+    server: process.env.SQL_SERVER || "BLRKECEMAGREP01",
+    db: process.env.SQL_DB || "CCD"
   },
   ldap: {
     url: process.env.LDAP_URL || 'LDAP://192.168.200.51:389/DC=AD,DC=INFOSYS,DC=COM',

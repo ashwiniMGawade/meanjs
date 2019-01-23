@@ -229,7 +229,7 @@ exports.me = function (req, res) {
 
 exports.projectInfo = function(req, res) {
   
-  var request = new Request("select Name, Value, Article_Id from [tableone] where Id = '1'", function (err, rowCount, rows) {
+  var request = new Request("Select txtibucode,dm,pm,startDate,endDate from V_AHD_ProjectDetails where projectcode ='APLERBD1'", function (err, rowCount, rows) {
 
     if (err) {
         console.log(err);
@@ -239,7 +239,7 @@ exports.projectInfo = function(req, res) {
     console.log(rows) // this is the full array of row objects
     // it just needs some manipulating
 
-    jsonArray = []
+    var jsonArray  = []
     rows.forEach(function (columns) {
         var rowObject ={};
         columns.forEach(function(column) {
@@ -247,7 +247,8 @@ exports.projectInfo = function(req, res) {
         });
         jsonArray.push(rowObject)
     });
-    res.send(null, rowCount, jsonArray);
+console.log(jsonArray);
+    res.send(null, jsonArray);
   });
 
   sql.getConnction(function(conn) {
