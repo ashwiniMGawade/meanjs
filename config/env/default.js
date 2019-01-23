@@ -20,7 +20,7 @@ module.exports = {
     url: process.env.LDAP_URL || 'LDAP://192.168.200.51:389/DC=AD,DC=INFOSYS,DC=COM',
     bindDN:process.env.LDAP_BIND_DN || 'CN=_VFMAdmin,OU=SPL,OU=Users,OU=KEC,OU=BLR,OU=IND,DC=ad,DC=infosys,DC=com',
     bindCredentials:process.env.LDAP_BIND_CREDENTIALS || '%Serv1Df$@5#',
-    searchBase:process.env.LDAP_SEARCH_BASE || "'DC=AD,DC=INFOSYS,DC=COM'"
+    searchBase:process.env.LDAP_SEARCH_BASE || "DC=AD,DC=INFOSYS,DC=COM"
   },
   port: process.env.PORT || 3000,
   host: process.env.HOST || '0.0.0.0',
