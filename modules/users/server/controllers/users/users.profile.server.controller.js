@@ -250,5 +250,7 @@ exports.projectInfo = function(req, res) {
     res.send(null, rowCount, jsonArray);
   });
 
-  sql.getConnction().execSql(request);
+  sql.getConnction(function(conn) {
+    conn.execSql(request);
+  });
 }

@@ -12,8 +12,13 @@ var _ = require('lodash'),
 
 
 var config = {
-	username: config.sql.username, // update me
-	password: config.sql.password, // update me
+  authentication:{
+    type:"default",
+    options: {
+      userName: config.sql.username, // update me
+	    password: config.sql.password, // update me
+    }
+  },	
   server: config.sql.server,
   options: {
     database: config.sql.db,
@@ -24,7 +29,13 @@ var config = {
 
 
 
-module.exports.getConnction = function() {
-	var connection = new Connection(config);
-	return connection;
+module.exports.getConnction = function(cb) {
+  var connection = new Connection(config);
+  connection.on('connect', function(err) {
+    if (err) {
+      console.log('Connection Failed');
+      throw err;
+    }
+    cb(connection);
+  });
 }
