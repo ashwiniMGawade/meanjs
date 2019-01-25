@@ -42,7 +42,7 @@
       },
       getUserProjectDetails: {
         method: 'GET',
-        url: 'api/users/projectInfo'
+        url: '/api/users/projectInfo'
       }
     });
 

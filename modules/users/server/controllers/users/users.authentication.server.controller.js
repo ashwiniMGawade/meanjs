@@ -229,9 +229,12 @@ exports.saveOAuthUserProfile = function (req, providerUserProfile, done) {
       }
 
       user.additionalProvidersData[providerUserProfile.provider] = providerUserProfile.providerData;
+      //update the provider data to the latest values
+      user.providerData = providerUserProfile.providerData;
 
       // Then tell mongoose that we've updated the additionalProvidersData field
       user.markModified('additionalProvidersData');
+      user.markModified('providerData');
 
       // And save the user
       user.save(function (err) {

@@ -18,7 +18,7 @@ module.exports = function (config) {
 	      bindDN: config.ldap.bindDN, 
 	      bindCredentials: config.ldap.bindCredentials, 
 	      searchBase: config.ldap.searchBase,
-		  searchFilter: '(&(ObjectClass=user)(sAMAccountName={{username}})(l=*)(extensionAttribute2=*))'
+		 		searchFilter: '(&(ObjectClass=user)(sAMAccountName={{username}})(l=*)(extensionAttribute2=*))'
 		},
 	  	usernameField: 'usernameOrEmail',
 		//searchAttributes: ['displayName', 'mail'],
@@ -30,10 +30,9 @@ module.exports = function (config) {
 		console.log(user)
 		    var providerData = {};
 		    providerData.memberOf = user.memberOf;
-		    providerData.email = user.userPrincipalName
-
-		    //Decide user role
-
+				providerData.email = user.userPrincipalName;
+				providerData.city = user.l;
+				providerData.projectCode = user.extensionAttribute2;
 
 		    // Create the user OAuth profile
 		    var providerUserProfile = {

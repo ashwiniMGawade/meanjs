@@ -39,12 +39,18 @@
 </head>
 
 <body class="ng-cloak">
-  <header ng-include="'/modules/core/client/views/header.client.view.html'" class="navbar navbar-fixed-top navbar-inverse"></header>
+  <header ng-include="'/modules/core/client/views/header.client.view.html'" class="navbar navbar-custom navbar-fixed-top navbar-inverse"></header>
   <section class="content">
     <section class="container">
       {{{block "content"}}}
     </section>
   </section>
+
+  <footer class="navbar-default navbar-fixed-bottom">
+      <div class="container">
+        <small>Copyright © {{year}} NetApp. All rights reserved.</small>
+      </div>
+</footer>
 
   <noscript>
     <style>

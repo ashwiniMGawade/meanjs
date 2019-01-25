@@ -16,12 +16,11 @@ var _ = require('lodash'),
 
 var config = {
   authentication:{
-    type:"ntlm",
+    type: config.sql.authType,
     options: {
-      userName: config.sql.username, // update me
-	    password: config.sql.password, // update me
-	domain: "ad.infosys.com"
-
+      userName: config.sql.username, 
+	    password: config.sql.password, 
+	    domain: config.sql.domain
     }
   },	
   server: config.sql.server,
@@ -39,8 +38,7 @@ module.exports.getConnction = function(cb) {
   connection.on('connect', function(err) {
     if (err) {
       console.log('Connection Failed');
-
-console.log(util.inspect(connection, {showHidden: false, depth: 4}))
+      console.log(util.inspect(connection, {showHidden: false, depth: 4}))
       throw err;
     }
     cb(connection);
