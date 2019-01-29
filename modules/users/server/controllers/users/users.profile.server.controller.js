@@ -229,7 +229,7 @@ exports.me = function (req, res) {
 
 exports.projectInfo = function(req, res) {
   
-   var request = new Request("Select txtibucode,dm,pm,startDate,endDate from V_AHD_ProjectDetails where projectcode ='" + req.user.providerData.projectCode || "APLERBD1" + "'", function (err, rowCount, rows) {
+   var request = new Request("Select txtibucode,dm,pm,startDate,endDate from V_AHD_ProjectDetails where projectcode ='" + req.user.providerData.projectCode + "';", function (err, rowCount, rows) {
 
     if (err) {
         console.log(err);
@@ -245,7 +245,7 @@ exports.projectInfo = function(req, res) {
         columns.forEach(function(column) {
             rowObject[column.metadata.colName] = column.value;
         });
-        rowObjec["city"] = req.user.providerData.city
+        rowObject["city"] = req.user.providerData.city
         jsonArray.push(rowObject)
     });
 
