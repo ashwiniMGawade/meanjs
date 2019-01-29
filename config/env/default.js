@@ -18,12 +18,14 @@ module.exports = {
     db: process.env.SQL_DB,
     domain: process.env.SQL_DOMAIN
   },
-  ldap: {
+ ldap: {
     url: process.env.LDAP_URL,
     bindDN:process.env.LDAP_BIND_DN,
     bindCredentials:process.env.LDAP_BIND_CREDENTIALS,
     searchBase:process.env.LDAP_SEARCH_BASE
   },
+
+
   port: process.env.PORT || 3000,
   host: process.env.HOST || '0.0.0.0',
   // DOMAIN config should be set to the fully qualified application accessible
