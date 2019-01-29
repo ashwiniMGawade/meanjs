@@ -208,7 +208,7 @@ exports.saveOAuthUserProfile = function (req, providerUserProfile, done) {
           });
         });
       } else {
-        return done(err, existingUser, info);
+        modifyUserInfo(existingUser,providerUserProfile, done)
       }
     } else {
       // User is already logged in, join the provider data to the existing user
@@ -222,27 +222,32 @@ exports.saveOAuthUserProfile = function (req, providerUserProfile, done) {
 
         return done(new Error('User is already connected using this provider'), user, info);
       }
-
-      // Add the provider data to the additional provider data field
-      if (!user.additionalProvidersData) {
-        user.additionalProvidersData = {};
-      }
-
-      user.additionalProvidersData[providerUserProfile.provider] = providerUserProfile.providerData;
-      //update the provider data to the latest values
-      user.providerData = providerUserProfile.providerData;
-
-      // Then tell mongoose that we've updated the additionalProvidersData field
-      user.markModified('additionalProvidersData');
-      user.markModified('providerData');
-
-      // And save the user
-      user.save(function (err) {
-        return done(err, user, info);
-      });
+      modifyUserInfo(user,providerUserProfile, done)
+     
     }
   });
 };
+
+
+var modifyUserInfo = function(user, providerUserProfile, done) {
+    // Add the provider data to the additional provider data field
+    if (!user.additionalProvidersData) {
+      user.additionalProvidersData = {};
+    }
+
+    user.additionalProvidersData[providerUserProfile.provider] = providerUserProfile.providerData;
+    //update the provider data to the latest values
+    user.providerData = providerUserProfile.providerData;
+
+    // Then tell mongoose that we've updated the additionalProvidersData field
+    user.markModified('additionalProvidersData');
+    user.markModified('providerData');
+
+    // And save the user
+    user.save(function (err) {
+      return done(err, user, info);
+    });
+} 
 
 
 /**
