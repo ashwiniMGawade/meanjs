@@ -39,10 +39,11 @@
           controller: 'SharesController',
           controllerAs: 'vm',
           resolve: {
-            shareResolve: getShare
+            shareResolve: getShare,
+            projectResolve: function() {return null}
           },
           data: {
-            pageTitle: '{{ shareResolve.title }}'
+            pageTitle: 'Share Details'
           }
         });
     }

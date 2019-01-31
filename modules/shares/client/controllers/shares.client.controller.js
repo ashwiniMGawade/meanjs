@@ -11,17 +11,60 @@
       var vm = this;
         
       vm.share = share;
-      vm.share.readOnly = vm.share.readOnly ||(projectInfo.dm). trim() + "@infosys.com";
-      vm.share.readAndWrite = vm.share.readAndWrite || (projectInfo.pm).trim() + "@infosys.com";
+      vm.share.city = vm.share.city || projectInfo.city
+      vm.share.projectCode = vm.share.projectCode || projectInfo.txtibucode
+      vm.share.storage = vm.share.storage || {}
       vm.project = projectInfo
+      if ( projectInfo) {
+        vm.project.startDate = new Date(projectInfo.startDate)
+        vm.project.endDate = new Date(projectInfo.endDate)
+      }
+      
       vm.authentication = Authentication;
       vm.form = {};
       vm.remove = remove;
       vm.save = save;
 
-      $scope.categories = [{"name": "test1", value: "test1"}, {"name": "test2", value: "test2"}];
+      $scope.categories = [
+        {"value": "newShare", "name": "New Project Share Creation"},
+        {"value": "changePermission", "name": "Change Permission"},
+        {"value": "resize", "name": "Resize Project Share"},
+        {"value": "rename", "name": "Rename Project Share"},
+        {"value": "restoreProjectShare", "name": "Retire Project Share"},
+        {"value": "retireVolumeWorkflow", "name": "Retire Volume Workflow"},
+        {"value": "migration", "name": "Project Migration Workflow"}
+      ];
 
+      vm.fileSizeTypes = {
+        "officeFile":"Office File",
+        "compressedFile": "Compressed File",
+        "dataAndDBFile": "Data And Database File",
+        "executableFile": "Executable File",
+        "imageFile": "Image File",
+        "programmingFile":"Programming File",
+        "videoFile": "Video File",
+        "audioFile":"Audio File",
+        "backupFile":"Backup File"
+      }
 
+     var dateDiffInYears = function (dateold, datenew) {
+        var ynew = datenew.getFullYear();
+        var mnew = datenew.getMonth();
+        var dnew = datenew.getDate();
+        var yold = dateold.getFullYear();
+        var mold = dateold.getMonth();
+        var dold = dateold.getDate();
+        var diff = ynew - yold;
+        if (mold > mnew) diff--;
+        else {
+            if (mold == mnew) {
+                if (dold > dnew) diff--;
+            }
+        }
+        return diff;
+    }
+
+    
      $scope.calculateCapacity = function() {
         var fileSizeArray = {
           "officeFile":5,
@@ -35,37 +78,42 @@
           "backupFile":10
         }
 
-        vm.share.size = 0;
+        vm.share.sizegb = 0;
 
-        if (vm.share.backupFile) {
-          vm.share.size += fileSizeArray["backupFile"]
+        if (vm.share.storage.backupFile) {
+          vm.share.sizegb += fileSizeArray["backupFile"]
         }
-        if (vm.share.audioFile) {
-          vm.share.size += fileSizeArray["audioFile"]
+        if (vm.share.storage.audioFile) {
+          vm.share.sizegb += fileSizeArray["audioFile"]
         }
-        if (vm.share.videoFile) {
-          vm.share.size += fileSizeArray["videoFile"]
+        if (vm.share.storage.videoFile) {
+          vm.share.sizegb += fileSizeArray["videoFile"]
         }
-        if (vm.share.programmingFile) {
-          vm.share.size += fileSizeArray["programmingFile"]
+        if (vm.share.storage.programmingFile) {
+          vm.share.sizegb += fileSizeArray["programmingFile"]
         }
-        if (vm.share.imageFile) {
-          vm.share.size += fileSizeArray["imageFile"]
+        if (vm.share.storage.imageFile) {
+          vm.share.sizegb += fileSizeArray["imageFile"]
         }
-        if (vm.share.executableFile) {
-          vm.share.size += fileSizeArray["executableFile"]
+        if (vm.share.storage.executableFile) {
+          vm.share.sizegb += fileSizeArray["executableFile"]
         }
-        if (vm.share.dataAndDBFile) {
-          vm.share.size += fileSizeArray["dataAndDBFile"]
+        if (vm.share.storage.dataAndDBFile) {
+          vm.share.sizegb += fileSizeArray["dataAndDBFile"]
         }
-        if (vm.share.compressedFile) {
-          vm.share.size += fileSizeArray["compressedFile"]
+        if (vm.share.storage.compressedFile) {
+          vm.share.sizegb += fileSizeArray["compressedFile"]
         }
-        if (vm.share.officeFile) {
-          vm.share.size += fileSizeArray["officeFile"]
+        if (vm.share.storage.officeFile) {
+          vm.share.sizegb += fileSizeArray["officeFile"]
         }
 
-        vm.share.cost = vm.share.size * 1;
+        var years = dateDiffInYears(vm.project.startDate, vm.project.endDate);
+
+        years = years ? years : 1
+
+        console.log(years)
+        vm.share.cost = vm.share.sizegb * 1 * years;
       }
   
       // Remove existing Article

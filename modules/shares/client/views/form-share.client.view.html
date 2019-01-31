@@ -1,6 +1,6 @@
 <section>
     <div class="page-header">
-      <h1>{{vm.share._id ? 'Edit Share' : 'New Share'}}</h1>
+      <h1>{{vm.share._id ? 'Edit Request' : 'New Request'}}</h1>
     </div>
     <div class="pull-right">
       <a ng-show="vm.share._id" class="btn btn-primary" ng-click="vm.remove()">
@@ -12,21 +12,29 @@
         <fieldset>
           <div class="form-group" show-errors>
             <label class="control-label" for="projectCode">Project Code</label>
-            <input name="projectCode" type="text" ng-model="vm.project.txtibucode" id="projectCode" class="form-control" placeholder="projectCode" required autofocus ng-readonly="true" >
+            <input name="projectCode" type="text" ng-model="vm.share.projectCode" id="projectCode" class="form-control" placeholder="Project Code" required autofocus ng-readonly="true" >
             <div ng-messages="vm.form.shareForm.projectCode.$error" role="alert">
               <p class="help-block error-text" ng-message="required">Project Code is required.</p>
             </div>
           </div>
           <div class="form-group" show-errors>
               <label class="control-label" for="city">City</label>
-              <input name="city" type="text" ng-model="vm.project.city" id="city" class="form-control" placeholder="city" required autofocus ng-readonly="true">
+              <input name="city" type="text" ng-model="vm.share.city" id="city" class="form-control" placeholder="City" required autofocus ng-readonly="true">
               <div ng-messages="vm.form.shareForm.city.$error" role="alert">
                 <p class="help-block error-text" ng-message="required">City is required.</p>
               </div>
             </div>
           <div class="form-group" show-errors>
+              <label class="control-label" for="projectStartDate">Project Start Date</label>
+              <input name="startDate" type="date" ng-model="vm.project.startDate" id="startDate" class="form-control" placeholder="DD/MM/YYYY" required ng-readonly="true">  
+          </div>
+          <div class="form-group" show-errors>
+            <label class="control-label" for="projectEndDate">Project END Date</label>
+            <input name="endDate" type="date" ng-model="vm.project.endDate" id="endDate" class="form-control" placeholder="DD/MM/YYYY" required ng-readonly="true">  
+        </div>
+          <div class="form-group" show-errors>
               <label for="category">Select Category</label>   
-              <select name="category" ng-model="vm.share.category" id="category" class="form-control" ng-options="category.value as category.name for category in categories | orderBy: 'name'" required ng-change="changedCategory(category)" ng-disabled="!categories.length">
+              <select name="category" ng-model="vm.share.category" id="category" class="form-control" ng-options="category.value as category.name for category in categories | orderBy: 'name'" required ng-change="changedCategory(category)" ng-disabled="!categories.length" autofocus>
                 <option value="">Please select a Category</option>
               </select>
               <div class="loader" ng-show="!categories.length"></div>       
@@ -36,31 +44,31 @@
             </div>
           <div class="form-group" show-errors>
               <label class="control-label" for="readOnly">Read Only(DV)</label>
-              <input name="readOnly" type="text" ng-model="vm.share.readOnly" id="readOnly" class="form-control" placeholder="readOnly" required autofocus ng-pattern="/(([a-zA-Z\-0-9\._]+@)([a-zA-Z\-0-9\.]+)[;]*)+/g"
+              <input name="readOnly" type="text" ng-model="vm.share.readOnly" id="readOnly" class="form-control" placeholder="UserIDs" required  ng-pattern="/^[a-zA-Z\-0-9\._]*(?:;([a-zA-Z\-0-9\._])+)*$/"
               >
               <div ng-messages="vm.form.shareForm.readOnly.$error" role="alert">
                 <p class="help-block error-text" ng-message="required">Read Only is required.</p>
-                <p class="help-block error-text" ng-message="pattern">Only semicolon separated email addressess allowed</p>
+                <p class="help-block error-text" ng-message="pattern">Only semicolon separated userIDs allowed</p>
               </div>
-              <p class="help-block">Semicolon(;) seperated list of email Ids</p>
+              <p class="help-block">Semicolon(;) seperated list of userIDs</p>
             </div>
           <div class="form-group" show-errors>
               <label class="control-label" for="readAndWrite">Read And Write(PL)</label>
-              <input name="readAndWrite" type="text" ng-model="vm.share.readAndWrite" id="readAndWrite" class="form-control" placeholder="readAndWrite" required autofocus ng-pattern="/(([a-zA-Z\-0-9\._]+@)([a-zA-Z\-0-9\.]+)[;]*)+/g">
+              <input name="readAndWrite" type="text" ng-model="vm.share.readAndWrite" id="readAndWrite" class="form-control" placeholder="UserIDs" required  ng-pattern="/^[a-zA-Z\-0-9\._]*(?:;([a-zA-Z\-0-9\._])+)*$/">
               <div ng-messages="vm.form.shareForm.readAndWrite.$error" role="alert">
                 <p class="help-block error-text" ng-message="required">Read And Write(PL) required.</p>
-                <p class="help-block error-text" ng-message="pattern">Only semicolon separated email addressess allowed</p>
+                <p class="help-block error-text" ng-message="pattern">Only semicolon separated userIDs allowed</p>
               </div>
-              <p class="help-block">Semicolon(;) seperated list of email Ids</p>
+              <p class="help-block">Semicolon(;) seperated list of userIDs</p>
             </div>
           <div class="form-group" show-errors>
               <label class="control-label" for="readWriteAndModify">Read Write And Modify(CC)</label>
-              <input name="readWriteAndModify" type="text" ng-model="vm.share.readWriteAndModify" id="readWriteAndModify" class="form-control" placeholder="readWriteAndModify" required autofocus ng-pattern="/(([a-zA-Z\-0-9\._]+@)([a-zA-Z\-0-9\.]+)[;]*)+/g">
+              <input name="readWriteAndModify" type="text" ng-model="vm.share.readWriteAndModify" id="readWriteAndModify" class="form-control" placeholder="UserIDs" required ng-pattern="/^([a-zA-Z\-0-9\._]*(?:;([a-zA-Z\-0-9\._])+)){1,}$/">
               <div ng-messages="vm.form.shareForm.readWriteAndModify.$error" role="alert">
                 <p class="help-block error-text" ng-message="required">Read Write And Modify is required.</p>
-                <p class="help-block error-text" ng-message="pattern">Only semicolon separated email addressess allowed</p>
+                <p class="help-block error-text" ng-message="pattern">Only semicolon separated userIDs allowed. Minimum 2 userIDs are needed.</p>
               </div>
-              <p class="help-block">Semicolon(;) seperated list of email Ids</p>
+              <p class="help-block">Semicolon(;) seperated list of userIDs</p>
             </div>
           <div class="show-grid row" >
               <div class="">
@@ -70,56 +78,56 @@
           <div class="show-grid row" >
               <div class="form-group col-md-4">
                 <label for="officeFile">Office File</label>
-                <input name="officeFile" type="checkbox" ng-model="vm.share.officeFile" id="officeFile"  class="form-control checkbox-left" ng-change="calculateCapacity()">
+                <input name="officeFile" type="checkbox" ng-model="vm.share.storage.officeFile" id="officeFile"  class="form-control checkbox-left" ng-change="calculateCapacity()">
               </div>
               <div class="form-group col-md-4">
                 <label for="compressedFile">Compressed File</label>
-                <input name="compressedFile" type="checkbox" ng-model="vm.share.compressedFile" id="compressedFile"  class="form-control checkbox-left" ng-change="calculateCapacity()">
+                <input name="compressedFile" type="checkbox" ng-model="vm.share.storage.compressedFile" id="compressedFile"  class="form-control checkbox-left" ng-change="calculateCapacity()">
               </div>
               <div class="form-group col-md-4">
                 <label for="dataAndDBFile">Data and Database File</label>
-                <input name="dataAndDBFile" type="checkbox" ng-model="vm.share.dataAndDBFile" id="dataAndDBFile"  class="form-control checkbox-left" ng-change="calculateCapacity()">
+                <input name="dataAndDBFile" type="checkbox" ng-model="vm.share.storage.dataAndDBFile" id="dataAndDBFile"  class="form-control checkbox-left" ng-change="calculateCapacity()">
               </div>
               
           </div>
           <div class="show-grid row" >
               <div class="form-group col-md-4">
                 <label for="executableFile">Executable File</label>
-                <input name="executableFile" type="checkbox" ng-model="vm.share.executableFile" id="executableFile"  class="form-control checkbox-left" ng-change="calculateCapacity()">
+                <input name="executableFile" type="checkbox" ng-model="vm.share.storage.executableFile" id="executableFile"  class="form-control checkbox-left" ng-change="calculateCapacity()">
               </div>
               <div class="form-group col-md-4">
                 <label for="imageFile">Image File</label>
-                <input name="imageFile" type="checkbox" ng-model="vm.share.imageFile" id="imageFile"  class="form-control checkbox-left" ng-change="calculateCapacity()">
+                <input name="imageFile" type="checkbox" ng-model="vm.share.storage.imageFile" id="imageFile"  class="form-control checkbox-left" ng-change="calculateCapacity()">
               </div>
               <div class="form-group col-md-4">
                 <label for="programmingFile">Programming File</label>
-                <input name="programmingFile" type="checkbox" ng-model="vm.share.programmingFile" id="programmingFile"  class="form-control checkbox-left" ng-change="calculateCapacity()">
+                <input name="programmingFile" type="checkbox" ng-model="vm.share.storage.programmingFile" id="programmingFile"  class="form-control checkbox-left" ng-change="calculateCapacity()">
               </div>              
           </div>
           <div class="show-grid row" >
               <div class="form-group col-md-4">
                 <label for="videoFile">Video File</label>
-                <input name="videoFile" type="checkbox" ng-model="vm.share.videoFile" id="videoFile"  class="form-control checkbox-left" ng-change="calculateCapacity()">
+                <input name="videoFile" type="checkbox" ng-model="vm.share.storage.videoFile" id="videoFile"  class="form-control checkbox-left" ng-change="calculateCapacity()">
               </div>
               <div class="form-group col-md-4">
                 <label for="audioFile">Audio File</label>
-                <input name="audioFile" type="checkbox" ng-model="vm.share.audioFile" id="audioFile"  class="form-control checkbox-left" ng-change="calculateCapacity()">
+                <input name="audioFile" type="checkbox" ng-model="vm.share.storage.audioFile" id="audioFile"  class="form-control checkbox-left" ng-change="calculateCapacity()">
               </div>
               <div class="form-group col-md-4">
                 <label for="backupFile">Backup File</label>
-                <input name="backupFile" type="checkbox" ng-model="vm.share.backupFile" id="backupFile"  class="form-control checkbox-left" ng-change="calculateCapacity()">
+                <input name="backupFile" type="checkbox" ng-model="vm.share.storage.backupFile" id="backupFile"  class="form-control checkbox-left" ng-change="calculateCapacity()">
               </div>              
           </div>
           <div class="form-group" show-errors>
-              <label class="control-label" for="size">Required Space(GB)</label>
-              <input name="size" type="text" ng-model="vm.share.size" id="size" class="form-control" placeholder="size" required autofocus ng-readonly="true">
-              <div ng-messages="vm.form.shareForm.size.$error" role="alert">
+              <label class="control-label" for="sizegb">Required Space(GB)</label>
+              <input name="sizegb" type="text" ng-model="vm.share.sizegb" id="sizegb" class="form-control" placeholder="Size" required ng-readonly="true">
+              <div ng-messages="vm.form.shareForm.sizegb.$error" role="alert">
                 <p class="help-block error-text" ng-message="required">Please select any of the storage requirement.</p>
               </div>
             </div>
           <div class="form-group" show-errors>
             <label class="control-label" for="cost">Cost($)</label>
-            <input name="cost" type="text" ng-model="vm.share.cost" id="cost" class="form-control" placeholder="cost" required autofocus ng-readonly="true">
+            <input name="cost" type="text" ng-model="vm.share.cost" id="cost" class="form-control" placeholder="Cost" required ng-readonly="true">
             <div ng-messages="vm.form.shareForm.cost.$error" role="alert">
               <p class="help-block error-text" ng-message="required">Please select any of the storage requirement.</p>
             </div>

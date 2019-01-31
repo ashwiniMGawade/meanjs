@@ -9,7 +9,7 @@
   
     function menuConfig(menuService) {
       menuService.addMenuItem('topbar', {
-        title: 'Shares',
+        title: 'Requests',
         state: 'shares',
         type: 'dropdown',
         roles: ['user', 'admin']
@@ -17,7 +17,7 @@
   
       // Add the dropdown list item
       menuService.addSubMenuItem('topbar', 'shares', {
-        title: 'List Shares',
+        title: 'List Requests',
         state: 'shares.list',
         roles: ['user', 'admin']
       });

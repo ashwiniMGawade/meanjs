@@ -12,6 +12,18 @@
       vm.buildPager = buildPager;
       vm.figureOutItemsToDisplay = figureOutItemsToDisplay;
       vm.pageChanged = pageChanged;
+
+      vm.fileSizeTypes = {
+        "officeFile":"Office File",
+        "compressedFile": "Compressed File",
+        "dataAndDBFile": "Data And Database File",
+        "executableFile": "Executable File",
+        "imageFile": "Image File",
+        "programmingFile":"Programming File",
+        "videoFile": "Video File",
+        "audioFile":"Audio File",
+        "backupFile":"Backup File"
+      }
   
       SharesService.query(function (data) {
         vm.shares = data;
@@ -20,7 +32,7 @@
   
       function buildPager() {
         vm.pagedItems = [];
-        vm.itemsPerPage = 15;
+        vm.itemsPerPage = 2;
         vm.currentPage = 1;
         vm.figureOutItemsToDisplay();
       }
