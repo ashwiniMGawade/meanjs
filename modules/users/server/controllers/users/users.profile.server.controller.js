@@ -229,7 +229,7 @@ exports.me = function (req, res) {
 
 exports.projectInfo = function(req, res) {
   
-   var request = new Request("Select txtibucode,dm,pm,startDate,endDate from V_AHD_ProjectDetails where projectcode ='" + req.user.providerData.projectCode + "';", function (err, rowCount, rows) {
+   var request = new Request("Select txtibucode,dm,pm,startDate,endDate,projectcode from V_AHD_ProjectDetails where projectcode ='" + req.user.providerData.projectCode + "';", function (err, rowCount, rows) {
 
     if (err) {
         console.log(err);
@@ -261,7 +261,8 @@ exports.projectInfo = function(req, res) {
 //   dm: 'subhankar           ',
 //   pm: 'Kaustav_Bhowmik     ',
 //   startDate: "2012-09-10T00:00:00.000Z",
-//   endDate: "2012-12-31T00:00:00.000Z",
-//   city: "BANGALORE"
+//   endDate: "2014-12-31T00:00:00.000Z",
+//   city: "BANGALORE",
+//   projectcode: "CCDMEG"
 //  });
 }
