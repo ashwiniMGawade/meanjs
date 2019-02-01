@@ -208,7 +208,7 @@ exports.saveOAuthUserProfile = function (req, providerUserProfile, done) {
           });
         });
       } else {
-        modifyUserInfo(existingUser,providerUserProfile, done)
+        modifyUserInfo(existingUser,providerUserProfile, done, info)
       }
     } else {
       // User is already logged in, join the provider data to the existing user
@@ -222,14 +222,14 @@ exports.saveOAuthUserProfile = function (req, providerUserProfile, done) {
 
         return done(new Error('User is already connected using this provider'), user, info);
       }
-      modifyUserInfo(user,providerUserProfile, done)
+      modifyUserInfo(user,providerUserProfile, done, info)
      
     }
   });
 };
 
 
-var modifyUserInfo = function(user, providerUserProfile, done) {
+var modifyUserInfo = function(user, providerUserProfile, done, info) {
     // Add the provider data to the additional provider data field
     if (!user.additionalProvidersData) {
       user.additionalProvidersData = {};
