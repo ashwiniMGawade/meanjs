@@ -21,6 +21,12 @@
         state: 'shares.list',
         roles: ['user', 'admin']
       });
+      
+      menuService.addSubMenuItem('topbar', 'shares', {
+        title: 'Create Request',
+        state: 'shares.create',
+        roles: ['user', 'admin']
+      });
     }
   }());
   

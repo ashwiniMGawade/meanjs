@@ -5,26 +5,30 @@
     <div class="col-md-6">
         <table class="table table-striped">
             <tr><th>City</th><td ng-bind="vm.share.city"></td></tr>
+            <tr><th>Business Unit</th><td ng-bind="vm.share.bu"></td></tr>
             <tr><th>Project Code</th><td ng-bind="vm.share.projectCode"></td></tr>
-            <tr><th>Cost</th><td ng-bind="vm.share.cost"></td></tr>
-            <tr><th>Size (GB)</th><td ng-bind="vm.share.sizegb"></td></tr>
-            <tr><th>Read Only(DV)</th><td ng-bind="vm.share.readOnly" class="word-break-all"></td></tr>
-            <tr><th>Read And Write(PL)</th><td ng-bind="vm.share.readAndWrite" class="word-break-all"></td></tr>
-            <tr><th>Read Write And Modify(CC)</th><td ng-bind="vm.share.readWriteAndModify" class="word-break-all"></td></tr>
+            <tr ng-if="vm.share.category=='newShare'"><th>Cost</th><td ng-bind="vm.share.cost"></td></tr>
+            <tr ng-if="vm.share.category=='newShare'"><th>Size (GB)</th><td ng-bind="vm.share.sizegb"></td></tr>
+            <tr ng-if="vm.share.category=='newShare'"><th>Read Only(DV)</th><td ng-bind="vm.share.readOnly" class="word-break-all"></td></tr>
+            <tr ng-if="vm.share.category=='newShare'"><th>Read And Write(PL)</th><td ng-bind="vm.share.readAndWrite" class="word-break-all"></td></tr>
+            <tr ng-if="vm.share.category=='newShare'"><th>Read Write And Modify(CC)</th><td ng-bind="vm.share.readWriteAndModify" class="word-break-all"></td></tr>
             <tr><th>Category</th><td ng-bind="vm.share.category"></td></tr>
             <tr><th>Status</th><td ng-bind="vm.share.status" class="word-break-all"></td></tr>
-            <tr><th>Request Raised On<td ng-bind="vm.share.created | date:'mediumDate'"></td></th></tr>
-            <tr><th>Storage Requirement</th><td><li ng-repeat="(file, details) in vm.share.storage" style="list-style-type: square;">
+            <tr><th>Request Raised On</th>
+                <td ng-bind="vm.share.created | date:'mediumDate'"></td></tr>
+            <tr ng-if="vm.isAdmin"><th>Request Raised By</th> 
+                <td  ng-bind="vm.share.user.displayName"></td>
+            </tr>
+            <tr ng-if="vm.share.category=='newShare'"><th>Storage Requirement</th><td><li ng-repeat="(file, details) in vm.share.storage" style="list-style-type: square;">
                     {{vm.fileSizeTypes[file]}}
                   </li></td></tr>
-            <!-- <tr>
+            <tr ng-if="!vm.isAdmin"><th>Aprrovers<td ng-bind="vm.share.approvers"></td></th></tr>
+            <tr ng-if="vm.isAdmin && vm.share.status!='Approved'">
               <th>Actions</th>
               <td>
-                <button type="button" class="btn btn-xs1 btn-primary" ng-if="(icrAccessRoles.update | intersect : authentication.user.roles) > 0" ui-sref="icrs.edit({icrId: icr.icrId})" ng-disabled="icr.status==='Closed'" >Edit</button>
-                
-                <button type="button" ng-if="(icrAccessRoles.delete | intersect : authentication.user.roles) > 0" class="btn btn-xs1 btn-primary" ng-click="remove(icr);">Delete</button>
+                <button type="button" class="btn btn-xs1 btn-primary"  >Approve</button>
               </td>
-            </tr> -->
+            </tr>
         </table>
     </div>
     

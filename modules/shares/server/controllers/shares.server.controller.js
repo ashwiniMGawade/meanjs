@@ -98,7 +98,7 @@ exports.shareByID = function (req, res, next, id) {
     });
   }
 
-  Share.findById(id).exec(function (err, share) {
+  Share.findById(id).populate('user', 'displayName').exec(function (err, share) {
     if (err) {
       return next(err);
     } else if (!share) {

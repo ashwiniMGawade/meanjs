@@ -29,25 +29,31 @@ var ShareSchema = new Schema({
     trim: true,
     required: 'Project Code cannot be blank'
   },
+  bu: {
+    type: String,
+    default: '',
+    trim: true,
+    required: 'Business Unit cannot be blank'
+  },
   readOnly: {
     type: String,
     default: '',
     trim: true,
-    required: 'Read Only Users cannot be blank',
+    required: function() { return this.category === 'newShare' ? 'Read Only Users cannot be blank' : false; },
     match: [ /^[a-zA-Z\-0-9\._]*(?:;([a-zA-Z\-0-9\._])+)*$/ , 'readOnly: Only semicolon separated userIDs allowed']
   },
   readAndWrite: {
     type: String,
     default: '',
     trim: true,
-    required: 'Read And Write Only Users cannot be blank',
+    required: function() { return this.category === 'newShare' ? 'Read And Write Only Users cannot be blank': false },
     match: [ /^[a-zA-Z\-0-9\._]*(?:;([a-zA-Z\-0-9\._])+)*$/ , 'readAndWrite: Only semicolon separated userIDs allowed']
   },
   readWriteAndModify: {
     type: String,
     default: '',
     trim: true,
-    required: 'Read Write And Modify Users cannot be blank',    
+    required: function() { return this.category === 'newShare' ?'Read Write And Modify Users cannot be blank': false },   
     match: [ /^[a-zA-Z\-0-9\._]*(?:;([a-zA-Z\-0-9\._])+)*$/ , 'readWriteAndModify: Only semicolon separated userIDs allowed']
   },
   storage: {},
@@ -56,7 +62,7 @@ var ShareSchema = new Schema({
     min: [1, 'Share Size should be greater than or equal to 1'],
     max: [16384, 'Share Size should be lesser than or equal to 16384'],
     trim: true,
-    required: 'Share size required',
+    required: function() { return this.category === 'newShare' ?'Share size required' : false },
     validate : {
       validator : Number.isInteger,
       message   : '{VALUE} is not an integer value for size'
@@ -67,7 +73,7 @@ var ShareSchema = new Schema({
     min: [1, 'Cost should be greater than or equal to 1'],
     //max: [16384, 'Share Size should be lesser than or equal to 16384'],
     trim: true,
-    required: 'Share cost required',
+    required: function() { return this.category === 'newShare' ?'Share cost required' : false },
     validate : {
       validator : Number.isInteger,
       message   : '{VALUE} is not an integer value for cost'
@@ -92,6 +98,12 @@ var ShareSchema = new Schema({
   user: {
     type: Schema.ObjectId,
     ref: 'User'
+  },
+  approvers: {
+    type: String,
+    default: '',
+    trim: true,
+    required: 'Project approvers cannot be blank'
   }
 });
 

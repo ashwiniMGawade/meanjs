@@ -16,36 +16,39 @@
             </div>
         </div>
     </div>
-    <div class="table-responsive" ng-show="vm.pagedItems">
+    <div class="table-responsive" ng-show="vm.pagedItems.length>0">
         <table ng-table="tableParams" class="table table-bordered table-striped">
             <tr>
                 <th >City</th>
+                <th>Business Unit</th>
                 <th >ProjectCode</th>
-                <th >Category</th>
-                <th >Cost</th>
-                <th >Size</th>
+                <th >Category</th>                
                 <th >Status</th>
-                <th >Storage requirement</th>
+                <th ng-if="vm.isAdmin">Raised By</th>
                 <th></th>
             </tr>
           <tr ng-repeat="share in vm.pagedItems" >
             <td ng-bind="share.city" class="capitalize breakword" title="'City'" sortable="'city'"></td>
+            <td ng-bind="share.bu" class="capitalize breakword" title="'Business Unit'" sortable="'bu'"></td>
             <td ng-bind="share.projectCode" class="capitalize breakword" title="'ProjectCode'" sortable="'projectCode'"></td>
-            <td ng-bind="share.category" class="capitalize breakword" title="'Category'" sortable="'category'"></td>
-            <td ng-bind="share.cost" title="'Cost'" sortable="'cost'" class="breakword"></td>
-            <td ng-bind="share.sizegb" title="'Size'" sortable="'size'" class="breakword"></td>
+            <td ng-bind="vm.categories[share.category]" class="capitalize breakword" title="'Category'" sortable="'category'"></td>
             <td ng-bind="share.status" title="'Status'" sortable="'status'" class="breakword"></td>
-            <td  title="'Storage requirement'"  class="breakword"> 
+            <td ng-bind="share.user.displayName" ng-if="vm.isAdmin" title="'user'" sortable="'user'" class="breakword"></td>
+            <!-- <td  title="'Storage requirement'"  class="breakword"> 
               <li ng-repeat="(file, details) in share.storage" style="list-style-type: square;">
                 {{vm.fileSizeTypes[file]}}
               </li>
-            </td>
+            </td> -->
            
             <td><button type="button" class="btn btn-xs btn-primary" ui-sref="shares.view({shareId: share._id})">Details</button></td>
           </tr>
         </table>
     </div>
 
-    <uib-pagination boundary-links="true" max-size="8" items-per-page="vm.itemsPerPage" total-items="vm.filterLength" ng-model="vm.currentPage" ng-change="vm.pageChanged()"></uib-pagination>
+    <uib-pagination boundary-links="true" max-size="8" items-per-page="vm.itemsPerPage" total-items="vm.filterLength" ng-model="vm.currentPage" ng-change="vm.pageChanged()" ng-show="vm.pagedItems.length"></uib-pagination>
+
+    <div class="alert alert-warning text-center" ng-show="vm.pagedItems.length==0">
+    No Records found.
+    </div>
 </section>
       

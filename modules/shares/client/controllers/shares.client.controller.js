@@ -10,30 +10,33 @@
     function SharesController($scope, $state, $window, share, Authentication, Notification, projectInfo) {
       var vm = this;
         
-      vm.share = share;
-      vm.share.city = vm.share.city || projectInfo.city
-      vm.share.projectCode = vm.share.projectCode || projectInfo.txtibucode
+      vm.share = share;      
       vm.share.storage = vm.share.storage || {}
       vm.project = projectInfo
       if ( projectInfo) {
         vm.project.startDate = new Date(projectInfo.startDate)
         vm.project.endDate = new Date(projectInfo.endDate)
+        vm.share.city = vm.share.city || projectInfo.city;
+        vm.share.bu = vm.share.bu || projectInfo.txtibucode;
+        vm.share.projectCode = vm.share.projectCode || projectInfo.projectcode;
+        vm.share.approvers = vm.share.approvers || projectInfo.dm + ';'+ projectInfo.pm;
       }
       
       vm.authentication = Authentication;
+      vm.isAdmin = Authentication.user.roles.indexOf('admin') != -1;
       vm.form = {};
       vm.remove = remove;
       vm.save = save;
 
-      $scope.categories = [
-        {"value": "newShare", "name": "New Project Share Creation"},
-        {"value": "changePermission", "name": "Change Permission"},
-        {"value": "resize", "name": "Resize Project Share"},
-        {"value": "rename", "name": "Rename Project Share"},
-        {"value": "restoreProjectShare", "name": "Retire Project Share"},
-        {"value": "retireVolumeWorkflow", "name": "Retire Volume Workflow"},
-        {"value": "migration", "name": "Project Migration Workflow"}
-      ];
+      vm.categories = {
+        "newShare": "New Project Share Creation",
+        "changePermission": "Change Permission",
+        "resize": "Resize Project Share",
+        "rename": "Rename Project Share",
+        "restoreProjectShare": "Retire Project Share",
+        "retireVolumeWorkflow": "Retire Volume Workflow",
+        "migration": "Project Migration Workflow"
+      };
 
       vm.fileSizeTypes = {
         "officeFile":"Office File",

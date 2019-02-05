@@ -21,6 +21,11 @@
 .brand-image{
   height: 24px;
 }
+.content-right{
+  padding-left: 20px;
+  font-weight: 100;
+  padding-top:7px;
+}
 footer.navbar-default.navbar-fixed-bottom
  {
   background-image: linear-gradient(to bottom,#0067c4 0,#00529c 100%);

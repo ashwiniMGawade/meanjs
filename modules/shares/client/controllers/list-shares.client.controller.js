@@ -5,13 +5,14 @@
       .module('shares')
       .controller('SharesListController', SharesListController);
   
-    SharesListController.$inject = ['$scope', '$filter', 'SharesService'];
+    SharesListController.$inject = ['$scope', '$filter', 'SharesService', 'Authentication'];
   
-    function SharesListController($scope, $filter, SharesService) {
+    function SharesListController($scope, $filter, SharesService, Authentication) {
       var vm = this;
       vm.buildPager = buildPager;
       vm.figureOutItemsToDisplay = figureOutItemsToDisplay;
       vm.pageChanged = pageChanged;
+      vm.isAdmin = Authentication.user.roles.indexOf('admin') != -1;
 
       vm.fileSizeTypes = {
         "officeFile":"Office File",
@@ -24,6 +25,16 @@
         "audioFile":"Audio File",
         "backupFile":"Backup File"
       }
+
+      vm.categories = {
+        "newShare": "New Project Share Creation",
+        "changePermission": "Change Permission",
+        "resize": "Resize Project Share",
+        "rename": "Rename Project Share",
+        "restoreProjectShare": "Retire Project Share",
+        "retireVolumeWorkflow": "Retire Volume Workflow",
+        "migration": "Project Migration Workflow"
+      };
   
       SharesService.query(function (data) {
         vm.shares = data;
