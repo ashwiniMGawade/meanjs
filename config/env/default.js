@@ -24,8 +24,15 @@ module.exports = {
     bindCredentials:process.env.LDAP_BIND_CREDENTIALS,
     searchBase:process.env.LDAP_SEARCH_BASE
   },
-
-
+  wfa: {
+    sql: {
+      connectionLimit : 5,
+      host: process.env.WFA_SERVER_HOST,
+      user: process.env.WFA_SERVER_MYSQL_USERNAME,
+      password: process.env.WFA_SERVER_MYSQL_PASSWORD ,
+      database: process.env.WFA_SERVER_MYSQL_DATABASE 
+    },
+  },
   port: process.env.PORT || 3000,
   host: process.env.HOST || '0.0.0.0',
   // DOMAIN config should be set to the fully qualified application accessible

@@ -30,7 +30,8 @@
             },
             resolve: {
               shareResolve: newShare,
-              projectResolve: getUserProjectInfo
+              projectResolve: getUserProjectInfo,
+              getCifsShareDetails: getCifsShareDetails
             }
         })
         .state('shares.view', {
@@ -40,7 +41,8 @@
           controllerAs: 'vm',
           resolve: {
             shareResolve: getShare,
-            projectResolve: function() {return null}
+            projectResolve: function() {return null},
+            getCifsShareDetails: function() {return null}
           },
           data: {
             pageTitle: 'Share Details'
@@ -66,6 +68,12 @@
 
     function getUserProjectInfo($stateParams, UsersService) {
         return UsersService.getUserProjectDetails({}).$promise;
+    }
+
+    getCifsShareDetails.$inject = ['$stateParams', 'SharesService'];
+    function getCifsShareDetails($stateParams, SharesService) {
+        console.log("called here")
+        return SharesService.getCifsShareDetails({}).$promise;
     }
   }());
   

@@ -25,14 +25,18 @@
           <div class="row">
             <label class="control-label col-md-4" for="projectEndDate">Project END Date</label>
             <label class="content-right col-md-8" name="projectEndDate">{{vm.project.endDate | date:'mediumDate'}}</label>
-        </div>
+          </div>
+          <div class="row" ng-if="vm.cifShareDetails.sharepath">
+              <label class="control-label col-md-4" for="sharePath">Share Path</label>
+              <label class="content-right col-md-8" name="sharePath">{{vm.cifShareDetails.sharepath}}</label>
+            </div>
         <div class="row">
             <label class="control-label col-md-4" for="city">City</label>
             <label class="content-right col-md-8" name="ciry">{{vm.share.city}}</label>
           </div>
           <div class="form-group" show-errors>
               <label for="category">Select Category</label>   
-              <select name="category" ng-model="vm.share.category" id="category" class="form-control" ng-options="key as value for (key , value) in vm.categories" required ng-change="changedCategory(category)"  autofocus>
+              <select name="category" ng-model="vm.share.category" id="category" class="form-control" ng-options="key as value for (key , value) in vm.getFilteredCategories()" required ng-change="changedCategory(category)"  autofocus>
                 <option value="">Please select a Category</option>
               </select>
               <div class="loader" ng-show="!vm.categories.length"></div>       

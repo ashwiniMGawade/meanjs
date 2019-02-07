@@ -12,12 +12,16 @@ module.exports = function (app) {
     .get(shares.list)
     .post(shares.create);
 
+  app.route('/api/shares/getCifsShareDetails')
+    .get(shares.getCifsShareDetails)
+
   // Single share routes
   app.route('/api/shares/:shareId').all(sharesPolicy.isAllowed)
     .get(shares.read)
     .put(shares.update)
     .delete(shares.delete);
 
+  
   // Finish by binding the share middleware
   app.param('shareId', shares.shareByID);
 };

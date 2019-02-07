@@ -4,15 +4,17 @@
     angular
       .module('shares')
       .controller('SharesController', SharesController);
+      
   
-    SharesController.$inject = ['$scope', '$state', '$window', 'shareResolve', 'Authentication', 'Notification', 'projectResolve'];
+    SharesController.$inject = ['$scope', '$state', '$window', 'shareResolve', 'Authentication', 'Notification', 'projectResolve', 'getCifsShareDetails'];
   
-    function SharesController($scope, $state, $window, share, Authentication, Notification, projectInfo) {
+    function SharesController($scope, $state, $window, share, Authentication, Notification, projectInfo, cifShareDetails) {
       var vm = this;
         
       vm.share = share;      
       vm.share.storage = vm.share.storage || {}
       vm.project = projectInfo
+      vm.cifShareDetails = cifShareDetails;
       if ( projectInfo) {
         vm.project.startDate = new Date(projectInfo.startDate)
         vm.project.endDate = new Date(projectInfo.endDate)
@@ -27,6 +29,14 @@
       vm.form = {};
       vm.remove = remove;
       vm.save = save;
+
+     
+      vm.getFilteredCategories = function() {
+        if (vm.cifShareDetails.sharepath) {
+          delete vm.categories.newShare;
+        }
+        return vm.categories;
+      }
 
       vm.categories = {
         "newShare": "New Project Share Creation",

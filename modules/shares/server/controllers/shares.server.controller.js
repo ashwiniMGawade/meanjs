@@ -6,7 +6,8 @@
 var path = require('path'),
   mongoose = require('mongoose'),
   Share = mongoose.model('Share'),
-  errorHandler = require(path.resolve('./modules/core/server/controllers/errors.server.controller'));
+  errorHandler = require(path.resolve('./modules/core/server/controllers/errors.server.controller')),
+  wfaDB = require(path.resolve('./modules/shares/server/controllers/shares.server.wfa.db.read'));
 
 /**
  * Show the current share
@@ -109,3 +110,13 @@ exports.shareByID = function (req, res, next, id) {
     next();
   });
 };
+
+exports.getCifsShareDetails = function (req, res) {
+  wfaDB.getCifsShare(req.user.providerData.city, req.user.providerData.projectCode.substring(0,3), function(err, details) {
+    if (err) {
+      res.json({});
+    } else {
+      res.json(details);
+    }
+  }) 
+}

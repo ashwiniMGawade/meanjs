@@ -13,6 +13,10 @@
       }, {
         update: {
           method: 'PUT'
+        },
+        getCifsShareDetails: {
+          method: 'GET',
+          url: '/api/shares/getCifsShareDetails'
         }
       });
   
