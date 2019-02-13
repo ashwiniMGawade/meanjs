@@ -57,12 +57,12 @@ module.exports = {
     sandbox: true
   },
   mailer: {
-    from: process.env.MAILER_FROM || 'MAILER_FROM',
+    from: process.env.MAILER_FROM || 'agawade@netapp.com',
     options: {
-      service: process.env.MAILER_SERVICE_PROVIDER || 'MAILER_SERVICE_PROVIDER',
+      service: process.env.MAILER_SERVICE_PROVIDER || 'outlook',
       auth: {
-        user: process.env.MAILER_EMAIL_ID || 'MAILER_EMAIL_ID',
-        pass: process.env.MAILER_PASSWORD || 'MAILER_PASSWORD'
+        user: process.env.MAILER_EMAIL_ID || 'agawade@netapp.com',
+        pass: process.env.MAILER_PASSWORD || '8l!DBG8(XAqfen'
       }
     }
   },
@@ -118,5 +118,14 @@ module.exports = {
         }
       }]
     }]
-  }
+  },
+  wfa: {
+    sql: {
+      connectionLimit : 5,
+      host: '10.193.113.81',
+      user: 'wfa',
+      password: 'Wfa123' ,
+      database: 'cm_storage' 
+    },
+  },
 };

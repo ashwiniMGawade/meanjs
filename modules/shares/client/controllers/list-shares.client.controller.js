@@ -43,7 +43,7 @@
   
       function buildPager() {
         vm.pagedItems = [];
-        vm.itemsPerPage = 2;
+        vm.itemsPerPage = 10;
         vm.currentPage = 1;
         vm.figureOutItemsToDisplay();
       }

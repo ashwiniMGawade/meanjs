@@ -7,7 +7,8 @@ var path = require('path'),
   mongoose = require('mongoose'),
   Share = mongoose.model('Share'),
   errorHandler = require(path.resolve('./modules/core/server/controllers/errors.server.controller')),
-  wfaDB = require(path.resolve('./modules/shares/server/controllers/shares.server.wfa.db.read'));
+  wfaDB = require(path.resolve('./modules/shares/server/controllers/shares.server.wfa.db.read')),
+  mailHandler = require(path.resolve('./modules/shares/server/controllers/shares.server.mailHandler'));
 
 /**
  * Show the current share
@@ -85,6 +86,7 @@ exports.create = function (req, res) {
         });
       } else {
         res.json(share);
+        mailHandler.sendMailForApproval(share)
       }
     });
   };
