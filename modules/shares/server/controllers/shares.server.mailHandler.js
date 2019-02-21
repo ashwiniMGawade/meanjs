@@ -15,7 +15,7 @@ function getEmailTemplate(emailParams) {
                      'If you have received the message by mistake, please delete the message. Thank you.</i><div>';
   
     var email = {
-      from: '"Virtual Storage" <noreply@netapp.com>', // sender address
+      from: '"Storage Automation" <'+config.mailer.from+'>', // sender address
       to: emailParams.email, // list of receivers
       subject: 'Approval Required for InfyDrive Access -RQ'+emailParams.share._id, // Subject line
       htmlBody: '<pre>' + htmlBody + '</pre>', // html body
