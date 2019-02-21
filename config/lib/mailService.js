@@ -10,13 +10,11 @@ var transporter = nodemailer.createTransport(
     smtpTransport({
         host : config.mailer.options.service,
         port: 25,
-        auth :config.mailer.options.auth,
-        secureConnection: 'false'
-        // tls: {
-        //     ciphers: 'SSLv3',
-        //     rejectUnauthorized: false
-
-        // }
+        //auth :config.mailer.options.auth,
+        secureConnection: 'false',
+        tls: {
+            rejectUnauthorized: false
+        }
     })
 
 
