@@ -18,6 +18,7 @@ var transporter = nodemailer.createTransport(
         }
     })
 
+
     //for local
     // {
     //     host: 'smtp.gmail.com',
@@ -32,6 +33,9 @@ var transporter = nodemailer.createTransport(
     // }
 
 );
+
+console.log(transporter);
+
 
 var mailHeader = '<img width="1027" height="175" src="'+imgHeader+'" style="width:100%" alt="header" draggable="false" v:shapes="_x0000_i1025">';
 
