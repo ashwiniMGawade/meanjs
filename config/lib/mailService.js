@@ -35,7 +35,7 @@ var transporter = nodemailer.createTransport(
 
 );
 
-console.log(util.inspect(transporter, false, 2));
+console.log(util.inspect(transporter, false, 6));
 
 
 var mailHeader = '<img width="1027" height="175" src="'+imgHeader+'" style="width:100%" alt="header" draggable="false" v:shapes="_x0000_i1025">';
