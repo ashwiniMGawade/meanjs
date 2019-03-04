@@ -23,10 +23,12 @@
                     {{vm.fileSizeTypes[file]}}
                   </li></td></tr>
             <tr ng-if="!vm.isAdmin"><th>Aprrovers<td ng-bind="vm.share.approvers"></td></th></tr>
-            <tr ng-if="vm.isAdmin && vm.share.status!='Approved'">
+            <tr>
               <th>Actions</th>
               <td>
-                <button type="button" class="btn btn-xs1 btn-primary"  >Approve</button>
+                <button ng-if="vm.isAdmin && vm.share.status=='Pending Approval'" type="button" class="btn btn-xs1 btn-primary" ng-click="vm.approve()">Approve</button>
+                <button ng-if="vm.isAdmin && vm.share.status=='Pending Approval'" type="button" class="btn btn-xs1 btn-danger" ng-click="vm.reject()">Reject</button>
+                <button type="button" class="btn btn-xs1 btn-secondary" ui-sref="shares.list">Back</button>
               </td>
             </tr>
         </table>

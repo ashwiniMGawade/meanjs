@@ -40,6 +40,26 @@ exports.update = function (req, res) {
   });
 };
 
+
+/**
+ * Update a share
+ */
+exports.updateRequest = function (req, res) {
+  var share = req.model;
+
+  share.status = req.params.action == 'approve' ? 'Approved' : 'Rejected';
+
+  share.save(function (err) {
+    if (err) {
+      return res.status(422).send({
+        message: errorHandler.getErrorMessage(err)
+      });
+    }
+
+    res.json(share);
+  });
+};
+
 /**
  * Delete a share
  */

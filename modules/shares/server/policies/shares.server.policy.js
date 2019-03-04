@@ -20,7 +20,12 @@ exports.invokeRolesPolicies = function () {
     }, {
       resources: '/api/shares/:shareId',
       permissions: '*'
-    }]
+    },
+    {
+      resources: '/api/shares/:shareId/:action',
+      permissions: '*'
+    }
+  ]
   }, {
     roles: ['user'],
     allows: [{

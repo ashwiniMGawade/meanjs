@@ -17,6 +17,14 @@
         getCifsShareDetails: {
           method: 'GET',
           url: '/api/shares/getCifsShareDetails'
+        },
+        updateRequest: {
+          method: 'PUT',
+          params: {
+            shareId:'@shareId',
+            action: '@action'
+          },
+          url: '/api/shares/:shareId/:action'
         }
       });
   

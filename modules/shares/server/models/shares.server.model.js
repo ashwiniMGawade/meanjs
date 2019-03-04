@@ -83,7 +83,7 @@ var ShareSchema = new Schema({
     type: String,
     default: 'Pending Approval',
     enum: {
-            values: ['Pending Approval', 'Approved', 'Completed', 'Processing', 'Contact Support'],
+            values: ['Pending Approval', 'Approved', 'Completed', 'Processing', 'Contact Support', 'Rejected'],
             message: '`{VALUE}` not a valid value for Status'
           }
   },

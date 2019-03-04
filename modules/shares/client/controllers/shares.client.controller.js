@@ -6,9 +6,9 @@
       .controller('SharesController', SharesController);
       
   
-    SharesController.$inject = ['$scope', '$state', '$window', 'shareResolve', 'Authentication', 'Notification', 'projectResolve', 'getCifsShareDetails'];
+    SharesController.$inject = ['$scope', '$state', '$window', 'shareResolve', 'Authentication', 'Notification', 'projectResolve', 'getCifsShareDetails', 'SharesService'];
   
-    function SharesController($scope, $state, $window, share, Authentication, Notification, projectInfo, cifShareDetails) {
+    function SharesController($scope, $state, $window, share, Authentication, Notification, projectInfo, cifShareDetails, SharesService) {
       var vm = this;
         
       vm.share = share;      
@@ -77,6 +77,19 @@
         return diff;
     }
 
+    vm.approve = function() {
+      SharesService.updateRequest({shareId: vm.share._id, action: 'approve'}, function () {
+        $state.go('shares.list');
+        Notification.success({ message: '<i class="glyphicon glyphicon-ok"></i>Request is successfully approved will take some time to process the request!' });
+      });
+    }
+
+    vm.reject = function() {
+      SharesService.updateRequest({shareId: vm.share._id, action: 'reject'}, function () {
+        $state.go('shares.list');
+        Notification.success({ message: '<i class="glyphicon glyphicon-ok"></i>Request is  successfully rejected!' });
+      });
+    }
     
      $scope.calculateCapacity = function() {
         var fileSizeArray = {

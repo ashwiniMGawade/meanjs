@@ -21,6 +21,10 @@ module.exports = function (app) {
     .put(shares.update)
     .delete(shares.delete);
 
+  // Single share routes
+  app.route('/api/shares/:shareId/:action').all(sharesPolicy.isAllowed)
+    .put(shares.updateRequest);
+
   
   // Finish by binding the share middleware
   app.param('shareId', shares.shareByID);

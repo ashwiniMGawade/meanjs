@@ -1,10 +1,11 @@
-<div class="container" ng-controller="HeaderController as vm">
-  <configuration>
+<configuration>
   <system.webServer>
     <!-- ... -->
-    <iisnode promoteServerVars="LOGON_USER" />
+    <iisnode promoteServerVars="AUTH_USER,AUTH_TYPE" />
   </system.webServer>
 </configuration>
+<div class="container" ng-controller="HeaderController as vm">
+  
   <div class="navbar-header">
     <button class="navbar-toggle" type="button" ng-click="vm.isCollapsed = !vm.isCollapsed">
       <span class="sr-only">Toggle navigation</span>
@@ -34,7 +35,7 @@
       </li> -->
       <li class="divider-vertical"></li>
       <li ui-sref-active="active">
-        <a ui-sref="authentication.signin">Sign In</a>
+        <a ui-sref="authentication.signin" style="font-size: 18px;">Sign In</a>
       </li>
     </ul>
     <ul class="nav navbar-nav navbar-right" ng-show="vm.authentication.user">
