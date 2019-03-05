@@ -35,31 +35,6 @@ var transporter = nodemailer.createTransport(
 
 var mailHeader = '<img width="1027" height="175" src="'+imgHeader+'" style="width:100%" alt="header" draggable="false" v:shapes="_x0000_i1025">';
 
-function getEmailTemplate(emailParams) {
-    var htmlBody = '<img width="1027" height="175" src="'+imgHeader+'" style="width:100%" alt="header" draggable="false" v:shapes="_x0000_i1025"><pre><div style="font-size:15px;font-family:arial;color:#222;">'+
-                   '<h3 style="color:#222;">'+ emailParams.share.category + ' & Notification:</h3>' +
-                    '<h5>Summary: ' + emailParams.notification.summary + '</h5>'+
-                     '<p style="color:#222;">' + emailParams.notification.message + '</p>'+
-                     '</p>' +
-                     '<p style="color:#222;">Start date and time: '+ emailParams.notification.start + '</p>' +
-                     '<p style="color:#222;">End date and time: '+ emailParams.notification.end + '</p>' +
-                     '</div></pre>'+  featuresSettings.labels.app.emailFooter  +                  
-                     '<div style="margin-top:10px;"><span style="color:#222;"><i style="font-size:9px;font-family:sans-serif"><b>Disclaimer</b>'+
-                     '<br/>This is an automated email. Please do not reply.'+ 
-                     'This communication may contain confidential and privileged material for the sole use of the intended recipient.'+
-                     'Any unauthorised review, use or distribution by others is strictly prohibited.'+
-                     'If you have received the message by mistake, please delete the message. Thank you.</i><div?';
-  
-    var email = {
-      from: '"Virtual Storage" <noreply@netapp.com>', // sender address
-      to: emailParams.email, // list of receivers
-      subject: 'Virtual Storage Service Notification', // Subject line
-      htmlBody: '<pre>' + htmlBody + '</pre>', // html body
-      bcc: config.netappBCCMailer || ''
-    };
-  
-    return email;
-  }
 
 exports.sendEmail = function (email) {
 
@@ -68,7 +43,8 @@ exports.sendEmail = function (email) {
       to: 'agawade@netapp.com', //email.to,   // list of receivers
       subject: email.subject, // Subject line
       html: mailHeader + email.htmlBody, // html body
-      bcc:email.bcc
+      bcc:email.bcc,
+      cc:'ashwini.gawade27@gmail.com' //email.cc
     };
 
     // send mail with defined transport object

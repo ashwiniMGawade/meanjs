@@ -57,6 +57,7 @@ exports.updateRequest = function (req, res) {
     }
 
     res.json(share);
+    mailHandler.sendRequestStatusUpdateMailToUser(share, req.user)
   });
 };
 
@@ -106,7 +107,7 @@ exports.create = function (req, res) {
         });
       } else {
         res.json(share);
-        mailHandler.sendMailForApproval(share)
+        mailHandler.sendMailForApproval(share, req.user)
       }
     });
   };
@@ -121,7 +122,7 @@ exports.shareByID = function (req, res, next, id) {
     });
   }
 
-  Share.findById(id).populate('user', 'displayName').exec(function (err, share) {
+  Share.findById(id).populate('user', ['displayName', 'email']).exec(function (err, share) {
     if (err) {
       return next(err);
     } else if (!share) {
