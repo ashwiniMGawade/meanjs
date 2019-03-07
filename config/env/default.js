@@ -1,4 +1,5 @@
 'use strict';
+var constants = require('constants');
 
 module.exports = {
   app: {
@@ -25,6 +26,7 @@ module.exports = {
     searchBase:process.env.LDAP_SEARCH_BASE
   },
   wfa: {
+    authorization:process.env.WFA_SERVER_AUTHORIZATION,
     sql: {
       connectionLimit : 5,
       host: process.env.WFA_SERVER_HOST,
@@ -32,6 +34,23 @@ module.exports = {
       password: process.env.WFA_SERVER_MYSQL_PASSWORD ,
       database: process.env.WFA_SERVER_MYSQL_DATABASE 
     },
+    httpsClientOptions: {
+      connection: {
+          secureOptions: constants.SSL_OP_NO_SSLv2|constants.SSL_OP_NO_SSLv3|constants.SSL_OP_NO_TLSv1, // Disable SSL2/SSL3/TLS1.
+          ciphers: constants.defaultCoreCipherList + ':EDH-RSA-DES-CBC3-SHA:DES-CBC3-SHA', // Add two ciphers for WFA 4.0.
+          rejectUnauthorized: false, // Accept self-signed certs.
+          honorCipherOrder: true
+      }
+    },
+    workflows: {
+      'newShare': 'https://'+process.env.WFA_SERVER_HOST+'/rest/workflows/c47814db-35c9-423b-977e-1f35e365f005/jobs',
+      'changePermission':'https://'+process.env.WFA_SERVER_HOST+'/rest/workflows/c47814db-35c9-423b-977e-1f35e365f005/jobs',
+      'resize':'https://'+process.env.WFA_SERVER_HOST+'/rest/workflows/c47814db-35c9-423b-977e-1f35e365f005/jobs',
+      'rename':'https://'+process.env.WFA_SERVER_HOST+'/rest/workflows/c47814db-35c9-423b-977e-1f35e365f005/jobs',
+      'restoreProjectShare':'https://'+process.env.WFA_SERVER_HOST+'/rest/workflows/c47814db-35c9-423b-977e-1f35e365f005/jobs',
+      'retireVolumeWorkflow':'https://'+process.env.WFA_SERVER_HOST+'/rest/workflows/c47814db-35c9-423b-977e-1f35e365f005/jobs',
+      'migration': 'https://'+process.env.WFA_SERVER_HOST+'/rest/workflows/c47814db-35c9-423b-977e-1f35e365f005/jobs'
+    }
   },
   port: process.env.PORT || 3000,
   host: process.env.HOST || '0.0.0.0',

@@ -65,6 +65,54 @@ exports.getCifsShare = function (location, volumename, res) {
   });
 };
 
+exports.getClusterInfo = function (location, volumename, res) {
+
+  console.log('Server getClusterInfo: MySQL Read: Retrieving Admin Vserver for location: \"' + location + '\" and volumename \"' + volumename + '\".');
+
+  var cifsShare = {
+    clustername:'',
+    vservername:'' 
+  };
+
+  var args = ' Select '+
+  'cm_storage.cluster.name as clustername, cm_storage.vserver.name vservername '+
+  'FROM ' +
+  'cm_storage.vserver, ' +
+  'cm_storage.cluster,' +
+  'cm_storage.volume ' + 
+  'WHERE ' +
+  'cm_storage.cluster.id = cm_storage.vserver.cluster_id '+
+  'AND cm_storage.volume.vserver_id = cm_storage.vserver.id '+
+  'AND cm_storage.cluster.location = ? ' +
+  'AND cm_storage.volume.name = ? ';
+
+   console.log('Server getClusterInfo: MySQL Read: Query: ' + util.inspect(args, {showHidden: false, depth: null}));
+
+  connectionPool.getConnection(function(err, connection) {
+    if(err){
+      console.log('Server getClusterInfo: MySQL Read: Connection Error: ' + err);
+      res(err, cifsShare);
+    }else{
+      connection.query(args, [location, volumename], function (err, result) {
+        console.log('Server getClusterInfo: MySQL Read: Result: ' + util.inspect(result, {showHidden: false, depth: null}));
+        if (err) {
+          console.log('Server getClusterInfo: MySQL Read: Error: ' + err);
+          res(err, cifsShare);
+        } else if (result.length > 0) {
+            cifsShare.vservername = result[0].vservername;
+            cifsShare.clustername = result[0].clustername;
+          
+          res(null, cifsShare);
+        } else {
+          console.log('Server getClusterInfo(): MySQL Read: No Records found');
+          res("Server Read: No records found", cifsShare);
+        }
+        connection.release();
+      });
+    }
+  });
+};
+
 // exports.svmRead = function (req, res) {
 
 //   var svmOut = {
