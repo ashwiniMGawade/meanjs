@@ -18,6 +18,8 @@
       requireBase: false
     }).hashPrefix('!');
 
+    $locationProvider.html5Mode(true)
+
     $httpProvider.interceptors.push('authInterceptor');
 
     // Disable debug data for production environment

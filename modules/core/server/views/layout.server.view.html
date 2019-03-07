@@ -8,6 +8,15 @@
   <meta name="description" content="{{description}}">
   <meta name="fragment" content="!">
 
+  <configuration>
+    <system.webServer>
+      <!-- ... -->
+      <iisnode promoteServerVars="AUTH_USER,AUTH_TYPE" />
+    </system.webServer>
+  </configuration>
+
+  <base href="/">
+
   <!-- Apple META -->
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black">
