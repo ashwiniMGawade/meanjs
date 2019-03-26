@@ -9,17 +9,15 @@ var client = new Client(config.wfa.httpsClientOptions);
 
 exports.executeWfaWorkflow = function (req, res) {
 
-  var args = getWorkflowArgs(req)
+  var args = getWorkflowArgs(req);
 
-  //console.log('share WFA Create: Args : ' + util.inspect(args, {showHidden: false, depth: null}));
+  console.log('share WFA Create: Args : ' + util.inspect(args, {showHidden: false, depth: null}));
   console.log("executing job", config.wfa.workflows[req.share.category]);
   var shareCreateReq = client.post(config.wfa.workflows[req.share.category], args, function (data, response) {
 
     if (Buffer.isBuffer(data)) {
       data = data.toString('utf8');
     }
-
-    console.log(response)
 
     console.log('share '+req.share.category+' WFA : Data received from WFA: ' + util.inspect(data, {showHidden: false, depth: null}));
     if (data && data.job && data.job.$) {
@@ -60,14 +58,48 @@ var getWorkflowArgs = function(req) {
     }
   };
 
+  console.log("get args for category" + req.share.category)
+
   switch(req.share.category) {
     case 'newShare': 
       args.data = '<workflowInput>' +
         '<userInputValues>' +
-        '<userInputEntry value="' + (req.clusterNamw || '') + '" key="ClusterName"/>' +
-        '<userInputEntry value="' + (req.vserverName || '') + '" key="VserverName"/>' +
-        '<userInputEntry value="' + (req.volumeName || '') + '" key="VolumeName"/>' +
-        '<userInputEntry value="' + (req.shareName || '') + '" key="ShareName"/>' +
+        '<userInputEntry value="' + (req.primarycluster || '') + '" key="srcClusterName"/>' +
+        '<userInputEntry value="' + (req.primaryvserver || '') + '" key="srcVserverName"/>' +
+        '<userInputEntry value="' + (req.volumeName || '') + '" key="srcVolumeName"/>' +
+        '<userInputEntry value="' + (req.shareName || '') + '" key="shareName"/>' +
+        '<userInputEntry value="' + (req.share.sizegb || '') + '" key="size"/>' +
+        '<userInputEntry value="' + (req.shareName + 'created by'+ req.share.user.displayName || '') + '" key="description"/>' +
+        '<userInputEntry value="' + (req.share.city || '') + '" key="primaryLocation"/>' +
+        '<userInputEntry value="' + (req.share.readWriteAndModify || '') + '" key="ccuser"/>' +
+        '<userInputEntry value="' + (req.share.readOnly || '') + '" key="dvuser"/>' +
+        '<userInputEntry value="' + (req.share.readAndWrite || '') + '" key="pluser"/>' +
+        '<userInputEntry value="' + (req.secondarycluster || '') + '" key="destClusterName"/>' +
+        '<userInputEntry value="' + (req.secondaryvserver || '') + '" key="destVserver"/>' +
+        '</userInputValues>' +
+        '<comments>DFaaS Engine share Create: ' + req.share._id + ' ' + req.share.user.displayName + '</comments>' +
+        '</workflowInput>';
+      break;
+      case 'resize': 
+      args.data = '<workflowInput>' +
+        '<userInputValues>' +
+        '<userInputEntry value="' + (req.primarycluster || '') + '" key="clusterName"/>' +
+        '<userInputEntry value="' + (req.primaryvserver || '') + '" key="vserverName"/>' +
+        '<userInputEntry value="' + (req.volumeName || '') + '" key="volumeName"/>' +
+        '<userInputEntry value="' + (req.shareName || '') + '" key="qtreeName"/>' +
+        '<userInputEntry value="' + (req.share.sizegb || '') + '" key="newSize"/>' +
+        '</userInputValues>' +
+        '<comments>DFaaS Engine share Create: ' + req.share._id + ' ' + req.share.user.displayName + '</comments>' +
+        '</workflowInput>';
+      break;
+      case 'rename': 
+      args.data = '<workflowInput>' +
+        '<userInputValues>' +
+        '<userInputEntry value="' + (req.primarycluster || '') + '" key="clusterName"/>' +
+        '<userInputEntry value="' + (req.primaryvserver || '') + '" key="vserverName"/>' +
+        '<userInputEntry value="' + (req.volumeName || '') + '" key="volumeName"/>' +
+        '<userInputEntry value="' + (req.shareName || '') + '" key="qtreeName"/>' +
+        '<userInputEntry value="' + (req.share.sizegb || '') + '" key="newSize"/>' +
         '</userInputValues>' +
         '<comments>DFaaS Engine share Create: ' + req.share._id + ' ' + req.share.user.displayName + '</comments>' +
         '</workflowInput>';
@@ -99,7 +131,8 @@ exports.wfaJobStatus = function (req, res) {
 
   //console.log('share WFA CreateStatus: Args:' + util.inspect(args, {showHidden: false, depth: null}));
 
-  var shareCreateStatusReq = client.get(config.wfa.shareCreateJob + '/${jobId}', args, function (data) {
+
+  var shareCreateStatusReq = client.get(config.wfa.workflows[req.category] + '/${jobId}', args, function (data) {
     var shareOut;
 
     if (Buffer.isBuffer(data)) {
@@ -109,8 +142,8 @@ exports.wfaJobStatus = function (req, res) {
     console.log('share WFA CreateStatus: Received: ' + util.inspect(data, {showHidden: false, depth: null}));
     if (data.job) {
       shareOut = {
-        jobStatus: data.job.jobStatus[0].jobStatus[0],
-        phase: data.job.jobStatus[0].phase[0]
+        jobStatus: data.job.jobStatus.jobStatus,
+        phase: data.job.jobStatus.phase
       };
       res(null, shareOut);
     } else {
@@ -154,7 +187,7 @@ exports.wfaJobOut = function (req, res) {
 
   //console.log('share WFA CreateOut: Args: ' + util.inspect(args, {showHidden: false, depth: null}));
 
-  var shareCreateOutReq = client.get(config.wfa.shareCreateJob + '/${jobId}/plan/out', args, function (data) {
+  var shareCreateOutReq = client.get(config.wfa.workflows[req.category] + '/${jobId}/plan/out', args, function (data) {
     var shareOut;
 
     if (Buffer.isBuffer(data)) {

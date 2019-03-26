@@ -29,6 +29,13 @@ var ShareSchema = new Schema({
     trim: true,
     required: 'Project Code cannot be blank'
   },
+  newName: {
+    type: String,
+    default: '',
+    trim: true,
+    match: [ /^[a-zA-Z\-0-9\._]+$/ , 'newName: Only alphanumeric chars including dash and underscore are allowed.'],
+    required: function() { return this.category === 'rename' ? 'New name can not be blank' : false; },
+  },
   bu: {
     type: String,
     default: '',

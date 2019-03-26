@@ -135,7 +135,18 @@
                 <p class="help-block error-text" ng-message="required">Please select any of the storage requirement.</p>
               </div>
             </div>
-          </div>          
+          </div> 
+          <div ng-show="vm.share.category == 'rename'">
+            <div class="form-group" show-errors>
+                <label class="control-label" for="NewName">New name</label>
+                <input name="newName" type="text" ng-model="vm.share.newName" id="newName" class="form-control" placeholder="New Name" ng-required="vm.share.category == 'rename'"  ng-pattern="/^[a-zA-Z\-0-9\._]+$/"
+                >
+                <div ng-messages="vm.form.shareForm.newName.$error" role="alert">
+                  <p class="help-block error-text" ng-message="required">New name is required.</p>
+                  <p class="help-block error-text" ng-message="pattern">Only alphanumeric chars including dash and underscore are allowed.</p>
+                </div>
+            </div>
+          </div>         
           <div class="form-group">
             <button type="submit" class="btn btn-primary">{{vm.share._id ? 'Update' : 'Create'}}</button>
           </div>

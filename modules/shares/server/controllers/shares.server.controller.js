@@ -4,7 +4,9 @@
  * Module dependencies
  */
 var path = require('path'),
+  config = require(path.resolve('./config/config')),
   mongoose = require('mongoose'),
+  util = require('util'),
   Share = mongoose.model('Share'),
   errorHandler = require(path.resolve('./modules/core/server/controllers/errors.server.controller')),
   wfaDB = require(path.resolve('./modules/shares/server/controllers/shares.server.wfa.db.read')),
@@ -56,6 +58,7 @@ exports.updateRequest = function (req, res) {
       });
     }
 
+    
     res.json(share);
     mailHandler.sendRequestStatusUpdateMailToUser(share, req.user);
 
@@ -67,22 +70,24 @@ exports.updateRequest = function (req, res) {
     function sendToWorkflowForExecution(share) {
       //set the status to processing
       saveShareStatus(share, 'Processing');
-      var volName = req.user.providerData.projectCode.substring(0,4);
+      var volName = share.bu;
 
-      wfaDB.getClusterInfo(req.user.providerData.city, volName, function(err, details) {
+      wfaDB.getClusterInfo(share.city, function(err, details) {
         if (err) {
           console.log("error in getting db details", err);
           saveShareStatus(share, 'Contact Support');
         } else {
           var jobId;
           var args = {
-            clusterName: details.clustername,
-            vserverName: details.vservername,
+            primarycluster: details.primarycluster,
+            primaryvserver: details.primaryvserver,
+            secondarycluster:details.secondarycluster,
+            secondaryvserver: details.secondaryvserver,
             volumeName:volName,
-            shareName: req.user.providerData.projectCode,
+            shareName: share.projectCode,
             share: share
           };
-          console.log("called create share wfa");
+          console.log("called create share wfa", args);
       
           clientWfa.executeWfaWorkflow(args, function (err, resWfa) {
             if (err) {
@@ -91,7 +96,7 @@ exports.updateRequest = function (req, res) {
             } else {
               jobId = resWfa.jobId;
               console.log('executeWfaWorkflow: Response from WFA: ' + util.inspect(resWfa, {showHidden: false, depth: null}));
-              untilCreated(jobId);
+              untilCreated(share.category, jobId);
             }
           });
         }
@@ -99,8 +104,9 @@ exports.updateRequest = function (req, res) {
      
     }
     
-    function untilCreated(jobId) {
+    function untilCreated(category, jobId) {
       var args = {
+        category: category,
         jobId: jobId
       };
     
@@ -114,17 +120,18 @@ exports.updateRequest = function (req, res) {
             saveShareStatus(share, 'Contact Support');
           } else if (resWfa.jobStatus !== 'COMPLETED') {
             console.log('wfaJobStatus: Not completed yet, polling again in 30 seconds, Job ID: ' + jobId);
-            setTimeout(function () { untilCreated(jobId); }, config.wfa.refreshRate);
+            setTimeout(function () { untilCreated(category, jobId); }, config.wfa.refreshRate);
           } else {
-            getOutputs(jobId);
+            getOutputs(share.category, jobId);
           }
         }
       });
     }
 
-    function getOutputs(jobId) {
+    function getOutputs(category, jobId) {
       var args = {
-        jobId: jobId
+        jobId: jobId,
+        category: category
       };
   
       clientWfa.wfaJobOut(args, function (err, resWfa) {
@@ -227,10 +234,11 @@ exports.shareByID = function (req, res, next, id) {
 };
 
 exports.getCifsShareDetails = function (req, res) {
-  wfaDB.getCifsShare(req.user.providerData.city, req.user.providerData.projectCode.substring(0,3), function(err, details) {
+  wfaDB.getCifsShare(req.query.location.toLowerCase(), req.query.volname, function(err, details) {
     if (err) {
       res.json({});
     } else {
+      console.log(details)
       res.json(details);
     }
   }) 

@@ -6,16 +6,25 @@
       .controller('SharesController', SharesController);
       
   
-    SharesController.$inject = ['$scope', '$state', '$window', 'shareResolve', 'Authentication', 'Notification', 'projectResolve', 'getCifsShareDetails', 'SharesService'];
+    SharesController.$inject = ['$scope', '$state', '$window', 'shareResolve', 'Authentication', 'Notification', 'projectResolve',  'SharesService'];
   
-    function SharesController($scope, $state, $window, share, Authentication, Notification, projectInfo, cifShareDetails, SharesService) {
+    function SharesController($scope, $state, $window, share, Authentication, Notification, projectInfo,  SharesService) {
       var vm = this;
         
-      vm.share = share;      
+      vm.share = share;    
+      console.log(share)  
       vm.share.storage = vm.share.storage || {}
-      vm.project = projectInfo
-      vm.cifShareDetails = cifShareDetails;
+      vm.project = projectInfo;
+      vm.cifShareDetails = {};
+      
       if ( projectInfo) {
+        SharesService.getCifsShareDetails({
+          'volname': projectInfo.txtibucode, 
+          'location':projectInfo.city
+        }).$promise.then(function(res) {
+          vm.cifShareDetails = res
+        })
+        
         vm.project.startDate = new Date(projectInfo.startDate)
         vm.project.endDate = new Date(projectInfo.endDate)
         vm.share.city = vm.share.city || projectInfo.city;

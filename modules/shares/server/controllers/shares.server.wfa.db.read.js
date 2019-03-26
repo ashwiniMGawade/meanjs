@@ -10,6 +10,7 @@ var mysql = require('mysql2'),
 //require('events').EventEmitter.defaultMaxListeners = Infinity;
 
 
+
 var connectionPool = mysql.createPool(config.wfa.sql);
 exports.getCifsShare = function (location, volumename, res) {
 
@@ -33,7 +34,7 @@ exports.getCifsShare = function (location, volumename, res) {
   'cm_storage.cluster.id = cm_storage.vserver.cluster_id '+
   'AND cm_storage.vserver.id = cm_storage.cifs_share.vserver_id '+
   'AND cm_storage.volume.vserver_id = cm_storage.vserver.id '+
-  'AND cm_storage.cluster.location = ? ' +
+  'AND LOWER(cm_storage.cluster.location) = ? ' +
   'AND cm_storage.volume.name = ? ';
 
    console.log('Server getCifsShare: MySQL Read: Query: ' + util.inspect(args, {showHidden: false, depth: null}));
@@ -65,26 +66,23 @@ exports.getCifsShare = function (location, volumename, res) {
   });
 };
 
-exports.getClusterInfo = function (location, volumename, res) {
+exports.getClusterInfo = function (location, res) {
 
-  console.log('Server getClusterInfo: MySQL Read: Retrieving Admin Vserver for location: \"' + location + '\" and volumename \"' + volumename + '\".');
+  console.log('Server getClusterInfo: MySQL Read: Retrieving Admin Vserver for location: \"' + location + '\" ');
 
   var cifsShare = {
-    clustername:'',
-    vservername:'' 
+    primarycluster:'',
+    primaryvserver:'',
+    secondarycluster: '',
+    secondaryvserver: ''
   };
 
   var args = ' Select '+
-  'cm_storage.cluster.name as clustername, cm_storage.vserver.name vservername '+
+  'locationmapping.locationmapping.pcuster as primarycluster, locationmapping.locationmapping.pvserver primaryvserver,  locationmapping.locationmapping.scluster as secondarycluster, locationmapping.locationmapping.svserver secondaryvserver '+
   'FROM ' +
-  'cm_storage.vserver, ' +
-  'cm_storage.cluster,' +
-  'cm_storage.volume ' + 
+  'locationmapping.locationmapping ' +
   'WHERE ' +
-  'cm_storage.cluster.id = cm_storage.vserver.cluster_id '+
-  'AND cm_storage.volume.vserver_id = cm_storage.vserver.id '+
-  'AND cm_storage.cluster.location = ? ' +
-  'AND cm_storage.volume.name = ? ';
+  'LOWER(locationmapping.locationmapping.plocation) = ? ';
 
    console.log('Server getClusterInfo: MySQL Read: Query: ' + util.inspect(args, {showHidden: false, depth: null}));
 
@@ -93,14 +91,16 @@ exports.getClusterInfo = function (location, volumename, res) {
       console.log('Server getClusterInfo: MySQL Read: Connection Error: ' + err);
       res(err, cifsShare);
     }else{
-      connection.query(args, [location, volumename], function (err, result) {
+      connection.query(args, [location.toLowerCase()], function (err, result) {
         console.log('Server getClusterInfo: MySQL Read: Result: ' + util.inspect(result, {showHidden: false, depth: null}));
         if (err) {
           console.log('Server getClusterInfo: MySQL Read: Error: ' + err);
           res(err, cifsShare);
         } else if (result.length > 0) {
-            cifsShare.vservername = result[0].vservername;
-            cifsShare.clustername = result[0].clustername;
+            cifsShare.primarycluster = result[0].primarycluster;
+            cifsShare.primaryvserver = result[0].primaryvserver;
+            cifsShare.secondarycluster = result[0].secondarycluster;
+            cifsShare.secondaryvserver = result[0].secondaryvserver;
           
           res(null, cifsShare);
         } else {

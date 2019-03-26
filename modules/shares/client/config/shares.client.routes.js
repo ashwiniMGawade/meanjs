@@ -31,7 +31,7 @@
             resolve: {
               shareResolve: newShare,
               projectResolve: getUserProjectInfo,
-              getCifsShareDetails: getCifsShareDetails
+              // getCifsShareDetails: getCifsShareDetails
             }
         })
         .state('shares.view', {
@@ -42,7 +42,7 @@
           resolve: {
             shareResolve: getShare,
             projectResolve: function() {return null},
-            getCifsShareDetails: function() {return null}
+            // getCifsShareDetails: function() {return null}
           },
           data: {
             pageTitle: 'Share Details'
