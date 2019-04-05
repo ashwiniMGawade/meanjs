@@ -191,6 +191,7 @@ exports.saveOAuthUserProfile = function (req, providerUserProfile, done) {
             firstName: providerUserProfile.firstName,
             lastName: providerUserProfile.lastName,
             username: availableUsername,
+            roles:providerUserProfile.roles,
             displayName: providerUserProfile.displayName,
             profileImageURL: providerUserProfile.profileImageURL,
             provider: providerUserProfile.provider,
@@ -238,6 +239,7 @@ var modifyUserInfo = function(user, providerUserProfile, done, info) {
     user.additionalProvidersData[providerUserProfile.provider] = providerUserProfile.providerData;
     //update the provider data to the latest values
     user.providerData = providerUserProfile.providerData;
+    user.roles = providerUserProfile.roles;
 
     // Then tell mongoose that we've updated the additionalProvidersData field
     user.markModified('additionalProvidersData');
