@@ -31,8 +31,8 @@ module.exports = {
       connectionLimit : 5,
       host: process.env.WFA_SERVER_HOST,
       user: process.env.WFA_SERVER_MYSQL_USERNAME,
-      password: process.env.WFA_SERVER_MYSQL_PASSWORD ,
-      database: process.env.WFA_SERVER_MYSQL_DATABASE 
+      password: process.env.WFA_SERVER_MYSQL_PASSWORD 
+      // database: process.env.WFA_SERVER_MYSQL_DATABASE 
     },
     httpsClientOptions: {
       connection: {

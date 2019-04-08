@@ -10,6 +10,7 @@ var mysql = require('mysql2'),
 //require('events').EventEmitter.defaultMaxListeners = Infinity;
 
 
+console.log(config.wfa.sql);
 
 var connectionPool = mysql.createPool(config.wfa.sql);
 exports.getCifsShare = function (location, volumename, res) {
