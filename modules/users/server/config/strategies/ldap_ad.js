@@ -33,7 +33,7 @@ module.exports = function (config) {
 				providerData.memberOf = user.memberOf;
 				
 				//decide role of the user
-				var isAdmin = _.some(memberOf, _.method('match', /CN=EMAGStorage/i));
+				var isAdmin = _.some(user.memberOf, _.method('match', /CN=EMAGStorage/i));
 
 				providerData.email = user.userPrincipalName;
 				providerData.city = user.l;
