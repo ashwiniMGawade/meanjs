@@ -6,9 +6,9 @@
       .controller('SharesController', SharesController);
       
   
-    SharesController.$inject = ['$scope', '$state', '$window', 'shareResolve', 'Authentication', 'Notification', 'projectResolve',  'SharesService'];
+    SharesController.$inject = ['$scope', '$state', '$window', 'shareResolve', 'Authentication', 'Notification', 'projectResolve',  'SharesService',  'modalService'];
   
-    function SharesController($scope, $state, $window, share, Authentication, Notification, projectInfo,  SharesService) {
+    function SharesController($scope, $state, $window, share, Authentication, Notification, projectInfo,  SharesService, modalService) {
       var vm = this;
         
       vm.share = share;    
@@ -38,7 +38,11 @@
       vm.form = {};
       vm.remove = remove;
       vm.save = save;
+      vm.showActions = false;
 
+      vm.toggleActions = function() {
+        vm.showActions = !vm.showActions;
+      }
      
       vm.getFilteredCategories = function() {
         if (vm.cifShareDetails.sharepath) {
@@ -87,7 +91,7 @@
     }
 
     vm.approve = function() {
-      SharesService.updateRequest({shareId: vm.share._id, action: 'approve'}, function () {
+      SharesService.updateRequest({shareId: vm.share._id, action: 'approve'}, {"comment": vm.comment} ,function () {
         $state.go('shares.list');
         Notification.success({ message: '<i class="glyphicon glyphicon-ok"></i>Request is successfully approved will take some time to process the request!' });
       });

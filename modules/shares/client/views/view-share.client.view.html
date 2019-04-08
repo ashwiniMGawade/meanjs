@@ -24,14 +24,25 @@
                     {{vm.fileSizeTypes[file]}}
                   </li></td></tr>
             <tr ng-if="!vm.isAdmin"><th>Aprrovers<td ng-bind="vm.share.approvers"></td></th></tr>
+            <tr ng-if="vm.isAdmin && vm.share.status=='Pending Approval'">
+                <th></th>
+                <td ng-click="vm.toggleActions()" style="cursor:pointer"><a>Click to Approve or Reject</a></td>
+            </tr>
+            <tr ng-show="vm.showActions">
+                    <th>Comment</th>
+                    <td>
+                        <input type="text" name="comment" ng-model="vm.comment">
+                    </td>
+                </tr>
             <tr>
               <th>Actions</th>
               <td>
-                <button ng-if="vm.isAdmin && vm.share.status=='Pending Approval'" type="button" class="btn btn-xs1 btn-primary" ng-click="vm.approve()">Approve</button>
-                <button ng-if="vm.isAdmin && vm.share.status=='Pending Approval'" type="button" class="btn btn-xs1 btn-danger" ng-click="vm.reject()">Reject</button>
+                <button ng-if="vm.isAdmin && vm.share.status=='Pending Approval' && vm.showActions" type="button" class="btn btn-xs1 btn-primary" ng-click="vm.approve()">Approve</button>
+                <button ng-if="vm.isAdmin && vm.share.status=='Pending Approval' && vm.showActions" type="button" class="btn btn-xs1 btn-danger" ng-click="vm.reject()">Reject</button>
                 <button type="button" class="btn btn-xs1 btn-secondary" ui-sref="shares.list">Back</button>
               </td>
             </tr>
+           
         </table>
     </div>
     

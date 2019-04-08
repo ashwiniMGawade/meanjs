@@ -42,6 +42,11 @@ var ShareSchema = new Schema({
     trim: true,
     required: 'Business Unit cannot be blank'
   },
+  comment: {
+    type: String,
+    default: '',
+    trim: true
+  },
   readOnly: {
     type: String,
     default: '',

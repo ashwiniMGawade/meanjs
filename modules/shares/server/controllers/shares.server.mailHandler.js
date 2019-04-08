@@ -13,12 +13,12 @@ var getMailMessage = function(type, emailParams) {
       'Please click on <a href="'+config.domain+'/shares/'+emailParams.share._id+'">Request details </a> to respond to the request.';
       break;
     case 'Approved': 
-      message = 'Request '+ emailParams.share.category + ' of ' + emailParams.share.user.displayName + ' ('+emailParams.share.projectCode+') created on '+ emailParams.share.created + ' is successfully approved by ' + emailParams.reqUser.displayName +' !</p>' +
+      message = 'Request '+ emailParams.share.category + ' of ' + emailParams.share.user.displayName + ' ('+emailParams.share.projectCode+') created on '+ emailParams.share.created + ' is successfully approved by ' + emailParams.reqUser.displayName + (emailParams.share.comment ? ' with the comment '+ emailParams.share.comment : '' ) +' !</p>' +
       '</div></pre>'+
       'Please click on <a href="'+config.domain+'/shares/'+emailParams.share._id+'">Request details </a> to see the request.';
       break;
     case 'Rejected': 
-      message = 'Request '+ emailParams.share.category + ' of ' + emailParams.share.user.displayName + ' ('+emailParams.share.projectCode+') created on '+ emailParams.share.created + ' is rejected by ' + emailParams.reqUser.displayName +' !</p>' +
+      message = 'Request '+ emailParams.share.category + ' of ' + emailParams.share.user.displayName + ' ('+emailParams.share.projectCode+') created on '+ emailParams.share.created + ' is rejected by ' + emailParams.reqUser.displayName + (emailParams.share.comment ? ' with the comment '+ emailParams.share.comment : '' ) + ' !</p>' +
       '</div></pre>'+
       'Please click on <a href="'+config.domain+'/shares/'+emailParams.share._id+'">Request details </a> to see the request.';
       break;
