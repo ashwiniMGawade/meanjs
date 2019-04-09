@@ -11,6 +11,7 @@ var mysql = require('mysql2'),
 
 
 console.log(config.wfa.sql);
+config.wfa.sql.database = '';
 
 var connectionPool = mysql.createPool(config.wfa.sql);
 exports.getCifsShare = function (location, volumename, res) {

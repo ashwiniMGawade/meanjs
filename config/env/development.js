@@ -57,11 +57,11 @@ module.exports = {
     sandbox: true
   },
   mailer: {
-    from: process.env.MAILER_FROM || 'agawade@netapp.com',
+    from: process.env.MAILER_FROM || 'ashwini.gawade27@gmail.com',
     options: {
-      service: process.env.MAILER_SERVICE_PROVIDER || 'outlook',
+      service: process.env.MAILER_SERVICE_PROVIDER || 'gmail',
       auth: {
-        user: process.env.MAILER_EMAIL_ID || 'agawade@netapp.com',
+        user: process.env.MAILER_EMAIL_ID || 'ashwini.gawade27@gmail.com',
         pass: process.env.MAILER_PASSWORD || '8l!DBG8(XAqfen'
       }
     }
@@ -120,12 +120,21 @@ module.exports = {
     }]
   },
   wfa: {
+    authorization:process.env.WFA_SERVER_AUTHORIZATION || 'Basic YWRtaW46bmV0YXBwMSE=',
     sql: {
       connectionLimit : 5,
-      host: '10.193.113.81',
-      user: 'wfa',
-      password: 'Wfa123' ,
-      database: 'cm_storage' 
-    },
-  },
-};
+      host: process.env.WFA_SERVER_HOST || '10.193.161.58',
+      user: process.env.WFA_SERVER_MYSQL_USERNAME || 'wfa',
+      password: process.env.WFA_SERVER_MYSQL_PASSWORD || 'Wfa123' 
+    }
+  //   workflows: {
+  //     'newShare': 'https://10.193.161.58/rest/workflows/7d394429-b44d-41bb-9ba5-901ce5264b99/jobs',
+  //     'changePermission': 'https://10.193.161.58/rest/workflows/c47814db-35c9-423b-977e-1f35e365f005/jobs',
+  //     'resize': 'https://10.193.161.58/rest/workflows/3540f3c5-b496-41da-8503-b6a070e512f3/jobs',
+  //     'rename': 'https://10.193.161.58/rest/workflows/c47814db-35c9-423b-977e-1f35e365f005/jobs',
+  //     'restoreProjectShare': 'https://10.193.161.58/rest/workflows/c47814db-35c9-423b-977e-1f35e365f005/jobs',
+  //     'retireVolumeWorkflow': 'https://10.193.161.58/rest/workflows/c47814db-35c9-423b-977e-1f35e365f005/jobs',
+  //     'migration': 'https://10.193.161.58/rest/workflows/c47814db-35c9-423b-977e-1f35e365f005/jobs'
+  // }
+},
+}

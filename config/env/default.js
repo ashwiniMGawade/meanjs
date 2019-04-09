@@ -32,7 +32,6 @@ module.exports = {
       host: process.env.WFA_SERVER_HOST,
       user: process.env.WFA_SERVER_MYSQL_USERNAME,
       password: process.env.WFA_SERVER_MYSQL_PASSWORD 
-      // database: process.env.WFA_SERVER_MYSQL_DATABASE 
     },
     httpsClientOptions: {
       connection: {
@@ -45,7 +44,7 @@ module.exports = {
     workflows: {
       'newShare': 'https://'+process.env.WFA_SERVER_HOST+'/rest/workflows/7d394429-b44d-41bb-9ba5-901ce5264b99/jobs',
       'changePermission':'https://'+process.env.WFA_SERVER_HOST+'/rest/workflows/c47814db-35c9-423b-977e-1f35e365f005/jobs',
-      'resize':'https://'+process.env.WFA_SERVER_HOST+'/rest/workflows/c47814db-35c9-423b-977e-1f35e365f005/jobs',
+      'resize':'https://'+process.env.WFA_SERVER_HOST+'/rest/workflows/3540f3c5-b496-41da-8503-b6a070e512f3/jobs',
       'rename':'https://'+process.env.WFA_SERVER_HOST+'/rest/workflows/c47814db-35c9-423b-977e-1f35e365f005/jobs',
       'restoreProjectShare':'https://'+process.env.WFA_SERVER_HOST+'/rest/workflows/c47814db-35c9-423b-977e-1f35e365f005/jobs',
       'retireVolumeWorkflow':'https://'+process.env.WFA_SERVER_HOST+'/rest/workflows/c47814db-35c9-423b-977e-1f35e365f005/jobs',
