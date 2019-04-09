@@ -43,7 +43,7 @@ module.exports = {
       }
     },
     workflows: {
-      'newShare': 'https://'+process.env.WFA_SERVER_HOST+'/rest/workflows/c47814db-35c9-423b-977e-1f35e365f005/jobs',
+      'newShare': 'https://'+process.env.WFA_SERVER_HOST+'/rest/workflows/7d394429-b44d-41bb-9ba5-901ce5264b99/jobs',
       'changePermission':'https://'+process.env.WFA_SERVER_HOST+'/rest/workflows/c47814db-35c9-423b-977e-1f35e365f005/jobs',
       'resize':'https://'+process.env.WFA_SERVER_HOST+'/rest/workflows/c47814db-35c9-423b-977e-1f35e365f005/jobs',
       'rename':'https://'+process.env.WFA_SERVER_HOST+'/rest/workflows/c47814db-35c9-423b-977e-1f35e365f005/jobs',
