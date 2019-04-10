@@ -6,10 +6,37 @@
       .controller('SharesController', SharesController);
       
   
-    SharesController.$inject = ['$scope', '$state', '$window', 'shareResolve', 'Authentication', 'Notification', 'projectResolve',  'SharesService',  'modalService'];
+    SharesController.$inject = ['$scope', '$state', '$window', 'shareResolve', 'Authentication', 'Notification', 'projectResolve',  'SharesService',  'modalService', '$sanitize'];
   
-    function SharesController($scope, $state, $window, share, Authentication, Notification, projectInfo,  SharesService, modalService) {
+    function SharesController($scope, $state, $window, share, Authentication, Notification, projectInfo,  SharesService, modalService, $sanitize) {
       var vm = this;
+
+      vm.selected = undefined;
+      vm.states = ['Alabama', 'Alaska', 'Arizona', 'Arkansas', 'California', 'Colorado', 'Connecticut', 'Delaware', 'Florida', 'Georgia', 'Hawaii', 'Idaho', 'Illinois', 'Indiana', 'Iowa', 'Kansas', 'Kentucky', 'Louisiana', 'Maine', 'Maryland', 'Massachusetts', 'Michigan', 'Minnesota', 'Mississippi', 'Missouri', 'Montana', 'Nebraska', 'Nevada', 'New Hampshire', 'New Jersey', 'New Mexico', 'New York', 'North Dakota', 'North Carolina', 'Ohio', 'Oklahoma', 'Oregon', 'Pennsylvania', 'Rhode Island', 'South Carolina', 'South Dakota', 'Tennessee', 'Texas', 'Utah', 'Vermont', 'Virginia', 'Washington', 'West Virginia', 'Wisconsin', 'Wyoming'];
+
+      vm.ngModelOptionsSelected = function(value) {
+        if (arguments.length) {
+          _selected = value;
+        } else {
+          return _selected;
+        }
+      };
+      
+      vm.example15model = []; 
+       vm.example15data = [ {id: "David", label: "David"}, {id: 2, label: "Jhon"}, {id: 3, label: "Lisa"}, {id: 4, label: "Nicole"}, {id: 5, label: "Danny"} ]; 
+        vm.example15settings = { 
+          enableSearch: true, 
+          selectionLimit: 2
+        }; 
+      vm.customFilter = 'a'
+    
+      vm.modelOptions = {
+        debounce: {
+          default: 500,
+          blur: 250
+        },
+        getterSetter: true
+      };
 
       vm.share = share;    
       console.log(share)  
@@ -94,16 +121,33 @@
     }
 
     vm.approve = function() {
-      SharesService.updateRequest({shareId: vm.share._id, action: 'approve'}, {"comment": vm.comment} ,function () {
-        $state.go('shares.list');
-        Notification.success({ message: '<i class="glyphicon glyphicon-ok"></i>Request is successfully approved will take some time to process the request!' });
+      var modalOptions = {
+        closeButtonText: 'Cancel',
+        actionButtonText: 'Ok',
+        headerText: 'Approve request?',
+        bodyText: ['Are you sure you want to approve this request?']
+      };
+
+      modalService.showModal({}, modalOptions).then(function (result) {
+        SharesService.updateRequest({shareId: vm.share._id, action: 'approve'}, {"comment": vm.comment} ,function () {
+          $state.go('shares.list');
+          Notification.success({ message: '<i class="glyphicon glyphicon-ok"></i>Request is successfully approved will take some time to process the request!' });
+        });
       });
     }
 
     vm.reject = function() {
-      SharesService.updateRequest({shareId: vm.share._id, action: 'reject'}, function () {
-        $state.go('shares.list');
-        Notification.success({ message: '<i class="glyphicon glyphicon-ok"></i>Request is  successfully rejected!' });
+      var modalOptions = {
+        closeButtonText: 'Cancel',
+        actionButtonText: 'Ok',
+        headerText: 'Reject request?',
+        bodyText: ['Are you sure you want to reject this request?']
+      };
+      modalService.showModal({}, modalOptions).then(function (result) {
+        SharesService.updateRequest({shareId: vm.share._id, action: 'reject'}, function () {
+          $state.go('shares.list');
+          Notification.success({ message: '<i class="glyphicon glyphicon-ok"></i>Request is  successfully rejected!' });
+        });
       });
     }
     
