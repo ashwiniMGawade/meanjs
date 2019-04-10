@@ -10,7 +10,7 @@
   
     function SharesController($scope, $state, $window, share, Authentication, Notification, projectInfo,  SharesService, modalService) {
       var vm = this;
-        
+
       vm.share = share;    
       console.log(share)  
       vm.share.storage = vm.share.storage || {}
@@ -48,6 +48,9 @@
         if (vm.cifShareDetails.sharepath) {
           delete vm.categories.newShare;
         }
+        //  else {
+        //   return [vm.categories.newShare]
+        // }
         return vm.categories;
       }
 
@@ -170,6 +173,11 @@
         if (!isValid) {
           $scope.$broadcast('show-errors-check-validity', 'vm.form.shareForm');
           return false;
+        }
+
+        //set the new value for share if selected category is resize
+        if (vm.share.category == 'rezize') {
+          vm.share.newSizegb = vm.availableSize + incrementGb
         }
   
         // Create a new share, or update the current instance

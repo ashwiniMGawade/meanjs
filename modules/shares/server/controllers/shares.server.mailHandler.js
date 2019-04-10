@@ -32,8 +32,7 @@ var getMailMessage = function(type, emailParams) {
 function getEmailTemplate(emailParams, type) {
     var htmlBody = '<pre><div style="font-size:15px;font-family:arial;color:#222;">'+
                      '<p style="color:#222;">Hi,<br/><br/>'+
-                     getMailMessage(type, emailParams)+
-                     'Please click on <a href="'+config.domain+'/shares/'+emailParams.share._id+'">Request details </a> to respond to the request.'+        
+                     getMailMessage(type, emailParams)+        
                      '<div style="margin-top:10px;"><span style="color:#222;"><i style="font-size:9px;font-family:sans-serif"><b>Disclaimer</b>'+
                      '<br/>This is an automated email. Please do not reply.'+ 
                      'This communication may contain confidential and privileged material for the sole use of the intended recipient.'+
