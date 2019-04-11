@@ -6,9 +6,9 @@
       .controller('SharesController', SharesController);
       
   
-    SharesController.$inject = ['$scope', '$state', '$window', 'shareResolve', 'Authentication', 'Notification', 'projectResolve',  'SharesService',  'modalService', '$sanitize'];
+    SharesController.$inject = ['$scope', '$state', '$window', 'shareResolve', 'Authentication', 'Notification', 'projectResolve',  'SharesService',  'UsersService', 'modalService', '$sanitize'];
   
-    function SharesController($scope, $state, $window, share, Authentication, Notification, projectInfo,  SharesService, modalService, $sanitize) {
+    function SharesController($scope, $state, $window, share, Authentication, Notification, projectInfo,  SharesService, UsersService,  modalService, $sanitize) {
       var vm = this;
 
       vm.selected = undefined;
@@ -30,14 +30,6 @@
         }; 
       vm.customFilter = 'a'
     
-      vm.modelOptions = {
-        debounce: {
-          default: 500,
-          blur: 250
-        },
-        getterSetter: true
-      };
-
       vm.share = share;    
       console.log(share)  
       vm.share.storage = vm.share.storage || {}
@@ -58,6 +50,13 @@
         vm.share.bu = vm.share.bu || projectInfo.txtibucode;
         vm.share.projectCode = vm.share.projectCode || projectInfo.projectcode;
         vm.share.approvers = vm.share.approvers || projectInfo.dm + ';'+ projectInfo.pm;
+
+        //get users list
+
+        UsersService.getUsers({
+        }).$promise.then(function(res) {
+          vm.users = res
+        })
       }
       
       vm.authentication = Authentication;
@@ -129,7 +128,7 @@
       };
 
       modalService.showModal({}, modalOptions).then(function (result) {
-        SharesService.updateRequest({shareId: vm.share._id, action: 'approve'}, {"comment": vm.comment} ,function () {
+        SharesService.updateRequest({shareId: vm.share._id, action: 'approve'}, {"comment": $sanitize(vm.comment)} ,function () {
           $state.go('shares.list');
           Notification.success({ message: '<i class="glyphicon glyphicon-ok"></i>Request is successfully approved will take some time to process the request!' });
         });

@@ -257,7 +257,7 @@ exports.projectInfo = function(req, res) {
   });
   
 
-//   res.json({ txtibucode: 'MFGADM',
+//   res.json({ txtibucode: 'MDT' ,//'MFGADM', //NFSShare
 //   dm: 'subhankar           ',
 //   pm: 'Kaustav_Bhowmik     ',
 //   startDate: "2012-09-10T00:00:00.000Z",
@@ -265,4 +265,35 @@ exports.projectInfo = function(req, res) {
 //   city: "BANGALORE",
 //   projectcode: "CCDMEG"
 //  });
+}
+
+exports.getUsers = function(req, res) {
+  var ActiveDirectory = require('activedirectory');
+  console.log(config.ldap)
+  
+  var ADconfig = { 
+    url: config.ldap.url,
+    bindDN: config.ldap.bindDN, 
+    bindCredentials: config.ldap.bindCredentials, 
+    baseDN: config.ldap.searchBase
+ }
+
+  var ad = new ActiveDirectory(ADconfig);
+  console.log(ad);
+  var query = 'cn=users';;
+  ad.findUsers(query, true, function(err, users) {
+    if (err) {
+      console.log('ERROR: ' +JSON.stringify(err));
+      res.status(400).send(err);
+    } else {
+      if ((! users) || (users.length == 0)) {
+        console.log('No users found.');
+        res.json({});
+      }
+      else {
+        console.log('findUsers: '+JSON.stringify(users));
+        res.json(users);
+      }
+    }    
+  });
 }

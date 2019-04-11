@@ -43,6 +43,10 @@
       getUserProjectDetails: {
         method: 'GET',
         url: '/api/users/projectInfo'
+      },
+      getUsers: {
+        method: 'GET',
+        url: '/api/users/list'
       }
     });
 
