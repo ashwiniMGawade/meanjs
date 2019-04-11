@@ -30,7 +30,8 @@
         }; 
       vm.customFilter = 'a'
     
-      vm.share = share;    
+      vm.share = share;  
+      vm.aclGroups = [];  
       console.log(share)  
       vm.share.storage = vm.share.storage || {}
       vm.project = projectInfo;
@@ -41,7 +42,13 @@
           'volname': projectInfo.txtibucode, 
           'location':projectInfo.city
         }).$promise.then(function(res) {
-          vm.cifShareDetails = res
+          vm.cifShareDetails = res;
+          //get groups for existing cifs share
+          SharesService.getCifsShareACLGroups({
+            'sharename': vm.cifShareDetails.sharename
+          }).$promise.then(function(res) {
+            vm.aclGroups = res;
+          });
         })
         
         vm.project.startDate = new Date(projectInfo.startDate)
@@ -69,7 +76,8 @@
       vm.toggleActions = function() {
         vm.showActions = !vm.showActions;
       }
-     
+      
+      
       vm.getFilteredCategories = function() {
         if (vm.cifShareDetails.sharepath) {
           delete vm.categories.newShare;
@@ -89,6 +97,15 @@
         "retireVolumeWorkflow": "Retire Volume Workflow",
         "migration": "Project Migration Workflow"
       };
+
+      vm.allowedOperations = {
+        "addUserToShare": "Add User To Share",
+        "removeUserFromShare": "Remove User from Share",
+        "addGroupToShare": "Add entire group To Share",
+        "removeGroupFromShare": "Remove entire group from Share",
+        "addUserToADGroup": "Add User To Active Directory Group",
+        "removeUserFromADGroup": "Remove User from Active Directory Group",
+      }
 
       vm.fileSizeTypes = {
         "officeFile":"Office File",

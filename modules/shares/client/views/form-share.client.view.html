@@ -48,9 +48,9 @@
 
         {{vm.example15model}} -->
 
-          <div class="form-group" show-errors>
+            <div class="form-group" show-errors>
               <label for="category">Select Category</label>   
-              <select name="category" ng-model="vm.share.category" id="category" class="form-control" ng-options="key as value for (key , value) in vm.getFilteredCategories()" required ng-change="changedCategory(category)"  autofocus>
+              <select name="category" ng-model="vm.share.category" id="category" class="form-control" ng-options="key as value for (key , value) in vm.getFilteredCategories()" required ng-change="vm.changedCategory(category)"  autofocus>
                 <option value="">Please select a Category</option>
               </select>
               <div class="loader" ng-if="!vm.categories.length"></div>       
@@ -58,9 +58,39 @@
                 <p class="help-block error-text" ng-message="required">Category is required.</p>
               </div>              
             </div>
-          <div>
+
+            <div class="form-group" show-errors ng-if="vm.share.category == 'changePermission'">
+              <label for="operation">Select Operation</label>   
+              <select name="operation" ng-model="vm.share.operation" id="operation" class="form-control" ng-options="key as value for (key , value) in vm.allowedOperations" required autofocus>
+                <option value="">Please select a Operation</option>
+              </select>
+              <div ng-messages="vm.form.operation.$error" role="alert">
+                <p class="help-block error-text" ng-message="required">ACL Operation required.</p>
+              </div>              
+            </div>       
             
-            <div class="form-group" show-errors ng-if="vm.share.category == 'newShare' || vm.share.category == 'changePermission'"> 
+            <div class="form-group" show-errors ng-if="vm.share.category == 'changePermission'">
+              <label for="acl_group">Select ACL Group</label>   
+              <select name="acl_group" ng-model="vm.share.acl_group" id="acl_group" class="form-control" ng-options="group.groupName as group.groupName for group in vm.aclGroups" required >
+                <option value="">Please select a ACL group</option>
+              </select>
+              <div class="loader" ng-if="!vm.aclGroups.length"></div>       
+              <div ng-messages="vm.form.acl_group.$error" role="alert">
+                <p class="help-block error-text" ng-message="required">ACL group is required.</p>
+              </div>              
+            </div>
+            
+            <div class="form-group" show-errors ng-if="vm.share.category == 'changePermission' && vm.share.operation && vm.share.operation != 'removeGroupFromShare' &&  vm.share.operation != 'addGroupToShare'">
+              <label class="control-label" for="acl_users">UserIds</label>
+              <input name="acl_users" type="text" ng-model="vm.share.acl_users" id="acl_users" class="form-control" placeholder="UserIDs" required ng-pattern="/^[a-zA-Z\-0-9\._]*(?:;([a-zA-Z\-0-9\._])+)*$/">
+              <div ng-messages="vm.form.shareForm.acl_users.$error" role="alert">
+                <p class="help-block error-text" ng-message="required">UserIDs required.</p>
+                <p class="help-block error-text" ng-message="pattern">Only semicolon separated userIDs allowed</p>
+              </div>
+              <p class="help-block">Semicolon(;) seperated list of userIDs</p>
+            </div>
+            
+            <div class="form-group" show-errors ng-if="vm.share.category == 'newShare'"> 
                 <label class="control-label" for="readOnly">Read Only(DV)</label>
                 <input name="readOnly" type="text" ng-model="vm.share.readOnly" id="readOnly" class="form-control" placeholder="UserIDs" ng-required="vm.share.category == 'newShare'"  ng-pattern="/^[a-zA-Z\-0-9\._]*(?:;([a-zA-Z\-0-9\._])+)*$/"
                 >
@@ -70,7 +100,7 @@
                 </div>
                 <p class="help-block">Semicolon(;) seperated list of userIDs</p>
               </div>
-            <div class="form-group" show-errors ng-if="vm.share.category == 'newShare' || vm.share.category == 'changePermission'">
+            <div class="form-group" show-errors ng-if="vm.share.category == 'newShare'">
                 <label class="control-label" for="readAndWrite">Read And Write(PL)</label>
                 <input name="readAndWrite" type="text" ng-model="vm.share.readAndWrite" id="readAndWrite" class="form-control" placeholder="UserIDs" ng-required="vm.share.category == 'newShare'"  ng-pattern="/^[a-zA-Z\-0-9\._]*(?:;([a-zA-Z\-0-9\._])+)*$/">
                 <div ng-messages="vm.form.shareForm.readAndWrite.$error" role="alert">
@@ -79,7 +109,7 @@
                 </div>
                 <p class="help-block">Semicolon(;) seperated list of userIDs</p>
               </div>
-            <div class="form-group" show-errors ng-if="vm.share.category == 'newShare' || vm.share.category == 'changePermission'">  
+            <div class="form-group" show-errors ng-if="vm.share.category == 'newShare'">  
                 <label class="control-label" for="readWriteAndModify">Read Write And Modify(CC)</label>
                 <input name="readWriteAndModify" type="text" ng-model="vm.share.readWriteAndModify" id="readWriteAndModify" class="form-control" placeholder="UserIDs" ng-required="vm.share.category == 'newShare'" ng-pattern="/^([a-zA-Z\-0-9\._]*(?:;([a-zA-Z\-0-9\._])+)){1,}$/">
                 <div ng-messages="vm.form.shareForm.readWriteAndModify.$error" role="alert">
@@ -149,9 +179,8 @@
               <div ng-messages="vm.form.shareForm.cost.$error" role="alert">
                 <p class="help-block error-text" ng-message="required">Please select any of the storage requirement.</p>
               </div>
-            </div>
-          </div> 
-
+            </div>            
+`
           <div ng-if="vm.share.category == 'rename'">
             <div class="form-group" show-errors>
                 <label class="control-label" for="NewName">New name</label>

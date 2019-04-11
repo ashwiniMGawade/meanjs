@@ -15,6 +15,10 @@ module.exports = function (app) {
   app.route('/api/shares/getCifsShareDetails')
     .get(shares.getCifsShareDetails)
 
+  app.route('/api/shares/getCifsShareACLGroups')
+    .get(shares.getCifsShareACLGroups)
+    
+
   // Single share routes
   app.route('/api/shares/:shareId').all(sharesPolicy.isAllowed)
     .get(shares.read)

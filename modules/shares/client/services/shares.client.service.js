@@ -18,6 +18,11 @@
           method: 'GET',
           url: '/api/shares/getCifsShareDetails'
         },
+        getCifsShareACLGroups: {
+          method: 'GET',
+          url: '/api/shares/getCifsShareACLGroups',
+          isArray: true
+        },
         updateRequest: {
           method: 'PUT',
           params: {

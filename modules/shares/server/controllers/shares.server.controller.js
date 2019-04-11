@@ -246,3 +246,14 @@ exports.getCifsShareDetails = function (req, res) {
     }
   }) 
 }
+
+exports.getCifsShareACLGroups = function(req, res) {
+  wfaDB.getCifsShareACLGroups(req.query.sharename.toLowerCase(), function(err, details) {
+    if (err) {
+      res.json({});
+    } else {
+      console.log(details)
+      res.json(details);
+    }
+  }) 
+}

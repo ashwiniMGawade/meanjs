@@ -13,7 +13,7 @@ var mysql = require('mysql2'),
 console.log(config.wfa.sql);
 config.wfa.sql.database = '';
 var connectionPool = mysql.createPool(config.wfa.sql);
-var getCifsShare, getClusterInfo;
+var getCifsShare, getClusterInfo, getCifsShareACLGroups;
 
 getCifsShare = function (location, volumename, res) {
   var cifsShare = {
@@ -67,10 +67,10 @@ getCifsShare = function (location, volumename, res) {
         connection.query(
           args, 
           [
-            cifsShareDetails.primaryvserver,
-            cifsShareDetails.primarycluster,
-            cifsShareDetails.primarycluster,
-            volumename
+            cifsShareDetails.primaryvserver.toLowerCase(),
+            cifsShareDetails.primarycluster.toLowerCase(),
+            cifsShareDetails.primarycluster.toLowerCase(),
+            volumename.toLowerCase()
           ], function (err, result) {
             console.log('Server getCifsShare: MySQL Read: Result: ' + util.inspect(result, {showHidden: false, depth: null}));
             if (err) {
@@ -142,5 +142,45 @@ getClusterInfo = function (location, res) {
   });
 };
 
+getCifsShareACLGroups = function(sharename, res) {
+  console.log('Server getCifsShareACLGroups: MySQL Read: Retrieving acl groups of the share: \"' + sharename + '\" ');
+
+  var args = 'SELECT ' +
+  'DISTINCT SUBSTRING_INDEX(cm_storage.cifs_share_acl.user_or_group,"\\\\",-1) as groupName '+   
+  'FROM '+
+  'cm_storage.cifs_share_acl, '+
+  'cm_storage.cifs_share '+                      
+  'WHERE '+
+  'cm_storage.cifs_share.id = cm_storage.cifs_share_acl.cifs_share_id '+  
+  'AND LOWER(cm_storage.cifs_share.name) = ? '+                                              
+  'AND LOWER(cm_storage.cifs_share_acl.user_or_group) LIKE ?';
+
+  console.log('Server getCifsShareACLGroups: MySQL Read: Query: ' + util.inspect(args, {showHidden: false, depth: null}));
+
+  console.log([sharename.toLowerCase(), "%"+sharename.toLowerCase()+"%"])
+
+  connectionPool.getConnection(function(err, connection) {
+    if(err){
+      console.log('Server getCifsShareACLGroups: MySQL Read: Connection Error: ' + err);
+      res(err, cifsShare);
+    }else{
+      connection.query(args, [sharename.toLowerCase(), "%"+sharename.toLowerCase()+"%"], function (err, result) {
+        console.log('Server getCifsShareACLGroups: MySQL Read: Result: ' + util.inspect(result, {showHidden: false, depth: null}));
+        if (err) {
+          console.log('Server getCifsShareACLGroups: MySQL Read: Error: ' + err);
+          res(err, {});
+        } else if (result.length > 0) {          
+          res(null, result);
+        } else {
+          console.log('Server getClusterInfo(): MySQL Read: No Records found');
+          res("Server Read: No records found", {});
+        }
+        connection.release();
+      });
+    }
+  });
+};
+
 exports.getCifsShare = getCifsShare;
 exports.getClusterInfo = getClusterInfo;
+exports.getCifsShareACLGroups = getCifsShareACLGroups;

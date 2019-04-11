@@ -7,14 +7,24 @@
             <tr><th>City</th><td ng-bind="vm.share.city"></td></tr>
             <tr><th>Business Unit</th><td ng-bind="vm.share.bu"></td></tr>
             <tr><th>Project Code</th><td ng-bind="vm.share.projectCode"></td></tr>
+            <tr><th>Category</th><td ng-bind="vm.share.category"></td></tr>
+
             <tr ng-if="vm.share.category=='newShare'"><th>Cost</th><td ng-bind="vm.share.cost"></td></tr>
             <tr ng-if="vm.share.category=='newShare'"><th>Size (GB)</th><td ng-bind="vm.share.sizegb"></td></tr>
             <tr ng-if="vm.share.category=='newShare'"><th>Read Only(DV)</th><td ng-bind="vm.share.readOnly" class="word-break-all"></td></tr>
             <tr ng-if="vm.share.category=='newShare'"><th>Read And Write(PL)</th><td ng-bind="vm.share.readAndWrite" class="word-break-all"></td></tr>
             <tr ng-if="vm.share.category=='newShare'"><th>Read Write And Modify(CC)</th><td ng-bind="vm.share.readWriteAndModify" class="word-break-all"></td></tr>
+
             <tr ng-if="vm.share.category=='rename'"><th>New Name</th><td ng-bind="vm.share.newName" class="word-break-all"></td></tr>
+
             <tr ng-if="vm.share.category=='resize'"><th>New Size</th><td ng-bind="vm.share.newSizegb" class="word-break-all"></td></tr>
-            <tr><th>Category</th><td ng-bind="vm.share.category"></td></tr>
+
+            <tr ng-if="vm.share.category=='changePermission'"><th>ACL Operation selected</th><td ng-bind="vm.share.operation" class="word-break-all"></td></tr>
+            <tr ng-if="vm.share.category=='changePermission'"><th>ACL Group</th><td ng-bind="vm.share.acl_group" class="word-break-all"></td></tr>
+            <tr ng-if="vm.share.category=='changePermission'"><th>ACL UserIds</th><td ng-bind="vm.share.acl_users" class="word-break-all"></td></tr>
+
+           
+
             <tr><th>Status</th><td ng-bind="vm.share.status" class="word-break-all"></td></tr>
             <tr><th>Request Raised On</th>
                 <td ng-bind="vm.share.created | date:'mediumDate'"></td></tr>
