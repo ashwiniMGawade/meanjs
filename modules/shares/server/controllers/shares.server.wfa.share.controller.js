@@ -10,6 +10,7 @@ var client = new Client(config.wfa.httpsClientOptions);
 exports.executeWfaWorkflow = function (req, res) {
 
   var args = getWorkflowArgs(req);
+  var wfaJobId = getWFAjob(req.share);
 
   console.log('share WFA Create: Args : ' + util.inspect(args, {showHidden: false, depth: null}));
   console.log("executing job", config.wfa.workflows[req.share.category]);
@@ -87,7 +88,7 @@ var getWorkflowArgs = function(req) {
         '<userInputEntry value="' + (req.primaryvserver || '') + '" key="vserverName"/>' +
         '<userInputEntry value="' + (req.volumeName || '') + '" key="volumeName"/>' +
         '<userInputEntry value="' + (req.shareName || '') + '" key="qtreeName"/>' +
-        '<userInputEntry value="' + (req.share.sizegb || '') + '" key="newSize"/>' +
+        '<userInputEntry value="' + (req.share.newSizegb || '') + '" key="newSize"/>' +
         '</userInputValues>' +
         '<comments>DFaaS Engine share Create: ' + req.share._id + ' ' + req.share.user.displayName + '</comments>' +
         '</workflowInput>';
@@ -99,7 +100,20 @@ var getWorkflowArgs = function(req) {
         '<userInputEntry value="' + (req.primaryvserver || '') + '" key="vserverName"/>' +
         '<userInputEntry value="' + (req.volumeName || '') + '" key="volumeName"/>' +
         '<userInputEntry value="' + (req.shareName || '') + '" key="qtreeName"/>' +
-        '<userInputEntry value="' + (req.share.sizegb || '') + '" key="newSize"/>' +
+        '<userInputEntry value="' + (req.share.newName || '') + '" key="newName"/>' +
+        '</userInputValues>' +
+        '<comments>DFaaS Engine share Create: ' + req.share._id + ' ' + req.share.user.displayName + '</comments>' +
+        '</workflowInput>';
+      break;
+      case 'changePermission': 
+      args.data = '<workflowInput>' +
+        '<userInputValues>' +
+        '<userInputEntry value="' + (req.primarycluster || '') + '" key="clusterName"/>' +
+        '<userInputEntry value="' + (req.primaryvserver || '') + '" key="vserverName"/>' +
+        '<userInputEntry value="' + (req.volumeName || '') + '" key="volumeName"/>' +
+        '<userInputEntry value="' + (req.shareName || '') + '" key="shareName"/>' +
+        '<userInputEntry value="' + (req.share.acl_group || '') + '" key="groupname"/>' +
+        (req.share.acl_user ? ('<userInputEntry value="' + (req.share.acl_user || '') + '" key="username"/>'): '') +
         '</userInputValues>' +
         '<comments>DFaaS Engine share Create: ' + req.share._id + ' ' + req.share.user.displayName + '</comments>' +
         '</workflowInput>';
@@ -110,6 +124,14 @@ var getWorkflowArgs = function(req) {
 
   return args;
 
+}
+
+var getWFAjob = function(share) {
+  if (share.category != 'changePermission') {
+    return config.wfa.workflows[share.category];
+  } else {
+    return config.wfa.workflows[share.category][share.operation];
+  }
 }
 
 

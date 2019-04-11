@@ -81,13 +81,12 @@
             </div>
             
             <div class="form-group" show-errors ng-if="vm.share.category == 'changePermission' && vm.share.operation && vm.share.operation != 'removeGroupFromShare' &&  vm.share.operation != 'addGroupToShare'">
-              <label class="control-label" for="acl_users">UserIds</label>
-              <input name="acl_users" type="text" ng-model="vm.share.acl_users" id="acl_users" class="form-control" placeholder="UserIDs" required ng-pattern="/^[a-zA-Z\-0-9\._]*(?:;([a-zA-Z\-0-9\._])+)*$/">
-              <div ng-messages="vm.form.shareForm.acl_users.$error" role="alert">
-                <p class="help-block error-text" ng-message="required">UserIDs required.</p>
-                <p class="help-block error-text" ng-message="pattern">Only semicolon separated userIDs allowed</p>
+              <label class="control-label" for="acl_user">UserId</label>
+              <input name="acl_user" type="text" ng-model="vm.share.acl_user" id="acl_user" class="form-control" placeholder="UserIDs" required ng-pattern="/^[a-zA-Z\-0-9\._]*$/">
+              <div ng-messages="vm.form.shareForm.acl_user.$error" role="alert">
+                <p class="help-block error-text" ng-message="required">UserID required.</p>
+                <p class="help-block error-text" ng-message="pattern">Please enter valid userId.</p>
               </div>
-              <p class="help-block">Semicolon(;) seperated list of userIDs</p>
             </div>
             
             <div class="form-group" show-errors ng-if="vm.share.category == 'newShare'"> 

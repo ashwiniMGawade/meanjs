@@ -68,18 +68,18 @@ var ShareSchema = new Schema({
     required: function() { return this.category === 'newShare' ?'Read Write And Modify Users cannot be blank': false },   
     match: [ /^[a-zA-Z\-0-9\._]*(?:;([a-zA-Z\-0-9\._])+)*$/ , 'readWriteAndModify: Only semicolon separated userIDs allowed']
   },
-  acl_users: {
+  acl_user: {
     type: String,
     default: '',
     trim: true,
     required: function() { return this.category === 'changePermission' ? 'ACL Users cannot be blank': false },
-    match: [ /^[a-zA-Z\-0-9\._]*(?:;([a-zA-Z\-0-9\._])+)*$/ , 'ACL Users: Only semicolon separated userIDs allowed']
+    match: [ /^[a-zA-Z\-0-9\._]*$/ , 'ACL User: Please enter valid userId ']
   },
   operation: {
     type:String,
     required: function() { return this.category === 'changePermission' ? 'ACL Operation is required': false },
     enum: {
-            values: ['addUserToShare', 'removeUserFromShare', 'addGroupToShare', 'renaremoveGroupFromShareme', 'addUserToADGroup', 'removeUserFromADGroup'],
+            values: ['addUserToShare', 'removeUserFromShare', 'addGroupToShare', 'removeGroupFromShare', 'addUserToADGroup', 'removeUserFromADGroup'],
             message: '`{VALUE}` not a valid value for ACL Operation'
           }
   },
