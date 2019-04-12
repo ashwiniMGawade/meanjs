@@ -66,8 +66,8 @@ getCifsShare = function (location, volumename, sharename, res) {
           'OR LOWER(cm_storage.cluster.primary_address) = LOWER(?) ' +   
       ')' +                                                                      
       'AND LOWER(cm_storage.volume.name)= LOWER(?)  ' ;
-      // 'AND LOWER(cm_storage.qtree.name) = LOWER(?) '+
-      // 'AND LOWER(cm_storage.cifs_share.name)= LOWER(?)  ';
+      'AND LOWER(cm_storage.qtree.name) = LOWER(?) '+
+      'AND LOWER(cm_storage.cifs_share.name)= LOWER(?)  ';
 
     console.log('Server getCifsShare: MySQL Read: Query: ' + util.inspect(args, {showHidden: false, depth: null}));
 
