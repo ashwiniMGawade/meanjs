@@ -98,7 +98,7 @@ var ShareSchema = new Schema({
     type:String,
     required: function() { return (this.category === 'changePermission' && this.operation == 'addUserOrGroupToShare') ? 'Permissions are required': false },
     enum: {
-            values: ['Full Control', 'Read', 'Write'],
+            values: ['FullControl', 'Read', 'Modify'],
             message: '`{VALUE}` not a valid value for ACL Permission'
           }
   },

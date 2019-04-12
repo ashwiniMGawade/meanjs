@@ -123,9 +123,9 @@
       }
 
       vm.allowedPermissions = {
-        'Full Control': 'Full Control',
+        'FullControl': 'Full Control',
         'Read': 'Read',
-        'Write': 'Write'
+        'Modify': 'Modify'
       }
 
       vm.fileSizeTypes = {
