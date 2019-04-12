@@ -112,7 +112,7 @@ var getWorkflowArgs = function(req) {
         '<userInputEntry value="' + (req.primaryvserver || '') + '" key="vserverName"/>' +
         '<userInputEntry value="' + (req.volumeName || '') + '" key="volumeName"/>' +
         '<userInputEntry value="' + (req.shareName || '') + '" key="shareName"/>' +
-        (req.share.acl_group || req.share.userOrGroupName) ? '<userInputEntry value="' + (req.share.acl_group || req.share.userOrGroupName) + '" key="groupName"/>': '' +
+        (req.share.acl_group || req.share.userOrGroupName) ? ('<userInputEntry value="' + (req.share.acl_group || req.share.userOrGroupName) + '" key="groupName"/>'): '' +
         (req.share.userOrGroupPermissions ? ('<userInputEntry value="' + (req.share.userOrGroupPermissions || '') + '" key="permission"/>'): '') +
         '</userInputValues>' +
         '<comments>DFaaS Engine share Create: ' + req.share._id + ' ' + req.share.user.displayName + '</comments>' +
