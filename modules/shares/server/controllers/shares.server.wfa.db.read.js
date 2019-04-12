@@ -15,13 +15,17 @@ config.wfa.sql.database = '';
 var connectionPool = mysql.createPool(config.wfa.sql);
 var getCifsShare, getClusterInfo, getCifsShareACLGroups;
 
-getCifsShare = function (location, volumename, res) {
+getCifsShare = function (location, volumename, sharename, res) {
   var cifsShare = {
     sharename: '',
     sharepath: '',
     clustername:'',
     vservername:'',
     volumename:'',
+    sizeGB: '',
+    softLimit:'',
+    hardLimit:'',
+    usedGB:''
   };
   var cifsShareDetails;
   getClusterInfo(location, function(err, details) {
@@ -38,16 +42,22 @@ getCifsShare = function (location, volumename, res) {
       'cm_storage.cluster.primary_address AS ClusterIP, ' +
       'cm_storage.vserver.name AS VserverName, ' +
       'cm_storage.volume.name AS VolumeName, ' +
-      'cm_storage.cifs_share.path AS Path ' +            
+      'cm_storage.cifs_share.path AS Path, ' +  
+      'round(cm_storage.volume.size_mb/1024) as sizeGB, '+
+      'CEIL(cm_storage.qtree.disk_soft_limit_mb/1024) as softLimit, '+
+      'CEIL(cm_storage.qtree.disk_limit_mb/1024) as hardLimit, '+
+      'CEIL(cm_storage.qtree.disk_used_mb/1024) as usedGB '+        
     'FROM ' +
       'cm_storage.cifs_share,' +
       'cm_storage.vserver,' +
       'cm_storage.volume,' +
-      'cm_storage.cluster  ' + 
+      'cm_storage.cluster,' + 
+      'cm_storage.qtree '+
     'where ' +
       'cm_storage.volume.junction_path = SUBSTRING_INDEX(cm_storage.cifs_share.path, "/", 2)  '+ 
       'AND cm_storage.vserver.id = cm_storage.cifs_share.vserver_id  '+     
       'AND cm_storage.volume.vserver_id = cm_storage.vserver.id  '+  
+      'AND cm_storage.qtree.volume_id = cm_storage.volume.id '+
       'AND cm_storage.cifs_share.name NOT LIKE "%$%" '+  
       'AND cm_storage.cluster.id = cm_storage.vserver.cluster_id   '+  
       'AND LOWER(cm_storage.vserver.name) = LOWER(?)  '+ 
@@ -55,7 +65,9 @@ getCifsShare = function (location, volumename, res) {
           'LOWER(cm_storage.cluster.name) = LOWER(?) '+                              
           'OR LOWER(cm_storage.cluster.primary_address) = LOWER(?) ' +   
       ')' +                                                                      
-      'AND LOWER(cm_storage.volume.name)= LOWER(?)  ' ;
+      'AND LOWER(cm_storage.volume.name)= LOWER(?)  ' +
+      'AND LOWER(cm_storage.qtree.name) = LOWER(?) '+
+      'AND LOWER(cm_storage.cifs_share.name)= LOWER(?)  ';
 
     console.log('Server getCifsShare: MySQL Read: Query: ' + util.inspect(args, {showHidden: false, depth: null}));
 
@@ -70,7 +82,9 @@ getCifsShare = function (location, volumename, res) {
             cifsShareDetails.primaryvserver.toLowerCase(),
             cifsShareDetails.primarycluster.toLowerCase(),
             cifsShareDetails.primarycluster.toLowerCase(),
-            volumename.toLowerCase()
+            volumename.toLowerCase(),
+            sharename.toLowerCase(),
+            sharename.toLowerCase()
           ], function (err, result) {
             console.log('Server getCifsShare: MySQL Read: Result: ' + util.inspect(result, {showHidden: false, depth: null}));
             if (err) {
@@ -82,6 +96,11 @@ getCifsShare = function (location, volumename, res) {
                 cifsShare.vservername = result[0].VserverName;
                 cifsShare.clustername = result[0].ClusterName;
                 cifsShare.volumename = result[0].VolumeName;
+                cifsShare.sizeGB = result[0].sizeGB;
+                cifsShare.softLimit = result[0].softLimit;
+                cifsShare.hardLimit = result[0].hardLimit;
+                cifsShare.usedGB = result[0].usedGB;
+
               
               res(null, cifsShare);
             } else {

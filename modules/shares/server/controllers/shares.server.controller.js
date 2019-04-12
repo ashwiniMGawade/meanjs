@@ -237,7 +237,7 @@ exports.shareByID = function (req, res, next, id) {
 };
 
 exports.getCifsShareDetails = function (req, res) {
-  wfaDB.getCifsShare(req.query.location.toLowerCase(), req.query.volname, function(err, details) {
+  wfaDB.getCifsShare(req.query.location.toLowerCase(), req.query.volname, req.query.sharename, function(err, details) {
     if (err) {
       res.json({});
     } else {

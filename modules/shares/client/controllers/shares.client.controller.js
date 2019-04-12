@@ -39,10 +39,14 @@
       
       if ( projectInfo) {
         SharesService.getCifsShareDetails({
-          'volname': projectInfo.txtibucode, 
+          'volname': projectInfo.txtibucode,
+          'sharename': projectInfo.projectcode, 
           'location':projectInfo.city
         }).$promise.then(function(res) {
           vm.cifShareDetails = res;
+          vm.usedsizegb = vm.cifShareDetails.usedGB || 0;
+          vm.allocatedSize = vm.cifShareDetails.sizeGB || 0;
+          vm.availableSize = vm.allocatedSize - vm.usedsizegb;
           //get groups for existing cifs share
           SharesService.getCifsShareACLGroups({
             'sharename': vm.cifShareDetails.sharename

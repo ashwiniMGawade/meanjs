@@ -43,7 +43,15 @@ module.exports = {
     },
     workflows: {
       'newShare': 'https://'+process.env.WFA_SERVER_HOST+'/rest/workflows/7d394429-b44d-41bb-9ba5-901ce5264b99/jobs',
-      'changePermission':'https://'+process.env.WFA_SERVER_HOST+'/rest/workflows/c47814db-35c9-423b-977e-1f35e365f005/jobs',
+      'changePermission':
+      {
+        'addUserToShare': 'https://'+process.env.WFA_SERVER_HOST+'/rest/workflows/c47814db-35c9-423b-977e-1f35e365f005/jobs',
+        'removeUserFromShare': 'https://'+process.env.WFA_SERVER_HOST+'/rest/workflows/c47814db-35c9-423b-977e-1f35e365f005/jobs',
+        'addGroupToShare': 'https://'+process.env.WFA_SERVER_HOST+'/rest/workflows/c47814db-35c9-423b-977e-1f35e365f005/jobs',
+        'removeGroupFromShare': 'https://'+process.env.WFA_SERVER_HOST+'/rest/workflows/c47814db-35c9-423b-977e-1f35e365f005/jobs',
+        'addUserToADGroup': 'https://'+process.env.WFA_SERVER_HOST+'/rest/workflows/c47814db-35c9-423b-977e-1f35e365f005/jobs',
+        'removeUserFromADGroup': 'https://'+process.env.WFA_SERVER_HOST+'/rest/workflows/c47814db-35c9-423b-977e-1f35e365f005/jobs',
+      },
       'resize':'https://'+process.env.WFA_SERVER_HOST+'/rest/workflows/3540f3c5-b496-41da-8503-b6a070e512f3/jobs',
       'rename':'https://'+process.env.WFA_SERVER_HOST+'/rest/workflows/c47814db-35c9-423b-977e-1f35e365f005/jobs',
       'restoreProjectShare':'https://'+process.env.WFA_SERVER_HOST+'/rest/workflows/c47814db-35c9-423b-977e-1f35e365f005/jobs',
