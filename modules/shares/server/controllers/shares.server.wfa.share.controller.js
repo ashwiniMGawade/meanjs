@@ -138,7 +138,7 @@ var getWFAjob = function(share) {
 
 
 exports.wfaJobStatus = function (req, res) {
-
+  
   var args = {
     path:{ 'jobId': req.jobId },
     headers:{ 'Authorization': config.wfa.authorization, 'Content-Type': 'application/xml' },
@@ -155,8 +155,8 @@ exports.wfaJobStatus = function (req, res) {
 
   //console.log('share WFA CreateStatus: Args:' + util.inspect(args, {showHidden: false, depth: null}));
 
-
-  var shareCreateStatusReq = client.get(config.wfa.workflows[req.category] + '/${jobId}', args, function (data) {
+  var wfaJobId = getWFAjob(req.share);
+  var shareCreateStatusReq = client.get(wfaJobId + '/${jobId}', args, function (data) {
     var shareOut;
 
     if (Buffer.isBuffer(data)) {
@@ -194,7 +194,7 @@ exports.wfaJobStatus = function (req, res) {
 
 
 exports.wfaJobOut = function (req, res) {
-
+  var wfaJobId = getWFAjob(req.share);
   var args = {
     path:{ 'jobId': req.jobId },
     headers:{ 'Authorization': config.wfa.authorization, 'Content-Type': 'application/xml' },
@@ -210,8 +210,8 @@ exports.wfaJobOut = function (req, res) {
   };
 
   //console.log('share WFA CreateOut: Args: ' + util.inspect(args, {showHidden: false, depth: null}));
-
-  var shareCreateOutReq = client.get(config.wfa.workflows[req.category] + '/${jobId}/plan/out', args, function (data) {
+  wfaJobId = 
+  var shareCreateOutReq = client.get(wfaJobId + '/${jobId}/plan/out', args, function (data) {
     var shareOut;
 
     if (Buffer.isBuffer(data)) {
