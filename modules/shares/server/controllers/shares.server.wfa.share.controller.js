@@ -210,7 +210,7 @@ exports.wfaJobOut = function (req, res) {
   };
 
   //console.log('share WFA CreateOut: Args: ' + util.inspect(args, {showHidden: false, depth: null}));
-  wfaJobId = 
+ 
   var shareCreateOutReq = client.get(wfaJobId + '/${jobId}/plan/out', args, function (data) {
     var shareOut;
 
