@@ -259,7 +259,7 @@
 
         //set the new value for share if selected category is resize
         if (vm.share.category == 'resize') {
-          vm.share.newSizegb = vm.availableSize + incrementGb
+          vm.share.newSizegb = vm.availableSize + vm.incrementGb
         }
   
         // Create a new share, or update the current instance
