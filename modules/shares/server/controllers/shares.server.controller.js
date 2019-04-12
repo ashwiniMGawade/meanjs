@@ -125,7 +125,7 @@ exports.updateRequest = function (req, res) {
             console.log('wfaJobStatus: Not completed yet, polling again in 30 seconds, Job ID: ' + jobId);
             setTimeout(function () { untilCreated(share, jobId); }, config.wfa.refreshRate);
           } else {
-            saveShareStatus(share, 'Operational'); 
+            saveShareStatus(share, 'Completed'); 
           }
         }
       });
@@ -143,7 +143,7 @@ exports.updateRequest = function (req, res) {
     //       saveShareStatus(share, 'Contact Support');
     //     } else {
     //       if (resWfa) {            
-    //         saveShareStatus(share, 'Operational');                       
+    //         saveShareStatus(share, 'Completed');                       
     //       } else {
     //         console.log('wfaJobOut: No output parameters: Response from WFA: '+ resWfa);
     //         saveShareStatus(share, 'Contact Support');
