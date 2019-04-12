@@ -28,7 +28,6 @@ module.exports = function (config) {
 	  },
 	  function(req, user, done) {
 		  // Set the provider data and include tokens
-				console.log(user)
 		    var providerData = {};
 				providerData.memberOf = user.memberOf;
 				
