@@ -227,7 +227,7 @@
             </div>
             <div class="form-group" show-errors>
                 <label class="control-label" for="incrementGb">Increment/Decrement the size By(GB)</label>
-                <input name="incrementGb" type="number" ng-model="vm.incrementGb" id="incrementGb" class="form-control" placeholder="Size" ng-required="vm.share.category == 'newShare'"  step="5" ng-min="-{{vm.availableSize}}">
+                <input name="incrementGb" type="number" ng-model="vm.incrementGb" id="incrementGb" class="form-control" placeholder="Size" ng-required="vm.share.category == 'newShare'"  step="5" ng-min="{{-vm.availableSize}}">
                 <div ng-messages="vm.form.shareForm.incrementGb.$error" role="alert">
                   <p class="help-block error-text" ng-message="required">Please select the size in step of 5.</p>
                   <p class="help-block error-text" ng-message="min">Please select the size lesser than or equal to {{vm.availableSize}}.</p>
