@@ -68,24 +68,31 @@ var ShareSchema = new Schema({
     required: function() { return this.category === 'newShare' ?'Read Write And Modify Users cannot be blank': false },   
     match: [ /^[a-zA-Z\-0-9\._]*(?:;([a-zA-Z\-0-9\._])+)*$/ , 'readWriteAndModify: Only semicolon separated userIDs allowed']
   },
-  acl_user: {
+  acl_users: {
     type: String,
     default: '',
     trim: true,
-    required: function() { return this.category === 'changePermission' ? 'ACL Users cannot be blank': false },
-    match: [ /^[a-zA-Z\-0-9\._]*$/ , 'ACL User: Please enter valid userId ']
+    required: function() { return (this.category === 'changePermission' && (this.operation == 'addUserToADGroup'|| this.operation == 'removeUserFromADGroup') )? 'ACL Users cannot be blank': false },
+    match: [ /^[a-zA-Z\-0-9\._]*(?:;([a-zA-Z\-0-9\._])+)*$/ , 'ACL User: Only semicolon separated userIDs allowed']
   },
   operation: {
     type:String,
     required: function() { return this.category === 'changePermission' ? 'ACL Operation is required': false },
     enum: {
-            values: ['addUserToShare', 'removeUserFromShare', 'addGroupToShare', 'removeGroupFromShare', 'addUserToADGroup', 'removeUserFromADGroup'],
+            values: ['addUserOrGroupToShare', 'removeUserOrGroupFromShare', 'addUserToADGroup', 'removeUserFromADGroup'],
             message: '`{VALUE}` not a valid value for ACL Operation'
           }
   },
   acl_group:{
     type:String,
     required: function() { return this.category === 'changePermission' ? 'ACL Group is required': false }
+  },
+  userOrGroupName: {
+    type: String,
+    default: '',
+    trim: true,
+    required: function() { return (this.category === 'changePermission' && this.operation == 'addUserOrGroupToShare') ? 'User or group name cannot be blank': false },
+    match: [ /^[a-zA-Z\-0-9\._]*$/ , 'User or group name can only contain alpha numeric chars including . and _ allowed']
   },
   storage: {},
   sizegb: {

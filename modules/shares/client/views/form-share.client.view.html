@@ -69,23 +69,36 @@
               </div>              
             </div>       
             
-            <div class="form-group" show-errors ng-if="vm.share.category == 'changePermission'">
-              <label for="acl_group">Select ACL Group</label>   
-              <select name="acl_group" ng-model="vm.share.acl_group" id="acl_group" class="form-control" ng-options="group.groupName as group.groupName for group in vm.aclGroups" required >
+            <div class="form-group" show-errors ng-if="vm.share.category == 'changePermission' &&  (vm.share.operation == 'addUserToADGroup' || vm.share.operation == 'removeUserFromADGroup' || vm.share.operation == 'removeUserOrGroupFromShare')">
+
+              <label ng-if="vm.share.operation == 'addUserToADGroup' || vm.share.operation == 'removeUserFromADGroup'" for="acl_group">Select ACL Group</label>  
+
+              <label ng-if="vm.share.operation == 'removeUserOrGroupFromShare'" for="acl_group">Select ACL Group or user to remove</label>  
+
+              <select name="acl_group" ng-model="vm.share.acl_group" id="acl_group" class="form-control" ng-options="group.groupName as group.groupName for group in vm.getACLgroups()" required >
                 <option value="">Please select a ACL group</option>
               </select>
-              <div class="loader" ng-if="!vm.aclGroups.length"></div>       
+              <div class="loader" ng-if="!vm.aclGroups.length"></div>
               <div ng-messages="vm.form.acl_group.$error" role="alert">
                 <p class="help-block error-text" ng-message="required">ACL group is required.</p>
               </div>              
             </div>
+
+            <div class="form-group" show-errors ng-if="vm.share.category == 'changePermission' && vm.share.operation && vm.share.operation == 'addUserOrGroupToShare'">
+                <label class="control-label" for="userOrGroupName">User Or Group name</label>
+                <input name="userOrGroupName" type="text" ng-model="vm.share.userOrGroupName" id="userOrGroupName" class="form-control" placeholder="User or Group name" required ng-pattern="/^[a-zA-Z\-0-9\._]*$/">
+                <div ng-messages="vm.form.shareForm.userOrGroupName.$error" role="alert">
+                  <p class="help-block error-text" ng-message="required">User or Group name required.</p>
+                  <p class="help-block error-text" ng-message="pattern">Alpha numeric chars including . and _  are allowed</p>
+                </div>
+              </div>
             
-            <div class="form-group" show-errors ng-if="vm.share.category == 'changePermission' && vm.share.operation && vm.share.operation != 'removeGroupFromShare' &&  vm.share.operation != 'addGroupToShare'">
-              <label class="control-label" for="acl_user">UserId</label>
-              <input name="acl_user" type="text" ng-model="vm.share.acl_user" id="acl_user" class="form-control" placeholder="UserIDs" required ng-pattern="/^[a-zA-Z\-0-9\._]*$/">
-              <div ng-messages="vm.form.shareForm.acl_user.$error" role="alert">
-                <p class="help-block error-text" ng-message="required">UserID required.</p>
-                <p class="help-block error-text" ng-message="pattern">Please enter valid userId.</p>
+            <div class="form-group" show-errors ng-if="vm.share.category == 'changePermission' && vm.share.operation && (vm.share.operation == 'addUserToADGroup' || vm.share.operation == 'removeUserFromADGroup')">
+              <label class="control-label" for="acl_users">UserId</label>
+              <input name="acl_users" type="text" ng-model="vm.share.acl_users" id="acl_users" class="form-control" placeholder="UserIDs" required ng-pattern="/^[a-zA-Z\-0-9\._]*(?:;([a-zA-Z\-0-9\._])+)*$/">
+              <div ng-messages="vm.form.shareForm.acl_users.$error" role="alert">
+                <p class="help-block error-text" ng-message="required">UserIDs required.</p>
+                <p class="help-block error-text" ng-message="pattern">Only semicolon separated userIDs allowed</p>
               </div>
             </div>
             

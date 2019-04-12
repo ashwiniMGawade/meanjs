@@ -6,9 +6,9 @@
       .controller('SharesController', SharesController);
       
   
-    SharesController.$inject = ['$scope', '$state', '$window', 'shareResolve', 'Authentication', 'Notification', 'projectResolve',  'SharesService',  'UsersService', 'modalService', '$sanitize'];
+    SharesController.$inject = ['$scope', '$state', '$window', 'shareResolve', 'Authentication', 'Notification', 'projectResolve',  'SharesService',  'UsersService', 'modalService', '$sanitize', '$filter'];
   
-    function SharesController($scope, $state, $window, share, Authentication, Notification, projectInfo,  SharesService, UsersService,  modalService, $sanitize) {
+    function SharesController($scope, $state, $window, share, Authentication, Notification, projectInfo,  SharesService, UsersService,  modalService, $sanitize, $filter) {
       var vm = this;
 
       vm.selected = undefined;
@@ -53,7 +53,20 @@
           }).$promise.then(function(res) {
             vm.aclGroups = res;
           });
-        })
+        });
+
+        vm.getACLgroups = function() {
+          if (vm.aclGroups.length > 0) {
+            if (vm.share.operation == 'removeUserOrGroupFromShare') {
+              console.log(vm.aclGroups);
+              return vm.aclGroups;
+            }
+            if (vm.share.operation == 'addUserToADGroup' || vm.share.operation == 'removeUserFromADGroup') {
+              var data = $filter('filter')(vm.aclGroups, vm.cifShareDetails.sharename);
+              return data;
+            }
+          }
+        }
         
         vm.project.startDate = new Date(projectInfo.startDate)
         vm.project.endDate = new Date(projectInfo.endDate)
@@ -86,9 +99,9 @@
         if (vm.cifShareDetails.sharepath) {
           delete vm.categories.newShare;
         }
-        //  else {
-        //   return [vm.categories.newShare]
-        // }
+         else {
+          return [vm.categories.newShare]
+        }
         return vm.categories;
       }
 
@@ -103,10 +116,8 @@
       };
 
       vm.allowedOperations = {
-        "addUserToShare": "Add User To Share",
-        "removeUserFromShare": "Remove User from Share",
-        "addGroupToShare": "Add entire group To Share",
-        "removeGroupFromShare": "Remove entire group from Share",
+        "addUserOrGroupToShare": "Add User or Group To Share",
+        "removeUserOrGroupFromShare": "Remove User or Group from Share",
         "addUserToADGroup": "Add User To Active Directory Group",
         "removeUserFromADGroup": "Remove User from Active Directory Group",
       }

@@ -171,8 +171,7 @@ getCifsShareACLGroups = function(sharename, res) {
   'cm_storage.cifs_share '+                      
   'WHERE '+
   'cm_storage.cifs_share.id = cm_storage.cifs_share_acl.cifs_share_id '+  
-  'AND LOWER(cm_storage.cifs_share.name) = ? '+                                              
-  'AND LOWER(cm_storage.cifs_share_acl.user_or_group) LIKE ?';
+  'AND LOWER(cm_storage.cifs_share.name) = ? '; 
 
   console.log('Server getCifsShareACLGroups: MySQL Read: Query: ' + util.inspect(args, {showHidden: false, depth: null}));
 
