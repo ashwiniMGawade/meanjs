@@ -65,7 +65,7 @@ getCifsShare = function (location, volumename, sharename, res) {
           'LOWER(cm_storage.cluster.name) = LOWER(?) '+                              
           'OR LOWER(cm_storage.cluster.primary_address) = LOWER(?) ' +   
       ')' +                                                                      
-      'AND LOWER(cm_storage.volume.name)= LOWER(?)  ' ;
+      'AND LOWER(cm_storage.volume.name)= LOWER(?)  ' +
       'AND LOWER(cm_storage.qtree.name) = LOWER(?) '+
       'AND LOWER(cm_storage.cifs_share.name)= LOWER(?)  ';
 
