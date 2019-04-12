@@ -48,11 +48,13 @@
           vm.allocatedSize = vm.cifShareDetails.sizeGB || 0;
           vm.availableSize = vm.allocatedSize - vm.usedsizegb;
           //get groups for existing cifs share
-          SharesService.getCifsShareACLGroups({
-            'sharename': vm.cifShareDetails.sharename
-          }).$promise.then(function(res) {
-            vm.aclGroups = res;
-          });
+          if (vm.cifShareDetails.sharename) {
+            SharesService.getCifsShareACLGroups({
+              'sharename': vm.cifShareDetails.sharename
+            }).$promise.then(function(res) {
+              vm.aclGroups = res;
+            });
+          }          
         });
 
         vm.getACLgroups = function() {

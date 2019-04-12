@@ -125,33 +125,33 @@ exports.updateRequest = function (req, res) {
             console.log('wfaJobStatus: Not completed yet, polling again in 30 seconds, Job ID: ' + jobId);
             setTimeout(function () { untilCreated(category, jobId); }, config.wfa.refreshRate);
           } else {
-            getOutputs(share.category, jobId);
+            saveShareStatus(share, 'Operational'); 
           }
         }
       });
     }
 
-    function getOutputs(category, jobId) {
-      var args = {
-        jobId: jobId,
-        category: category
-      };
+    // function getOutputs(category, jobId) {
+    //   var args = {
+    //     jobId: jobId,
+    //     category: category
+    //   };
   
-      clientWfa.wfaJobOut(args, function (err, resWfa) {
-        if (err) {
-          console.log('wfaJobOut: Failed to obtain output, Error: ' + err);
-          saveShareStatus(share, 'Contact Support');
-        } else {
-          if (resWfa) {            
-            saveShareStatus(share, 'Operational');                       
-          } else {
-            console.log('wfaJobOut: No output parameters: Response from WFA: '+ resWfa);
-            saveShareStatus(share, 'Contact Support');
-          }
-        }
-      });
-    }
-    }
+    //   clientWfa.wfaJobOut(args, function (err, resWfa) {
+    //     if (err) {
+    //       console.log('wfaJobOut: Failed to obtain output, Error: ' + err);
+    //       saveShareStatus(share, 'Contact Support');
+    //     } else {
+    //       if (resWfa) {            
+    //         saveShareStatus(share, 'Operational');                       
+    //       } else {
+    //         console.log('wfaJobOut: No output parameters: Response from WFA: '+ resWfa);
+    //         saveShareStatus(share, 'Contact Support');
+    //       }
+    //     }
+    //   });
+    // }
+     }
   });
 };
 /**
