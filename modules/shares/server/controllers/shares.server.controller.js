@@ -99,7 +99,7 @@ exports.updateRequest = function (req, res) {
             } else {
               jobId = resWfa.jobId;
               console.log('executeWfaWorkflow: Response from WFA: ' + util.inspect(resWfa, {showHidden: false, depth: null}));
-              untilCreated(share.category, jobId);
+              untilCreated(share, jobId);
             }
           });
         }
@@ -107,9 +107,9 @@ exports.updateRequest = function (req, res) {
      
     }
     
-    function untilCreated(category, jobId) {
+    function untilCreated(share, jobId) {
       var args = {
-        category: category,
+        share: share,
         jobId: jobId
       };
     
@@ -123,7 +123,7 @@ exports.updateRequest = function (req, res) {
             saveShareStatus(share, 'Contact Support');
           } else if (resWfa.jobStatus !== 'COMPLETED') {
             console.log('wfaJobStatus: Not completed yet, polling again in 30 seconds, Job ID: ' + jobId);
-            setTimeout(function () { untilCreated(category, jobId); }, config.wfa.refreshRate);
+            setTimeout(function () { untilCreated(share, jobId); }, config.wfa.refreshRate);
           } else {
             saveShareStatus(share, 'Operational'); 
           }
