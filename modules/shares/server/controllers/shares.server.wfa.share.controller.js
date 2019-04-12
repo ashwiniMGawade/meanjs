@@ -13,8 +13,8 @@ exports.executeWfaWorkflow = function (req, res) {
   var wfaJobId = getWFAjob(req.share);
 
   console.log('share WFA Create: Args : ' + util.inspect(args, {showHidden: false, depth: null}));
-  console.log("executing job", config.wfa.workflows[req.share.category]);
-  var shareCreateReq = client.post(config.wfa.workflows[req.share.category], args, function (data, response) {
+  console.log("executing job", wfaJobId);
+  var shareCreateReq = client.post(wfaJobId, args, function (data, response) {
 
     if (Buffer.isBuffer(data)) {
       data = data.toString('utf8');
