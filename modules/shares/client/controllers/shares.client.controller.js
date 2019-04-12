@@ -98,9 +98,8 @@
       vm.getFilteredCategories = function() {
         if (vm.cifShareDetails.sharepath) {
           delete vm.categories.newShare;
-        }
-         else {
-          return [vm.categories.newShare]
+        }else {
+          return {"newShare": "New Project Share Creation"}
         }
         return vm.categories;
       }
