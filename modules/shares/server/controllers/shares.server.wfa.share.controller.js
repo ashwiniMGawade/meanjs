@@ -115,7 +115,9 @@ var getWorkflowArgs = function(req) {
         (
           (req.share.acl_group || req.share.userOrGroupName) ? ('<userInputEntry value="' + (req.share.acl_group || req.share.userOrGroupName) + '" key="groupName"/>'): ''
         ) +
-        (req.share.userOrGroupPermissions ? ('<userInputEntry value="' + (req.share.userOrGroupPermissions || '') + '" key="permission"/>'): '') +
+        (req.share.userOrGroupPermissions ? ('<userInputEntry value="' + (req.share.userOrGroupPermissions || '') + '" key="permission"/>'): '') 
+        +
+        (req.share.acl_users ? ('<userInputEntry value="' + (req.share.acl_users || '') + '" key="userName"/>'): '') +
         '</userInputValues>' +
         '<comments>DFaaS Engine share Create: ' + req.share._id + ' ' + req.share.user.displayName + '</comments>' +
         '</workflowInput>';
