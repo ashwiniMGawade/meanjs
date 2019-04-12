@@ -122,6 +122,12 @@
         "removeUserFromADGroup": "Remove User from Active Directory Group",
       }
 
+      vm.allowedPermissions = {
+        'Full Control': 'Full Control',
+        'Read': 'Read',
+        'Write': 'Write'
+      }
+
       vm.fileSizeTypes = {
         "officeFile":"Office File",
         "compressedFile": "Compressed File",

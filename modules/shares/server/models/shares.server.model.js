@@ -85,7 +85,7 @@ var ShareSchema = new Schema({
   },
   acl_group:{
     type:String,
-    required: function() { return this.category === 'changePermission' ? 'ACL Group is required': false }
+    required: function() { return (this.category === 'changePermission' && this.operation != 'addUserOrGroupToShare') ? 'ACL Group is required': false }
   },
   userOrGroupName: {
     type: String,
@@ -93,6 +93,14 @@ var ShareSchema = new Schema({
     trim: true,
     required: function() { return (this.category === 'changePermission' && this.operation == 'addUserOrGroupToShare') ? 'User or group name cannot be blank': false },
     match: [ /^[a-zA-Z\-0-9\._]*$/ , 'User or group name can only contain alpha numeric chars including . and _ allowed']
+  },
+  userOrGroupPermissions: {
+    type:String,
+    required: function() { return (this.category === 'changePermission' && this.operation == 'addUserOrGroupToShare') ? 'Permissions are required': false },
+    enum: {
+            values: ['Full Control', 'Read', 'Write'],
+            message: '`{VALUE}` not a valid value for ACL Permission'
+          }
   },
   storage: {},
   sizegb: {

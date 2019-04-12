@@ -92,6 +92,16 @@
                   <p class="help-block error-text" ng-message="pattern">Alpha numeric chars including . and _  are allowed</p>
                 </div>
               </div>
+
+              <div class="form-group" show-errors ng-if="vm.share.category == 'changePermission' && vm.share.operation && vm.share.operation == 'addUserOrGroupToShare'">
+                  <label class="control-label" for="userOrGroupPermissions">User Or Group Permissions</label>
+                  <select name="userOrGroupPermissions" ng-model="vm.share.userOrGroupPermissions" id="userOrGroupPermissions" class="form-control" ng-options="key as value for (key , value) in vm.allowedPermissions" required>
+                      <option value="">Please select a Permission</option>
+                  </select>
+                  <div ng-messages="vm.form.userOrGroupPermissions.$error" role="alert">
+                      <p class="help-block error-text" ng-message="required">Permissions are required.</p>
+                    </div> 
+                </div>
             
             <div class="form-group" show-errors ng-if="vm.share.category == 'changePermission' && vm.share.operation && (vm.share.operation == 'addUserToADGroup' || vm.share.operation == 'removeUserFromADGroup')">
               <label class="control-label" for="acl_users">UserId</label>
