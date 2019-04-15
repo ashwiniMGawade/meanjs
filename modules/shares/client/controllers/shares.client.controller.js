@@ -32,7 +32,6 @@
     
       vm.share = share;  
       vm.aclGroups = [];  
-      console.log(share)  
       vm.share.storage = vm.share.storage || {}
       vm.project = projectInfo;
       vm.cifShareDetails = {};
@@ -60,7 +59,6 @@
         vm.getACLgroups = function() {
           if (vm.aclGroups.length > 0) {
             if (vm.share.operation == 'removeUserOrGroupFromShare') {
-              console.log(vm.aclGroups);
               return vm.aclGroups;
             }
             if (vm.share.operation == 'addUserToADGroup' || vm.share.operation == 'removeUserFromADGroup') {
@@ -98,48 +96,21 @@
       
       
       vm.getFilteredCategories = function() {
+        var keyNewShareCat = Object.keys(vm.categories)[0];
         if (vm.cifShareDetails.sharepath) {
-          delete vm.categories.newShare;
-        }else {
-          return {"newShare": "New Project Share Creation"}
+          delete vm.categories[keyNewShareCat];
+         }else {
+          var obj = {};
+          obj[keyNewShareCat] = vm.categories[keyNewShareCat];
+          return obj;
         }
         return vm.categories;
       }
 
-      vm.categories = {
-        "newShare": "New Project Share Creation",
-        "changePermission": "Change Permission",
-        "resize": "Resize Project Share",
-        "rename": "Rename Project Share",
-        "restoreProjectShare": "Retire Project Share",
-        "retireVolumeWorkflow": "Retire Volume Workflow",
-        "migration": "Project Migration Workflow"
-      };
-
-      vm.allowedOperations = {
-        "addUserOrGroupToShare": "Add User or Group To Share",
-        "removeUserOrGroupFromShare": "Remove User or Group from Share",
-        "addUserToADGroup": "Add User To Active Directory Group",
-        "removeUserFromADGroup": "Remove User from Active Directory Group",
-      }
-
-      vm.allowedPermissions = {
-        'FullControl': 'Full Control',
-        'Read': 'Read',
-        'Modify': 'Modify'
-      }
-
-      vm.fileSizeTypes = {
-        "officeFile":"Office File",
-        "compressedFile": "Compressed File",
-        "dataAndDBFile": "Data And Database File",
-        "executableFile": "Executable File",
-        "imageFile": "Image File",
-        "programmingFile":"Programming File",
-        "videoFile": "Video File",
-        "audioFile":"Audio File",
-        "backupFile":"Backup File"
-      }
+      vm.categories = sharedConfig.share.categories;
+      vm.allowedOperations = sharedConfig.share.allowedChangePermissionOperations;
+      vm.allowedPermissions = sharedConfig.share.allowedPermissions;
+      vm.fileSizeTypes = sharedConfig.share.fileSizeTypes;
 
      var dateDiffInYears = function (dateold, datenew) {
         var ynew = datenew.getFullYear();
@@ -189,56 +160,21 @@
       });
     }
     
-     $scope.calculateCapacity = function() {
-        var fileSizeArray = {
-          "officeFile":5,
-          "compressedFile":4,
-          "dataAndDBFile":10,
-          "executableFile":7,
-          "imageFile": 3,
-          "programmingFile":3,
-          "videoFile":10,
-          "audioFile":4,
-          "backupFile":10
-        }
-
+    $scope.calculateCapacity = function() {
+        var fileSizeArray = sharedConfig.share.fileSizeArray;
         vm.share.sizegb = 0;
 
-        if (vm.share.storage.backupFile) {
-          vm.share.sizegb += fileSizeArray["backupFile"]
-        }
-        if (vm.share.storage.audioFile) {
-          vm.share.sizegb += fileSizeArray["audioFile"]
-        }
-        if (vm.share.storage.videoFile) {
-          vm.share.sizegb += fileSizeArray["videoFile"]
-        }
-        if (vm.share.storage.programmingFile) {
-          vm.share.sizegb += fileSizeArray["programmingFile"]
-        }
-        if (vm.share.storage.imageFile) {
-          vm.share.sizegb += fileSizeArray["imageFile"]
-        }
-        if (vm.share.storage.executableFile) {
-          vm.share.sizegb += fileSizeArray["executableFile"]
-        }
-        if (vm.share.storage.dataAndDBFile) {
-          vm.share.sizegb += fileSizeArray["dataAndDBFile"]
-        }
-        if (vm.share.storage.compressedFile) {
-          vm.share.sizegb += fileSizeArray["compressedFile"]
-        }
-        if (vm.share.storage.officeFile) {
-          vm.share.sizegb += fileSizeArray["officeFile"]
-        }
-
+        angular.forEach(vm.share.storage, function(value, key) {
+          if(value) {
+            vm.share.sizegb += fileSizeArray[key]; 
+          }
+        });
         var years = dateDiffInYears(vm.project.startDate, vm.project.endDate);
 
-        years = years ? years : 1
-
+        years = years ? years : 1;
         console.log(years)
         vm.share.cost = vm.share.sizegb * 1 * years;
-      }
+    }
   
       // Remove existing Article
       function remove() {

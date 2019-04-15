@@ -34,11 +34,7 @@
             <td ng-bind="vm.categories[share.category]" class="capitalize breakword" title="'Category'" sortable="'category'"></td>
             <td ng-bind="share.status" title="'Status'" sortable="'status'" class="breakword"></td>
             <td ng-bind="share.user.displayName" ng-if="vm.isAdmin" title="'user'" sortable="'user'" class="breakword"></td>
-            <!-- <td  title="'Storage requirement'"  class="breakword"> 
-              <li ng-repeat="(file, details) in share.storage" style="list-style-type: square;">
-                {{vm.fileSizeTypes[file]}}
-              </li>
-            </td> -->
+            
            
             <td><button type="button" class="btn btn-xs btn-primary" ui-sref="shares.view({shareId: share._id})">Details</button></td>
           </tr>

@@ -14,27 +14,7 @@
       vm.pageChanged = pageChanged;
       vm.isAdmin = Authentication.user.roles.indexOf('admin') != -1;
 
-      vm.fileSizeTypes = {
-        "officeFile":"Office File",
-        "compressedFile": "Compressed File",
-        "dataAndDBFile": "Data And Database File",
-        "executableFile": "Executable File",
-        "imageFile": "Image File",
-        "programmingFile":"Programming File",
-        "videoFile": "Video File",
-        "audioFile":"Audio File",
-        "backupFile":"Backup File"
-      }
-
-      vm.categories = {
-        "newShare": "New Project Share Creation",
-        "changePermission": "Change Permission",
-        "resize": "Resize Project Share",
-        "rename": "Rename Project Share",
-        "restoreProjectShare": "Retire Project Share",
-        "retireVolumeWorkflow": "Retire Volume Workflow",
-        "migration": "Project Migration Workflow"
-      };
+      vm.categories = sharedConfig.share.categories;
   
       SharesService.query(function (data) {
         vm.shares = data;
