@@ -79,7 +79,7 @@ var ShareSchema = new Schema({
     type:String,
     required: function() { return this.category === 'changePermission' ? 'ACL Operation is required': false },
     enum: {
-            values: ['addUserOrGroupToShare', 'removeUserOrGroupFromShare', 'addUserToADGroup', 'removeUserFromADGroup'],
+            values: Object.keys(config.shared.share.allowedChangePermissionOperations),
             message: '`{VALUE}` not a valid value for ACL Operation'
           }
   },
@@ -98,7 +98,7 @@ var ShareSchema = new Schema({
     type:String,
     required: function() { return (this.category === 'changePermission' && this.operation == 'addUserOrGroupToShare') ? 'Permissions are required': false },
     enum: {
-            values: ['FullControl', 'Read', 'Modify'],
+            values: Object.keys(config.shared.share.allowedPermissions),
             message: '`{VALUE}` not a valid value for ACL Permission'
           }
   },
@@ -147,7 +147,7 @@ var ShareSchema = new Schema({
     type: String,
     required: 'Share category required',
     enum: {
-            values: ['newShare', 'changePermission', 'resize', 'rename', 'restoreProjectShare', 'retireVolumeWorkflow', 'migration'],
+            values: Object.keys(config.shared.share.categories),
             message: '`{VALUE}` not a valid value for Category'
           }
   },

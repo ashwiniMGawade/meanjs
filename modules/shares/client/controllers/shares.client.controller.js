@@ -90,27 +90,29 @@
       vm.save = save;
       vm.showActions = false;
 
+      vm.categories = sharedConfig.share.categories;
+      vm.allowedOperations = sharedConfig.share.allowedChangePermissionOperations;
+      vm.allowedPermissions = sharedConfig.share.allowedPermissions;
+      vm.fileSizeTypes = sharedConfig.share.fileSizeTypes;
+
       vm.toggleActions = function() {
         vm.showActions = !vm.showActions;
       }
       
       
       vm.getFilteredCategories = function() {
-        var keyNewShareCat = Object.keys(vm.categories)[0];
+        var keyNewShareCat = 'newShare';
         if (vm.cifShareDetails.sharepath) {
           delete vm.categories[keyNewShareCat];
-         }else {
+          return vm.categories;
+         } else {
           var obj = {};
           obj[keyNewShareCat] = vm.categories[keyNewShareCat];
           return obj;
-        }
-        return vm.categories;
+        }        
       }
 
-      vm.categories = sharedConfig.share.categories;
-      vm.allowedOperations = sharedConfig.share.allowedChangePermissionOperations;
-      vm.allowedPermissions = sharedConfig.share.allowedPermissions;
-      vm.fileSizeTypes = sharedConfig.share.fileSizeTypes;
+      
 
      var dateDiffInYears = function (dateold, datenew) {
         var ynew = datenew.getFullYear();

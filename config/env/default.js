@@ -118,7 +118,51 @@ module.exports = {
       minLength: 10,
       minPhraseLength: 20,
       minOptionalTestsToPass: 4
-    }
+    },
+    share: {
+      categories: {
+          "newShare": "New Project Share Creation",
+          "changePermission": "Change Permission",
+          "resize": "Resize Project Share",
+          "rename": "Rename Project Share",
+          "restoreProjectShare": "Retire Project Share",
+          "retireVolumeWorkflow": "Retire Volume Workflow",
+          "migration": "Project Migration Workflow"
+      },
+      fileSizeTypes: {
+        "officeFile":"Office File",
+        "compressedFile": "Compressed File",
+        "dataAndDBFile": "Data And Database File",
+        "executableFile": "Executable File",
+        "imageFile": "Image File",
+        "programmingFile":"Programming File",
+        "videoFile": "Video File",
+        "audioFile":"Audio File",
+        "backupFile":"Backup File"
+      },
+      allowedPermissions: {
+        'FullControl': 'Full Control',
+        'Read': 'Read',
+        'Modify': 'Modify'
+      },
+      allowedChangePermissionOperations :{
+        "addUserOrGroupToShare": "Add User or Group To Share",
+        "removeUserOrGroupFromShare": "Remove User or Group from Share",
+        "addUserToADGroup": "Add User To Active Directory Group",
+        "removeUserFromADGroup": "Remove User from Active Directory Group",
+      },
+      fileSizeArray : {
+        "officeFile":5,
+        "compressedFile":4,
+        "dataAndDBFile":10,
+        "executableFile":7,
+        "imageFile": 3,
+        "programmingFile":3,
+        "videoFile":10,
+        "audioFile":4,
+        "backupFile":10
+      }
+  }
   }
 
 };
