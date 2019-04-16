@@ -102,11 +102,12 @@
       
       vm.getFilteredCategories = function() {
         var keyNewShareCat = 'newShare';
+        var obj = {};
         if (vm.cifShareDetails.sharepath) {
-          delete vm.categories[keyNewShareCat];
-          return vm.categories;
-         } else {
-          var obj = {};
+          obj = Object.assign({}, vm.categories);
+          delete obj[keyNewShareCat];
+          return obj;
+         } else {          
           obj[keyNewShareCat] = vm.categories[keyNewShareCat];
           return obj;
         }        
