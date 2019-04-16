@@ -5,21 +5,36 @@
       .module('shares')
       .controller('SharesListController', SharesListController);
   
-    SharesListController.$inject = ['$scope', '$filter', 'SharesService', 'Authentication'];
+    SharesListController.$inject = ['$scope', '$filter', 'SharesService', 'Authentication', '$interval'];
   
-    function SharesListController($scope, $filter, SharesService, Authentication) {
+    function SharesListController($scope, $filter, SharesService, Authentication, $interval) {
       var vm = this;
       vm.buildPager = buildPager;
       vm.figureOutItemsToDisplay = figureOutItemsToDisplay;
       vm.pageChanged = pageChanged;
       vm.isAdmin = Authentication.user.roles.indexOf('admin') != -1;
+      var reloadCnt = 0;
 
       vm.categories = sharedConfig.share.categories;
+
+      var getShares = function() {
+        SharesService.query(function (data) {
+          vm.shares = data;
+          vm.buildPager();
+        });
+      }
+
+
+      getShares();
+
+      var refreshData = $interval(function() { 
+        reloadCnt++;
+        getShares();
+      }, 30000);
+
+      
   
-      SharesService.query(function (data) {
-        vm.shares = data;
-        vm.buildPager();
-      });
+     
   
       function buildPager() {
         vm.pagedItems = [];
