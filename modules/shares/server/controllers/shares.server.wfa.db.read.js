@@ -126,7 +126,7 @@ getClusterInfo = function (location, res) {
   };
 
   var args = ' Select '+
-  'locationmapping.locationmapping.pcuster as primarycluster, locationmapping.locationmapping.pvserver primaryvserver,  locationmapping.locationmapping.scluster as secondarycluster, locationmapping.locationmapping.svserver secondaryvserver '+
+  'locationmapping.locationmapping.pcluster as primarycluster, locationmapping.locationmapping.pvserver primaryvserver,  locationmapping.locationmapping.scluster as secondarycluster, locationmapping.locationmapping.svserver secondaryvserver '+
   'FROM ' +
   'locationmapping.locationmapping ' +
   'WHERE ' +
