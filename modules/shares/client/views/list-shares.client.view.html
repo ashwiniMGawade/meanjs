@@ -30,7 +30,7 @@
           <tr ng-repeat="share in vm.pagedItems" >
             <td ng-bind="share.city" class="capitalize breakword" title="'City'" sortable="'city'"></td>
             <td ng-bind="share.bu" class="capitalize breakword" title="'Business Unit'" sortable="'bu'"></td>
-            <td ng-bind="share.projectCode" class="capitalize breakword" title="'ProjectCode'" sortable="'projectCode'"></td>
+            <td ng-bind="share.projectCode" class="capitalize breakword" title="'Project Code'" sortable="'projectCode'"></td>
             <td ng-bind="vm.categories[share.category]" class="capitalize breakword" title="'Category'" sortable="'category'"></td>
             <td ng-bind="share.status" title="'Status'" sortable="'status'" class="breakword"></td>
             <td ng-bind="share.user.displayName" ng-if="vm.isAdmin" title="'user'" sortable="'user'" class="breakword"></td>
