@@ -32,9 +32,9 @@
         getShares();
       }, 30000);
 
-      
-  
-     
+      $scope.$on('$destroy', function(){
+        $interval.cancel(refreshData);
+      });     
   
       function buildPager() {
         vm.pagedItems = [];
