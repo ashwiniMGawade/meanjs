@@ -7,32 +7,135 @@
         <i class="glyphicon glyphicon-trash"></i>
       </a>
     </div>
-    <div class="col-md-6" ng-init="vm.calculateCapacity()">
+    <div  ng-init="vm.calculateCapacity()">
       <form name="vm.form.shareForm" class="form-horizontal" ng-submit="vm.save(vm.form.shareForm.$valid)" novalidate>
         <fieldset>
           <div class="row">
-              <label class="control-label col-md-4" for="bu">Business Unit</label>
-              <label class="content-right col-md-8" name="bu">{{vm.share.bu}}</label>
-          </div>
-          <div class="row">
-            <label class="control-label col-md-4" for="projectCode">Project Code</label>
-            <label class="content-right col-md-8" name="projectCode">{{vm.share.projectCode}}</label>
-          </div>         
-          <div class="row">
-              <label class="control-label col-md-4" for="projectStartDate">Project Start Date</label>
-              <label class="content-right col-md-8" name="projectStartDate">{{vm.project.startDate |  date:'mediumDate'}}</label>
-          </div>
-          <div class="row">
-            <label class="control-label col-md-4" for="projectEndDate">Project END Date</label>
-            <label class="content-right col-md-8" name="projectEndDate">{{vm.project.endDate | date:'mediumDate'}}</label>
-          </div>
-          <div class="row" ng-if="vm.cifShareDetails.sharepath">
-              <label class="control-label col-md-4" for="sharePath">Share Path</label>
-              <label class="content-right col-md-8" name="sharePath">{{vm.cifShareDetails.sharepath}}</label>
+            <div class="col-md-5 pull-left">
+              <div class="row">
+                  <label class="control-label col-md-4 text-left" for="bu">Business Unit</label>
+                  <label class="content-right col-md-8" name="bu">{{vm.share.bu}}</label>
+              </div>
+              <div class="row">
+                <label class="control-label col-md-4 text-left" for="projectCode">Project Code</label>
+                <label class="content-right col-md-8" name="projectCode">{{vm.share.projectCode}}</label>
+              </div> 
+              <div class="form-group" show-errors>
+                <label for="category">Select Category</label>   
+                <select name="category" ng-model="vm.share.category" id="category" class="form-control" ng-options="key as value for (key , value) in vm.getFilteredCategories()" ng-required="true">
+                  <option value="">Please select a Category</option>
+                </select>
+                {{vm.form.category}}  
+                <div class="loader" ng-if="!vm.categories.length"></div>
+                     
+                <div ng-messages="vm.form.category.$error" role="alert">
+                  <p class="help-block error-text" ng-message="required">Category is required.</p>
+                </div>              
+              </div>
+              <div class="form-group" show-errors ng-if="vm.share.category == 'newShare'"> 
+                  <label class="control-label" for="readOnly">Read Only(DV)</label>
+                  <input name="readOnly" type="text" ng-model="vm.share.readOnly" id="readOnly" class="form-control" placeholder="UserIDs" ng-required="vm.share.category == 'newShare'"  ng-pattern="/^[a-zA-Z\-0-9\._]*(?:;([a-zA-Z\-0-9\._])+)*$/"
+                  >
+                  <div ng-messages="vm.form.shareForm.readOnly.$error" role="alert">
+                    <p class="help-block error-text" ng-message="required">Read Only is required.</p>
+                    <p class="help-block error-text" ng-message="pattern">Only semicolon separated userIDs allowed</p>
+                  </div>
+                  <p class="help-block">Semicolon(;) seperated list of userIDs</p>
+              </div>
+              <div class="form-group" show-errors ng-if="vm.share.category == 'newShare'">
+                  <label class="control-label" for="readAndWrite">Read And Write(PL)</label>
+                  <input name="readAndWrite" type="text" ng-model="vm.share.readAndWrite" id="readAndWrite" class="form-control" placeholder="UserIDs" ng-required="vm.share.category == 'newShare'"  ng-pattern="/^[a-zA-Z\-0-9\._]*(?:;([a-zA-Z\-0-9\._])+)*$/">
+                  <div ng-messages="vm.form.shareForm.readAndWrite.$error" role="alert">
+                    <p class="help-block error-text" ng-message="required">Read And Write(PL) required.</p>
+                    <p class="help-block error-text" ng-message="pattern">Only semicolon separated userIDs allowed</p>
+                  </div>
+                  <p class="help-block">Semicolon(;) seperated list of userIDs</p>
+              </div>
+              <div class="form-group" show-errors ng-if="vm.share.category == 'newShare'">  
+                  <label class="control-label" for="readWriteAndModify">Read Write And Modify(CC)</label>
+                  <input name="readWriteAndModify" type="text" ng-model="vm.share.readWriteAndModify" id="readWriteAndModify" class="form-control" placeholder="UserIDs" ng-required="vm.share.category == 'newShare'" ng-pattern="/^([a-zA-Z\-0-9\._]*(?:;([a-zA-Z\-0-9\._])+)){1,}$/">
+                  <div ng-messages="vm.form.shareForm.readWriteAndModify.$error" role="alert">
+                    <p class="help-block error-text" ng-message="required">Read Write And Modify is required.</p>
+                    <p class="help-block error-text" ng-message="pattern">Only semicolon separated userIDs allowed. Minimum 2 userIDs are needed.</p>
+                  </div>
+                  <p class="help-block">Semicolon(;) seperated list of userIDs</p>
+              </div>
             </div>
-          <div class="row">
-            <label class="control-label col-md-4" for="city">City</label>
-            <label class="content-right col-md-8" name="ciry">{{vm.share.city}}</label>
+            <div class="col-md-2"></div>
+            <div class="col-md-5 pull-left">
+              <div class="row">
+                  <label class="control-label col-md-4 text-left" for="projectStartDate">Project Start Date</label>
+                  <label class="content-right col-md-8" name="projectStartDate">{{vm.project.startDate |  date:'mediumDate'}}</label>
+              </div>
+              <div class="row">
+                <label class="control-label col-md-4 text-left" for="projectEndDate">Project end Date</label>
+                <label class="content-right col-md-8" name="projectEndDate">{{vm.project.endDate | date:'mediumDate'}}</label>
+              </div>
+              <div class="row" ng-if="vm.cifShareDetails.sharepath">
+                  <label class="control-label col-md-4 text-left" for="sharePath">Share Path</label>
+                  <label class="content-right col-md-8" name="sharePath">{{vm.cifShareDetails.sharepath}}</label>
+                </div>
+              <div class="row">
+                <label class="control-label col-md-4 text-left" for="city">City</label>
+                <label class="content-right col-md-8" name="city">{{vm.share.city}}</label>
+              </div>
+              <div class="row"  ng-if="vm.share.category == 'newShare'">
+                  <label class="control-label col-md-5 text-left" for="sizegb">Required Space (GB)</label>
+                  <label class="content-right col-md-2" text-left name="sizegb">{{vm.share.sizegb}}</label>
+                  <div class="col-md-1"></div>
+                  <label class="control-label col-md-2 text-left" for="cost">Cost($)</label>
+                  <label class="content-right col-md-2 text-left" name="cost">{{vm.share.cost}}</label>
+              </div>
+              <div class="show-grid row"  ng-if="vm.share.category == 'newShare'">
+                  <div class="">
+                    <label class="control-label" for="readWriteAndModify">Storage Requirement For:</label>
+                  </div>
+              </div>
+              <div class="show-grid row" ng-if="vm.share.category == 'newShare'">
+                  <div class="form-group col-md-4">
+                    <label for="officeFile">Office File</label>
+                    <input name="officeFile" type="checkbox" ng-model="vm.share.storage.officeFile" id="officeFile"  class="form-control checkbox-left" ng-change="calculateCapacity()">
+                  </div>
+                  <div class="form-group col-md-4">
+                    <label for="compressedFile">Compressed File</label>
+                    <input name="compressedFile" type="checkbox" ng-model="vm.share.storage.compressedFile" id="compressedFile"  class="form-control checkbox-left" ng-change="calculateCapacity()">
+                  </div>
+                  <div class="form-group col-md-4">
+                    <label for="dataAndDBFile">Data and DB File</label>
+                    <input name="dataAndDBFile" type="checkbox" ng-model="vm.share.storage.dataAndDBFile" id="dataAndDBFile"  class="form-control checkbox-left" ng-change="calculateCapacity()">
+                  </div>
+                  
+              </div>
+              <div class="show-grid row" ng-if="vm.share.category == 'newShare'">
+                  <div class="form-group col-md-4">
+                    <label for="executableFile">Executable File</label>
+                    <input name="executableFile" type="checkbox" ng-model="vm.share.storage.executableFile" id="executableFile"  class="form-control checkbox-left" ng-change="calculateCapacity()">
+                  </div>
+                  <div class="form-group col-md-4">
+                    <label for="imageFile">Image File</label>
+                    <input name="imageFile" type="checkbox" ng-model="vm.share.storage.imageFile" id="imageFile"  class="form-control checkbox-left" ng-change="calculateCapacity()">
+                  </div>
+                  <div class="form-group col-md-4">
+                    <label for="programmingFile">Programming File</label>
+                    <input name="programmingFile" type="checkbox" ng-model="vm.share.storage.programmingFile" id="programmingFile"  class="form-control checkbox-left" ng-change="calculateCapacity()">
+                  </div>              
+              </div>
+              <div class="show-grid row" ng-if="vm.share.category == 'newShare'">
+                  <div class="form-group col-md-4">
+                    <label for="videoFile">Video File</label>
+                    <input name="videoFile" type="checkbox" ng-model="vm.share.storage.videoFile" id="videoFile"  class="form-control checkbox-left" ng-change="calculateCapacity()">
+                  </div>
+                  <div class="form-group col-md-4">
+                    <label for="audioFile">Audio File</label>
+                    <input name="audioFile" type="checkbox" ng-model="vm.share.storage.audioFile" id="audioFile"  class="form-control checkbox-left" ng-change="calculateCapacity()">
+                  </div>
+                  <div class="form-group col-md-4">
+                    <label for="backupFile">Backup File</label>
+                    <input name="backupFile" type="checkbox" ng-model="vm.share.storage.backupFile" id="backupFile"  class="form-control checkbox-left" ng-change="calculateCapacity()">
+                  </div>              
+              </div>
+              
+            </div>
           </div>
 
           <!-- <div class="typehead-demo">
@@ -47,196 +150,102 @@
         
 
         {{vm.example15model}} -->
-
-            <div class="form-group" show-errors>
-              <label for="category">Select Category</label>   
-              <select name="category" ng-model="vm.share.category" id="category" class="form-control" ng-options="key as value for (key , value) in vm.getFilteredCategories()" required ng-change="vm.changedCategory(category)"  autofocus>
-                <option value="">Please select a Category</option>
-              </select>
-              <div class="loader" ng-if="!vm.categories.length"></div>       
-              <div ng-messages="vm.form.category.$error" role="alert">
-                <p class="help-block error-text" ng-message="required">Category is required.</p>
-              </div>              
-            </div>
-
-            <div class="form-group" show-errors ng-if="vm.share.category == 'changePermission'">
-              <label for="operation">Select Operation</label>   
-              <select name="operation" ng-model="vm.share.operation" id="operation" class="form-control" ng-options="key as value for (key , value) in vm.allowedOperations" required autofocus>
-                <option value="">Please select a Operation</option>
-              </select>
-              <div ng-messages="vm.form.operation.$error" role="alert">
-                <p class="help-block error-text" ng-message="required">ACL Operation required.</p>
-              </div>              
-            </div>       
             
-            <div class="form-group" show-errors ng-if="vm.share.category == 'changePermission' &&  (vm.share.operation == 'addUserToADGroup' || vm.share.operation == 'removeUserFromADGroup' || vm.share.operation == 'removeUserOrGroupFromShare')">
-
-              <label ng-if="vm.share.operation == 'addUserToADGroup' || vm.share.operation == 'removeUserFromADGroup'" for="acl_group">Select ACL Group</label>  
-
-              <label ng-if="vm.share.operation == 'removeUserOrGroupFromShare'" for="acl_group">Select ACL Group or user to remove</label>  
-
-              <select name="acl_group" ng-model="vm.share.acl_group" id="acl_group" class="form-control" ng-options="group.groupName as group.groupName for group in vm.getACLgroups()" required >
-                <option value="">Please select a ACL group</option>
-              </select>
-              <div class="loader" ng-if="!vm.aclGroups.length"></div>
-              <div ng-messages="vm.form.acl_group.$error" role="alert">
-                <p class="help-block error-text" ng-message="required">ACL group is required.</p>
-              </div>              
+            <div class="row">
+              <div class="col-md-5">
+                  <div class="form-group" show-errors ng-if="vm.share.category == 'changePermission'">
+                    <label for="operation">Select Operation</label>   
+                    <select name="operation" ng-model="vm.share.operation" id="operation" class="form-control" ng-options="key as value for (key , value) in vm.allowedOperations" required autofocus>
+                      <option value="">Please select a Operation</option>
+                    </select>
+                    <div ng-messages="vm.form.operation.$error" role="alert">
+                      <p class="help-block error-text" ng-message="required">ACL Operation required.</p>
+                    </div>              
+                  </div>       
+                    
+                  <div class="form-group" show-errors ng-if="vm.share.category == 'changePermission' &&  (vm.share.operation == 'addUserToADGroup' || vm.share.operation == 'removeUserFromADGroup' || vm.share.operation == 'removeUserOrGroupFromShare')">
+      
+                    <label ng-if="vm.share.operation == 'addUserToADGroup' || vm.share.operation == 'removeUserFromADGroup'" for="acl_group">Select ACL Group</label>  
+      
+                    <label ng-if="vm.share.operation == 'removeUserOrGroupFromShare'" for="acl_group">Select ACL Group or user to remove</label>  
+      
+                    <select name="acl_group" ng-model="vm.share.acl_group" id="acl_group" class="form-control" ng-options="group.groupName as group.groupName for group in vm.getACLgroups()" required >
+                      <option value="">Please select a ACL group</option>
+                    </select>
+                    <div class="loader" ng-if="!vm.aclGroups.length"></div>
+                    <div ng-messages="vm.form.acl_group.$error" role="alert">
+                      <p class="help-block error-text" ng-message="required">ACL group is required.</p>
+                    </div>              
+                  </div>
+        
+                  <div class="form-group" show-errors ng-if="vm.share.category == 'changePermission' && vm.share.operation && vm.share.operation == 'addUserOrGroupToShare'">
+                      <label class="control-label" for="userOrGroupName">User Or Group name</label>
+                      <input name="userOrGroupName" type="text" ng-model="vm.share.userOrGroupName" id="userOrGroupName" class="form-control" placeholder="User or Group name" required ng-pattern="/^[a-zA-Z\-0-9\._]*$/">
+                      <div ng-messages="vm.form.shareForm.userOrGroupName.$error" role="alert">
+                        <p class="help-block error-text" ng-message="required">User or Group name required.</p>
+                        <p class="help-block error-text" ng-message="pattern">Alpha numeric chars including . and _  are allowed</p>
+                      </div>
+                  </div>
+        
+                  <div class="form-group" show-errors ng-if="vm.share.category == 'changePermission' && vm.share.operation && vm.share.operation == 'addUserOrGroupToShare'">
+                      <label class="control-label" for="userOrGroupPermissions">User Or Group Permissions</label>
+                      <select name="userOrGroupPermissions" ng-model="vm.share.userOrGroupPermissions" id="userOrGroupPermissions" class="form-control" ng-options="key as value for (key , value) in vm.allowedPermissions" required>
+                          <option value="">Please select a Permission</option>
+                      </select>
+                      <div ng-messages="vm.form.userOrGroupPermissions.$error" role="alert">
+                          <p class="help-block error-text" ng-message="required">Permissions are required.</p>
+                        </div> 
+                    </div>
+                    
+                  <div class="form-group" show-errors ng-if="vm.share.category == 'changePermission' && vm.share.operation && (vm.share.operation == 'addUserToADGroup' || vm.share.operation == 'removeUserFromADGroup')">
+                    <label class="control-label" for="acl_users">UserId</label>
+                    <input name="acl_users" type="text" ng-model="vm.share.acl_users" id="acl_users" class="form-control" placeholder="UserIDs" required ng-pattern="/^[a-zA-Z\-0-9\._]*(?:;([a-zA-Z\-0-9\._])+)*$/">
+                    <div ng-messages="vm.form.shareForm.acl_users.$error" role="alert">
+                      <p class="help-block error-text" ng-message="required">UserIDs required.</p>
+                      <p class="help-block error-text" ng-message="pattern">Only semicolon separated userIDs allowed</p>
+                    </div>
+                  </div>
+                  <div ng-if="vm.share.category == 'rename'">
+                    <div class="form-group" show-errors>
+                        <label class="control-label" for="NewName">New name</label>
+                        <input name="newName" type="text" ng-model="vm.share.newName" id="newName" class="form-control" placeholder="New Name" ng-required="vm.share.category == 'rename'"  ng-pattern="/^[a-zA-Z\-0-9\._]+$/"
+                        >
+                        <div ng-messages="vm.form.shareForm.newName.$error" role="alert">
+                          <p class="help-block error-text" ng-message="required">New name is required.</p>
+                          <p class="help-block error-text" ng-message="pattern">Only alphanumeric chars including dash and underscore are allowed.</p>
+                        </div>
+                    </div>
+                  </div> 
+        
+                  <div ng-if="vm.share.category == 'resize'">
+                    <div class="form-group" show-errors>
+                        <label class="control-label" for="usedsizegb">Used Space(GB)</label>
+                        <input name="usedsizegb" type="text" ng-model="vm.usedsizegb" id="usedsizegb" class="form-control" placeholder="Size"  ng-readonly="true">
+                    </div>
+                    <div class="form-group" show-errors>
+                        <label class="control-label" for="allocatedSize">Allocated Space(GB)</label>
+                        <input name="allocatedSize" type="text" ng-model="vm.allocatedSize" id="allocatedSize" class="form-control" placeholder="Size"  ng-readonly="true">
+        
+                    </div>
+                    <div class="form-group" show-errors>
+                        <label class="control-label" for="incrementGb">Increment/Decrement the size By(GB)</label>
+                        <input name="incrementGb" type="number" ng-model="vm.incrementGb" id="incrementGb" class="form-control" placeholder="Size" ng-required="vm.share.category == 'newShare'"  step="5" ng-min="{{-vm.availableSize}}">
+                        <div ng-messages="vm.form.shareForm.incrementGb.$error" role="alert">
+                          <p class="help-block error-text" ng-message="required">Please select the size in step of 5.</p>
+                          <p class="help-block error-text" ng-message="min">Please select the size lesser than or equal to {{vm.availableSize}}.</p>
+                        </div>
+                      </div>
+                  </div>   
+              </div>
             </div>
 
-            <div class="form-group" show-errors ng-if="vm.share.category == 'changePermission' && vm.share.operation && vm.share.operation == 'addUserOrGroupToShare'">
-                <label class="control-label" for="userOrGroupName">User Or Group name</label>
-                <input name="userOrGroupName" type="text" ng-model="vm.share.userOrGroupName" id="userOrGroupName" class="form-control" placeholder="User or Group name" required ng-pattern="/^[a-zA-Z\-0-9\._]*$/">
-                <div ng-messages="vm.form.shareForm.userOrGroupName.$error" role="alert">
-                  <p class="help-block error-text" ng-message="required">User or Group name required.</p>
-                  <p class="help-block error-text" ng-message="pattern">Alpha numeric chars including . and _  are allowed</p>
+            <div class="row" style="margin-bottom:30px;">
+              <div class="form-group col-md-7" >
+                  <button type="submit" class="btn btn-primary pull-right">{{vm.share._id ? 'Update' : 'Create'}}</button>
                 </div>
-              </div>
+            </div>
 
-              <div class="form-group" show-errors ng-if="vm.share.category == 'changePermission' && vm.share.operation && vm.share.operation == 'addUserOrGroupToShare'">
-                  <label class="control-label" for="userOrGroupPermissions">User Or Group Permissions</label>
-                  <select name="userOrGroupPermissions" ng-model="vm.share.userOrGroupPermissions" id="userOrGroupPermissions" class="form-control" ng-options="key as value for (key , value) in vm.allowedPermissions" required>
-                      <option value="">Please select a Permission</option>
-                  </select>
-                  <div ng-messages="vm.form.userOrGroupPermissions.$error" role="alert">
-                      <p class="help-block error-text" ng-message="required">Permissions are required.</p>
-                    </div> 
-                </div>
             
-            <div class="form-group" show-errors ng-if="vm.share.category == 'changePermission' && vm.share.operation && (vm.share.operation == 'addUserToADGroup' || vm.share.operation == 'removeUserFromADGroup')">
-              <label class="control-label" for="acl_users">UserId</label>
-              <input name="acl_users" type="text" ng-model="vm.share.acl_users" id="acl_users" class="form-control" placeholder="UserIDs" required ng-pattern="/^[a-zA-Z\-0-9\._]*(?:;([a-zA-Z\-0-9\._])+)*$/">
-              <div ng-messages="vm.form.shareForm.acl_users.$error" role="alert">
-                <p class="help-block error-text" ng-message="required">UserIDs required.</p>
-                <p class="help-block error-text" ng-message="pattern">Only semicolon separated userIDs allowed</p>
-              </div>
-            </div>
-            
-            <div class="form-group" show-errors ng-if="vm.share.category == 'newShare'"> 
-                <label class="control-label" for="readOnly">Read Only(DV)</label>
-                <input name="readOnly" type="text" ng-model="vm.share.readOnly" id="readOnly" class="form-control" placeholder="UserIDs" ng-required="vm.share.category == 'newShare'"  ng-pattern="/^[a-zA-Z\-0-9\._]*(?:;([a-zA-Z\-0-9\._])+)*$/"
-                >
-                <div ng-messages="vm.form.shareForm.readOnly.$error" role="alert">
-                  <p class="help-block error-text" ng-message="required">Read Only is required.</p>
-                  <p class="help-block error-text" ng-message="pattern">Only semicolon separated userIDs allowed</p>
-                </div>
-                <p class="help-block">Semicolon(;) seperated list of userIDs</p>
-              </div>
-            <div class="form-group" show-errors ng-if="vm.share.category == 'newShare'">
-                <label class="control-label" for="readAndWrite">Read And Write(PL)</label>
-                <input name="readAndWrite" type="text" ng-model="vm.share.readAndWrite" id="readAndWrite" class="form-control" placeholder="UserIDs" ng-required="vm.share.category == 'newShare'"  ng-pattern="/^[a-zA-Z\-0-9\._]*(?:;([a-zA-Z\-0-9\._])+)*$/">
-                <div ng-messages="vm.form.shareForm.readAndWrite.$error" role="alert">
-                  <p class="help-block error-text" ng-message="required">Read And Write(PL) required.</p>
-                  <p class="help-block error-text" ng-message="pattern">Only semicolon separated userIDs allowed</p>
-                </div>
-                <p class="help-block">Semicolon(;) seperated list of userIDs</p>
-              </div>
-            <div class="form-group" show-errors ng-if="vm.share.category == 'newShare'">  
-                <label class="control-label" for="readWriteAndModify">Read Write And Modify(CC)</label>
-                <input name="readWriteAndModify" type="text" ng-model="vm.share.readWriteAndModify" id="readWriteAndModify" class="form-control" placeholder="UserIDs" ng-required="vm.share.category == 'newShare'" ng-pattern="/^([a-zA-Z\-0-9\._]*(?:;([a-zA-Z\-0-9\._])+)){1,}$/">
-                <div ng-messages="vm.form.shareForm.readWriteAndModify.$error" role="alert">
-                  <p class="help-block error-text" ng-message="required">Read Write And Modify is required.</p>
-                  <p class="help-block error-text" ng-message="pattern">Only semicolon separated userIDs allowed. Minimum 2 userIDs are needed.</p>
-                </div>
-                <p class="help-block">Semicolon(;) seperated list of userIDs</p>
-              </div>
-            <div class="show-grid row"  ng-if="vm.share.category == 'newShare'">
-                <div class="">
-                  <label class="control-label" for="readWriteAndModify">Storage Requirement For:</label>
-                </div>
-            </div>
-            <div class="show-grid row" ng-if="vm.share.category == 'newShare'">
-                <div class="form-group col-md-4">
-                  <label for="officeFile">Office File</label>
-                  <input name="officeFile" type="checkbox" ng-model="vm.share.storage.officeFile" id="officeFile"  class="form-control checkbox-left" ng-change="calculateCapacity()">
-                </div>
-                <div class="form-group col-md-4">
-                  <label for="compressedFile">Compressed File</label>
-                  <input name="compressedFile" type="checkbox" ng-model="vm.share.storage.compressedFile" id="compressedFile"  class="form-control checkbox-left" ng-change="calculateCapacity()">
-                </div>
-                <div class="form-group col-md-4">
-                  <label for="dataAndDBFile">Data and Database File</label>
-                  <input name="dataAndDBFile" type="checkbox" ng-model="vm.share.storage.dataAndDBFile" id="dataAndDBFile"  class="form-control checkbox-left" ng-change="calculateCapacity()">
-                </div>
-                
-            </div>
-            <div class="show-grid row" ng-if="vm.share.category == 'newShare'">
-                <div class="form-group col-md-4">
-                  <label for="executableFile">Executable File</label>
-                  <input name="executableFile" type="checkbox" ng-model="vm.share.storage.executableFile" id="executableFile"  class="form-control checkbox-left" ng-change="calculateCapacity()">
-                </div>
-                <div class="form-group col-md-4">
-                  <label for="imageFile">Image File</label>
-                  <input name="imageFile" type="checkbox" ng-model="vm.share.storage.imageFile" id="imageFile"  class="form-control checkbox-left" ng-change="calculateCapacity()">
-                </div>
-                <div class="form-group col-md-4">
-                  <label for="programmingFile">Programming File</label>
-                  <input name="programmingFile" type="checkbox" ng-model="vm.share.storage.programmingFile" id="programmingFile"  class="form-control checkbox-left" ng-change="calculateCapacity()">
-                </div>              
-            </div>
-            <div class="show-grid row" ng-if="vm.share.category == 'newShare'">
-                <div class="form-group col-md-4">
-                  <label for="videoFile">Video File</label>
-                  <input name="videoFile" type="checkbox" ng-model="vm.share.storage.videoFile" id="videoFile"  class="form-control checkbox-left" ng-change="calculateCapacity()">
-                </div>
-                <div class="form-group col-md-4">
-                  <label for="audioFile">Audio File</label>
-                  <input name="audioFile" type="checkbox" ng-model="vm.share.storage.audioFile" id="audioFile"  class="form-control checkbox-left" ng-change="calculateCapacity()">
-                </div>
-                <div class="form-group col-md-4">
-                  <label for="backupFile">Backup File</label>
-                  <input name="backupFile" type="checkbox" ng-model="vm.share.storage.backupFile" id="backupFile"  class="form-control checkbox-left" ng-change="calculateCapacity()">
-                </div>              
-            </div>
-            <div class="form-group" show-errors ng-if="vm.share.category == 'newShare'">
-                <label class="control-label" for="sizegb">Required Space(GB)</label>
-                <input name="sizegb" type="text" ng-model="vm.share.sizegb" id="sizegb" class="form-control" placeholder="Size" ng-required="vm.share.category == 'newShare'" ng-readonly="true">
-                <div ng-messages="vm.form.shareForm.sizegb.$error" role="alert">
-                  <p class="help-block error-text" ng-message="required">Please select any of the storage requirement.</p>
-                </div>
-              </div>
-            <div class="form-group" show-errors ng-if="vm.share.category == 'newShare'">
-              <label class="control-label" for="cost">Cost($)</label>
-              <input name="cost" type="text" ng-model="vm.share.cost" id="cost" class="form-control" placeholder="Cost" ng-required="vm.share.category == 'newShare'" ng-readonly="true">
-              <div ng-messages="vm.form.shareForm.cost.$error" role="alert">
-                <p class="help-block error-text" ng-message="required">Please select any of the storage requirement.</p>
-              </div>
-            </div>            
-`
-          <div ng-if="vm.share.category == 'rename'">
-            <div class="form-group" show-errors>
-                <label class="control-label" for="NewName">New name</label>
-                <input name="newName" type="text" ng-model="vm.share.newName" id="newName" class="form-control" placeholder="New Name" ng-required="vm.share.category == 'rename'"  ng-pattern="/^[a-zA-Z\-0-9\._]+$/"
-                >
-                <div ng-messages="vm.form.shareForm.newName.$error" role="alert">
-                  <p class="help-block error-text" ng-message="required">New name is required.</p>
-                  <p class="help-block error-text" ng-message="pattern">Only alphanumeric chars including dash and underscore are allowed.</p>
-                </div>
-            </div>
-          </div> 
-
-          <div ng-if="vm.share.category == 'resize'">
-            <div class="form-group" show-errors>
-                <label class="control-label" for="usedsizegb">Used Space(GB)</label>
-                <input name="usedsizegb" type="text" ng-model="vm.usedsizegb" id="usedsizegb" class="form-control" placeholder="Size"  ng-readonly="true">
-            </div>
-            <div class="form-group" show-errors>
-                <label class="control-label" for="allocatedSize">Allocated Space(GB)</label>
-                <input name="allocatedSize" type="text" ng-model="vm.allocatedSize" id="allocatedSize" class="form-control" placeholder="Size"  ng-readonly="true">
-
-            </div>
-            <div class="form-group" show-errors>
-                <label class="control-label" for="incrementGb">Increment/Decrement the size By(GB)</label>
-                <input name="incrementGb" type="number" ng-model="vm.incrementGb" id="incrementGb" class="form-control" placeholder="Size" ng-required="vm.share.category == 'newShare'"  step="5" ng-min="{{-vm.availableSize}}">
-                <div ng-messages="vm.form.shareForm.incrementGb.$error" role="alert">
-                  <p class="help-block error-text" ng-message="required">Please select the size in step of 5.</p>
-                  <p class="help-block error-text" ng-message="min">Please select the size lesser than or equal to {{vm.availableSize}}.</p>
-                </div>
-              </div>
-          </div>       
-          <div class="form-group">
-            <button type="submit" class="btn btn-primary">{{vm.share._id ? 'Update' : 'Create'}}</button>
-          </div>
         </fieldset>
       </form>
     </div>

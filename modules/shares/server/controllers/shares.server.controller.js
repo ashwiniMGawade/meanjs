@@ -175,7 +175,12 @@ exports.delete = function (req, res) {
  * List of Shares
  */
 exports.list = function (req, res) {
-  Share.find({}).sort('-created').populate('user', 'displayName').exec(function (err, shares) {
+  var query = {};
+
+  if (req.user.roles.indexOf('admin') === -1) {
+    query = {'user':req.user};
+  }
+  Share.find(query).sort('-created').populate('user', 'displayName').exec(function (err, shares) {
     if (err) {
       return res.status(422).send({
         message: errorHandler.getErrorMessage(err)

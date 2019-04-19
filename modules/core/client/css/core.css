@@ -21,6 +21,15 @@
 .brand-image{
   height: 24px;
 }
+.text-left {
+  text-align: left !important
+}
+.form-group {
+  margin-bottom:2px;
+}
+.help-block {
+  margin-bottom:0px;
+}
 .content-right{
   padding-left: 20px;
   font-weight: 100;
@@ -184,6 +193,10 @@ fieldset[disabled] .navbar-custom .btn-link:focus {
   z-index: 1000;
   display: none;
   background-color: #f9f9f9;
+}
+.page-header {
+  margin: 20px 0 20px;
+  padding-bottom:2px;
 }
 
 .typeahead-demo .custom-popup-wrapper > .message {
