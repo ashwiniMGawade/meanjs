@@ -12,8 +12,6 @@
       var vm = this;
 
       vm.selected = undefined;
-      vm.states = ['Alabama', 'Alaska', 'Arizona', 'Arkansas', 'California', 'Colorado', 'Connecticut', 'Delaware', 'Florida', 'Georgia', 'Hawaii', 'Idaho', 'Illinois', 'Indiana', 'Iowa', 'Kansas', 'Kentucky', 'Louisiana', 'Maine', 'Maryland', 'Massachusetts', 'Michigan', 'Minnesota', 'Mississippi', 'Missouri', 'Montana', 'Nebraska', 'Nevada', 'New Hampshire', 'New Jersey', 'New Mexico', 'New York', 'North Dakota', 'North Carolina', 'Ohio', 'Oklahoma', 'Oregon', 'Pennsylvania', 'Rhode Island', 'South Carolina', 'South Dakota', 'Tennessee', 'Texas', 'Utah', 'Vermont', 'Virginia', 'Washington', 'West Virginia', 'Wisconsin', 'Wyoming'];
-
       vm.ngModelOptionsSelected = function(value) {
         if (arguments.length) {
           _selected = value;
@@ -22,15 +20,47 @@
         }
       };
       
-      vm.example15model = []; 
-       vm.example15data = [ {id: "David", label: "David"}, {id: 2, label: "Jhon"}, {id: 3, label: "Lisa"}, {id: 4, label: "Nicole"}, {id: 5, label: "Danny"} ]; 
-        vm.example15settings = { 
+      /**reference from http://dotansimha.github.io/angularjs-dropdown-multiselect/docs/#/main */
+        vm.readOnlyAndWritesettings = { 
           enableSearch: true, 
-          selectionLimit: 2
-        }; 
-      vm.customFilter = 'a'
-    
-      vm.share = share;  
+          idProp: 'sAMAccountName',
+          displayProp: 'displayName',
+          searchField: 'sAMAccountName',
+          scrollableHeight: '200px',
+          scrollable: true,
+          smartButtonMaxItems: 4,
+          selectedToTop:true,
+          smartButtonTextConverter: function(itemText, originalItem) { 
+            return itemText;
+          }
+        };
+
+        vm.readOnly = [];
+        vm.readAndWrite = [];
+        vm.readWriteAndModify = [];
+
+        vm.readWriteAndModifysettings = { 
+          enableSearch: true, 
+          idProp: 'sAMAccountName',
+          displayProp: 'displayName',
+          searchField: 'sAMAccountName',
+          scrollableHeight: '200px',
+          scrollable: true,
+          smartButtonMaxItems: 2,
+          selectedToTop:true,
+          smartButtonTextConverter: function(itemText, originalItem) { 
+            return itemText;
+          }
+        };
+        
+      vm.defaultUserSelectionText = {
+        buttonDefaultText: 'Select Users From the List'
+      };
+      
+      vm.customFilter = 'a';
+
+      vm.share = share; 
+      
       vm.aclGroups = [];  
       vm.share.storage = vm.share.storage || {}
       vm.project = projectInfo;
@@ -188,6 +218,25 @@
           });
         }
       }
+
+      function checkUserIdsSpecified() {
+        if (vm.readOnly.length == 0) {
+          Notification.error({ message: 'Please specify at least on user In Read Only field.', title: '<i class="glyphicon glyphicon-remove"></i> Share save error!' });
+          return false;
+        }
+        
+        if (vm.readAndWrite.length == 0) {
+          Notification.error({ message: 'Please specify at least on user In Read And Write field.', title: '<i class="glyphicon glyphicon-remove"></i> Share save error!' });
+          return false;
+        }
+
+        if (vm.readWriteAndModify.length <= 1) {
+          Notification.error({ message: 'Minimum 2 users required In Read Write and Modify field.', title: '<i class="glyphicon glyphicon-remove"></i> Share save error!' });
+          return false;
+        }
+        return true;
+        
+      }
   
       // Save Share
       function save(isValid) {
@@ -195,6 +244,24 @@
           $scope.$broadcast('show-errors-check-validity', 'vm.form.shareForm');
           return false;
         }
+        if (!checkUserIdsSpecified()) {
+          return false;
+        }
+
+        var keyArray =  vm.readOnly.map(function(item) { return item["id"]; });
+        vm.share.readOnly = keyArray.join(';');
+
+        keyArray =  vm.readAndWrite.map(function(item) { return item["id"]; });
+        vm.share.readAndWrite = keyArray.join(';');
+
+        keyArray =  vm.readWriteAndModify.map(function(item) { return item["id"]; });
+        vm.share.readWriteAndModify = keyArray.join(';');
+
+        //set the new value for share if selected category is resize
+        if (vm.share.category == 'resize') {
+          vm.share.newSizegb = vm.availableSize + vm.incrementGb
+        }
+
 
         //set the new value for share if selected category is resize
         if (vm.share.category == 'resize') {
@@ -212,7 +279,6 @@
         }
   
         function errorCallback(res) {
-            console.log("here in error")
           Notification.error({ message: res.data.message, title: '<i class="glyphicon glyphicon-remove"></i> Share save error!' });
         }
       }

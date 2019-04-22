@@ -46,7 +46,8 @@
       },
       getUsers: {
         method: 'GET',
-        url: '/api/users/list'
+        url: '/api/users/list',
+        isArray: true
       }
     });
 

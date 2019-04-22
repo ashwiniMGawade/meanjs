@@ -34,31 +34,34 @@
               </div>
               <div class="form-group" show-errors ng-if="vm.share.category == 'newShare'"> 
                   <label class="control-label" for="readOnly">Read Only(DV)</label>
-                  <input name="readOnly" type="text" ng-model="vm.share.readOnly" id="readOnly" class="form-control" placeholder="UserIDs" ng-required="vm.share.category == 'newShare'"  ng-pattern="/^[a-zA-Z\-0-9\._]*(?:;([a-zA-Z\-0-9\._])+)*$/"
+                  <div ng-dropdown-multiselect="" search-filter="vm.customFilter" options="vm.users" selected-model="vm.readOnly" extra-settings="vm.readOnlyAndWritesettings" translation-texts="vm.defaultUserSelectionText"  disabled= "(vm.users && vm.users.length > 0) ? false: true"></div>
+                  <!-- <input name="readOnly" type="text" ng-model="vm.share.readOnly" id="readOnly" class="form-control" placeholder="UserIDs" ng-required="vm.share.category == 'newShare'"  ng-pattern="/^[a-zA-Z\-0-9\._]*(?:;([a-zA-Z\-0-9\._])+)*$/"
                   >
                   <div ng-messages="vm.form.shareForm.readOnly.$error" role="alert">
                     <p class="help-block error-text" ng-message="required">Read Only is required.</p>
                     <p class="help-block error-text" ng-message="pattern">Only semicolon separated userIDs allowed</p>
                   </div>
-                  <p class="help-block">Semicolon(;) seperated list of userIDs</p>
+                  <p class="help-block">Semicolon(;) seperated list of userIDs</p> -->
               </div>
               <div class="form-group" show-errors ng-if="vm.share.category == 'newShare'">
-                  <label class="control-label" for="readAndWrite">Read And Write(PL)</label>
-                  <input name="readAndWrite" type="text" ng-model="vm.share.readAndWrite" id="readAndWrite" class="form-control" placeholder="UserIDs" ng-required="vm.share.category == 'newShare'"  ng-pattern="/^[a-zA-Z\-0-9\._]*(?:;([a-zA-Z\-0-9\._])+)*$/">
+                  <label class="control-label" for="readAndWrite" >Read And Write(PL)</label>
+                  <!-- <input name="readAndWrite" type="text" ng-model="vm.share.readAndWrite" id="readAndWrite" class="form-control" placeholder="UserIDs" ng-required="vm.share.category == 'newShare'"  ng-pattern="/^[a-zA-Z\-0-9\._]*(?:;([a-zA-Z\-0-9\._])+)*$/">
                   <div ng-messages="vm.form.shareForm.readAndWrite.$error" role="alert">
                     <p class="help-block error-text" ng-message="required">Read And Write(PL) required.</p>
                     <p class="help-block error-text" ng-message="pattern">Only semicolon separated userIDs allowed</p>
                   </div>
-                  <p class="help-block">Semicolon(;) seperated list of userIDs</p>
+                  <p class="help-block">Semicolon(;) seperated list of userIDs</p> -->
+                  <div ng-dropdown-multiselect="" search-filter="vm.customFilter" options="vm.users" selected-model="vm.readAndWrite" extra-settings="vm.readOnlyAndWritesettings" translation-texts="vm.defaultUserSelectionText"  disabled= "(vm.users && vm.users.length > 0) ? false: true"></div>
               </div>
               <div class="form-group" show-errors ng-if="vm.share.category == 'newShare'">  
                   <label class="control-label" for="readWriteAndModify">Read Write And Modify(CC)</label>
-                  <input name="readWriteAndModify" type="text" ng-model="vm.share.readWriteAndModify" id="readWriteAndModify" class="form-control" placeholder="UserIDs" ng-required="vm.share.category == 'newShare'" ng-pattern="/^([a-zA-Z\-0-9\._]*(?:;([a-zA-Z\-0-9\._])+)){1,}$/">
+                  <!-- <input name="readWriteAndModify" type="text" ng-model="vm.share.readWriteAndModify" id="readWriteAndModify" class="form-control" placeholder="UserIDs" ng-required="vm.share.category == 'newShare'" ng-pattern="/^([a-zA-Z\-0-9\._]*(?:;([a-zA-Z\-0-9\._])+)){1,}$/">
                   <div ng-messages="vm.form.shareForm.readWriteAndModify.$error" role="alert">
                     <p class="help-block error-text" ng-message="required">Read Write And Modify is required.</p>
                     <p class="help-block error-text" ng-message="pattern">Only semicolon separated userIDs allowed. Minimum 2 userIDs are needed.</p>
                   </div>
-                  <p class="help-block">Semicolon(;) seperated list of userIDs</p>
+                  <p class="help-block">Semicolon(;) seperated list of userIDs</p> -->
+                  <div ng-dropdown-multiselect="" search-filter="vm.customFilter" options="vm.users" selected-model="vm.readWriteAndModify" extra-settings="vm.readWriteAndModifysettings" translation-texts="vm.defaultUserSelectionText" disabled= "(vm.users && vm.users.length > 0) ? false: true"></div>
               </div>
             </div>
             <div class="col-md-2"></div>
@@ -143,14 +146,11 @@
           </div> -->
 
         
-        <!-- <div ng-dropdown-multiselect="" options="vm.states" selected-model="example9model" extra-settings="example9settings"></div> -->
+        <!-- <div ng-dropdown-multiselect="" options="vm.example15data" selected-model="example9model" extra-settings="example9settings"></div> -->
 
-        <!-- <div ng-dropdown-multiselect="" search-filter="vm.customFilter" options="vm.example15data" selected-model="vm.example15model" extra-settings="vm.example15settings"></div>
+        <!-- <div ng-dropdown-multiselect="" search-filter="vm.customFilter" options="vm.users" selected-model="vm.example15model" extra-settings="vm.example15settings"></div> -->
 
-        
-
-        {{vm.example15model}} -->
-            
+                   
             <div class="row">
               <div class="col-md-5">
                   <div class="form-group" show-errors ng-if="vm.share.category == 'changePermission'">
