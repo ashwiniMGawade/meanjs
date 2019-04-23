@@ -21,14 +21,13 @@
                 <label class="content-right col-md-8" name="projectCode">{{vm.share.projectCode}}</label>
               </div> 
               <div class="form-group" show-errors>
-                <label for="category">Select Category</label>   
+                <label for="category" class="control-label" >Select Category</label>   
                 <select name="category" ng-model="vm.share.category" id="category" class="form-control" ng-options="key as value for (key , value) in vm.getFilteredCategories()" ng-required="true">
                   <option value="">Please select a Category</option>
                 </select>
-                {{vm.form.category}}  
                 <div class="loader" ng-if="!vm.categories.length"></div>
                      
-                <div ng-messages="vm.form.category.$error" role="alert">
+                <div ng-messages="vm.form.shareForm.category.$error" role="alert">
                   <p class="help-block error-text" ng-message="required">Category is required.</p>
                 </div>              
               </div>
@@ -154,26 +153,26 @@
             <div class="row">
               <div class="col-md-5">
                   <div class="form-group" show-errors ng-if="vm.share.category == 'changePermission'">
-                    <label for="operation">Select Operation</label>   
+                    <label for="operation" class="control-label">Select Operation</label>   
                     <select name="operation" ng-model="vm.share.operation" id="operation" class="form-control" ng-options="key as value for (key , value) in vm.allowedOperations" required autofocus>
                       <option value="">Please select a Operation</option>
                     </select>
-                    <div ng-messages="vm.form.operation.$error" role="alert">
+                    <div ng-messages="vm.form.shareForm.operation.$error" role="alert">
                       <p class="help-block error-text" ng-message="required">ACL Operation required.</p>
                     </div>              
                   </div>       
                     
                   <div class="form-group" show-errors ng-if="vm.share.category == 'changePermission' &&  (vm.share.operation == 'addUserToADGroup' || vm.share.operation == 'removeUserFromADGroup' || vm.share.operation == 'removeUserOrGroupFromShare')">
       
-                    <label ng-if="vm.share.operation == 'addUserToADGroup' || vm.share.operation == 'removeUserFromADGroup'" for="acl_group">Select ACL Group</label>  
+                    <label ng-if="vm.share.operation == 'addUserToADGroup' || vm.share.operation == 'removeUserFromADGroup'" for="acl_group" class="control-label">Select ACL Group</label>  
       
-                    <label ng-if="vm.share.operation == 'removeUserOrGroupFromShare'" for="acl_group">Select ACL Group or user to remove</label>  
+                    <label ng-if="vm.share.operation == 'removeUserOrGroupFromShare'" for="acl_group" class="control-label" >Select ACL Group or user to remove</label>  
       
                     <select name="acl_group" ng-model="vm.share.acl_group" id="acl_group" class="form-control" ng-options="group.groupName as group.groupName for group in vm.getACLgroups()" required >
                       <option value="">Please select a ACL group</option>
                     </select>
                     <div class="loader" ng-if="!vm.aclGroups.length"></div>
-                    <div ng-messages="vm.form.acl_group.$error" role="alert">
+                    <div ng-messages="vm.form.shareForm.acl_group.$error" role="alert">
                       <p class="help-block error-text" ng-message="required">ACL group is required.</p>
                     </div>              
                   </div>
@@ -198,12 +197,13 @@
                     </div>
                     
                   <div class="form-group" show-errors ng-if="vm.share.category == 'changePermission' && vm.share.operation && (vm.share.operation == 'addUserToADGroup' || vm.share.operation == 'removeUserFromADGroup')">
-                    <label class="control-label" for="acl_users">UserId</label>
-                    <input name="acl_users" type="text" ng-model="vm.share.acl_users" id="acl_users" class="form-control" placeholder="UserIDs" required ng-pattern="/^[a-zA-Z\-0-9\._]*(?:;([a-zA-Z\-0-9\._])+)*$/">
+                    <label class="control-label" for="acl_users">UserIds</label>
+                    <!-- <input name="acl_users" type="text" ng-model="vm.share.acl_users" id="acl_users" class="form-control" placeholder="UserIDs" required ng-pattern="/^[a-zA-Z\-0-9\._]*(?:;([a-zA-Z\-0-9\._])+)*$/">
                     <div ng-messages="vm.form.shareForm.acl_users.$error" role="alert">
                       <p class="help-block error-text" ng-message="required">UserIDs required.</p>
                       <p class="help-block error-text" ng-message="pattern">Only semicolon separated userIDs allowed</p>
-                    </div>
+                    </div> -->
+                    <div ng-dropdown-multiselect="" search-filter="vm.customFilter" options="vm.users" selected-model="vm.acl_users" extra-settings="vm.readOnlyAndWritesettings" translation-texts="vm.defaultUserSelectionText"  disabled= "(vm.users && vm.users.length > 0) ? false: true"></div>
                   </div>
                   <div ng-if="vm.share.category == 'rename'">
                     <div class="form-group" show-errors>
@@ -229,7 +229,7 @@
                     </div>
                     <div class="form-group" show-errors>
                         <label class="control-label" for="incrementGb">Increment/Decrement the size By(GB)</label>
-                        <input name="incrementGb" type="number" ng-model="vm.incrementGb" id="incrementGb" class="form-control" placeholder="Size" ng-required="vm.share.category == 'newShare'"  step="5" ng-min="{{-vm.availableSize}}">
+                        <input name="incrementGb" type="number" ng-model="vm.incrementGb" id="incrementGb" class="form-control" placeholder="Size" ng-required="vm.share.category == 'resize'"  step="5" ng-min="{{-vm.availableSize}}" required>
                         <div ng-messages="vm.form.shareForm.incrementGb.$error" role="alert">
                           <p class="help-block error-text" ng-message="required">Please select the size in step of 5.</p>
                           <p class="help-block error-text" ng-message="min">Please select the size lesser than or equal to {{vm.availableSize}}.</p>

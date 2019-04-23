@@ -279,9 +279,15 @@ exports.getUsers = function(req, res) {
  }
 
   var ad = new ActiveDirectory(ADconfig);
-  var query = '(&(objectCategory=Person)(sAMAccountName=*))';  
-  ad.findUsers(query, true, function(err, users) {
+
+  var opts = {
+    filter: '(&(objectCategory=Person)(sAMAccountName=*))',
+    attributes: [ 'sAMAccountName', 'userPrinicipalName', 'displayName' ]
+  };
+
+  ad.findUsers(opts, function(err, users) {
     if (err) {
+      console.log(err)
       console.log('ERROR: ' +JSON.stringify(err));
       res.status(400).send(err);
     } else {

@@ -38,6 +38,7 @@
         vm.readOnly = [];
         vm.readAndWrite = [];
         vm.readWriteAndModify = [];
+        vm.acl_users = [];
 
         vm.readWriteAndModifysettings = { 
           enableSearch: true, 
@@ -244,22 +245,29 @@
           $scope.$broadcast('show-errors-check-validity', 'vm.form.shareForm');
           return false;
         }
-        if (!checkUserIdsSpecified()) {
-          return false;
+
+        if (vm.share.category == 'newShare') {
+          if (!checkUserIdsSpecified()) {
+            return false;
+          }
+
+          var keyArray =  vm.readOnly.map(function(item) { return item["id"]; });
+          vm.share.readOnly = keyArray.join(';');
+
+          keyArray =  vm.readAndWrite.map(function(item) { return item["id"]; });
+          vm.share.readAndWrite = keyArray.join(';');
+
+          keyArray =  vm.readWriteAndModify.map(function(item) { return item["id"]; });
+          vm.share.readWriteAndModify = keyArray.join(';');
         }
 
-        var keyArray =  vm.readOnly.map(function(item) { return item["id"]; });
-        vm.share.readOnly = keyArray.join(';');
-
-        keyArray =  vm.readAndWrite.map(function(item) { return item["id"]; });
-        vm.share.readAndWrite = keyArray.join(';');
-
-        keyArray =  vm.readWriteAndModify.map(function(item) { return item["id"]; });
-        vm.share.readWriteAndModify = keyArray.join(';');
-
-        //set the new value for share if selected category is resize
-        if (vm.share.category == 'resize') {
-          vm.share.newSizegb = vm.availableSize + vm.incrementGb
+        if (vm.share.category == 'changePermission' &&  (vm.share.operation == 'addUserToADGroup' || vm.share.operation == 'removeUserFromADGroup')) {
+          if (vm.acl_users.length == 0) {
+            Notification.error({ message: 'Please specify at least on user in UserIds.', title: '<i class="glyphicon glyphicon-remove"></i> Share save error!' });
+            return false;
+          }
+          keyArray =  vm.acl_users.map(function(item) { return item["id"]; });
+          vm.share.acl_users = keyArray.join(';');
         }
 
 
