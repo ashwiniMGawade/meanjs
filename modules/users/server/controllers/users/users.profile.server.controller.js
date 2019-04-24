@@ -282,7 +282,8 @@ exports.getUsers = function(req, res) {
 
   var opts = {
     filter: '(&(objectClass=user))', //'(&(objectCategory=Person)(sAMAccountName=*))' (!userAccountControl:1.2.840.113556.1.4.803:=2)
-    attributes: [ 'sAMAccountName', 'userPrinicipalName', 'displayName' ]
+    attributes: [ 'sAMAccountName', 'userPrinicipalName', 'displayName' ],
+    sizeLimit : 2000
   };
 
   ad.findUsers(opts, function(err, users) {
