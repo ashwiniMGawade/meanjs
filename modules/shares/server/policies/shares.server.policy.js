@@ -35,15 +35,6 @@ exports.invokeRolesPolicies = function () {
       resources: '/api/shares/:shareId',
       permissions: '*'
     }]
-  }, {
-    roles: ['guest'],
-    allows: [{
-      resources: '/api/shares',
-      permissions: []
-    }, {
-      resources: '/api/shares/:shareId',
-      permissions: []
-    }]
   }]);
 };
 

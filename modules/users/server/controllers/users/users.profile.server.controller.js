@@ -281,7 +281,7 @@ exports.getUsers = function(req, res) {
   var ad = new ActiveDirectory(ADconfig);
 
   var opts = {
-    filter: '(&(objectCategory=Person)(sAMAccountName=*))',
+    filter: '(&(objectClass=user)(!userAccountControl:1.2.840.113556.1.4.803:=2))', //'(&(objectCategory=Person)(sAMAccountName=*))'
     attributes: [ 'sAMAccountName', 'userPrinicipalName', 'displayName' ]
   };
 
