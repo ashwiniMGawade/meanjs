@@ -53,6 +53,18 @@
             return itemText;
           }
         };
+
+        vm.userDropdownInitEvents = {
+          'onInitDone': function() {
+            var directiveScope =  angular.element(document.getElementsByClassName('multiselect-parent')).scope();
+            directiveScope.$watch('input.searchFilter', function(newVal, oldVal) {
+              if (newVal !== oldVal && newVal != '') {
+                vm.getUsers(newVal);
+              }
+              
+            });   
+          }
+        }
         
       vm.defaultUserSelectionText = {
         buttonDefaultText: 'Select Users From the List'
@@ -66,6 +78,15 @@
       vm.share.storage = vm.share.storage || {}
       vm.project = projectInfo;
       vm.cifShareDetails = {};
+
+      
+      vm.getUsers = function( filterVal) {
+        UsersService.getUsers({
+          search: filterVal
+        }).$promise.then(function(res) {
+          vm.users = res
+        });
+      }
       
       if ( projectInfo) {
         SharesService.getCifsShareDetails({
@@ -107,12 +128,9 @@
         vm.share.approvers = vm.share.approvers || projectInfo.dm + ';'+ projectInfo.pm;
 
         //get users list
+      vm.getUsers(vm.customFilter);
+    }
 
-        UsersService.getUsers({
-        }).$promise.then(function(res) {
-          vm.users = res
-        })
-      }
       
       vm.authentication = Authentication;
       vm.isAdmin = Authentication.user.roles.indexOf('admin') != -1;
