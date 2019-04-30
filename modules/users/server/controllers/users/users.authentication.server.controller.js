@@ -72,8 +72,17 @@ exports.signup = function (req, res) {
 //   })(req, res, next);
 // };
 
+exports.signin = function( req, res, next) {
+  passport.authenticate('WindowsAuthentication',
+  function (req, res){
+    console.log(req)
+    console.log(res);
+    res.json(req.user);
+  })
+}
+
 //LDAP SIGNIN
-exports.signin = function (req, res, next) {
+/*exports.signin = function (req, res, next) {
  
   passport.authenticate('ldapauth', function (err, user, info) {
     console.log(err, "err", user, "user", info, "info")
@@ -99,7 +108,7 @@ exports.signin = function (req, res, next) {
     }
   })(req, res, next);
 };
-
+*/
 /**
  * Signout
  */
