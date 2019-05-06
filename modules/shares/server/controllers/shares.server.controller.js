@@ -71,7 +71,7 @@ exports.updateRequest = function (req, res) {
       sendToWorkflowForExecution(share);
       
     function sendToWorkflowForExecution(share) {
-      //set the status to processing
+      //set the status to processing      
       saveShareStatus(share, 'Processing');
       var volName = share.bu;
 
@@ -88,6 +88,7 @@ exports.updateRequest = function (req, res) {
             secondaryvserver: details.secondaryvserver,
             volumeName:volName,
             shareName: share.projectCode,
+            cityAbbr: details.cityAbbr,
             share: share
           };
           console.log("called create share wfa", args);

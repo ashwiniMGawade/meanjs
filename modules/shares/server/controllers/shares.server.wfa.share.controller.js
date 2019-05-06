@@ -71,7 +71,7 @@ var getWorkflowArgs = function(req) {
         '<userInputEntry value="' + (req.shareName || '') + '" key="shareName"/>' +
         '<userInputEntry value="' + (req.share.sizegb || '') + '" key="size"/>' +
         '<userInputEntry value="' + (req.shareName + 'created by'+ req.share.user.displayName || '') + '" key="description"/>' +
-        '<userInputEntry value="' + (req.share.city || '') + '" key="primaryLocation"/>' +
+        '<userInputEntry value="' + (req.cityAbbr || '') + '" key="primaryLocation"/>' +
         '<userInputEntry value="' + (req.share.readWriteAndModify || '') + '" key="ccuser"/>' +
         '<userInputEntry value="' + (req.share.readOnly || '') + '" key="dvuser"/>' +
         '<userInputEntry value="' + (req.share.readAndWrite || '') + '" key="pluser"/>' +

@@ -232,6 +232,7 @@ fieldset[disabled] .navbar-custom .btn-link:focus {
 .multiselect-parent.btn-group button {
   width: 100%;
   text-align: left;
+  background:none;
 }
 
 .multiselect-parent.open > .dropdown-menu{

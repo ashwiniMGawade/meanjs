@@ -122,11 +122,12 @@ getClusterInfo = function (location, res) {
     primarycluster:'',
     primaryvserver:'',
     secondarycluster: '',
-    secondaryvserver: ''
+    secondaryvserver: '',
+    cityAbbr: ''
   };
 
   var args = ' Select '+
-  'locationmapping.locationmapping.pcluster as primarycluster, locationmapping.locationmapping.pvserver primaryvserver,  locationmapping.locationmapping.scluster as secondarycluster, locationmapping.locationmapping.svserver secondaryvserver '+
+  'locationmapping.locationmapping.pcluster as primarycluster, locationmapping.locationmapping.pvserver primaryvserver,  locationmapping.locationmapping.scluster as secondarycluster, locationmapping.locationmapping.svserver secondaryvserver, locationmapping.locationmapping.psname as cityAbbr '+
   'FROM ' +
   'locationmapping.locationmapping ' +
   'WHERE ' +
@@ -149,6 +150,7 @@ getClusterInfo = function (location, res) {
             cifsShare.primaryvserver = result[0].primaryvserver;
             cifsShare.secondarycluster = result[0].secondarycluster;
             cifsShare.secondaryvserver = result[0].secondaryvserver;
+            cifsShare.cityAbbr = result[0].cityAbbr;
           
           res(null, cifsShare);
         } else {
