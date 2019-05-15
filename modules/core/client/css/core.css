@@ -239,3 +239,8 @@ fieldset[disabled] .navbar-custom .btn-link:focus {
   z-index:2000 !important;
   width:100% !important;
 }
+
+
+.blue{
+  background-color: #b0cfe9
+}

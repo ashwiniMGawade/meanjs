@@ -32,7 +32,7 @@
             <td ng-bind="share.bu" class="capitalize breakword" title="'Business Unit'" sortable="'bu'"></td>
             <td ng-bind="share.projectCode" class="capitalize breakword" title="'Project Code'" sortable="'projectCode'"></td>
             <td ng-bind="vm.categories[share.category]" class="capitalize breakword" title="'Category'" sortable="'category'"></td>
-            <td ng-bind="share.status" title="'Status'" sortable="'status'" class="breakword"></td>
+            <td ng-bind="share.status" ng-class="vm.getClass(share.status)" title="'Status'" sortable="'status'" class="breakword"></td>
             <td ng-bind="share.user.displayName" ng-if="vm.isAdmin" title="'user'" sortable="'user'" class="breakword"></td>
             
            
