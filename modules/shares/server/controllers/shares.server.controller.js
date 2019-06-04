@@ -178,17 +178,58 @@ exports.delete = function (req, res) {
 exports.list = function (req, res) {
   var query = {};
 
-  if (req.user.roles.indexOf('admin') === -1) {
-    query = {'user':req.user};
-  }
-  Share.find(query).sort('-created').populate('user', 'displayName').exec(function (err, shares) {
-    if (err) {
-      return res.status(422).send({
-        message: errorHandler.getErrorMessage(err)
-      });
-    }
+  var searchPhrase = req.query.s;
+  var page = req.query.page | 0;
+  var perPage = req.query.perPage | 10;
 
-    res.json(shares);
+  if (req.user.roles.indexOf('admin') === -1) {
+    query.user = req.user;
+  }
+
+  if(searchPhrase) {
+    query['$or'] =[ 
+          {
+            city: new RegExp( searchPhrase, "i")
+          },
+          {
+            category: new RegExp( searchPhrase, "i")
+          },
+          {
+            status: new RegExp( searchPhrase, "i")
+          },
+          {
+            projectCode: new RegExp( searchPhrase, "i")
+          },
+          {
+            bu: new RegExp( searchPhrase, "i")
+          },
+          {
+            approvers: new RegExp( searchPhrase, "i")
+          }
+        ];
+          // { $or: [ { $text: {$search: searchPhrase} },
+          //  ]
+          // }
+    
+  } 
+   //query.setOptions({explain: 'executionStats'});
+  // .sort( {
+  //   score: { $meta : 'textScore' }
+  // } )
+  //queryExec.explain().then(console.log);
+
+  //Share.find(query).sort('-created').populate('user', 'displayName').
+  Share.count(query, function (err, count) {
+    if (count > 0) {
+      Share.find(query).skip(page*perPage).limit(perPage).sort('-created').populate('user', 'displayName').exec(function (err, shares) {
+        if (err) {
+          return res.status(422).send({
+            message: errorHandler.getErrorMessage(err)
+          });
+        }
+        res.json({'shares': shares, total: count});
+      });
+    }    
   });
 };
 

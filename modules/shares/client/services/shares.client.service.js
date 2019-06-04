@@ -11,6 +11,10 @@
       var Share = $resource('/api/shares/:shareId', {
         shareId: '@_id'
       }, {
+        query: {
+          method: 'GET',
+          isArray: false,
+        },
         update: {
           method: 'PUT'
         },

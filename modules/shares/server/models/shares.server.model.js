@@ -4,6 +4,7 @@
  * Module dependencies
  */
 var mongoose = require('mongoose'),
+  mongoosePaginate = require('mongoose-paginate'),
   Schema = mongoose.Schema,
   path = require('path'),
   config = require(path.resolve('./config/config')),
@@ -163,5 +164,18 @@ var ShareSchema = new Schema({
   }
 });
 
+ShareSchema.plugin(mongoosePaginate);
+
+ShareSchema.index({
+  city:'text', 
+  projectCode: 'text', 
+  bu: 'text', 
+  status: 'text', 
+  category: 'text', 
+  approvers: 'text', 
+  //user.name: 'text'
+});
+
 mongoose.model('Share', ShareSchema);
+
 

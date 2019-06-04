@@ -10,17 +10,29 @@
     function SharesListController($scope, $filter, SharesService, Authentication, $interval) {
       var vm = this;
       vm.buildPager = buildPager;
+      vm.currentPage = 1;
+      vm.itemsPerPage = 10;
       vm.figureOutItemsToDisplay = figureOutItemsToDisplay;
       vm.pageChanged = pageChanged;
+      vm.loadMore = loadMore;
+      vm.searchRecords = searchRecords;
       vm.isAdmin = Authentication.user.roles.indexOf('admin') != -1;
       var reloadCnt = 0;
+      vm.loading = false;
 
       vm.categories = sharedConfig.share.categories;
+      vm.totalRecords  = 0;
 
-      var getShares = function() {
-        SharesService.query({'page':vm.currentPage, 'perPage': vm.itemsPerPage} ,function (data) {
-          vm.shares = data;
-          vm.buildPager();
+      vm.getShares = function(loadMore) {
+        loadMore  = loadMore | false;
+        vm.loading = true;
+        SharesService.query({'page':vm.currentPage - 1, 'perPage': vm.itemsPerPage, 's': vm.search} ,function (data) {
+          vm.shares = ( loadMore ?   vm.shares.concat(data.shares) : data.shares);
+          vm.totalRecords = data.total;
+          //vm.buildPager();
+          //removed pagination and added loader
+          vm.pagedItems = vm.shares;
+          vm.loading = false;
         });
       }
 
@@ -37,11 +49,11 @@
       }
 
 
-      getShares();
+      vm.getShares();
 
       var refreshData = $interval(function() { 
         reloadCnt++;
-        getShares();
+        vm.getShares();
       }, 130000);
 
       $scope.$on('$destroy', function(){
@@ -50,7 +62,6 @@
   
       function buildPager() {
         vm.pagedItems = [];
-        vm.itemsPerPage = 10;
         vm.currentPage = vm.currentPage || 1;
         vm.figureOutItemsToDisplay();
       }
@@ -67,6 +78,19 @@
   
       function pageChanged() {
         vm.figureOutItemsToDisplay();
+      }
+
+      function loadMore() {
+        vm.currentPage = vm.currentPage || 1;
+        vm.currentPage += 1;
+        vm.getShares(true);
+      }
+
+      function searchRecords() {
+        vm.shares = [];
+        vm.currentPage = vm.currentPage || 1;
+        vm.pagedItems = [];   
+        vm.getShares();     
       }
     }
   }());
