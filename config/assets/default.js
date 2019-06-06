@@ -25,7 +25,8 @@ module.exports = {
         'public/lib/angular-ui-router/release/angular-ui-router.js',
         'public/lib/owasp-password-strength-test/owasp-password-strength-test.js',
         'public/lib/angular-sanitize/angular-sanitize.min.js',
-        'public/lib/angularjs-dropdown-multiselect/src/angularjs-dropdown-multiselect.js'
+        'public/lib/angularjs-dropdown-multiselect/src/angularjs-dropdown-multiselect.js',
+        'public/lib/ngInfiniteScroll/build/ng-infinite-scroll.min.js'
         // endbower
       ],
       tests: ['public/lib/angular-mocks/angular-mocks.js']

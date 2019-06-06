@@ -91,3 +91,20 @@ exports.userByID = function (req, res, next, id) {
     next();
   });
 };
+
+
+/**
+ * User middleware
+ */
+exports.userByDisplayname = function (displayName, callback) {
+  
+  User.find({ displayName: new RegExp( displayName, "i")}).exec(function (err, users) {
+    if (err) {
+      return callback(err);
+    } else if (!users) {
+      return callback(new Error('Failed to load user ' + id));
+    } else {
+      return callback(null, users);
+    }
+  });
+};

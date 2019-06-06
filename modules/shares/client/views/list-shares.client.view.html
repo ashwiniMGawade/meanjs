@@ -43,9 +43,11 @@
 
     <!-- <uib-pagination boundary-links="true" max-size="8" items-per-page="vm.itemsPerPage" total-items="vm.filterLength" ng-model="vm.currentPage" ng-change="vm.pageChanged()" ng-show="vm.pagedItems.length"></uib-pagination> -->
    
-    <div class="text-center" style="margin-bottom:20px;" ng-show="(vm.totalRecords - vm.currentPage * vm.itemsPerPage) > 0  && vm.loading == false">
+    <!-- <div class="text-center" style="margin-bottom:20px;" ng-show="(vm.totalRecords - vm.currentPage * vm.itemsPerPage) > 0  && vm.loading == false">
         <button class="btn btn-primary" value="Load More" ng-click="vm.loadMore()">Load More</button>
-    </div>
+    </div> -->
+
+    <div infinite-scroll="vm.loadMore()" infinite-scroll-distance="0"></div>
     
 
     <div class="alert alert-warning text-center" ng-show="vm.pagedItems.length==0 && vm.loading == false">

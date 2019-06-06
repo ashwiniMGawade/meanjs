@@ -81,14 +81,16 @@
       }
 
       function loadMore() {
-        vm.currentPage = vm.currentPage || 1;
-        vm.currentPage += 1;
-        vm.getShares(true);
+        if((vm.totalRecords - vm.currentPage * vm.itemsPerPage) > 0) {
+          vm.currentPage = vm.currentPage || 1;
+          vm.currentPage += 1;
+          vm.getShares(true);
+        }       
       }
 
       function searchRecords() {
         vm.shares = [];
-        vm.currentPage = vm.currentPage || 1;
+        vm.currentPage = 1;
         vm.pagedItems = [];   
         vm.getShares();     
       }

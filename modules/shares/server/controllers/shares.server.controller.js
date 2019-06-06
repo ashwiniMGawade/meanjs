@@ -8,7 +8,9 @@ var path = require('path'),
   mongoose = require('mongoose'),
   util = require('util'),
   Share = mongoose.model('Share'),
+  User = mongoose.model('User'),
   errorHandler = require(path.resolve('./modules/core/server/controllers/errors.server.controller')),
+  userController = require(path.resolve('./modules/users/server/controllers/admin.server.controller')),
   wfaDB = require(path.resolve('./modules/shares/server/controllers/shares.server.wfa.db.read')),
   mailHandler = require(path.resolve('./modules/shares/server/controllers/shares.server.mailHandler'));
 
@@ -135,7 +137,7 @@ exports.updateRequest = function (req, res) {
     // function getOutputs(category, jobId) {
     //   var args = {
     //     jobId: jobId,
-    //     category: category
+    //     category: category 
     //   };
   
     //   clientWfa.wfaJobOut(args, function (err, resWfa) {
@@ -181,37 +183,59 @@ exports.list = function (req, res) {
   var searchPhrase = req.query.s;
   var page = req.query.page | 0;
   var perPage = req.query.perPage | 10;
+  var getSharesFromQuery = getSharesFromQuery;
 
   if (req.user.roles.indexOf('admin') === -1) {
     query.user = req.user;
   }
 
   if(searchPhrase) {
-    query['$or'] =[ 
+    query['$or'] =[];
+    userController.userByDisplayname(searchPhrase, function(err, users) {
+      if (err) {
+        return res.status(422).send({
+          message: errorHandler.getErrorMessage(err)
+        });
+      } else if (users.length > 0) {
+        var userIds = users.map(function( user ) {
+            return user._id;
+        });
+        query['$or'].push( 
           {
-            city: new RegExp( searchPhrase, "i")
+            user: {"$in": userIds}
           },
-          {
-            category: new RegExp( searchPhrase, "i")
-          },
-          {
-            status: new RegExp( searchPhrase, "i")
-          },
-          {
-            projectCode: new RegExp( searchPhrase, "i")
-          },
-          {
-            bu: new RegExp( searchPhrase, "i")
-          },
-          {
-            approvers: new RegExp( searchPhrase, "i")
-          }
-        ];
-          // { $or: [ { $text: {$search: searchPhrase} },
-          //  ]
-          // }
+        )
+      }
+
+      query['$or'].concat([ 
+        {
+          city: new RegExp( searchPhrase, "i")
+        },
+        {
+          category: new RegExp( searchPhrase, "i")
+        },
+        {
+          status: new RegExp( searchPhrase, "i")
+        },
+        {
+          projectCode: new RegExp( searchPhrase, "i")
+        },
+        {
+          bu: new RegExp( searchPhrase, "i")
+        },
+        {
+          approvers: new RegExp( searchPhrase, "i")
+        }
+      ]);
+        // { $or: [ { $text: {$search: searchPhrase} },
+        //  ]
+        // }
+      return getSharesFromQuery(query);
+    });
     
-  } 
+  } else {
+    return getSharesFromQuery(query);
+  }
    //query.setOptions({explain: 'executionStats'});
   // .sort( {
   //   score: { $meta : 'textScore' }
@@ -219,19 +243,32 @@ exports.list = function (req, res) {
   //queryExec.explain().then(console.log);
 
   //Share.find(query).sort('-created').populate('user', 'displayName').
-  Share.count(query, function (err, count) {
-    if (count > 0) {
-      Share.find(query).skip(page*perPage).limit(perPage).sort('-created').populate('user', 'displayName').exec(function (err, shares) {
-        if (err) {
-          return res.status(422).send({
-            message: errorHandler.getErrorMessage(err)
-          });
-        }
-        res.json({'shares': shares, total: count});
-      });
-    }    
-  });
+ 
+  function getSharesFromQuery(query) {
+    Share.count(query, function (err, count) {
+      if (err) {
+        return res.status(422).send({
+          message: errorHandler.getErrorMessage(err)
+        });
+      }
+      if (count > 0) {
+        Share.find(query).skip(page*perPage).limit(perPage).sort('-created').populate('user', 'displayName').exec(function (err, shares) {
+          if (err) {
+            return res.status(422).send({
+              message: errorHandler.getErrorMessage(err)
+            });
+          }
+          res.json({'shares': shares, total: count});
+        });
+      } else {
+        res.json({'shares': [], total:count});
+      }
+  
+    });
+  }
 };
+
+
 
 /**
  * Create an share
