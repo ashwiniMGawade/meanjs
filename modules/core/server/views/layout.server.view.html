@@ -10,7 +10,7 @@
 
   
 
-  <base href="/">
+  <base href="/meanjs/">
 
   <!-- Apple META -->
   <meta name="apple-mobile-web-app-capable" content="yes">
@@ -39,18 +39,12 @@
   <link href="/manifest.json" rel="manifest">
 
   <!-- Application CSS Files -->
-  {{#each cssFiles}}<link rel="stylesheet" href="/{{this}}">{{/each}}
+  {{#each cssFiles}}<link rel="stylesheet" href="{{this}}">{{/each}}
 </head>
-<configuration>
-  <system.webServer>
-    <!-- ... -->
-    <iisnode promoteServerVars="LOGON_USER,AUTH_USER,AUTH_TYPE" />
-  </system.webServer>
-</configuration>
 
 
 <body class="ng-cloak">
-  <header ng-include="'/modules/core/client/views/header.client.view.html'" class="navbar navbar-custom navbar-fixed-top navbar-inverse"></header>
+  <header ng-include="'modules/core/client/views/header.client.view.html'" class="navbar navbar-custom navbar-fixed-top navbar-inverse"></header>
   <section class="content">
     <section class="container">
       {{{block "content"}}}
@@ -81,10 +75,10 @@
   </script>
 
   <!--Load The Socket.io File-->
-  <script type="text/javascript" src="/socket.io/socket.io.js"></script>
+  <script type="text/javascript" src="socket.io/socket.io.js"></script>
 
   <!--Application JavaScript Files-->
-    {{#each jsFiles}}<script type="text/javascript" src="/{{this}}"></script>{{/each}}
+    {{#each jsFiles}}<script type="text/javascript" src="{{this}}"></script>{{/each}}
   
   <!--owasp config sync-->
   <script type="text/javascript">

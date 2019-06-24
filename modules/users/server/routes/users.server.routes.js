@@ -5,14 +5,14 @@ module.exports = function (app) {
   var users = require('../controllers/users.server.controller');
 
   // Setting up the users profile api
-  app.route('/api/users/me').get(users.me);
-  app.route('/api/users').put(users.update);
-  app.route('/api/users/accounts').delete(users.removeOAuthProvider);
-  app.route('/api/users/password').post(users.changePassword);
-  app.route('/api/users/picture').post(users.changeProfilePicture);
+  app.route('/meanjs/api/users/me').get(users.me);
+  app.route('/meanjs/api/users').put(users.update);
+  app.route('/meanjs/api/users/accounts').delete(users.removeOAuthProvider);
+  app.route('/meanjs/api/users/password').post(users.changePassword);
+  app.route('/meanjs/api/users/picture').post(users.changeProfilePicture);
 
-  app.route('/api/users/projectInfo').get(users.projectInfo);
-  app.route('/api/users/list').get(users.getUsers);
+  app.route('/meanjs/api/users/projectInfo').get(users.projectInfo);
+  app.route('/meanjs/api/users/list').get(users.getUsers);
 
   // Finish by binding the user middleware
   app.param('userId', users.userByID);

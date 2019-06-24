@@ -8,7 +8,7 @@
     SharesService.$inject = ['$resource', '$log'];
   
     function SharesService($resource, $log) {
-      var Share = $resource('/api/shares/:shareId', {
+      var Share = $resource('/meanjs/api/shares/:shareId', {
         shareId: '@_id'
       }, {
         query: {
@@ -20,11 +20,11 @@
         },
         getCifsShareDetails: {
           method: 'GET',
-          url: '/api/shares/getCifsShareDetails'
+          url: '/meanjs/api/shares/getCifsShareDetails'
         },
         getCifsShareACLGroups: {
           method: 'GET',
-          url: '/api/shares/getCifsShareACLGroups',
+          url: '/meanjs/api/shares/getCifsShareACLGroups',
           isArray: true
         },
         updateRequest: {
@@ -33,7 +33,7 @@
             shareId:'@shareId',
             action: '@action'
           },
-          url: '/api/shares/:shareId/:action'
+          url: '/meanjs/api/shares/:shareId/:action'
         }
       });
   

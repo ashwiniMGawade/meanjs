@@ -9,44 +9,44 @@
   UsersService.$inject = ['$resource'];
 
   function UsersService($resource) {
-    var Users = $resource('/api/users', {}, {
+    var Users = $resource('/meanjs/api/users', {}, {
       update: {
         method: 'PUT'
       },
       updatePassword: {
         method: 'POST',
-        url: '/api/users/password'
+        url: '/meanjs/api/users/password'
       },
       deleteProvider: {
         method: 'DELETE',
-        url: '/api/users/accounts',
+        url: '/meanjs/api/users/accounts',
         params: {
           provider: '@provider'
         }
       },
       sendPasswordResetToken: {
         method: 'POST',
-        url: '/api/auth/forgot'
+        url: '/meanjs/api/auth/forgot'
       },
       resetPasswordWithToken: {
         method: 'POST',
-        url: '/api/auth/reset/:token'
+        url: '/meanjs/api/auth/reset/:token'
       },
       signup: {
         method: 'POST',
-        url: '/api/auth/signup'
+        url: '/meanjs/api/auth/signup'
       },
       signin: {
         method: 'POST',
-        url: '/api/auth/signin'
+        url: '/meanjs/api/auth/signin'
       },
       getUserProjectDetails: {
         method: 'GET',
-        url: '/api/users/projectInfo'
+        url: '/meanjs/api/users/projectInfo'
       },
       getUsers: {
         method: 'GET',
-        url: '/api/users/list',
+        url: '/meanjs/api/users/list',
         isArray: true
       }
     });
@@ -87,7 +87,7 @@
   AdminService.$inject = ['$resource'];
 
   function AdminService($resource) {
-    return $resource('/api/users/:userId', {
+    return $resource('/meanjs/api/users/:userId', {
       userId: '@_id'
     }, {
       update: {

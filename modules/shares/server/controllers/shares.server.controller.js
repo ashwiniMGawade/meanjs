@@ -190,7 +190,29 @@ exports.list = function (req, res) {
   }
 
   if(searchPhrase) {
-    query['$or'] =[];
+    query['$or'] = [ 
+      {
+        city: new RegExp( searchPhrase, "i")
+      },
+      {
+        category: new RegExp( searchPhrase, "i")
+      },
+      {
+        status: new RegExp( searchPhrase, "i")
+      },
+      {
+        projectCode: new RegExp( searchPhrase, "i")
+      },
+      {
+        bu: new RegExp( searchPhrase, "i")
+      },
+      {
+        approvers: new RegExp( searchPhrase, "i")
+      }
+    ];
+      // { $or: [ { $text: {$search: searchPhrase} },
+      //  ]
+      // }
     userController.userByDisplayname(searchPhrase, function(err, users) {
       if (err) {
         return res.status(422).send({
@@ -206,30 +228,6 @@ exports.list = function (req, res) {
           },
         )
       }
-
-      query['$or'].concat([ 
-        {
-          city: new RegExp( searchPhrase, "i")
-        },
-        {
-          category: new RegExp( searchPhrase, "i")
-        },
-        {
-          status: new RegExp( searchPhrase, "i")
-        },
-        {
-          projectCode: new RegExp( searchPhrase, "i")
-        },
-        {
-          bu: new RegExp( searchPhrase, "i")
-        },
-        {
-          approvers: new RegExp( searchPhrase, "i")
-        }
-      ]);
-        // { $or: [ { $text: {$search: searchPhrase} },
-        //  ]
-        // }
       return getSharesFromQuery(query);
     });
     
@@ -246,6 +244,7 @@ exports.list = function (req, res) {
  
   function getSharesFromQuery(query) {
     Share.count(query, function (err, count) {
+      console.log(query, err, "after query formation")
       if (err) {
         return res.status(422).send({
           message: errorHandler.getErrorMessage(err)

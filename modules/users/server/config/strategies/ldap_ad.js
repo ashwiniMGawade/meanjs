@@ -10,6 +10,7 @@ var passport = require('passport'),
   path = require("path"),
   config = require(path.resolve('./config/config'));
 
+	console.log(config.ldap)
 
 module.exports = function (config) {
   // Use active directory strategy

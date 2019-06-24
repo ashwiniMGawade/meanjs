@@ -52,34 +52,36 @@ exports.signup = function (req, res) {
 /**
  * Signin after passport authentication
  */
-// exports.signin = function (req, res, next) {
-//   passport.authenticate('local', function (err, user, info) {
-//     if (err || !user) {
-//       res.status(422).send(info);
-//     } else {
-//       // Remove sensitive data before login
-//       user.password = undefined;
-//       user.salt = undefined;
+exports.signin = function (req, res, next) {
+  console.log("called here");
+  console.log(req.headers);
+  passport.authenticate('local', function (err, user, info) {
+    if (err || !user) {
+      res.status(422).send(info);
+    } else {
+      // Remove sensitive data before login
+      user.password = undefined;
+      user.salt = undefined;
 
-//       req.login(user, function (err) {
-//         if (err) {
-//           res.status(400).send(err);
-//         } else {
-//           res.json(user);
-//         }
-//       });
-//     }
-//   })(req, res, next);
-// };
+      req.login(user, function (err) {
+        if (err) {
+          res.status(400).send(err);
+        } else {
+          res.json(user);
+        }
+      });
+    }
+  })(req, res, next);
+};
 
-exports.signin = function( req, res, next) {
-  passport.authenticate('WindowsAuthentication',
-  function (req, res){
-    console.log(req)
-    console.log(res);
-    res.json(req.user);
-  })
-}
+// exports.signin = function( req, res, next) {
+//   passport.authenticate('WindowsAuthentication',
+//   function (req, res){
+//     console.log(req)
+//     console.log(res);
+//     res.json(req.user);
+//   })
+// }
 
 //LDAP SIGNIN
 /*exports.signin = function (req, res, next) {

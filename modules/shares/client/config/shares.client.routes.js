@@ -16,13 +16,13 @@
         })
         .state('shares.list', {
           url: '',
-          templateUrl: '/modules/shares/client/views/list-shares.client.view.html',
+          templateUrl: 'modules/shares/client/views/list-shares.client.view.html',
           controller: 'SharesListController',
           controllerAs: 'vm'
         })
         .state('shares.create', {
             url: '/create',
-            templateUrl: '/modules/shares/client/views/form-share.client.view.html',
+            templateUrl: 'modules/shares/client/views/form-share.client.view.html',
             controller: 'SharesController',
             controllerAs: 'vm',
             data: {
@@ -36,7 +36,7 @@
         })
         .state('shares.view', {
           url: '/:shareId',
-          templateUrl: '/modules/shares/client/views/view-share.client.view.html',
+          templateUrl: 'modules/shares/client/views/view-share.client.view.html',
           controller: 'SharesController',
           controllerAs: 'vm',
           resolve: {

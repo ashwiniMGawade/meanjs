@@ -11,11 +11,11 @@ module.exports = function (app) {
   require('./users.server.routes.js')(app);
 
   // Users collection routes
-  app.route('/api/users')
+  app.route('/meanjs/api/users')
     .get(adminPolicy.isAllowed, admin.list);
 
   // Single user routes
-  app.route('/api/users/:userId')
+  app.route('/meanjs/api/users/:userId')
     .get(adminPolicy.isAllowed, admin.read)
     .put(adminPolicy.isAllowed, admin.update)
     .delete(adminPolicy.isAllowed, admin.delete);
