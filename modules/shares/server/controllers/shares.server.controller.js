@@ -7,12 +7,16 @@ var path = require('path'),
   config = require(path.resolve('./config/config')),
   mongoose = require('mongoose'),
   util = require('util'),
+  path = require('path'),
+  logger = require(path.resolve('./config/lib/log')),
   Share = mongoose.model('Share'),
   User = mongoose.model('User'),
   errorHandler = require(path.resolve('./modules/core/server/controllers/errors.server.controller')),
   userController = require(path.resolve('./modules/users/server/controllers/admin.server.controller')),
   wfaDB = require(path.resolve('./modules/shares/server/controllers/shares.server.wfa.db.read')),
   mailHandler = require(path.resolve('./modules/shares/server/controllers/shares.server.mailHandler'));
+
+   logger.info("share module");
 
 /**
  * Show the current share
@@ -35,6 +39,7 @@ exports.update = function (req, res) {
 
   share.save(function (err) {
     if (err) {
+      logger.info(': Failed to save share object: ' + err);
       return res.status(422).send({
         message: errorHandler.getErrorMessage(err)
       });

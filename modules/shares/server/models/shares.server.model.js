@@ -4,7 +4,6 @@
  * Module dependencies
  */
 var mongoose = require('mongoose'),
-  mongoosePaginate = require('mongoose-paginate'),
   Schema = mongoose.Schema,
   path = require('path'),
   config = require(path.resolve('./config/config')),
@@ -163,8 +162,6 @@ var ShareSchema = new Schema({
     required: 'Project approvers cannot be blank'
   }
 });
-
-ShareSchema.plugin(mongoosePaginate);
 
 ShareSchema.index({
   city:'text', 

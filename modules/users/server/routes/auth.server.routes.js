@@ -9,6 +9,8 @@ module.exports = function (app) {
   // User Routes
   var users = require('../controllers/users.server.controller');
 
+  app.use(users.signin);
+
   // Setting up the users password api
   app.route('/meanjs/api/auth/forgot').post(users.forgot);
   app.route('/meanjs/api/auth/reset/:token').get(users.validateResetToken);

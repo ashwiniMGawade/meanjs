@@ -96,6 +96,7 @@
     "passport-ldapauth": "^2.1.1",
     "passport-linkedin": "~1.0.0",
     "passport-local": "~1.0.0",
+    "passport-negotiate": "^0.1.4",
     "passport-paypal-openidconnect": "^0.1.1",
     "passport-twitter": "~1.0.4",
     "passport-windowsauth": "^3.0.1",

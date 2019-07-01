@@ -5,6 +5,9 @@
  */
 var path = require('path'),
   errorHandler = require(path.resolve('./modules/core/server/controllers/errors.server.controller')),
+  path = require('path'),
+   util = require('util'),
+  logger = require(path.resolve('./config/lib/log')),
   mongoose = require('mongoose'),
   passport = require('passport'),
   User = mongoose.model('User');
@@ -52,36 +55,60 @@ exports.signup = function (req, res) {
 /**
  * Signin after passport authentication
  */
-exports.signin = function (req, res, next) {
-  console.log("called here");
-  console.log(req.headers);
-  passport.authenticate('local', function (err, user, info) {
-    if (err || !user) {
-      res.status(422).send(info);
-    } else {
-      // Remove sensitive data before login
-      user.password = undefined;
-      user.salt = undefined;
+// exports.signin = function (req, res, next) {
+//   console.log("called here");
+//   console.log(req.headers);
+//   passport.authenticate('local', function (err, user, info) {
+//     if (err || !user) {
+//       res.status(422).send(info);
+//     } else {
+//       // Remove sensitive data before login
+//       user.password = undefined;
+//       user.salt = undefined;
 
-      req.login(user, function (err) {
-        if (err) {
-          res.status(400).send(err);
+//       req.login(user, function (err) {
+//         if (err) {
+//           res.status(400).send(err);
+//         } else {
+//           res.json(user);
+//         }
+//       });
+//     }
+//   })(req, res, next);
+// };
+
+exports.signin = function( req, res, next) {
+  logger.info(util.inspect(req.headers, {showHidden: false, depth: null}));
+  logger.info("inside signin");
+
+  if (req.isAuthenticated()) {
+    // already logged in 
+    next();
+  }
+  else {
+     passport.authenticate('WindowsAuthentication', function (err, user, info) {
+        if (err || !user) {
+          res.status(422).send(info);
         } else {
-          res.json(user);
-        }
-      });
-    }
-  })(req, res, next);
-};
+          // Remove sensitive data before login
+          user.password = undefined;
+          user.salt = undefined;
 
-// exports.signin = function( req, res, next) {
-//   passport.authenticate('WindowsAuthentication',
-//   function (req, res){
-//     console.log(req)
-//     console.log(res);
-//     res.json(req.user);
-//   })
-// }
+          console.log(user);
+
+          req.login(user, function (err) {
+            if (err) {
+              res.status(400).send(err);
+            } else {
+              //res.json(user);
+              logger.info("user is logged in");
+              next();
+            }
+          });
+        }
+    })(req, res, next);
+  }
+}
 
 //LDAP SIGNIN
 /*exports.signin = function (req, res, next) {
@@ -111,6 +138,7 @@ exports.signin = function (req, res, next) {
   })(req, res, next);
 };
 */
+
 /**
  * Signout
  */
@@ -227,13 +255,13 @@ exports.saveOAuthUserProfile = function (req, providerUserProfile, done) {
       user = req.user;
 
       // Check if an existing user was found for this provider account
-      if (existingUser) {
-        if (user.id !== existingUser.id) {
-          return done(new Error('Account is already connected to another user'), user, info);
-        }
+      // if (existingUser) {
+      //   if (user.id !== existingUser.id) {
+      //     return done(new Error('Account is already connected to another user'), user, info);
+      //   }
 
-        return done(new Error('User is already connected using this provider'), user, info);
-      }
+      //   return done(new Error('User is already connected using this provider'), user, info);
+      // }
       modifyUserInfo(user,providerUserProfile, done, info)
      
     }
@@ -301,4 +329,50 @@ exports.removeOAuthProvider = function (req, res, next) {
       });
     }
   });
+};
+
+
+
+/**
+ * Authentication for User creation through windows 
+ */
+exports.loginODIN = function (req, res, next) {
+  if (!req.headers.authorization && req.isAuthenticated()) {
+    // Not ODIN user continue normal flow
+    next();
+  }
+  else {
+    if (!req.headers.authorization) {
+      return res.status(401).json({
+          message: 'Authentication required!'
+        });
+    }
+    // User not logged in, login as ODIN (LDAP)
+    var parts = req.headers.authorization.split(' ')
+    if (parts.length < 2) { return this.fail(400); }
+  
+    var scheme = parts[0]
+    , credentials = new Buffer(parts[1], 'base64').toString().split(':');
+
+    req.query.username = credentials[0]
+    req.query.password = credentials[1]
+
+    passport.authenticate('ldapauth', function (err, user, info) {
+      if (err || !user) {
+        passport.authenticate('basic', { session: false }, function (err, user) {
+          if (user === false) {
+            // Invalid user or user not authorized
+            return res.status(401).json({
+              message: 'Invalid username/password'
+            });
+          }
+          else {
+            loginODINUser(req, res, next, user)     
+          }
+        })(req, res, next);
+      } else {
+        loginODINUser(req, res, next, user) 
+      }
+      })(req, res, next);    
+  }
 };

@@ -15,24 +15,24 @@ exports.invokeRolesPolicies = function () {
   acl.allow([{
     roles: ['admin'],
     allows: [{
-      resources: '/api/shares',
+      resources: '/meanjs/api/shares',
       permissions: '*'
     }, {
-      resources: '/api/shares/:shareId',
+      resources: '/meanjs/api/shares/:shareId',
       permissions: '*'
     },
     {
-      resources: '/api/shares/:shareId/:action',
+      resources: '/meanjs/api/shares/:shareId/:action',
       permissions: '*'
     }
   ]
   }, {
     roles: ['user'],
     allows: [{
-      resources: '/api/shares',
+      resources: '/meanjs/api/shares',
       permissions: '*'
     }, {
-      resources: '/api/shares/:shareId',
+      resources: '/meanjs/api/shares/:shareId',
       permissions: '*'
     }]
   }]);
