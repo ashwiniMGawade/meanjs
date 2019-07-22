@@ -81,7 +81,7 @@ var getWorkflowArgs = function(req) {
         '<comments>DFaaS Engine share Create: ' + req.share._id + ' ' + req.share.user.displayName + '</comments>' +
         '</workflowInput>';
       break;
-      case 'resize': 
+    case 'resize': 
       args.data = '<workflowInput>' +
         '<userInputValues>' +
         '<userInputEntry value="' + (req.primarycluster || '') + '" key="clusterName"/>' +
@@ -90,10 +90,10 @@ var getWorkflowArgs = function(req) {
         '<userInputEntry value="' + (req.shareName || '') + '" key="qtreeName"/>' +
         '<userInputEntry value="' + (req.share.newSizegb || '') + '" key="newSize"/>' +
         '</userInputValues>' +
-        '<comments>DFaaS Engine share Create: ' + req.share._id + ' ' + req.share.user.displayName + '</comments>' +
+        '<comments>DFaaS Engine share resize: ' + req.share._id + ' ' + req.share.user.displayName + '</comments>' +
         '</workflowInput>';
       break;
-      case 'rename': 
+    case 'rename': 
       args.data = '<workflowInput>' +
         '<userInputValues>' +
         '<userInputEntry value="' + (req.primarycluster || '') + '" key="clusterName"/>' +
@@ -102,10 +102,10 @@ var getWorkflowArgs = function(req) {
         '<userInputEntry value="' + (req.shareName || '') + '" key="qtreeName"/>' +
         '<userInputEntry value="' + (req.share.newName || '') + '" key="newName"/>' +
         '</userInputValues>' +
-        '<comments>DFaaS Engine share Create: ' + req.share._id + ' ' + req.share.user.displayName + '</comments>' +
+        '<comments>DFaaS Engine share rename: ' + req.share._id + ' ' + req.share.user.displayName + '</comments>' +
         '</workflowInput>';
       break;
-      case 'changePermission': 
+    case 'changePermission': 
       args.data = '<workflowInput>' +
         '<userInputValues>' +
         '<userInputEntry value="' + (req.primarycluster || '') + '" key="clusterName"/>' +
@@ -119,7 +119,18 @@ var getWorkflowArgs = function(req) {
         +
         (req.share.acl_users ? ('<userInputEntry value="' + (req.share.acl_users || '') + '" key="userName"/>'): '') +
         '</userInputValues>' +
-        '<comments>DFaaS Engine share Create: ' + req.share._id + ' ' + req.share.user.displayName + '</comments>' +
+        '<comments>DFaaS Engine share change permission: ' + req.share._id + ' ' + req.share.user.displayName + '</comments>' +
+        '</workflowInput>';
+      break;
+    case 'retireVolumeWorkflow':
+      args.data = '<workflowInput>' +
+        '<userInputValues>' +
+        '<userInputEntry value="' + (req.primarycluster || '') + '" key="clusterName"/>' +
+        '<userInputEntry value="' + (req.primaryvserver || '') + '" key="vserverName"/>' +
+        '<userInputEntry value="' + (req.volumeName || '') + '" key="volumeName"/>' +
+        '<userInputEntry value="' + (req.shareName || '') + '" key="shareName"/>' +       
+        '</userInputValues>' +
+        '<comments>DFaaS Engine volume retire workflow: ' + req.share._id + ' ' + req.share.user.displayName + '</comments>' +
         '</workflowInput>';
       break;
     case 'default':
