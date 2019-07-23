@@ -53,7 +53,7 @@ module.exports = {
       'resize':'https://'+process.env.WFA_SERVER_HOST+'/rest/workflows/3540f3c5-b496-41da-8503-b6a070e512f3/jobs',
       'rename':'https://'+process.env.WFA_SERVER_HOST+'/rest/workflows/c47814db-35c9-423b-977e-1f35e365f005/jobs',
       'restoreProjectShare':'https://'+process.env.WFA_SERVER_HOST+'/rest/workflows/c47814db-35c9-423b-977e-1f35e365f005/jobs',
-      'retireVolumeWorkflow':'https://'+process.env.WFA_SERVER_HOST+'/rest/workflows/c47814db-35c9-423b-977e-1f35e365f005/jobs',
+      'retireVolumeWorkflow':'https://'+process.env.WFA_SERVER_HOST+'/rest/workflows/7e2bda43-4679-4dde-9da3-b20caea338e1/jobs',
       'migration': 'https://'+process.env.WFA_SERVER_HOST+'/rest/workflows/c47814db-35c9-423b-977e-1f35e365f005/jobs'
     }
   },
@@ -124,10 +124,10 @@ module.exports = {
           "newShare": "New Project Share Creation",
           "changePermission": "Change Permission",
           "resize": "Resize Project Share",
-          "rename": "Rename Project Share",
-          "restoreProjectShare": "Retire Project Share",
+//           "rename": "Rename Project Share",
+//           "restoreProjectShare": "Retire Project Share",
           "retireVolumeWorkflow": "Retire Volume Workflow",
-          "migration": "Project Migration Workflow"
+//           "migration": "Project Migration Workflow"
       },
       fileSizeTypes: {
         "officeFile":"Office File",
