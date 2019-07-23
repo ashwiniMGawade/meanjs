@@ -229,42 +229,42 @@ exports.me = function (req, res) {
 
 exports.projectInfo = function(req, res) {
   
-  // var request = new Request("Select txtibucode,dm,pm,startDate,endDate,projectcode from V_AHD_ProjectDetails where projectcode ='" + req.user.providerData.projectCode + "';", function (err, rowCount, rows) {
+  var request = new Request("Select txtibucode,dm,pm,startDate,endDate,projectcode from V_AHD_ProjectDetails where projectcode ='" + req.user.providerData.projectCode + "';", function (err, rowCount, rows) {
 
-  //   if (err) {
-  //       console.log(err);
-  //   } else {
-  //       console.log(rowCount + ' rows');
-  //   }
-  //   console.log(rows) // this is the full array of row objects
-  //   // it just needs some manipulating
+    if (err) {
+        console.log(err);
+    } else {
+        console.log(rowCount + ' rows');
+    }
+    console.log(rows) // this is the full array of row objects
+    // it just needs some manipulating
 
-  //   var jsonArray  = []
-  //   rows.forEach(function (columns) {
-  //       var rowObject ={};
-  //       columns.forEach(function(column) {
-  //           rowObject[column.metadata.colName] = column.value;
-  //       });
-  //       rowObject["city"] = req.user.providerData.city
-  //       jsonArray.push(rowObject)
-  //   });
+    var jsonArray  = []
+    rows.forEach(function (columns) {
+        var rowObject ={};
+        columns.forEach(function(column) {
+            rowObject[column.metadata.colName] = column.value;
+        });
+        rowObject["city"] = req.user.providerData.city
+        jsonArray.push(rowObject)
+    });
 
-  //   res.json(jsonArray[0]);
-  // });
+    res.json(jsonArray[0]);
+  });
 
-  // sql.getConnction(function(conn) {
-  //   conn.execSql(request);
-  // });
+  sql.getConnction(function(conn) {
+    conn.execSql(request);
+  });
   
 
-  res.json({ txtibucode: 'MDT' ,//'MFGADM', //NFSShare
-  dm: 'subhankar           ',
-  pm: 'Kaustav_Bhowmik     ',
-  startDate: "2012-09-10T00:00:00.000Z",
-  endDate: "2014-12-31T00:00:00.000Z",
-  city: "BANGALORE",
-  projectcode: "MDT2018"
- });
+ //  res.json({ txtibucode: 'MDT' ,//'MFGADM', //NFSShare
+ //  dm: 'subhankar           ',
+ //  pm: 'Kaustav_Bhowmik     ',
+ //  startDate: "2012-09-10T00:00:00.000Z",
+ //  endDate: "2014-12-31T00:00:00.000Z",
+ //  city: "BANGALORE",
+ //  projectcode: "MDT2018"
+ // });
 }
 
 exports.getUsers = function(req, res) {
