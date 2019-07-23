@@ -60,7 +60,7 @@
             var directiveScope =  angular.element(document.querySelector('.readUsers .multiselect-parent')).scope();
             directiveScope.$watch('input.searchFilter', function(newVal, oldVal) {
               if (newVal !== oldVal && newVal != '' && newVal.length > 3) {
-                vm.getUsers(newVal);
+                vm.getUsers(newVal, "readLoader");
               }
               
             });   
@@ -74,7 +74,7 @@
             var directiveScope =  angular.element(document.querySelector('.readWriteUsers .multiselect-parent')).scope();
             directiveScope.$watch('input.searchFilter', function(newVal, oldVal) {
               if (newVal !== oldVal && newVal != '' && newVal.length > 3) {
-                vm.getUsers(newVal);
+                vm.getUsers(newVal , "readWriteLoader");
               }
               
             });   
@@ -86,7 +86,7 @@
             var directiveScope =  angular.element(document.querySelector('.readWriteAndModifyUsers .multiselect-parent')).scope();
             directiveScope.$watch('input.searchFilter', function(newVal, oldVal) {
               if (newVal !== oldVal && newVal != '' && newVal.length > 3) {
-                vm.getUsers(newVal);
+                vm.getUsers(newVal, "readWriteAndModifyLoader");
               }
               
             });   
@@ -105,13 +105,16 @@
       vm.share.storage = vm.share.storage || {}
       vm.project = projectInfo;
       vm.cifShareDetails = {};
+	  vm.readLoader = vm.readWriteLoader = vm.readWriteAndModifyLoader =  false;
 
       
-      vm.getUsers = function( filterVal) {
+      vm.getUsers = function( filterVal, element) {
+		  vm[element] = true;
         UsersService.getUsers({
           search: filterVal
         }).$promise.then(function(res) {
-          vm.users = res
+			vm[element] = false;
+			vm.users = res
         });
       }
       
