@@ -21,6 +21,19 @@
 .brand-image{
   height: 24px;
 }
+
+.break-word {
+	word-break:break-word;
+}
+
+.outlined {
+    word-break: break-word;
+    line-height: 20px;
+    padding: 5px;
+    background: #d4d4d46e;
+	border-radius: 5px;
+	
+}
 .text-left {
   text-align: left !important
 }

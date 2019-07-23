@@ -2,45 +2,46 @@
     <div class="page-header">
       <h1>Request: {{vm.share._id}}</h1>
     </div>
-    <div class="col-md-5">
-        <table class="table table-striped">
-            <tr><th>City</th><td ng-bind="vm.share.city"></td></tr>
-            <tr><th>Business Unit</th><td ng-bind="vm.share.bu"></td></tr>            
-            <tr ng-if="vm.share.category=='newShare'"><th>Read Only(DV)</th><td ng-bind="vm.share.readOnly" class="word-break-all"></td></tr>
-            <tr ng-if="vm.share.category=='newShare'"><th>Read And Write(PL)</th><td ng-bind="vm.share.readAndWrite" class="word-break-all"></td></tr>
-            <tr ng-if="vm.share.category=='newShare'"><th>Read Write And Modify(CC)</th><td ng-bind="vm.share.readWriteAndModify" class="word-break-all"></td></tr>           
+	<div class="row">
+		<div class="col-md-5">
+			<table class="table table-striped">
+				<tr><th>City</th><td ng-bind="vm.share.city"></td></tr>
+				<tr><th>Business Unit</th><td ng-bind="vm.share.bu"></td></tr>            
+				<tr ng-if="vm.share.category=='newShare'"><th>Read Only(DV)</th><td ng-bind="vm.share.readOnly" class="word-break-all break-word "></td></tr>
+				<tr ng-if="vm.share.category=='newShare'"><th>Read And Write(PL)</th><td ng-bind="vm.share.readAndWrite" class="word-break-all break-word "></td></tr>
+				<tr ng-if="vm.share.category=='newShare'"><th>Read Write And Modify(CC)</th><td ng-bind="vm.share.readWriteAndModify" class="word-break-all break-word "></td></tr>           
 
-            <tr><th>Status</th><td ng-bind="vm.share.status" class="word-break-all"></td></tr>
-            <tr><th>Request Raised On</th>
-                <td ng-bind="vm.share.created | date:'mediumDate'"></td></tr>
-            <tr ng-if="vm.isAdmin"><th>Request Raised By</th> 
-                <td  ng-bind="vm.share.user.displayName"></td>
-            </tr>
-            
-            <tr ng-if="!vm.isAdmin"><th>Aprrovers<td ng-bind="vm.share.approvers"></td></th></tr>
-            <tr ng-if="vm.isAdmin && vm.share.status=='Pending Approval'">
-                <th></th>
-                <td ng-click="vm.toggleActions()" style="cursor:pointer"><a>Click to Approve or Reject</a></td>
-            </tr>
-            <tr ng-show="vm.showActions">
-                    <th>Comment</th>
-                    <td>
-                        <input type="text" name="comment" ng-model="vm.comment">
-                    </td>
-                </tr>
-            <tr>
-              <th>Actions</th>
-              <td>
-                <button ng-if="vm.isAdmin && vm.share.status=='Pending Approval' && vm.showActions" type="button" class="btn btn-xs1 btn-primary" ng-click="vm.approve()">Approve</button>
-                <button ng-if="vm.isAdmin && vm.share.status=='Pending Approval' && vm.showActions" type="button" class="btn btn-xs1 btn-danger" ng-click="vm.reject()">Reject</button>
-                <button type="button" class="btn btn-xs1 btn-secondary" ui-sref="shares.list">Back</button>
-              </td>
-            </tr>
-           
-        </table>
-    </div>
-    <div class="col-md-2"></div>
-    <div class="col-md-5">
+				<tr><th>Status</th><td ng-bind="vm.share.status" class="word-break-all"></td></tr>
+				<tr><th>Request Raised On</th>
+					<td ng-bind="vm.share.created | date:'mediumDate'"></td></tr>
+				<tr ng-if="vm.isAdmin"><th>Request Raised By</th> 
+					<td  ng-bind="vm.share.user.displayName"></td>
+				</tr>
+				
+				<tr ng-if="!vm.isAdmin"><th>Aprrovers<td ng-bind="vm.share.approvers"></td></th></tr>
+				<tr ng-if="vm.isAdmin && vm.share.status=='Pending Approval'">
+					<th></th>
+					<td ng-click="vm.toggleActions()" style="cursor:pointer"><a>Click to Approve or Reject</a></td>
+				</tr>
+				<tr ng-show="vm.showActions">
+						<th>Comment</th>
+						<td>
+							<input type="text" name="comment" ng-model="vm.comment">
+						</td>
+					</tr>
+				<tr>
+				  <th>Actions</th>
+				  <td>
+					<button ng-if="vm.isAdmin && vm.share.status=='Pending Approval' && vm.showActions" type="button" class="btn btn-xs1 btn-primary" ng-click="vm.approve()">Approve</button>
+					<button ng-if="vm.isAdmin && vm.share.status=='Pending Approval' && vm.showActions" type="button" class="btn btn-xs1 btn-danger" ng-click="vm.reject()">Reject</button>
+					<button type="button" class="btn btn-xs1 btn-secondary" ui-sref="shares.list">Back</button>
+				  </td>
+				</tr>
+			   
+			</table>
+		</div>
+		<div class="col-md-2"></div>
+		<div class="col-md-5">
         <table class="table table-stripped">
             <tr><th>Project Code</th><td ng-bind="vm.share.projectCode"></td></tr>
             <tr><th>Category</th><td ng-bind="vm.categories[vm.share.category]"></td></tr>
@@ -53,7 +54,7 @@
             <tr ng-if="vm.share.category=='changePermission' && vm.share.operation != 'addUserOrGroupToShare'"><th>ACL Group</th><td ng-bind="vm.share.acl_group" class="word-break-all"></td></tr>
             <tr ng-if="vm.share.category=='changePermission' && (vm.share.operation == 'addUserToADGroup' || vm.share.operation == 'removeUserFromADGroup')"><th>ACL UserIds</th><td ng-bind="vm.share.acl_users" class="word-break-all"></td></tr>
 
-            <tr ng-if="vm.share.category=='changePermission' && vm.share.operation == 'addUserOrGroupToShare'"><th>ACL User or group</th><td ng-bind="vm.share.userOrGroupName" class="word-break-all"></td></tr>
+            <tr ng-if="vm.share.category=='changePermission' && vm.share.operation == 'addUserOrGroupToShare'"><th>ACL User or group</th><td ng-bind="vm.share.userOrGroupName" class="word-break-all break-word "></td></tr>
 
             <tr ng-if="vm.share.category=='changePermission' && vm.share.operation == 'addUserOrGroupToShare'"><th>ACL User or group Permissions</th><td ng-bind="vm.allowedPermissions[vm.share.userOrGroupPermissions]" class="word-break-all"></td></tr>
 
@@ -62,6 +63,7 @@
             <tr ng-if="vm.share.category=='resize'"><th>New Size(GB)</th><td ng-bind="vm.share.newSizegb" class="word-break-all"></td></tr>  
         </table>
     </div>
+	</div>
     
   </section>
   

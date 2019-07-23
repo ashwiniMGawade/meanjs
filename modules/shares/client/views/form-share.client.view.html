@@ -33,7 +33,9 @@
               </div>
               <div class="form-group" show-errors ng-if="vm.share.category == 'newShare'"> 
                   <label class="control-label" for="readOnly">Read Only(DV)</label>
-                  <div ng-dropdown-multiselect="" search-filter="vm.customFilter" options="vm.users" selected-model="vm.readOnly" extra-settings="vm.readOnlyAndWritesettings" translation-texts="vm.defaultUserSelectionText"  disabled= "(vm.users && vm.users.length > 0) ? false: true" events="vm.userDropdownInitEvents"></div>
+				   <p class="outlined" ng-if="vm.readOnly.length > 0">
+				  <span class="selectedUser" ng-repeat=" user in vm.readOnly">{{user.id}},</span></p>
+                  <div ng-dropdown-multiselect="" search-filter="vm.customFilter" options="vm.users" selected-model="vm.readOnly" extra-settings="vm.readOnlyAndWritesettings" translation-texts="vm.defaultUserSelectionText"  disabled= "(vm.users && vm.users.length > 0) ? false: true" events="vm.userDropdownInitEvents" class="readUsers"></div>
                   <!-- <input name="readOnly" type="text" ng-model="vm.share.readOnly" id="readOnly" class="form-control" placeholder="UserIDs" ng-required="vm.share.category == 'newShare'"  ng-pattern="/^[a-zA-Z\-0-9\._]*(?:;([a-zA-Z\-0-9\._])+)*$/"
                   >
                   <div ng-messages="vm.form.shareForm.readOnly.$error" role="alert">
@@ -50,7 +52,9 @@
                     <p class="help-block error-text" ng-message="pattern">Only semicolon separated userIDs allowed</p>
                   </div>
                   <p class="help-block">Semicolon(;) seperated list of userIDs</p> -->
-                  <div ng-dropdown-multiselect="" search-filter="vm.customFilter" options="vm.users" selected-model="vm.readAndWrite" extra-settings="vm.readOnlyAndWritesettings" translation-texts="vm.defaultUserSelectionText"  disabled= "(vm.users && vm.users.length > 0) ? false: true" events="vm.userDropdownInitEvents"></div>
+				   <p class="outlined" ng-if="vm.readAndWrite.length > 0">
+				  <span class="selectedUser" ng-repeat=" user in vm.readAndWrite">{{user.id}},</span></p>
+                  <div ng-dropdown-multiselect="" search-filter="vm.customFilter" options="vm.users" selected-model="vm.readAndWrite" extra-settings="vm.readOnlyAndWritesettings" translation-texts="vm.defaultUserSelectionText"  disabled= "(vm.users && vm.users.length > 0) ? false: true" events="vm.userDropdownRWInitEvents" class="readWriteUsers"></div>
               </div>
               <div class="form-group" show-errors ng-if="vm.share.category == 'newShare'">  
                   <label class="control-label" for="readWriteAndModify">Read Write And Modify(CC)</label>
@@ -60,19 +64,21 @@
                     <p class="help-block error-text" ng-message="pattern">Only semicolon separated userIDs allowed. Minimum 2 userIDs are needed.</p>
                   </div>
                   <p class="help-block">Semicolon(;) seperated list of userIDs</p> -->
-                  <div ng-dropdown-multiselect="" search-filter="vm.customFilter" options="vm.users" selected-model="vm.readWriteAndModify" extra-settings="vm.readWriteAndModifysettings" translation-texts="vm.defaultUserSelectionText" disabled= "(vm.users && vm.users.length > 0) ? false: true" events="vm.userDropdownInitEvents"></div>
+				  <p class="outlined" ng-if="vm.readWriteAndModify.length > 0">
+				  <span class="selectedUser" ng-repeat=" user in vm.readWriteAndModify">{{user.id}},</span></p>
+                  <div ng-dropdown-multiselect="" search-filter="vm.customFilter" options="vm.users" selected-model="vm.readWriteAndModify" extra-settings="vm.readWriteAndModifysettings" translation-texts="vm.defaultUserSelectionText" disabled= "(vm.users && vm.users.length > 0) ? false: true" events="vm.userDropdownRWMInitEvents" class="readWriteAndModifyUsers"></div>
               </div>
             </div>
             <div class="col-md-2"></div>
             <div class="col-md-5 pull-left">
-              <div class="row">
+              <!--<div class="row">
                   <label class="control-label col-md-4 text-left" for="projectStartDate">Project Start Date</label>
                   <label class="content-right col-md-8" name="projectStartDate">{{vm.project.startDate |  date:'mediumDate'}}</label>
               </div>
               <div class="row">
                 <label class="control-label col-md-4 text-left" for="projectEndDate">Project end Date</label>
                 <label class="content-right col-md-8" name="projectEndDate">{{vm.project.endDate | date:'mediumDate'}}</label>
-              </div>
+              </div>-->
               <div class="row" ng-if="vm.cifShareDetails.sharepath">
                   <label class="control-label col-md-4 text-left" for="sharePath">Share Path</label>
                   <label class="content-right col-md-8" name="sharePath">{{vm.cifShareDetails.sharepath}}</label>
@@ -83,10 +89,11 @@
               </div>
               <div class="row"  ng-if="vm.share.category == 'newShare'">
                   <label class="control-label col-md-5 text-left" for="sizegb">Required Space (GB)</label>
-                  <label class="content-right col-md-2" text-left name="sizegb">{{vm.share.sizegb}}</label>
-                  <div class="col-md-1"></div>
-                  <label class="control-label col-md-2 text-left" for="cost">Cost($)</label>
-                  <label class="content-right col-md-2 text-left" name="cost">{{vm.share.cost}}</label>
+                  <label class="content-right col-md-7" text-left name="sizegb">{{vm.share.sizegb}}</label>
+                </div>
+				<div class="row"  ng-if="vm.share.category == 'newShare'">
+                  <label class="control-label col-md-5 text-left" for="cost">Cost($)</label>
+                  <label class="content-right col-md-7 text-left" name="cost">{{vm.share.cost}}</label>
               </div>
               <div class="show-grid row"  ng-if="vm.share.category == 'newShare'">
                   <div class="">

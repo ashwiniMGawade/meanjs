@@ -48,6 +48,7 @@
           scrollableHeight: '200px',
           scrollable: true,
           smartButtonMaxItems: 2,
+		  //selectionLimit: 2,
           selectedToTop:true,
           smartButtonTextConverter: function(itemText, originalItem) { 
             return itemText;
@@ -56,9 +57,35 @@
 
         vm.userDropdownInitEvents = {
           'onInitDone': function() {
-            var directiveScope =  angular.element(document.getElementsByClassName('multiselect-parent')).scope();
+            var directiveScope =  angular.element(document.querySelector('.readUsers .multiselect-parent')).scope();
             directiveScope.$watch('input.searchFilter', function(newVal, oldVal) {
-              if (newVal !== oldVal && newVal != '') {
+              if (newVal !== oldVal && newVal != '' && newVal.length > 3) {
+                vm.getUsers(newVal);
+              }
+              
+            });   
+          }
+		}
+        
+		
+		
+		 vm.userDropdownRWInitEvents = {
+          'onInitDone': function() {
+            var directiveScope =  angular.element(document.querySelector('.readWriteUsers .multiselect-parent')).scope();
+            directiveScope.$watch('input.searchFilter', function(newVal, oldVal) {
+              if (newVal !== oldVal && newVal != '' && newVal.length > 3) {
+                vm.getUsers(newVal);
+              }
+              
+            });   
+          }
+        }
+		
+		 vm.userDropdownRWMInitEvents = {
+          'onInitDone': function() {
+            var directiveScope =  angular.element(document.querySelector('.readWriteAndModifyUsers .multiselect-parent')).scope();
+            directiveScope.$watch('input.searchFilter', function(newVal, oldVal) {
+              if (newVal !== oldVal && newVal != '' && newVal.length > 3) {
                 vm.getUsers(newVal);
               }
               
