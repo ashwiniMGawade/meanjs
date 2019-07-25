@@ -176,7 +176,7 @@
                     <select name="acl_group" ng-model="vm.share.acl_group" id="acl_group" class="form-control" ng-options="group.groupName as group.groupName for group in vm.getACLgroups()" required >
                       <option value="">Please select a ACL group</option>
                     </select>
-                    <div class="loader" ng-if="!vm.aclGroups.length"></div>
+                    <div class="loader" ng-if="vm.aclGroupLoader"></div>
                     <div ng-messages="vm.form.shareForm.acl_group.$error" role="alert">
                       <p class="help-block error-text" ng-message="required">ACL group is required.</p>
                     </div>              
@@ -200,6 +200,8 @@
                           <p class="help-block error-text" ng-message="required">Permissions are required.</p>
                         </div> 
                     </div>
+					
+					
                     
                   <div class="form-group" show-errors ng-if="vm.share.category == 'changePermission' && vm.share.operation && (vm.share.operation == 'addUserToADGroup' || vm.share.operation == 'removeUserFromADGroup')">
                     <label class="control-label" for="acl_users">UserIds</label>
@@ -208,7 +210,8 @@
                       <p class="help-block error-text" ng-message="required">UserIDs required.</p>
                       <p class="help-block error-text" ng-message="pattern">Only semicolon separated userIDs allowed</p>
                     </div> -->
-                    <div ng-dropdown-multiselect="" search-filter="vm.customFilter" options="vm.users" selected-model="vm.acl_users" extra-settings="vm.readOnlyAndWritesettings" translation-texts="vm.defaultUserSelectionText"  disabled= "(vm.users && vm.users.length > 0) ? false: true" events="vm.userDropdownInitEvents"></div>
+                    <div  ng-dropdown-multiselect="" search-filter="vm.customFilter" options="vm.users" selected-model="vm.acl_users" extra-settings="vm.useridSettings" translation-texts="vm.defaultUserSelectionText"  disabled= "(vm.users && vm.users.length > 0) ? false: true" events="vm.userDropdownUseridInitEvents"  class="userids"></div>
+					<div class="loader" ng-show="vm.useridsLoader"></div>
                   </div>
                   <div ng-if="vm.share.category == 'rename'">
                     <div class="form-group" show-errors>

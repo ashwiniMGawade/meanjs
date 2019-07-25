@@ -79,13 +79,13 @@ exports.updateRequest = function (req, res) {
       
     function sendToWorkflowForExecution(share) {
       //set the status to processing      
-      saveShareStatus(share, 'Processing');
+      saveShareStatus(share, 'Processing', req.user);
       var volName = share.bu;
 
       wfaDB.getClusterInfo(share.city, function(err, details) {
         if (err) {
           console.log("error in getting db details", err);
-          saveShareStatus(share, 'Contact Support');
+          saveShareStatus(share, 'Contact Support', req.user);
         } else {
           var jobId;
           var args = {
@@ -103,11 +103,11 @@ exports.updateRequest = function (req, res) {
           clientWfa.executeWfaWorkflow(args, function (err, resWfa) {
             if (err) {
               console.log('executeWfaWorkflow : Failed to '+share.category+', Error: ' + err);
-              saveShareStatus(share, 'Contact Support');
+              saveShareStatus(share, 'Contact Support', req.user);
             } else {
               jobId = resWfa.jobId;
               console.log('executeWfaWorkflow: Response from WFA: ' + util.inspect(resWfa, {showHidden: false, depth: null}));
-              untilCreated(share, jobId);
+              untilCreated(share, jobId, req.user);
             }
           });
         }
@@ -115,7 +115,7 @@ exports.updateRequest = function (req, res) {
      
     }
     
-    function untilCreated(share, jobId) {
+    function untilCreated(share, jobId, user) {
       var args = {
         share: share,
         jobId: jobId
@@ -124,16 +124,16 @@ exports.updateRequest = function (req, res) {
       clientWfa.wfaJobStatus(args, function (err, resWfa) {
         if (err) {
           console.log('wfaJobStatus: Failed to obtain status, Error: ' + err);
-          saveShareStatus(share, 'Contact Support');
+          saveShareStatus(share, 'Contact Support', user);
         } else {
           if (resWfa.jobStatus === 'FAILED') {
             console.log('wfaJobStatus: Failed to '+share.category+', Job ID: ' + jobId);
-            saveShareStatus(share, 'Contact Support');
+            saveShareStatus(share, 'Contact Support', user);
           } else if (resWfa.jobStatus !== 'COMPLETED') {
             console.log('wfaJobStatus: Not completed yet, polling again in 30 seconds, Job ID: ' + jobId);
-            setTimeout(function () { untilCreated(share, jobId); }, config.wfa.refreshRate);
+            setTimeout(function () { untilCreated(share, jobId, user); }, config.wfa.refreshRate);
           } else {
-            saveShareStatus(share, 'Completed'); 
+            saveShareStatus(share, 'Completed', user); 
           }
         }
       });
@@ -293,11 +293,13 @@ exports.create = function (req, res) {
   };
 
 
-  var saveShareStatus = function(share, status) {
+  var saveShareStatus = function(share, status, user) {
     share.status = status;
     share.save(function (err) {
       if (err) {
        console.log("error in saving the status", err)
+      } else {
+         mailHandler.sendRequestStatusUpdateMailToUser(share, user);
       }
     });
   }

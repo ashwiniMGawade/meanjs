@@ -11,7 +11,7 @@
       var vm = this;
       vm.buildPager = buildPager;
       vm.currentPage = 1;
-      vm.itemsPerPage = 10;
+      vm.itemsPerPage = 15;
       vm.figureOutItemsToDisplay = figureOutItemsToDisplay;
       vm.pageChanged = pageChanged;
       vm.loadMore = loadMore;

@@ -54,6 +54,21 @@
             //return itemText;
           //}
         };
+		
+		 vm.useridSettings = { 
+          enableSearch: true, 
+          idProp: 'sAMAccountName',
+          displayProp: 'displayName',
+          searchField: 'sAMAccountName',
+          scrollableHeight: '200px',
+          scrollable: true,
+          //smartButtonMaxItems: 2,
+		  //selectionLimit: 2,
+          selectedToTop:true,
+          //smartButtonTextConverter: function(itemText, originalItem) { 
+            //return itemText;
+          //}
+        };
 
         vm.userDropdownInitEvents = {
           'onInitDone': function() {
@@ -92,6 +107,21 @@
             });   
           }
         }
+		
+		
+		 vm.userDropdownUseridInitEvents = {
+          'onInitDone': function() {
+            var directiveScope =  angular.element(document.querySelector('.userids .multiselect-parent')).scope();
+            directiveScope.$watch('input.searchFilter', function(newVal, oldVal) {
+              if (newVal !== oldVal && newVal != '' && newVal.length > 3) {
+                vm.getUsers(newVal, "useridsLoader");
+              }
+              
+            });   
+          }
+        }
+		
+
         
       vm.defaultUserSelectionText = {
         buttonDefaultText: 'Select Users From the List'
@@ -105,7 +135,8 @@
       vm.share.storage = vm.share.storage || {}
       vm.project = projectInfo;
       vm.cifShareDetails = {};
-	  vm.readLoader = vm.readWriteLoader = vm.readWriteAndModifyLoader =  false;
+	  vm.readLoader = vm.readWriteLoader = vm.readWriteAndModifyLoader =  vm.useridsLoader = false;
+	  vm.aclGroupLoader = false;
 
       
       vm.getUsers = function( filterVal, element) {
@@ -119,6 +150,7 @@
       }
       
       if ( projectInfo) {
+		   vm.aclGroupLoader  = true;
         SharesService.getCifsShareDetails({
           'volname': projectInfo.txtibucode,
           'sharename': projectInfo.projectcode, 
@@ -130,10 +162,12 @@
           vm.availableSize = vm.allocatedSize - vm.usedsizegb;
           //get groups for existing cifs share
           if (vm.cifShareDetails.sharename) {
+
             SharesService.getCifsShareACLGroups({
               'sharename': vm.cifShareDetails.sharename
             }).$promise.then(function(res) {
               vm.aclGroups = res;
+			  vm.aclGroupLoader  = false;
             });
           }          
         });
