@@ -28,11 +28,11 @@
           searchField: 'sAMAccountName',
           scrollableHeight: '200px',
           scrollable: true,
-          smartButtonMaxItems: 4,
+          //smartButtonMaxItems: 4,
           selectedToTop:true,
-          smartButtonTextConverter: function(itemText, originalItem) { 
-            return itemText;
-          }
+          //smartButtonTextConverter: function(itemText, originalItem) { 
+            //return itemText;
+          //}
         };
 
         vm.readOnly = [];
@@ -47,12 +47,12 @@
           searchField: 'sAMAccountName',
           scrollableHeight: '200px',
           scrollable: true,
-          smartButtonMaxItems: 2,
+          //smartButtonMaxItems: 2,
 		  //selectionLimit: 2,
           selectedToTop:true,
-          smartButtonTextConverter: function(itemText, originalItem) { 
-            return itemText;
-          }
+          //smartButtonTextConverter: function(itemText, originalItem) { 
+            //return itemText;
+          //}
         };
 
         vm.userDropdownInitEvents = {

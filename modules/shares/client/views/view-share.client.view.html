@@ -45,9 +45,13 @@
         <table class="table table-stripped">
             <tr><th>Project Code</th><td ng-bind="vm.share.projectCode"></td></tr>
             <tr><th>Category</th><td ng-bind="vm.categories[vm.share.category]"></td></tr>
-            <tr ng-if="vm.share.category=='newShare'"><th>Storage Requirement</th><td><li ng-repeat="(file, details) in vm.share.storage" style="list-style-type: square;">
-                    {{vm.fileSizeTypes[file]}}
-                  </li></td></tr>
+            <tr ng-if="vm.share.category=='newShare'"><th>Storage Requirement</th><td>
+			<ul ng-repeat="(file, details) in vm.share.storage">
+				<li ng-if="details==true" style="list-style-type: square;">
+                    {{ vm.fileSizeTypes[file]}}
+                  </li>
+				  </ul>
+			</td></tr>
             <tr ng-if="vm.share.category=='newShare'"><th>Cost</th><td ng-bind="vm.share.cost"></td></tr>
             <tr ng-if="vm.share.category=='newShare'"><th>Size (GB)</th><td ng-bind="vm.share.sizegb"></td></tr>
             <tr ng-if="vm.share.category=='changePermission'"><th>ACL Operation selected</th><td ng-bind="vm.allowedOperations[vm.share.operation]" class="word-break-all"></td></tr>

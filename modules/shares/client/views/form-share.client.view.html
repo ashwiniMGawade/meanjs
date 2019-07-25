@@ -66,6 +66,7 @@
 				  <span class="selectedUser" ng-repeat=" user in vm.readWriteAndModify">{{user.id}},</span></p>
                   <div ng-dropdown-multiselect="" search-filter="vm.customFilter" options="vm.users" selected-model="vm.readWriteAndModify" extra-settings="vm.readWriteAndModifysettings" translation-texts="vm.defaultUserSelectionText" disabled= "(vm.users && vm.users.length > 0) ? false: true" events="vm.userDropdownRWMInitEvents" class="readWriteAndModifyUsers"></div>
 				  <div class="loader" ng-show="vm.readWriteAndModifyLoader"></div>
+				   <p class="help-block">Minimum 2 userIDs are required</p>
               </div>
             </div>
             <div class="col-md-2"></div>

@@ -16,6 +16,7 @@
     vm.menu = menuService.getMenu('topbar');
 
     $scope.$on('$stateChangeSuccess', stateChangeSuccess);
+	$scope.$state = $state;
 
     function stateChangeSuccess() {
       // Collapsing the menu after navigation
