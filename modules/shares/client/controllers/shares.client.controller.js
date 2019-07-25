@@ -158,7 +158,7 @@
         }).$promise.then(function(res) {
           vm.cifShareDetails = res;
           vm.usedsizegb = vm.cifShareDetails.usedGB || 0;
-          vm.allocatedSize = vm.cifShareDetails.sizeGB || 0;
+          vm.allocatedSize = vm.cifShareDetails.hardLimit || 0;
           vm.availableSize = vm.allocatedSize - vm.usedsizegb;
           //get groups for existing cifs share
           if (vm.cifShareDetails.sharename) {

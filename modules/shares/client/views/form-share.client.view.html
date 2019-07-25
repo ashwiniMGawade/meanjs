@@ -210,6 +210,8 @@
                       <p class="help-block error-text" ng-message="required">UserIDs required.</p>
                       <p class="help-block error-text" ng-message="pattern">Only semicolon separated userIDs allowed</p>
                     </div> -->
+					<p class="outlined" ng-if="vm.acl_users.length > 0">
+				  <span class="selectedUser" ng-repeat=" user in vm.acl_users">{{user.id}},</span></p>
                     <div  ng-dropdown-multiselect="" search-filter="vm.customFilter" options="vm.users" selected-model="vm.acl_users" extra-settings="vm.useridSettings" translation-texts="vm.defaultUserSelectionText"  disabled= "(vm.users && vm.users.length > 0) ? false: true" events="vm.userDropdownUseridInitEvents"  class="userids"></div>
 					<div class="loader" ng-show="vm.useridsLoader"></div>
                   </div>
