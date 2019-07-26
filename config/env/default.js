@@ -145,6 +145,10 @@ module.exports = {
         'Read': 'Read',
         'Modify': 'Modify'
       },
+	  allowedACLTypes: {
+        'user': 'User',
+        'group': 'Group'
+      },
       allowedChangePermissionOperations :{
         "addUserOrGroupToShare": "Add User or Group To Share",
         "removeUserOrGroupFromShare": "Remove User or Group from Share",

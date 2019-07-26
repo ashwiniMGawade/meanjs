@@ -311,3 +311,47 @@ exports.getUsers = function(req, res) {
     }    
   });
 }
+
+
+exports.getGroups = function(req, res) {
+  var ActiveDirectory = require('activedirectory');
+  console.log(config.ldap)
+  
+  var ADconfig = { 
+    url: config.ldap.url,
+    bindDN: config.ldap.bindDN, 
+    bindCredentials: config.ldap.bindCredentials, 
+    baseDN: config.ldap.searchBase
+ }
+
+  var ad = new ActiveDirectory(ADconfig);
+
+  var search = req.query.search || 'a';
+
+  var opts = {
+    sizeLimit : 0
+  };
+
+  ad.findGroups(opts, function(err, groups) {
+    if (err) {
+      console.log(err)
+      console.log('ERROR: ' +JSON.stringify(err));
+      res.status(400).send(err);
+    } else {
+      if ((! groups) || (groups.length == 0)) {
+        console.log('No groups found.');
+        res.json({});
+      }
+      else {
+        console.log('findGroups: '+JSON.stringify(groups));
+        var keyArray = groups.map(function(item) { 
+          return { 
+          'cn' : item["cn"],
+          'description' : item["description"],
+          }
+        });  
+        res.json(keyArray);
+      }
+    }    
+  });
+}

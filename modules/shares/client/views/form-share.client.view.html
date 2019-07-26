@@ -181,15 +181,38 @@
                       <p class="help-block error-text" ng-message="required">ACL group is required.</p>
                     </div>              
                   </div>
+				  
+				    <div class="form-group" show-errors ng-if="vm.share.category == 'changePermission' && vm.share.operation && vm.share.operation == 'addUserOrGroupToShare'">
+                      <label class="control-label" for="aclType">ACL Type</label>
+                      <select name="aclType" ng-model="vm.aclType" id="aclType" class="form-control" ng-options="key as value for (key , value) in vm.allowedACLTypes" required>
+                          <option value="">Please select ACL Type</option>
+                      </select>
+                      <div ng-messages="vm.form.aclType.$error" role="alert">
+                          <p class="help-block error-text" ng-message="required">ACL Type is required.</p>
+                        </div> 
+                    </div>
+					
+				  <div class="form-group" show-errors ng-if="vm.share.category == 'changePermission' && vm.share.operation && (vm.share.operation == 'addUserOrGroupToShare' && vm.aclType == 'user')">
+                    <label class="control-label" for="userOrGroupName">UserId</label>
+                    <div  ng-dropdown-multiselect="" search-filter="vm.customFilter" options="vm.users" selected-model="vm.aclUserType" extra-settings="vm.acluserTypeSettings" translation-texts="vm.defaultUserSelectionText"  disabled= "(vm.users && vm.users.length > 0) ? false: true" events="vm.userDropdownaclUserTypeInitEvents"  class="aclusertype"></div>
+					<div class="loader" ng-show="vm.aclusertypeLoader"></div>
+                  </div>
+					
+					<div class="form-group" show-errors ng-if="vm.share.category == 'changePermission' && vm.share.operation && (vm.share.operation == 'addUserOrGroupToShare' && vm.aclType == 'group')">
+                    <label class="control-label" for="userOrGroupName">Group</label>
+                    <div  ng-dropdown-multiselect="" search-filter="vm.customFilter" options="vm.groups" selected-model="vm.aclGroupType" extra-settings="vm.aclgroupTypeSettings" translation-texts="vm.defaultGroupSelectionText"  disabled= "(vm.groups && vm.groups.length > 0) ? false: true" events="vm.userDropdownaclGroupTypeInitEvents"  class="aclgrouptype"></div>
+					<div class="loader" ng-show="vm.aclgrouptypeLoader"></div>
+                  </div>
         
-                  <div class="form-group" show-errors ng-if="vm.share.category == 'changePermission' && vm.share.operation && vm.share.operation == 'addUserOrGroupToShare'">
+		
+                  <!--<div class="form-group" show-errors ng-if="vm.share.category == 'changePermission' && vm.share.operation && vm.share.operation == 'addUserOrGroupToShare'">
                       <label class="control-label" for="userOrGroupName">User Or Group name</label>
                       <input name="userOrGroupName" type="text" ng-model="vm.share.userOrGroupName" id="userOrGroupName" class="form-control" placeholder="User or Group name" required ng-pattern="/^[a-zA-Z\-0-9\._]*$/">
                       <div ng-messages="vm.form.shareForm.userOrGroupName.$error" role="alert">
                         <p class="help-block error-text" ng-message="required">User or Group name required.</p>
                         <p class="help-block error-text" ng-message="pattern">Alpha numeric chars including . and _  are allowed</p>
                       </div>
-                  </div>
+                  </div>-->
         
                   <div class="form-group" show-errors ng-if="vm.share.category == 'changePermission' && vm.share.operation && vm.share.operation == 'addUserOrGroupToShare'">
                       <label class="control-label" for="userOrGroupPermissions">User Or Group Permissions</label>
@@ -204,12 +227,7 @@
 					
                     
                   <div class="form-group" show-errors ng-if="vm.share.category == 'changePermission' && vm.share.operation && (vm.share.operation == 'addUserToADGroup' || vm.share.operation == 'removeUserFromADGroup')">
-                    <label class="control-label" for="acl_users">UserIds</label>
-                    <!-- <input name="acl_users" type="text" ng-model="vm.share.acl_users" id="acl_users" class="form-control" placeholder="UserIDs" required ng-pattern="/^[a-zA-Z\-0-9\._]*(?:;([a-zA-Z\-0-9\._])+)*$/">
-                    <div ng-messages="vm.form.shareForm.acl_users.$error" role="alert">
-                      <p class="help-block error-text" ng-message="required">UserIDs required.</p>
-                      <p class="help-block error-text" ng-message="pattern">Only semicolon separated userIDs allowed</p>
-                    </div> -->
+                    <label class="control-label" for="acl_users">UserIds</label>                  
 					<p class="outlined" ng-if="vm.acl_users.length > 0">
 				  <span class="selectedUser" ng-repeat=" user in vm.acl_users">{{user.id}},</span></p>
                     <div  ng-dropdown-multiselect="" search-filter="vm.customFilter" options="vm.users" selected-model="vm.acl_users" extra-settings="vm.useridSettings" translation-texts="vm.defaultUserSelectionText"  disabled= "(vm.users && vm.users.length > 0) ? false: true" events="vm.userDropdownUseridInitEvents"  class="userids"></div>

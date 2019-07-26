@@ -39,6 +39,8 @@
         vm.readAndWrite = [];
         vm.readWriteAndModify = [];
         vm.acl_users = [];
+		vm.aclUserType = [];
+		vm.aclGroupType = [];
 
         vm.readWriteAndModifysettings = { 
           enableSearch: true, 
@@ -69,7 +71,37 @@
             //return itemText;
           //}
         };
-
+		
+		vm.acluserTypeSettings = { 
+          enableSearch: true, 
+          idProp: 'sAMAccountName',
+          displayProp: 'displayName',
+          searchField: 'sAMAccountName',
+          scrollableHeight: '200px',
+          scrollable: true,
+          smartButtonMaxItems: 2,
+		  selectionLimit: 1,
+          selectedToTop:true,
+          smartButtonTextConverter: function(itemText, originalItem) { 
+            return itemText;
+          }
+        };
+		
+		vm.aclgroupTypeSettings = { 
+          enableSearch: true, 
+          idProp: 'cn',
+          displayProp: 'cn',
+          searchField: 'cn',
+          scrollableHeight: '200px',
+          scrollable: true,
+          smartButtonMaxItems: 2,
+		  selectionLimit: 1,
+          selectedToTop:true,
+          smartButtonTextConverter: function(itemText, originalItem) { 
+            return itemText;
+          }
+        };
+		
         vm.userDropdownInitEvents = {
           'onInitDone': function() {
             var directiveScope =  angular.element(document.querySelector('.readUsers .multiselect-parent')).scope();
@@ -121,10 +153,38 @@
           }
         }
 		
+		vm.userDropdownaclUserTypeInitEvents = {
+          'onInitDone': function() {
+            var directiveScope =  angular.element(document.querySelector('.aclusertype .multiselect-parent')).scope();
+            directiveScope.$watch('input.searchFilter', function(newVal, oldVal) {
+              if (newVal !== oldVal && newVal != '' && newVal.length > 3) {
+                vm.getUsers(newVal, "aclusertypeLoader");
+              }
+              
+            });   
+          }
+        }
+		
+		vm.userDropdownaclGroupTypeInitEvents = {
+          'onInitDone': function() {
+            var directiveScope =  angular.element(document.querySelector('.aclgrouptype .multiselect-parent')).scope();
+            directiveScope.$watch('input.searchFilter', function(newVal, oldVal) {
+              if (newVal !== oldVal && newVal != '' && newVal.length > 3) {
+                vm.getGroups(newVal, "aclgrouptypeLoader");
+              }
+              
+            });   
+          }
+        }
+		
 
         
       vm.defaultUserSelectionText = {
         buttonDefaultText: 'Select Users From the List'
+      };
+	  
+	   vm.defaultGroupSelectionText = {
+        buttonDefaultText: 'Select Group From the List'
       };
       
       vm.customFilter = 'a';
@@ -149,6 +209,15 @@
         });
       }
       
+	  vm.getGroups= function( filterVal, element) {
+		  vm[element] = true;
+        UsersService.getGroups({
+          search: filterVal
+        }).$promise.then(function(res) {
+			vm[element] = false;
+			vm.groups = res
+        });
+      }
       if ( projectInfo) {
 		   vm.aclGroupLoader  = true;
         SharesService.getCifsShareDetails({
@@ -193,6 +262,9 @@
 
         //get users list
       vm.getUsers(vm.customFilter);
+	  
+	  //get groups list
+	  vm.getGroups(vm.customFilter);
     }
 
       
@@ -206,6 +278,7 @@
       vm.categories = sharedConfig.share.categories;
       vm.allowedOperations = sharedConfig.share.allowedChangePermissionOperations;
       vm.allowedPermissions = sharedConfig.share.allowedPermissions;
+	  vm.allowedACLTypes= sharedConfig.share.allowedACLTypes;
       vm.fileSizeTypes = sharedConfig.share.fileSizeTypes;
 
       vm.toggleActions = function() {
@@ -341,6 +414,7 @@
 
           keyArray =  vm.readWriteAndModify.map(function(item) { return item["id"]; });
           vm.share.readWriteAndModify = keyArray.join(';');
+
         }
 
         if (vm.share.category == 'changePermission' &&  (vm.share.operation == 'addUserToADGroup' || vm.share.operation == 'removeUserFromADGroup')) {
@@ -350,6 +424,29 @@
           }
           keyArray =  vm.acl_users.map(function(item) { return item["id"]; });
           vm.share.acl_users = keyArray.join(';');
+        }
+		
+		if (vm.share.category == 'changePermission' &&  vm.share.operation == 'addUserOrGroupToShare') {
+          if (vm.aclType == 'user')
+          {
+             if (vm.aclUserType.length == 0) {
+              Notification.error({ message: 'Please specify user in UserId.', title: '<i class="glyphicon glyphicon-remove"></i> Share save error!' });
+               return false;
+             }
+             keyArray =  vm.aclUserType.map(function(item) { return item["id"]; });
+             vm.share.userOrGroupName = keyArray.join('');
+          } 
+
+          if (vm.aclType == 'group')
+          {
+             if (vm.aclGroupType.length == 0) {
+              Notification.error({ message: 'Please specify group.', title: '<i class="glyphicon glyphicon-remove"></i> Share save error!' });
+               return false;
+             }
+             keyArray =  vm.aclGroupType.map(function(item) { return item["id"]; });
+             vm.share.userOrGroupName = keyArray.join('');
+          } 
+            
         }
 
 

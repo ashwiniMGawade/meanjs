@@ -48,6 +48,11 @@
         method: 'GET',
         url: '/meanjs/api/users/list',
         isArray: true
+      },
+	  getGroups: {
+        method: 'GET',
+        url: '/meanjs/api/users/groupList',
+        isArray: true
       }
     });
 
