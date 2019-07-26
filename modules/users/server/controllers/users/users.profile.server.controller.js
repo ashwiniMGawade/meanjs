@@ -331,7 +331,7 @@ exports.getGroups = function(req, res) {
 
   var opts = {
     sizeLimit : 0,
-	//filter:'&((objectClass=group)(!(objectClass=computer))(!(objectClass=user))(!(objectClass=person))(cn=*'+search+'*))'
+	filter:'(&(objectClass=group)(!(objectClass=computer))((objectClass!=user))(!(objectClass=person))(CN=*'+search+'*))'
   };
 
   ad.findGroups(opts, function(err, groups) {
