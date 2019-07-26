@@ -7,6 +7,8 @@ var _ = require('lodash'),
   fs = require('fs'),
   path = require('path'),
   errorHandler = require(path.resolve('./modules/core/server/controllers/errors.server.controller')),
+  util = require('util'),
+  logger = require(path.resolve('./config/lib/log')),
   mongoose = require('mongoose'),
   multer = require('multer'),
   multerS3 = require('multer-s3'),
@@ -289,17 +291,16 @@ exports.getUsers = function(req, res) {
   };
 
   ad.findUsers(opts, function(err, users) {
-    if (err) {
-      console.log(err)
-      console.log('ERROR: ' +JSON.stringify(err));
+    if (err) {      
+      logger.info('ERROR: ' +JSON.stringify(err));
       res.status(400).send(err);
     } else {
       if ((! users) || (users.length == 0)) {
-        console.log('No users found.');
+        logger.info('No users found.');
         res.json({});
       }
       else {
-        console.log('findUsers: '+JSON.stringify(users));
+        logger.info('findUsers: '+JSON.stringify(users));
         var keyArray = users.map(function(item) { 
           return { 
           'sAMAccountName' : item["sAMAccountName"],
@@ -329,21 +330,21 @@ exports.getGroups = function(req, res) {
   var search = req.query.search || 'a';
 
   var opts = {
-    sizeLimit : 0
+    sizeLimit : 0,
+	//filter:'&((objectClass=group)(!(objectClass=computer))(!(objectClass=user))(!(objectClass=person))(cn=*'+search+'*))'
   };
 
   ad.findGroups(opts, function(err, groups) {
     if (err) {
-      console.log(err)
-      console.log('ERROR: ' +JSON.stringify(err));
+      logger.info('ERROR: ' +JSON.stringify(err));
       res.status(400).send(err);
     } else {
       if ((! groups) || (groups.length == 0)) {
-        console.log('No groups found.');
+        logger.info('No groups found.');
         res.json({});
       }
       else {
-        console.log('findGroups: '+JSON.stringify(groups));
+        logger.info('findGroups: '+JSON.stringify(groups));
         var keyArray = groups.map(function(item) { 
           return { 
           'cn' : item["cn"],

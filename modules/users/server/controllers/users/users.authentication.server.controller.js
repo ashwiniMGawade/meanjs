@@ -78,7 +78,7 @@ exports.signup = function (req, res) {
 // };
 
 exports.signin = function( req, res, next) {
-  logger.info(util.inspect(req.headers, {showHidden: false, depth: null}));
+  //logger.info(util.inspect(req.headers, {showHidden: false, depth: null}));
   logger.info("inside signin");
 
   if (req.isAuthenticated()) {
