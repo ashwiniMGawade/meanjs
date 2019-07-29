@@ -18,6 +18,9 @@
   opacity: 0.8;
   width: 28px;
 }
+.small {
+  height: 20px;
+}
 .brand-image{
   height: 24px;
 }
