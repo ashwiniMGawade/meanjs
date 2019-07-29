@@ -39,8 +39,8 @@
         vm.readAndWrite = [];
         vm.readWriteAndModify = [];
         vm.acl_users = [];
-		vm.aclUserType = [];
-		vm.aclGroupType = [];
+    		vm.aclUserType = [];
+    		vm.aclGroupType = [];
 
         vm.readWriteAndModifysettings = { 
           enableSearch: true, 
@@ -50,26 +50,21 @@
           scrollableHeight: '200px',
           scrollable: true,
           //smartButtonMaxItems: 2,
-		  //selectionLimit: 2,
+		     //selectionLimit: 2,
           selectedToTop:true,
           //smartButtonTextConverter: function(itemText, originalItem) { 
             //return itemText;
           //}
         };
 		
-		 vm.useridSettings = { 
+		    vm.useridSettings = { 
           enableSearch: true, 
           idProp: 'sAMAccountName',
           displayProp: 'displayName',
           searchField: 'sAMAccountName',
           scrollableHeight: '200px',
           scrollable: true,
-          //smartButtonMaxItems: 2,
-		  //selectionLimit: 2,
-          selectedToTop:true,
-          //smartButtonTextConverter: function(itemText, originalItem) { 
-            //return itemText;
-          //}
+          selectedToTop:true
         };
 		
 		vm.acluserTypeSettings = { 
@@ -178,44 +173,44 @@
         }
 		
 
-        
-      vm.defaultUserSelectionText = {
-        buttonDefaultText: 'Select Users From the List'
-      };
-	  
-	   vm.defaultGroupSelectionText = {
-        buttonDefaultText: 'Select Group From the List'
-      };
-      
-      vm.customFilter = 'a';
+          
+        vm.defaultUserSelectionText = {
+          buttonDefaultText: 'Select Users From the List'
+        };
 
-      vm.share = share; 
-      
-      vm.aclGroups = [];  
-      vm.share.storage = vm.share.storage || {}
-      vm.project = projectInfo;
-      vm.cifShareDetails = {};
-	  vm.readLoader = vm.readWriteLoader = vm.readWriteAndModifyLoader =  vm.useridsLoader = false;
-	  vm.aclGroupLoader = false;
+        vm.defaultGroupSelectionText = {
+          buttonDefaultText: 'Select Group From the List'
+        };
+
+        vm.customFilter = 'a';
+
+        vm.share = share; 
+
+        vm.aclGroups = [];  
+        vm.share.storage = vm.share.storage || {}
+        vm.project = projectInfo;
+        vm.cifShareDetails = {};
+        vm.readLoader = vm.readWriteLoader = vm.readWriteAndModifyLoader =  vm.useridsLoader = false;
+        vm.aclGroupLoader = false;
 
       
       vm.getUsers = function( filterVal, element) {
-		  vm[element] = true;
+		    vm[element] = true;
         UsersService.getUsers({
           search: filterVal
         }).$promise.then(function(res) {
-			vm[element] = false;
-			vm.users = res
+    			vm[element] = false;
+    			vm.users = res
         });
       }
       
 	  vm.getGroups= function( filterVal, element) {
-		  vm[element] = true;
+		    vm[element] = true;
         UsersService.getGroups({
           search: filterVal
         }).$promise.then(function(res) {
-			vm[element] = false;
-			vm.groups = res
+    			vm[element] = false;
+    			vm.groups = res
         });
       }
       if ( projectInfo) {
@@ -236,7 +231,7 @@
               'sharename': vm.cifShareDetails.sharename
             }).$promise.then(function(res) {
               vm.aclGroups = res;
-			  vm.aclGroupLoader  = false;
+			        vm.aclGroupLoader  = false;
             });
           }          
         });
@@ -295,6 +290,7 @@
           return obj;
          } else {          
           obj[keyNewShareCat] = vm.categories[keyNewShareCat];
+          vm.share.category = keyNewShareCat;
           return obj;
         }        
       }

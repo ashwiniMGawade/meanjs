@@ -15,8 +15,12 @@
               <div class="row">
                   <label class="control-label col-md-4 text-left" for="bu">Business Unit</label>
                   <label class="content-right col-md-8" name="bu">{{vm.share.bu}}</label>
+              </div>  
+              <div class="row" ng-if="vm.share.category =='newShare'">
+                  <label class="control-label col-md-4 text-left" for="bu">Category</label>
+                  <label class="content-right col-md-8" name="bu">{{vm.categories[vm.share.category]}}</label>
               </div>              
-              <div class="form-group" show-errors>
+              <div class="form-group" show-errors ng-if="vm.share.category !='newShare'">
                 <label for="category" class="control-label" >Select Category</label>   
                 <select name="category" ng-model="vm.share.category" id="category" class="form-control" ng-options="key as value for (key , value) in vm.getFilteredCategories()" ng-required="true">
                   <option value="">Please select a Category</option>
