@@ -19,7 +19,7 @@
     <div class="table-responsive" ng-show="vm.pagedItems.length>0">
         <table ng-table="tableParams" class="table table-bordered table-striped">
             <tr>
-                <th >City</th>
+                <th >Location</th>
                 <th>Business Unit</th>
                 <th >Project Code</th>
                 <th >Category</th>                
@@ -28,7 +28,7 @@
                 <th></th>
             </tr>
           <tr ng-repeat="share in vm.pagedItems" >
-            <td ng-bind="share.city" class="capitalize breakword" title="'City'" sortable="'city'"></td>
+            <td ng-bind="share.city" class="capitalize breakword" title="'Location'" sortable="'city'"></td>
             <td ng-bind="share.bu" class="capitalize breakword" title="'Business Unit'" sortable="'bu'"></td>
             <td ng-bind="share.projectCode" class="capitalize breakword" title="'Project Code'" sortable="'projectCode'"></td>
             <td ng-bind="vm.categories[share.category]" class="capitalize breakword" title="'Category'" sortable="'category'"></td>
