@@ -21,6 +21,16 @@
 .small {
   height: 20px;
 }
+.selectedUser{
+    padding: 0 2px;
+    margin: 2px;
+}
+.inner-close{
+  float: none;
+  font-size:18px;
+  vertical-align: middle;
+  color: #940000;;
+}
 .brand-image{
   height: 24px;
 }

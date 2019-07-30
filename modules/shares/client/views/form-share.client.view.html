@@ -33,44 +33,42 @@
               </div>
               <div class="form-group" show-errors ng-if="vm.share.category == 'newShare'"> 
                   <label class="control-label" for="readOnly">Read Only(DV)</label>
-				   <p class="outlined" ng-if="vm.readOnly.length > 0">
-				  <span class="selectedUser" ng-repeat=" user in vm.readOnly">{{user.id}},</span></p>
+				          <p class="outlined" ng-if="vm.readOnly.length > 0">
+				            <span class="selectedUser" ng-repeat=" user in vm.readOnly">
+                      <span>{{user.id}}</span>
+                        <span aria-hidden="true" class="close inner-close" ng-click="vm.removeItem(vm.readOnly, $index)">&times;</span>
+                  </p>
                   <div ng-dropdown-multiselect="" search-filter="vm.customFilter" options="vm.users" selected-model="vm.readOnly" extra-settings="vm.readOnlyAndWritesettings" translation-texts="vm.defaultUserSelectionText"  ng-disabled= "(vm.users && vm.users.length > 0) ? false: true" events="vm.userDropdownInitEvents" class="readUsers"></div>
-				   <div class="loader" ng-show="vm.readLoader"></div>
-                  <!-- <input name="readOnly" type="text" ng-model="vm.share.readOnly" id="readOnly" class="form-control" placeholder="UserIDs" ng-required="vm.share.category == 'newShare'"  ng-pattern="/^[a-zA-Z\-0-9\._]*(?:;([a-zA-Z\-0-9\._])+)*$/"
-                  >
-                  <div ng-messages="vm.form.shareForm.readOnly.$error" role="alert">
-                    <p class="help-block error-text" ng-message="required">Read Only is required.</p>
-                    <p class="help-block error-text" ng-message="pattern">Only semicolon separated userIDs allowed</p>
-                  </div>
-                  <p class="help-block">Semicolon(;) seperated list of userIDs</p> -->
+				          <div class="loader" ng-show="vm.readLoader"></div>
+                
               </div>
               <div class="form-group" show-errors ng-if="vm.share.category == 'newShare'">
                   <label class="control-label" for="readAndWrite" >Read And Write(PL)</label>
-                  <!-- <input name="readAndWrite" type="text" ng-model="vm.share.readAndWrite" id="readAndWrite" class="form-control" placeholder="UserIDs" ng-required="vm.share.category == 'newShare'"  ng-pattern="/^[a-zA-Z\-0-9\._]*(?:;([a-zA-Z\-0-9\._])+)*$/">
-                  <div ng-messages="vm.form.shareForm.readAndWrite.$error" role="alert">
-                    <p class="help-block error-text" ng-message="required">Read And Write(PL) required.</p>
-                    <p class="help-block error-text" ng-message="pattern">Only semicolon separated userIDs allowed</p>
-                  </div>
-                  <p class="help-block">Semicolon(;) seperated list of userIDs</p> -->
-				   <p class="outlined" ng-if="vm.readAndWrite.length > 0">
-				  <span class="selectedUser" ng-repeat=" user in vm.readAndWrite">{{user.id}},</span></p>
+                 
+				          <p class="outlined" ng-if="vm.readAndWrite.length > 0">
+                    <span class="selectedUser" ng-repeat=" user in vm.readAndWrite">
+                      <span>{{user.id}}</span>
+                        <span aria-hidden="true" class="close inner-close" ng-click="vm.removeItem(vm.readAndWrite, $index)">&times;</span>
+                  </p>
                   <div ng-dropdown-multiselect="" search-filter="vm.customFilter" options="vm.users" selected-model="vm.readAndWrite" extra-settings="vm.readOnlyAndWritesettings" translation-texts="vm.defaultUserSelectionText"  disabled= "(vm.users && vm.users.length > 0) ? false: true" events="vm.userDropdownRWInitEvents" class="readWriteUsers"></div>
-				<div class="loader" ng-show="vm.readWriteLoader"></div>
-			  </div>
+          			 	   <div class="loader" ng-show="vm.readWriteLoader"></div>
+          		</div>
               <div class="form-group" show-errors ng-if="vm.share.category == 'newShare'">  
-                  <label class="control-label" for="readWriteAndModify">Read Write And Modify(CC)</label>
+                    <label class="control-label" for="readWriteAndModify">Read Write And Modify(CC)</label>
                   <!-- <input name="readWriteAndModify" type="text" ng-model="vm.share.readWriteAndModify" id="readWriteAndModify" class="form-control" placeholder="UserIDs" ng-required="vm.share.category == 'newShare'" ng-pattern="/^([a-zA-Z\-0-9\._]*(?:;([a-zA-Z\-0-9\._])+)){1,}$/">
                   <div ng-messages="vm.form.shareForm.readWriteAndModify.$error" role="alert">
                     <p class="help-block error-text" ng-message="required">Read Write And Modify is required.</p>
                     <p class="help-block error-text" ng-message="pattern">Only semicolon separated userIDs allowed. Minimum 2 userIDs are needed.</p>
                   </div>
                   <p class="help-block">Semicolon(;) seperated list of userIDs</p> -->
-				  <p class="outlined" ng-if="vm.readWriteAndModify.length > 0">
-				  <span class="selectedUser" ng-repeat=" user in vm.readWriteAndModify">{{user.id}},</span></p>
+				          <p class="outlined" ng-if="vm.readWriteAndModify.length > 0">
+                    <span class="selectedUser" ng-repeat=" user in vm.readWriteAndModify">
+                      <span>{{user.id}}</span>
+                        <span aria-hidden="true" class="close inner-close" ng-click="vm.removeItem(vm.readWriteAndModify, $index)">&times;</span>
+                  </p>
                   <div ng-dropdown-multiselect="" search-filter="vm.customFilter" options="vm.users" selected-model="vm.readWriteAndModify" extra-settings="vm.readWriteAndModifysettings" translation-texts="vm.defaultUserSelectionText" disabled= "(vm.users && vm.users.length > 0) ? false: true" events="vm.userDropdownRWMInitEvents" class="readWriteAndModifyUsers"></div>
-				  <div class="loader" ng-show="vm.readWriteAndModifyLoader"></div>
-				   <p class="help-block">Minimum 2 userIDs are required</p>
+        				  <div class="loader" ng-show="vm.readWriteAndModifyLoader"></div>
+        				   <p class="help-block">Minimum 2 userIDs are required</p>
               </div>
             </div>
             <div class="col-md-2"></div>
@@ -91,7 +89,7 @@
                 <label class="control-label col-md-4 text-left" for="city">Location</label>
                 <label class="content-right col-md-8" name="city">{{vm.share.city}}</label>
               </div>
-			  <div class="row">
+			         <div class="row">
                 <label class="control-label col-md-4 text-left" for="projectCode">Project Code</label>
                 <label class="content-right col-md-8" name="projectCode">{{vm.share.projectCode}}</label>
               </div> 
@@ -99,7 +97,7 @@
                   <label class="control-label col-md-5 text-left" for="sizegb">Required Space (GB)</label>
                   <label class="content-right col-md-7" text-left name="sizegb">{{vm.share.sizegb || 0}}</label>
                 </div>
-				<div class="row"  ng-if="vm.share.category == 'newShare'">
+				      <div class="row"  ng-if="vm.share.category == 'newShare'">
                   <label class="control-label col-md-5 text-left" for="cost">Cost($)</label>
                   <label class="content-right col-md-7 text-left" name="cost">{{vm.share.cost || 0}}</label>
               </div>
@@ -232,10 +230,13 @@
                     
                   <div class="form-group" show-errors ng-if="vm.share.category == 'changePermission' && vm.share.operation && (vm.share.operation == 'addUserToADGroup' || vm.share.operation == 'removeUserFromADGroup')">
                     <label class="control-label" for="acl_users">UserIds</label>                  
-					<p class="outlined" ng-if="vm.acl_users.length > 0">
-				  <span class="selectedUser" ng-repeat=" user in vm.acl_users">{{user.id}},</span></p>
+					            <p class="outlined" ng-if="vm.acl_users.length > 0">
+                        <span class="selectedUser" ng-repeat=" user in vm.acl_users">
+                          <span>{{user.id}}</span>
+                            <span aria-hidden="true" class="close inner-close" ng-click="vm.removeItem(vm.acl_users, $index)">&times;</span>
+                      </p>
                     <div  ng-dropdown-multiselect="" search-filter="vm.customFilter" options="vm.users" selected-model="vm.acl_users" extra-settings="vm.useridSettings" translation-texts="vm.defaultUserSelectionText"  disabled= "(vm.users && vm.users.length > 0) ? false: true" events="vm.userDropdownUseridInitEvents"  class="userids"></div>
-					<div class="loader" ng-show="vm.useridsLoader"></div>
+					         <div class="loader" ng-show="vm.useridsLoader"></div>
                   </div>
                   <div ng-if="vm.share.category == 'rename'">
                     <div class="form-group" show-errors>

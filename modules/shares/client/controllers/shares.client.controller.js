@@ -28,6 +28,8 @@
           searchField: 'sAMAccountName',
           scrollableHeight: '200px',
           scrollable: true,
+          showCheckAll:false,
+          showUncheckAll:false,
           //smartButtonMaxItems: 4,
           selectedToTop:true,
           //smartButtonTextConverter: function(itemText, originalItem) { 
@@ -49,6 +51,8 @@
           searchField: 'sAMAccountName',
           scrollableHeight: '200px',
           scrollable: true,
+          showCheckAll:false,
+          showUncheckAll:false,
           //smartButtonMaxItems: 2,
 		     //selectionLimit: 2,
           selectedToTop:true,
@@ -64,6 +68,8 @@
           searchField: 'sAMAccountName',
           scrollableHeight: '200px',
           scrollable: true,
+          showCheckAll:false,
+          showUncheckAll:false,
           selectedToTop:true
         };
 		
@@ -74,8 +80,10 @@
           searchField: 'sAMAccountName',
           scrollableHeight: '200px',
           scrollable: true,
+          showCheckAll:false,
+          showUncheckAll:false,
           smartButtonMaxItems: 2,
-		  selectionLimit: 1,
+		      selectionLimit: 1,
           selectedToTop:true,
           smartButtonTextConverter: function(itemText, originalItem) { 
             return itemText;
@@ -89,8 +97,10 @@
           searchField: 'cn',
           scrollableHeight: '200px',
           scrollable: true,
+          showCheckAll:false,
+          showUncheckAll:false,
           smartButtonMaxItems: 2,
-		  selectionLimit: 1,
+		      selectionLimit: 1,
           selectedToTop:true,
           smartButtonTextConverter: function(itemText, originalItem) { 
             return itemText;
@@ -262,6 +272,13 @@
 	  vm.getGroups(vm.customFilter);
     }
 
+      vm.removeItem = function(array, elementId){
+        console.log(typeof array);
+        array.splice(elementId, 1);
+        console.log(array, elementId);
+        console.log(array);
+      }
+
       
       vm.authentication = Authentication;
       vm.isAdmin = Authentication.user.roles.indexOf('admin') != -1;
@@ -273,7 +290,7 @@
       vm.categories = sharedConfig.share.categories;
       vm.allowedOperations = sharedConfig.share.allowedChangePermissionOperations;
       vm.allowedPermissions = sharedConfig.share.allowedPermissions;
-	  vm.allowedACLTypes= sharedConfig.share.allowedACLTypes;
+	    vm.allowedACLTypes= sharedConfig.share.allowedACLTypes;
       vm.fileSizeTypes = sharedConfig.share.fileSizeTypes;
 
       vm.toggleActions = function() {
