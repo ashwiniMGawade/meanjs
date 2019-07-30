@@ -49,11 +49,11 @@
         url: '/meanjs/api/users/list',
         isArray: true
       },
-	  getGroups: {
-        method: 'GET',
-        url: '/meanjs/api/users/groupList',
-        isArray: true
-      }
+  	  getUsersAndGroups: {
+          method: 'GET',
+          url: '/meanjs/api/users/usersAndGroupsList',
+          isArray: true
+        }
     });
 
     angular.extend(Users, {

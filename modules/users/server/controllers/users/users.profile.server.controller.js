@@ -313,11 +313,8 @@ exports.getUsers = function(req, res) {
   });
 }
 
-
-exports.getGroups = function(req, res) {
+exports.getUsersAndGroups = function(req, res) {
   var ActiveDirectory = require('activedirectory');
-  console.log(config.ldap)
-  
   var ADconfig = { 
     url: config.ldap.url,
     bindDN: config.ldap.bindDN, 
@@ -330,29 +327,48 @@ exports.getGroups = function(req, res) {
   var search = req.query.search || 'a';
 
   var opts = {
-    sizeLimit : 0,
-	filter:'(&(objectClass=group)(!(objectClass=computer))((objectClass!=user))(!(objectClass=person))(CN=*'+search+'*))'
+    filter:'(|'+
+      '(&(objectClass=group)(!(objectClass=computer))(!(objectClass=user))(!(objectClass=person))(CN=*'+search+'*))'+
+     '(&(objectClass=user)(sAMAccountName=*'+search+'*)))',
+   // filter: '(&(objectClass=user)(sAMAccountName=*'+search+'*))', //'(&(objectCategory=Person)(sAMAccountName=*))' (!userAccountControl:1.2.840.113556.1.4.803:=2)
+   // attributes: [ 'sAMAccountName', 'userPrinicipalName', 'displayName' ],
+    sizeLimit : 0
   };
 
-  ad.findGroups(opts, function(err, groups) {
+  // var query = 'CN=*'+search+'*';
+  console.log(opts);
+
+  ad.find(opts, function(err, records) {
     if (err) {
-      logger.info('ERROR: ' +JSON.stringify(err));
+      console.log(err)
+      console.log('ERROR: ' +JSON.stringify(err));
       res.status(400).send(err);
     } else {
-      if ((! groups) || (groups.length == 0)) {
-        logger.info('No groups found.');
+      if ((! records) || (records.length == 0)) {
+        console.log('No users found.');
         res.json({});
       }
       else {
-        logger.info('findGroups: '+JSON.stringify(groups));
-        var keyArray = groups.map(function(item) { 
+        console.log('find: '+JSON.stringify(records));
+        var keyArray = records.users.map(function(item) { 
           return { 
-          'cn' : item["cn"],
-          'description' : item["description"],
+          'sAMAccountName' : item["sAMAccountName"],
+          'displayName' : item["displayName"],
+          'ADtype': "user",
           }
-        });  
-        res.json(keyArray);
+        });
+
+        var keyArray2 = records.groups.map(function(item) { 
+          return { 
+          'sAMAccountName' : item["cn"],
+          'displayName' : item["cn"],
+          'ADtype': 'group',
+          }
+        });
+
+        res.json(keyArray.concat(keyArray2));
       }
     }    
   });
 }
+

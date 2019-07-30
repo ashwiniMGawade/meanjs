@@ -14,7 +14,7 @@ module.exports = function (app) {
   app.route('/meanjs/api/users/projectInfo').get(users.projectInfo);
   app.route('/meanjs/api/users/list').get(users.getUsers);
 
-  app.route('/meanjs/api/users/groupList').get(users.getGroups);
+  app.route('/meanjs/api/users/usersAndGroupsList').get(users.getUsersAndGroups);
   // Finish by binding the user middleware
   app.param('userId', users.userByID);
 };

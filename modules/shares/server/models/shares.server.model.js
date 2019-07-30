@@ -52,21 +52,21 @@ var ShareSchema = new Schema({
     default: '',
     trim: true,
     required: function() { return this.category === 'newShare' ? 'Read Only Users cannot be blank' : false; },
-    match: [ /^[a-zA-Z\-0-9\._]*(?:;([a-zA-Z\-0-9\._])+)*$/ , 'readOnly: Only semicolon separated userIDs allowed']
+    match: [ /^[a-zA-Z\-0-9 \._]*(?:;([a-zA-Z\-0-9 \._])+)*$/ , 'readOnly: Only semicolon separated userIDs or group names allowed']
   },
   readAndWrite: {
     type: String,
     default: '',
     trim: true,
     required: function() { return this.category === 'newShare' ? 'Read And Write Only Users cannot be blank': false },
-    match: [ /^[a-zA-Z\-0-9\._]*(?:;([a-zA-Z\-0-9\._])+)*$/ , 'readAndWrite: Only semicolon separated userIDs allowed']
+    match: [ /^[a-zA-Z\-0-9 \._]*(?:;([a-zA-Z\-0-9 \._])+)*$/ , 'readAndWrite: Only semicolon separated userIDs or group names allowed']
   },
   readWriteAndModify: {
     type: String,
     default: '',
     trim: true,
     required: function() { return this.category === 'newShare' ?'Read Write And Modify Users cannot be blank': false },   
-    match: [ /^[a-zA-Z\-0-9\._]*(?:;([a-zA-Z\-0-9\._])+)*$/ , 'readWriteAndModify: Only semicolon separated userIDs allowed']
+    match: [ /^[a-zA-Z\-0-9 \._]*(?:;([a-zA-Z\-0-9 \._])+)*$/ , 'readWriteAndModify: Only semicolon separated userIDs or group names allowed']
   },
   acl_users: {
     type: String,
@@ -92,7 +92,7 @@ var ShareSchema = new Schema({
     default: '',
     trim: true,
     required: function() { return (this.category === 'changePermission' && this.operation == 'addUserOrGroupToShare') ? 'User or group name cannot be blank': false },
-    match: [ /^[a-zA-Z\-0-9\._]*$/ , 'User or group name can only contain alpha numeric chars including . and _ allowed']
+    match: [ /^[a-zA-Z\-0-9 \._]*$/ , 'User or group name can only contain alpha numeric chars including ., _ and space ']
   },
   userOrGroupPermissions: {
     type:String,

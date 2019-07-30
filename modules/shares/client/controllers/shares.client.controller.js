@@ -30,6 +30,9 @@
           scrollable: true,
           showCheckAll:false,
           showUncheckAll:false,
+          groupByTextProvider: function(groupValue) { 
+            if (groupValue === 'user') { return 'Users'; } else { return 'Groups'; } 
+          },
           //smartButtonMaxItems: 4,
           selectedToTop:true,
           //smartButtonTextConverter: function(itemText, originalItem) { 
@@ -41,8 +44,7 @@
         vm.readAndWrite = [];
         vm.readWriteAndModify = [];
         vm.acl_users = [];
-    		vm.aclUserType = [];
-    		vm.aclGroupType = [];
+    		vm.aclUserGroup = [];
 
         vm.readWriteAndModifysettings = { 
           enableSearch: true, 
@@ -53,6 +55,9 @@
           scrollable: true,
           showCheckAll:false,
           showUncheckAll:false,
+          groupByTextProvider: function(groupValue) { 
+            if (groupValue === 'user') { return 'Users'; } else { return 'Groups'; } 
+          },
           //smartButtonMaxItems: 2,
 		     //selectionLimit: 2,
           selectedToTop:true,
@@ -73,7 +78,7 @@
           selectedToTop:true
         };
 		
-		vm.acluserTypeSettings = { 
+		    vm.acluserGroupSettings = { 
           enableSearch: true, 
           idProp: 'sAMAccountName',
           displayProp: 'displayName',
@@ -87,24 +92,10 @@
           selectedToTop:true,
           smartButtonTextConverter: function(itemText, originalItem) { 
             return itemText;
-          }
-        };
-		
-		vm.aclgroupTypeSettings = { 
-          enableSearch: true, 
-          idProp: 'cn',
-          displayProp: 'cn',
-          searchField: 'cn',
-          scrollableHeight: '200px',
-          scrollable: true,
-          showCheckAll:false,
-          showUncheckAll:false,
-          smartButtonMaxItems: 2,
-		      selectionLimit: 1,
-          selectedToTop:true,
-          smartButtonTextConverter: function(itemText, originalItem) { 
-            return itemText;
-          }
+          },
+          groupByTextProvider: function(groupValue) { 
+            if (groupValue === 'user') { return 'Users'; } else { return 'Groups'; } 
+          },
         };
 		
         vm.userDropdownInitEvents = {
@@ -112,84 +103,77 @@
             var directiveScope =  angular.element(document.querySelector('.readUsers .multiselect-parent')).scope();
             directiveScope.$watch('input.searchFilter', function(newVal, oldVal) {
               if (newVal !== oldVal && newVal != '' && newVal.length > 3) {
-                vm.getUsers(newVal, "readLoader");
+                vm.getUsersAndGroups(newVal, "readLoader");
               }
               
             });   
           }
-		}
+		    }
         
 		
 		
-		 vm.userDropdownRWInitEvents = {
-          'onInitDone': function() {
-            var directiveScope =  angular.element(document.querySelector('.readWriteUsers .multiselect-parent')).scope();
-            directiveScope.$watch('input.searchFilter', function(newVal, oldVal) {
-              if (newVal !== oldVal && newVal != '' && newVal.length > 3) {
-                vm.getUsers(newVal , "readWriteLoader");
-              }
-              
-            });   
+        vm.userDropdownRWInitEvents = {
+            'onInitDone': function() {
+              var directiveScope =  angular.element(document.querySelector('.readWriteUsers .multiselect-parent')).scope();
+              directiveScope.$watch('input.searchFilter', function(newVal, oldVal) {
+                if (newVal !== oldVal && newVal != '' && newVal.length > 3) {
+                  vm.getUsersAndGroups(newVal , "readWriteLoader");
+                }
+                
+              });   
+            }
           }
-        }
-		
-		 vm.userDropdownRWMInitEvents = {
-          'onInitDone': function() {
-            var directiveScope =  angular.element(document.querySelector('.readWriteAndModifyUsers .multiselect-parent')).scope();
-            directiveScope.$watch('input.searchFilter', function(newVal, oldVal) {
-              if (newVal !== oldVal && newVal != '' && newVal.length > 3) {
-                vm.getUsers(newVal, "readWriteAndModifyLoader");
-              }
-              
-            });   
-          }
-        }
-		
-		
-		 vm.userDropdownUseridInitEvents = {
-          'onInitDone': function() {
-            var directiveScope =  angular.element(document.querySelector('.userids .multiselect-parent')).scope();
-            directiveScope.$watch('input.searchFilter', function(newVal, oldVal) {
-              if (newVal !== oldVal && newVal != '' && newVal.length > 3) {
-                vm.getUsers(newVal, "useridsLoader");
-              }
-              
-            });   
-          }
-        }
-		
-		vm.userDropdownaclUserTypeInitEvents = {
-          'onInitDone': function() {
-            var directiveScope =  angular.element(document.querySelector('.aclusertype .multiselect-parent')).scope();
-            directiveScope.$watch('input.searchFilter', function(newVal, oldVal) {
-              if (newVal !== oldVal && newVal != '' && newVal.length > 3) {
-                vm.getUsers(newVal, "aclusertypeLoader");
-              }
-              
-            });   
-          }
-        }
-		
-		vm.userDropdownaclGroupTypeInitEvents = {
-          'onInitDone': function() {
-            var directiveScope =  angular.element(document.querySelector('.aclgrouptype .multiselect-parent')).scope();
-            directiveScope.$watch('input.searchFilter', function(newVal, oldVal) {
-              if (newVal !== oldVal && newVal != '' && newVal.length > 3) {
-                vm.getGroups(newVal, "aclgrouptypeLoader");
-              }
-              
-            });   
-          }
-        }
-		
 
+        vm.userDropdownRWMInitEvents = {
+            'onInitDone': function() {
+              var directiveScope =  angular.element(document.querySelector('.readWriteAndModifyUsers .multiselect-parent')).scope();
+              directiveScope.$watch('input.searchFilter', function(newVal, oldVal) {
+                if (newVal !== oldVal && newVal != '' && newVal.length > 3) {
+                  vm.getUsersAndGroups(newVal, "readWriteAndModifyLoader");
+                }
+                
+              });   
+            }
+          }
+		
+		
+    	  vm.userDropdownUseridInitEvents = {
+            'onInitDone': function() {
+              var directiveScope =  angular.element(document.querySelector('.userids .multiselect-parent')).scope();
+              directiveScope.$watch('input.searchFilter', function(newVal, oldVal) {
+                if (newVal !== oldVal && newVal != '' && newVal.length > 3) {
+                  vm.getUsers(newVal, "useridsLoader");
+                }
+                
+              });   
+            }
+        }
+		
+	      vm.userDropdownaclUserGroupInitEvents = {
+          'onInitDone': function() {
+            var directiveScope =  angular.element(document.querySelector('.acluserGroup .multiselect-parent')).scope();
+            directiveScope.$watch('input.searchFilter', function(newVal, oldVal) {
+              if (newVal !== oldVal && newVal != '' && newVal.length > 3) {
+                vm.getUsersAndGroups(newVal, "acluserGroupLoader");
+              }
+              
+            });   
+          }
+        }
           
         vm.defaultUserSelectionText = {
-          buttonDefaultText: 'Select Users From the List'
+          buttonDefaultText: 'Select Users/Groups From the List',
+          dynamicButtonTextSuffix: "Selected, Select more Users/Groups",
         };
 
-        vm.defaultGroupSelectionText = {
-          buttonDefaultText: 'Select Group From the List'
+        vm.defaultOnlyUserSelectionText = {
+          buttonDefaultText: 'Select Users From the List',
+          dynamicButtonTextSuffix: "Selected, Select more Users",
+        };
+
+        vm.defaultSingleUserGroupSelectionText = {
+          buttonDefaultText: 'Select User/Group From the List',
+          dynamicButtonTextSuffix: "Selected, Select different user",
         };
 
         vm.customFilter = 'a';
@@ -213,16 +197,17 @@
     			vm.users = res
         });
       }
-      
-	  vm.getGroups= function( filterVal, element) {
-		    vm[element] = true;
-        UsersService.getGroups({
+
+      vm.getUsersAndGroups = function( filterVal, element) {
+        vm[element] = true;
+        UsersService.getUsersAndGroups({
           search: filterVal
         }).$promise.then(function(res) {
-    			vm[element] = false;
-    			vm.groups = res
+          vm[element] = false;
+          vm.usersAndGroups = res
         });
       }
+    
       if ( projectInfo) {
 		   vm.aclGroupLoader  = true;
         SharesService.getCifsShareDetails({
@@ -266,10 +251,8 @@
         vm.share.approvers = vm.share.approvers || projectInfo.dm + ';'+ projectInfo.pm;
 
         //get users list
-      vm.getUsers(vm.customFilter);
-	  
-	  //get groups list
-	  vm.getGroups(vm.customFilter);
+        vm.getUsersAndGroups(vm.customFilter);	  
+        vm.getUsers(vm.customFilter);    
     }
 
       vm.removeItem = function(array, elementId){
@@ -439,27 +422,14 @@
           vm.share.acl_users = keyArray.join(';');
         }
 		
-		if (vm.share.category == 'changePermission' &&  vm.share.operation == 'addUserOrGroupToShare') {
-          if (vm.aclType == 'user')
-          {
-             if (vm.aclUserType.length == 0) {
-              Notification.error({ message: 'Please specify user in UserId.', title: '<i class="glyphicon glyphicon-remove"></i> Share save error!' });
+		    if (vm.share.category == 'changePermission' &&  vm.share.operation == 'addUserOrGroupToShare') {
+             if (vm.aclUserGroup.length == 0) 
+             {
+              Notification.error({ message: 'Please specify user/group to add.', title: '<i class="glyphicon glyphicon-remove"></i> Share save error!' });
                return false;
              }
-             keyArray =  vm.aclUserType.map(function(item) { return item["id"]; });
-             vm.share.userOrGroupName = keyArray.join('');
-          } 
-
-          if (vm.aclType == 'group')
-          {
-             if (vm.aclGroupType.length == 0) {
-              Notification.error({ message: 'Please specify group.', title: '<i class="glyphicon glyphicon-remove"></i> Share save error!' });
-               return false;
-             }
-             keyArray =  vm.aclGroupType.map(function(item) { return item["id"]; });
-             vm.share.userOrGroupName = keyArray.join('');
-          } 
-            
+             keyArray =  vm.aclUserGroup.map(function(item) { return item["id"]; });
+             vm.share.userOrGroupName = keyArray.join('');            
         }
 
 
