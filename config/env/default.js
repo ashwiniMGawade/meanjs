@@ -122,7 +122,7 @@ module.exports = {
     share: {
       categories: {
           "newShare": "New Project Share Creation",
-          "changePermission": "Change Permission",
+          "changePermission": "Add or Remove permission",
           "resize": "Resize Project Share",
 //           "rename": "Rename Project Share",
 //           "restoreProjectShare": "Retire Project Share",

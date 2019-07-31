@@ -55,7 +55,7 @@
 				</td></tr>
 	            <tr ng-if="vm.share.category=='newShare'"><th>Cost</th><td ng-bind="vm.share.cost"></td></tr>
 	            <tr ng-if="vm.share.category=='newShare'"><th>Size (GB)</th><td ng-bind="vm.share.sizegb"></td></tr>
-	            <tr ng-if="vm.share.category=='changePermission'"><th>ACL Operation selected</th><td ng-bind="vm.allowedOperations[vm.share.operation]" class="word-break-all"></td></tr>
+	            <tr ng-if="vm.share.category=='changePermission'"><th>Selected Operation</th><td ng-bind="vm.allowedOperations[vm.share.operation]" class="word-break-all"></td></tr>
 	            <tr ng-if="vm.share.category=='changePermission' && vm.share.operation != 'addUserOrGroupToShare'"><th>ACL Group</th><td ng-bind="vm.share.acl_group" class="word-break-all"></td></tr>
 	            <tr ng-if="vm.share.category=='changePermission' && (vm.share.operation == 'addUserToADGroup' || vm.share.operation == 'removeUserFromADGroup')"><th>ACL UserIds</th><td ng-bind="vm.share.acl_users" class="word-break-all"></td></tr>
 
