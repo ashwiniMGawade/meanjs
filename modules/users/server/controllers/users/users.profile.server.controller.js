@@ -1,5 +1,8 @@
 'use strict';
 
+const NodeCache = require( "node-cache" );
+const myCache = new NodeCache( { stdTTL: 100, checkperiod: 120 } );
+
 /**
  * Module dependencies
  */
@@ -290,27 +293,43 @@ exports.getUsers = function(req, res) {
     sizeLimit : 0
   };
 
-  ad.findUsers(opts, function(err, users) {
-    if (err) {      
-      logger.info('ERROR: ' +JSON.stringify(err));
-      res.status(400).send(err);
-    } else {
-      if ((! users) || (users.length == 0)) {
-        logger.info('No users found.');
-        res.json({});
-      }
-      else {
-        logger.info('findUsers: '+JSON.stringify(users));
-        var keyArray = users.map(function(item) { 
-          return { 
-          'sAMAccountName' : item["sAMAccountName"],
-          'displayName' : item["displayName"],
+  myCache.get("ADUsers?search="+search, function( err, value ){
+  if( !err ){
+    if(value == undefined){
+      // key not found
+      ad.findUsers(opts, function(err, users) {
+        if (err) {      
+          logger.info('ERROR: ' +JSON.stringify(err));
+          res.status(400).send(err);
+        } else {
+          if ((! users) || (users.length == 0)) {
+            logger.info('No users found.');
+            res.json({});
           }
-        });  
-        res.json(keyArray);
-      }
-    }    
-  });
+          else {
+            logger.info('findUsers: '+JSON.stringify(users));
+            var keyArray = users.map(function(item) { 
+              return { 
+              'sAMAccountName' : item["sAMAccountName"],
+              'displayName' : item["displayName"],
+              }
+            });
+            myCache.set( "ADUsers?search="+search, keyArray, 10000 );  
+            res.json(keyArray);
+          }
+        }    
+      });
+    } else {
+       logger.info("Loading from cache ADUsers?search"+search);
+       logger.info(util.inspect(value, {showHidden: false, depth: null}));
+       res.json(value);
+      //{ my: "Special", variable: 42 }
+      // ... do something ...
+    }
+  }
+});
+
+ 
 }
 
 exports.getUsersAndGroups = function(req, res) {
@@ -338,37 +357,51 @@ exports.getUsersAndGroups = function(req, res) {
   // var query = 'CN=*'+search+'*';
   console.log(opts);
 
-  ad.find(opts, function(err, records) {
-    if (err) {
-      console.log(err)
-      console.log('ERROR: ' +JSON.stringify(err));
-      res.status(400).send(err);
-    } else {
-      if ((! records) || (records.length == 0)) {
-        console.log('No users found.');
-        res.json({});
-      }
-      else {
-        console.log('find: '+JSON.stringify(records));
-        var keyArray = records.users.map(function(item) { 
-          return { 
-          'sAMAccountName' : item["sAMAccountName"],
-          'displayName' : item["displayName"],
-          'ADtype': "user",
-          }
-        });
+  myCache.get("ADUserGroups?search="+search, function( err, value ){
+    if( !err ){
+      if(value == undefined){
+        // key not found
+        ad.find(opts, function(err, records) {
+          if (err) {
+            console.log(err)
+            console.log('ERROR: ' +JSON.stringify(err));
+            res.status(400).send(err);
+          } else {
+            if ((! records) || (records.length == 0)) {
+              console.log('No users found.');
+              res.json({});
+            }
+            else {
+              logger.info('find: '+JSON.stringify(records));
+              var keyArray = records.users.map(function(item) { 
+                return { 
+                'sAMAccountName' : item["sAMAccountName"],
+                'displayName' : item["displayName"],
+                'ADtype': "user",
+                }
+              });
 
-        var keyArray2 = records.groups.map(function(item) { 
-          return { 
-          'sAMAccountName' : item["cn"],
-          'displayName' : item["cn"],
-          'ADtype': 'group',
-          }
-        });
+              var keyArray2 = records.groups.map(function(item) { 
+                return { 
+                'sAMAccountName' : item["cn"],
+                'displayName' : item["cn"],
+                'ADtype': 'group',
+                }
+              });
 
-        res.json(keyArray.concat(keyArray2));
+              myCache.set( "ADUserGroups?search="+search, keyArray.concat(keyArray2), 10000 );  
+              res.json(keyArray.concat(keyArray2));
+            }
+          }    
+        });
+      } else {
+          logger.info("Loading from cache ADUserGroups?search"+search);
+          logger.info(util.inspect(value, {showHidden: false, depth: null}));
+          res.json(value);
       }
-    }    
+    }
   });
+
+  
 }
 
