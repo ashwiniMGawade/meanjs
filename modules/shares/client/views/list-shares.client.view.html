@@ -38,16 +38,16 @@
           </tr>
           <tr ng-repeat-end>
             <td ng-if="!(share.status == 'Completed' || share.status == 'Contact Support' || share.status == 'Rejected')">
-                 <div class="oval success">Created </div><div class="pointer"></div>
+                 <div class="oval success">Requested</div><div class="pointer"></div>
             </td>
             <td ng-if="!(share.status == 'Completed' || share.status == 'Contact Support' || share.status == 'Rejected')">
-             <div class="oval" ng-class="{'blue': share.status == 'Pending Approval', 'success': share.status== 'Approved' || share.status== 'Processing' }">Approved</div><div class="pointer"></div>
+             <div class="oval" ng-class="{'gray': share.status == 'Pending Approval', 'success': share.status== 'Approved' || share.status== 'Processing' }">Approved</div><div class="pointer" ng-class="{'gray': share.status == 'Pending Approval' }"></div>
             </td>
             <td ng-if="!(share.status == 'Completed' || share.status == 'Contact Support' || share.status == 'Rejected')">
-             <div class="oval" ng-class="{'blue': share.status == 'Pending Approval' || share.status== 'Approved', 'success':  share.status== 'Processing' }">Processing</div><div class="pointer"></div>
+             <div class="oval" ng-class="{'gray': share.status == 'Pending Approval' || share.status== 'Approved', 'success':  share.status== 'Processing' }">Processing</div><div class="pointer" ng-class="{'gray': share.status == 'Pending Approval' || share.status== 'Approved'}"></div>
             </td>
             <td ng-if="!(share.status == 'Completed' || share.status == 'Contact Support' || share.status == 'Rejected')">
-             <div class="oval blue">Completed</div>
+             <div class="oval gray">Completed</div>
             </td>
           </tr >
         </table>
