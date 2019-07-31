@@ -8,25 +8,25 @@
     menuConfig.$inject = ['menuService'];
   
     function menuConfig(menuService) {
-      menuService.addMenuItem('topbar', {
-        title: 'Requests',
-        state: 'shares',
-        type: 'dropdown',
-        roles: ['user', 'admin']
-      });
+      // menuService.addMenuItem('topbar', {
+      //   title: 'Requests',
+      //   state: 'shares',
+      //   type: 'dropdown',
+      //   roles: ['user', 'admin']
+      // });
   
       // Add the dropdown list item
-      menuService.addSubMenuItem('topbar', 'shares', {
-        title: 'List Requests',
-        state: 'shares.list',
-        roles: ['user', 'admin']
-      });
+      // menuService.addSubMenuItem('topbar', 'shares', {
+      //   title: 'List Requests',
+      //   state: 'shares.list',
+      //   roles: ['user', 'admin']
+      // });
       
-      menuService.addSubMenuItem('topbar', 'shares', {
-        title: 'Create Request',
-        state: 'shares.create',
-        roles: ['user', 'admin']
-      });
+      // menuService.addSubMenuItem('topbar', 'shares', {
+      //   title: 'Create Request',
+      //   state: 'shares.create',
+      //   roles: ['user', 'admin']
+      // });
     }
   }());
   

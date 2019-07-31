@@ -27,17 +27,29 @@
                 <th ng-if="vm.isAdmin">Raised By</th>
                 <th></th>
             </tr>
-          <tr ng-repeat="share in vm.pagedItems" >
+          <tr ng-repeat-start="share in vm.pagedItems" >
             <td ng-bind="share.city" class="capitalize breakword" title="'Location'" sortable="'city'"></td>
             <td ng-bind="share.bu" class="capitalize breakword" title="'Business Unit'" sortable="'bu'"></td>
             <td ng-bind="share.projectCode" class="capitalize breakword" title="'Project Code'" sortable="'projectCode'"></td>
             <td ng-bind="vm.categories[share.category]" class="capitalize breakword" title="'Category'" sortable="'category'"></td>
             <td ng-bind="share.status" ng-class="vm.getClass(share.status)" title="'Status'" sortable="'status'" class="breakword"></td>
             <td ng-bind="share.user.displayName" ng-if="vm.isAdmin" title="'user'" sortable="'user'" class="breakword"></td>
-            
-           
             <td><button type="button" class="btn btn-xs btn-primary" ui-sref="shares.view({shareId: share._id})">Details</button></td>
           </tr>
+          <tr ng-repeat-end>
+            <td ng-if="!(share.status == 'Completed' || share.status == 'Contact Support' || share.status == 'Rejected')">
+                 <div class="oval success">Created </div><div class="pointer"></div>
+            </td>
+            <td ng-if="!(share.status == 'Completed' || share.status == 'Contact Support' || share.status == 'Rejected')">
+             <div class="oval" ng-class="{'blue': share.status == 'Pending Approval', 'success': share.status== 'Approved' || share.status== 'Processing' }">Approved</div><div class="pointer"></div>
+            </td>
+            <td ng-if="!(share.status == 'Completed' || share.status == 'Contact Support' || share.status == 'Rejected')">
+             <div class="oval" ng-class="{'blue': share.status == 'Pending Approval' || share.status== 'Approved', 'success':  share.status== 'Processing' }">Processing</div><div class="pointer"></div>
+            </td>
+            <td ng-if="!(share.status == 'Completed' || share.status == 'Contact Support' || share.status == 'Rejected')">
+             <div class="oval blue">Completed</div>
+            </td>
+          </tr >
         </table>
     </div>
 

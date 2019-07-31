@@ -52,6 +52,16 @@
 	right: -22px;
 }
 
+.oval {
+    width: 100px;
+    height: 50px;
+    border-radius: 100px / 50px;
+    text-align: center;
+    vertical-align: middle;
+    padding: 14px;
+  }
+
+
 @keyframes spin {
     0% { transform: rotate(0deg); }
     100% { transform: rotate(360deg); }
@@ -294,3 +304,45 @@ fieldset[disabled] .navbar-custom .btn-link:focus {
 .blue{
   background-color: #b0cfe9
 }
+
+
+.danger{
+  background-color: #f2dede
+}
+
+
+.success{
+  background-color:  #dff0d8;
+}
+
+.pointer {
+  width: 55px;
+  height: 20px;
+  position: relative;
+  background: red;
+  top: -35px;
+  right:-98px;
+}
+.pointer:after {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  width: 0;
+  height: 0;
+  border-left: 10px solid white;
+  border-top: 10px solid transparent;
+  border-bottom: 10px solid transparent;
+}
+.pointer:before {
+  content: "";
+  position: absolute;
+  right: -10px;
+  bottom: 0;
+  width: 0;
+  height: 0;
+  border-left: 10px solid red;
+  border-top: 10px solid transparent;
+  border-bottom: 10px solid transparent;
+}
+
