@@ -30,43 +30,50 @@
 						</td>
 					</tr>
 				<tr>
-				  <th>Actions</th>
+				  <th></th>
 				  <td>
 					<button ng-if="vm.isAdmin && vm.share.status=='Pending Approval' && vm.showActions" type="button" class="btn btn-xs1 btn-primary" ng-click="vm.approve()">Approve</button>
-					<button ng-if="vm.isAdmin && vm.share.status=='Pending Approval' && vm.showActions" type="button" class="btn btn-xs1 btn-danger" ng-click="vm.reject()">Reject</button>
-					<button type="button" class="btn btn-xs1 btn-secondary" ui-sref="shares.list">Back</button>
+					<button ng-if="vm.isAdmin && vm.share.status=='Pending Approval' && vm.showActions" type="button" class="btn btn-xs1 btn-danger" ng-click="vm.reject()">Reject</button>					
 				  </td>
 				</tr>
 			   
 			</table>
 		</div>
-		<div class="col-md-2"></div>
+		<div class="col-md-2">
+			
+		</div>
 		<div class="col-md-5">
-        <table class="table table-stripped">
-            <tr><th>Project Code</th><td ng-bind="vm.share.projectCode"></td></tr>
-            <tr><th>Category</th><td ng-bind="vm.categories[vm.share.category]"></td></tr>
-            <tr ng-if="vm.share.category=='newShare'"><th>Storage Requirement</th><td>
-			<ul ng-repeat="(file, details) in vm.share.storage">
-				<li ng-if="details==true" style="list-style-type: square;">
-                    {{ vm.fileSizeTypes[file]}}
-                  </li>
-				  </ul>
-			</td></tr>
-            <tr ng-if="vm.share.category=='newShare'"><th>Cost</th><td ng-bind="vm.share.cost"></td></tr>
-            <tr ng-if="vm.share.category=='newShare'"><th>Size (GB)</th><td ng-bind="vm.share.sizegb"></td></tr>
-            <tr ng-if="vm.share.category=='changePermission'"><th>ACL Operation selected</th><td ng-bind="vm.allowedOperations[vm.share.operation]" class="word-break-all"></td></tr>
-            <tr ng-if="vm.share.category=='changePermission' && vm.share.operation != 'addUserOrGroupToShare'"><th>ACL Group</th><td ng-bind="vm.share.acl_group" class="word-break-all"></td></tr>
-            <tr ng-if="vm.share.category=='changePermission' && (vm.share.operation == 'addUserToADGroup' || vm.share.operation == 'removeUserFromADGroup')"><th>ACL UserIds</th><td ng-bind="vm.share.acl_users" class="word-break-all"></td></tr>
+	        <table class="table table-stripped">
+	            <tr><th>Project Code</th><td ng-bind="vm.share.projectCode"></td></tr>
+	            <tr><th>Category</th><td ng-bind="vm.categories[vm.share.category]"></td></tr>
+	            <tr ng-if="vm.share.category=='newShare'"><th>Storage Requirement</th><td>
+				<ul ng-repeat="(file, details) in vm.share.storage">
+					<li ng-if="details==true" style="list-style-type: square;">
+	                    {{ vm.fileSizeTypes[file]}}
+	                  </li>
+					  </ul>
+				</td></tr>
+	            <tr ng-if="vm.share.category=='newShare'"><th>Cost</th><td ng-bind="vm.share.cost"></td></tr>
+	            <tr ng-if="vm.share.category=='newShare'"><th>Size (GB)</th><td ng-bind="vm.share.sizegb"></td></tr>
+	            <tr ng-if="vm.share.category=='changePermission'"><th>ACL Operation selected</th><td ng-bind="vm.allowedOperations[vm.share.operation]" class="word-break-all"></td></tr>
+	            <tr ng-if="vm.share.category=='changePermission' && vm.share.operation != 'addUserOrGroupToShare'"><th>ACL Group</th><td ng-bind="vm.share.acl_group" class="word-break-all"></td></tr>
+	            <tr ng-if="vm.share.category=='changePermission' && (vm.share.operation == 'addUserToADGroup' || vm.share.operation == 'removeUserFromADGroup')"><th>ACL UserIds</th><td ng-bind="vm.share.acl_users" class="word-break-all"></td></tr>
 
-            <tr ng-if="vm.share.category=='changePermission' && vm.share.operation == 'addUserOrGroupToShare'"><th>ACL User or group</th><td ng-bind="vm.share.userOrGroupName" class="word-break-all break-word "></td></tr>
+	            <tr ng-if="vm.share.category=='changePermission' && vm.share.operation == 'addUserOrGroupToShare'"><th>ACL User or group</th><td ng-bind="vm.share.userOrGroupName" class="word-break-all break-word "></td></tr>
 
-            <tr ng-if="vm.share.category=='changePermission' && vm.share.operation == 'addUserOrGroupToShare'"><th>ACL User or group Permissions</th><td ng-bind="vm.allowedPermissions[vm.share.userOrGroupPermissions]" class="word-break-all"></td></tr>
+	            <tr ng-if="vm.share.category=='changePermission' && vm.share.operation == 'addUserOrGroupToShare'"><th>ACL User or group Permissions</th><td ng-bind="vm.allowedPermissions[vm.share.userOrGroupPermissions]" class="word-break-all"></td></tr>
 
-            <tr ng-if="vm.share.category=='rename'"><th>New Name</th><td ng-bind="vm.share.newName" class="word-break-all"></td></tr>
+	            <tr ng-if="vm.share.category=='rename'"><th>New Name</th><td ng-bind="vm.share.newName" class="word-break-all"></td></tr>
 
-            <tr ng-if="vm.share.category=='resize'"><th>New Size(GB)</th><td ng-bind="vm.share.newSizegb" class="word-break-all"></td></tr>  
-        </table>
-    </div>
+	            <tr ng-if="vm.share.category=='resize'"><th>New Size(GB)</th><td ng-bind="vm.share.newSizegb" class="word-break-all"></td></tr>  
+	        </table>
+    	</div>
+    	<div class="row" style="margin-bottom:5px;">
+          <div class="form-group form-group col-md-7" >
+              <button type="button" class="btn btn-xs1 btn-secondary pull-right" ui-sref="shares.list">Back</button>
+            </div>
+        </div>
+
 	</div>
     
   </section>
