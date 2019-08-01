@@ -87,8 +87,8 @@ module.exports = {
     p3p: 'ABCDEF',
     xssProtection: true
   },
-  logo: 'modules/core/client/img/brand/logo.png',
-  favicon: 'modules/core/client/img/brand/favicon.ico',
+  logo: 'modules/core/client/img/brand/logo.jpg',
+  favicon: 'modules/core/client/img/brand/favicon.png',
   illegalUsernames: ['meanjs', 'administrator', 'password', 'admin', 'user',
     'unknown', 'anonymous', 'null', 'undefined', 'api'
   ],
@@ -117,7 +117,7 @@ module.exports = {
       maxLength: 128,
       minLength: 10,
       minPhraseLength: 20,
-      minOptionalTestsToPass: 4
+      minOptionalTestsToPass: 4   
     },
     share: {
       categories: {
