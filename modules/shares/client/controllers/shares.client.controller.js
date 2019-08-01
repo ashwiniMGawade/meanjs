@@ -207,6 +207,14 @@
           vm.usersAndGroups = res
         });
       }
+
+      vm.listStatus = function() {
+        SharesService.listStatus().$promise.then(function(res) {
+          vm.validStatusesToAssign = res.filter(function(status) {
+            return (status == 'Processing' || status == 'Pending Approval') ? false: true;
+          });
+        });
+      }
     
       if ( projectInfo) {
 		   vm.aclGroupLoader  = true;
@@ -269,6 +277,7 @@
       vm.remove = remove;
       vm.save = save;
       vm.showActions = false;
+      vm.fix=fix;
 
       vm.categories = sharedConfig.share.categories;
       vm.allowedOperations = sharedConfig.share.allowedChangePermissionOperations;
@@ -443,15 +452,27 @@
           .then(successCallback)
           .catch(errorCallback);
   
-        function successCallback(res) {
-          $state.go('shares.list'); // should we send the User to the list or the updated Article's view?
-          Notification.success({ message: '<i class="glyphicon glyphicon-ok"></i> Share saved successfully!' });
-        }
-  
-        function errorCallback(res) {
-          Notification.error({ message: res.data.message, title: '<i class="glyphicon glyphicon-remove"></i> Share save error!' });
-        }
+       
       }
+
+     function successCallback(res) {
+        $state.go('shares.list'); // should we send the User to the list or the updated Article's view?
+        Notification.success({ message: '<i class="glyphicon glyphicon-ok"></i> Share saved successfully!' });
+      }
+
+      function errorCallback(res) {
+        Notification.error({ message: res.data.message, title: '<i class="glyphicon glyphicon-remove"></i> Share save error!' });
+      }
+
+     function fix () {
+      var share = vm.share;
+      share.fromFix = "true";
+      SharesService.updateRequest({shareId: vm.share._id}, {"comment": $sanitize(vm.comment), "status": vm.share.status} ,function () {
+            $state.go('shares.list');
+            Notification.success({ message: '<i class="glyphicon glyphicon-ok"></i>Request is successfully updated!' });
+          });
+     }
+
     }
   }());
   

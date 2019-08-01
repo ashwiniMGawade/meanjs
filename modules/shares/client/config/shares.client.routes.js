@@ -47,6 +47,20 @@
           data: {
             pageTitle: 'Share Details'
           }
+        })
+         .state('shares.fix', {
+          url: '/:shareId/fix',
+          templateUrl: 'modules/shares/client/views/fix-share.client.view.html',
+          controller: 'SharesController',
+          controllerAs: 'vm',
+          resolve: {
+            shareResolve: getShare,
+            projectResolve: function() {return null},
+            // getCifsShareDetails: function() {return null}
+          },
+          data: {
+            pageTitle: 'Share Fix'
+          }
         });
     }
   

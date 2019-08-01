@@ -30,12 +30,13 @@ exports.read = function (req, res) {
  */
 exports.update = function (req, res) {
   var share = req.model;
+  console.log(share)
 
   // For security purposes only merge these parameters
 //   user.firstName = req.body.firstName;
 //   user.lastName = req.body.lastName;
 //   user.displayName = user.firstName + ' ' + user.lastName;
-//   user.roles = req.body.roles;
+   share.status = req.body.status;
 
   share.save(function (err) {
     if (err) {
@@ -56,7 +57,7 @@ exports.update = function (req, res) {
 exports.updateRequest = function (req, res) {
   var share = req.model;
 
-  share.status = req.params.action == 'approve' ? 'Approved' : 'Rejected';
+  share.status = (req.params.action ?  (req.params.action== 'approve' ? 'Approved' : 'Rejected') : req.body.status);
   share.comment = req.body.comment || '';
 
   console.log(req.body, share)
@@ -347,3 +348,7 @@ exports.getCifsShareACLGroups = function(req, res) {
     }
   }) 
 }
+
+exports.listStatus = function (req, res) {
+  res.json(Share.schema.path('status').enumValues);
+};

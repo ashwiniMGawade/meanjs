@@ -323,7 +323,7 @@ fieldset[disabled] .navbar-custom .btn-link:focus {
   width: 50px;
   height: 20px;
   position: relative;
-  background: red;
+  background: #8180c0e0;
   top: -35px;
   right:-98px;
 }
@@ -345,7 +345,7 @@ fieldset[disabled] .navbar-custom .btn-link:focus {
   bottom: 0;
   width: 0;
   height: 0;
-  border-left: 10px solid red;
+  border-left: 10px solid #8180c0e0;
   border-top: 10px solid transparent;
   border-bottom: 10px solid transparent;
 }

@@ -17,6 +17,9 @@ module.exports = function (app) {
 
   app.route('/meanjs/api/shares/getCifsShareACLGroups')
     .get(shares.getCifsShareACLGroups)
+
+  app.route('/meanjs/api/shares/listStatus')
+    .get(shares.listStatus)
     
 
   // Single share routes

@@ -27,6 +27,11 @@
           url: '/meanjs/api/shares/getCifsShareACLGroups',
           isArray: true
         },
+        listStatus: {
+          method: 'GET',
+          url: '/meanjs/api/shares/listStatus',
+          isArray: true
+        },
         updateRequest: {
           method: 'PUT',
           params: {

@@ -26,7 +26,11 @@
       vm.getShares = function(loadMore) {
         loadMore  = loadMore | false;
         vm.loading = true;
-        SharesService.query({'page':vm.currentPage - 1, 'perPage': vm.itemsPerPage, 's': vm.search} ,function (data) {
+        SharesService.query({
+          'page': loadMore ? vm.currentPage - 1 : 0, 
+          'perPage': loadMore ? vm.itemsPerPage : vm.itemsPerPage+(vm.currentPage - 1)*(vm.itemsPerPage),
+          's': vm.search
+        } ,function (data) {
           vm.shares = ( loadMore ?   vm.shares.concat(data.shares) : data.shares);
           vm.totalRecords = data.total;
           //vm.buildPager();
