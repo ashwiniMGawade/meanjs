@@ -1,7 +1,7 @@
 'use strict';
 
 const NodeCache = require( "node-cache" );
-const myCache = new NodeCache( { stdTTL: 100, checkperiod: 120 } );
+const myCache = new NodeCache( { stdTTL: 1440, checkperiod: 720 } );
 
 /**
  * Module dependencies
