@@ -320,7 +320,7 @@ fieldset[disabled] .navbar-custom .btn-link:focus {
 }
 
 .pointer {
-  width: 55px;
+  width: 50px;
   height: 20px;
   position: relative;
   background: red;
