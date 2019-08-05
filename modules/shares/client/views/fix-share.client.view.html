@@ -9,7 +9,14 @@
 				<tr><th>Business Unit</th><td ng-bind="vm.share.bu"></td></tr>            
 				<tr ng-if="vm.share.category=='newShare'"><th>Read Only(DV)</th><td ng-bind="vm.share.readOnly" class="word-break-all break-word "></td></tr>
 				<tr ng-if="vm.share.category=='newShare'"><th>Read And Write(PL)</th><td ng-bind="vm.share.readAndWrite" class="word-break-all break-word "></td></tr>
-				<tr ng-if="vm.share.category=='newShare'"><th>Read Write And Modify(CC)</th><td ng-bind="vm.share.readWriteAndModify" class="word-break-all break-word "></td></tr>           
+				<tr ng-if="vm.share.category=='newShare'"><th>Read Write And Modify(CC)</th><td ng-bind="vm.share.readWriteAndModify" class="word-break-all break-word "></td></tr>    
+
+				<tr>
+					<th>Error</th>
+					<td>
+						{{vm.share.error || "None"}}
+					</td>
+				</tr>       
 
 				<tr><th>Status</th>
 					<!-- <td ng-bind="vm.share.status" class="word-break-all"></td> -->

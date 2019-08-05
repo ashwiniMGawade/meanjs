@@ -129,7 +129,7 @@ exports.updateRequest = function (req, res) {
         } else {
           if (resWfa.jobStatus === 'FAILED') {
             console.log('wfaJobStatus: Failed to '+share.category+', Job ID: ' + jobId);
-            saveShareStatus(share, 'Contact Support', user, 'wfaJobStatus: Failed to '+share.category+', Job ID: ' + jobId);
+            saveShareStatus(share, 'Contact Support', user, 'wfaJobStatus: Failed to '+share.category+', Job ID: ' + jobId + ", errorMessage = "+resWfa.errorMessage);
           } else if (resWfa.jobStatus !== 'COMPLETED') {
             console.log('wfaJobStatus: Not completed yet, polling again in 30 seconds, Job ID: ' + jobId);
             setTimeout(function () { untilCreated(share, jobId, user); }, config.wfa.refreshRate);
