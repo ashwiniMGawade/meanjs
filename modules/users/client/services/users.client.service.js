@@ -9,49 +9,49 @@
   UsersService.$inject = ['$resource'];
 
   function UsersService($resource) {
-    var Users = $resource('/meanjs/api/users', {}, {
+    var Users = $resource('/storage/api/users', {}, {
       update: {
         method: 'PUT'
       },
       updatePassword: {
         method: 'POST',
-        url: '/meanjs/api/users/password'
+        url: '/storage/api/users/password'
       },
       deleteProvider: {
         method: 'DELETE',
-        url: '/meanjs/api/users/accounts',
+        url: '/storage/api/users/accounts',
         params: {
           provider: '@provider'
         }
       },
       sendPasswordResetToken: {
         method: 'POST',
-        url: '/meanjs/api/auth/forgot'
+        url: '/storage/api/auth/forgot'
       },
       resetPasswordWithToken: {
         method: 'POST',
-        url: '/meanjs/api/auth/reset/:token'
+        url: '/storage/api/auth/reset/:token'
       },
       signup: {
         method: 'POST',
-        url: '/meanjs/api/auth/signup'
+        url: '/storage/api/auth/signup'
       },
       signin: {
         method: 'POST',
-        url: '/meanjs/api/auth/signin'
+        url: '/storage/api/auth/signin'
       },
       getUserProjectDetails: {
         method: 'GET',
-        url: '/meanjs/api/users/projectInfo'
+        url: '/storage/api/users/projectInfo'
       },
       getUsers: {
         method: 'GET',
-        url: '/meanjs/api/users/list',
+        url: '/storage/api/users/list',
         isArray: true
       },
   	  getUsersAndGroups: {
           method: 'GET',
-          url: '/meanjs/api/users/usersAndGroupsList',
+          url: '/storage/api/users/usersAndGroupsList',
           isArray: true
         }
     });
@@ -92,7 +92,7 @@
   AdminService.$inject = ['$resource'];
 
   function AdminService($resource) {
-    return $resource('/meanjs/api/users/:userId', {
+    return $resource('/storage/api/users/:userId', {
       userId: '@_id'
     }, {
       update: {
