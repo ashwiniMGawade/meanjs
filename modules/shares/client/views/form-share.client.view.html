@@ -253,6 +253,14 @@
                           <p class="help-block error-text" ng-message="min">Please select the size lesser than or equal to {{vm.availableSize}}.</p>
                         </div>
                       </div>
+                    
+                      <div class="row">
+                        <label class="control-label col-md-4 text-left" for="bu">Cost($)</label>
+                        <label class="content-right col-md-8" name="bu">{{vm.incrementGb * getYearDiff() * 1}}</label>
+                      </div>  
+                        
+                      </div>
+                  </div> 
                   </div>   
               </div>
             </div>

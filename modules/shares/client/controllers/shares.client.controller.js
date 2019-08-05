@@ -369,6 +369,11 @@
         console.log(years)
         vm.share.cost = vm.share.sizegb * 1 * years;
     }
+
+    $scope.getYearDiff = function() {
+      var years = dateDiffInYears(vm.project.startDate, vm.project.endDate);
+      return years;
+    }
   
       // Remove existing Article
       function remove() {
