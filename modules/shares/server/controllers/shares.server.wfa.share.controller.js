@@ -180,6 +180,7 @@ exports.wfaJobStatus = function (req, res) {
     if (data.job) {
       shareOut = {
         jobStatus: data.job.jobStatus.jobStatus,
+        errorMessage: data.job.jobStatus.errorMessage || null,
         phase: data.job.jobStatus.phase
       };
       res(null, shareOut);
