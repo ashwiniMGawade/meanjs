@@ -12,9 +12,7 @@ var getMessageDetails = function(emailParams) {
 	var message = '';
 	message += '<table><td><b> Request Details:</b></td><tbody>' +        
         '<tr><td><b> Location</b></td><td>' + emailParams.share.city + '</td></tr>'+
-        '<tr><td><b> Project Code </b></td><td>' + emailParams.share.projectCode+ '</td></tr>'+
-        '<tr><td><b> Business Unit </b></td><td>' + emailParams.share.bu+ '</td></tr>'+
-        '<tr><td><b> Request Category </b></td><td>' + categories[emailParams.share.category] + '</td></tr>';
+        '<tr><td><b> Business Unit </b></td><td>' + emailParams.share.bu+ '</td></tr>';
 
 
       if(emailParams.share.category=='newShare') {
@@ -48,8 +46,7 @@ var getMessageDetails = function(emailParams) {
         message += '<tr><td><b>New size(GB) </b></td><td>'+ emailParams.share.newSizegb + '</td></tr>';
        }
 
-      message +=  '<tr><td><b>Request Raised By </b></td><td>' + emailParams.share.user.displayName + ' ('+emailParams.share.projectCode+')' + '</td></tr>'+
-      '<tr><td><b> Request Raised On </b></td><td>' + emailParams.share.created + '</td></tr></tbody></table>';
+      message +=  '</tbody></table>';
 
 			return message;
 }
