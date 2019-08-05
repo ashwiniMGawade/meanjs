@@ -40,19 +40,7 @@
 					<td>
 						<input type="text" name="comment" ng-model="vm.comment">
 					</td>
-				</tr>
-				<tr><th>Request Raised On</th>
-					<td ng-bind="vm.share.created | date:'mediumDate'"></td></tr>
-				<tr ng-if="vm.isAdmin"><th>Request Raised By</th> 
-					<td  ng-bind="vm.share.user.displayName"></td>
-				</tr>
-				
-				<tr ng-if="!vm.isAdmin"><th>Aprrovers<td ng-bind="vm.share.approvers"></td></th></tr>
-				<tr ng-if="vm.isAdmin && vm.share.status=='Pending Approval'">
-					<th></th>
-					<td ng-click="vm.toggleActions()" style="cursor:pointer"><a>Click to Approve or Reject</a></td>
-				</tr>
-				
+				</tr>			
 				
 			</table>
 		</div>
@@ -83,17 +71,27 @@
 	            <tr ng-if="vm.share.category=='rename'"><th>New Name</th><td ng-bind="vm.share.newName" class="word-break-all"></td></tr>
 
 	            <tr ng-if="vm.share.category=='resize'"><th>New Size(GB)</th><td ng-bind="vm.share.newSizegb" class="word-break-all"></td></tr>  
+	            <tr><th>Request Raised On</th>
+					<td ng-bind="vm.share.created | date:'mediumDate'"></td></tr>
+				<tr ng-if="vm.isAdmin"><th>Request Raised By</th> 
+					<td  ng-bind="vm.share.user.displayName"></td>
+				</tr>
+				
+				<tr ng-if="!vm.isAdmin"><th>Aprrovers<td ng-bind="vm.share.approvers"></td></th></tr>
+				<tr ng-if="vm.isAdmin && vm.share.status=='Pending Approval'">
+					<th></th>
+					<td ng-click="vm.toggleActions()" style="cursor:pointer"><a>Click to Approve or Reject</a></td>
+				</tr>
 	        </table>
     	</div>
-    	<div class="row" style="margin-bottom:5px;">
-          <div class="form-group form-group col-md-7" >
-              <button type="button" class="btn btn-xs1 btn-secondary pull-right" ui-sref="shares.list">Back</button>
-              <span class="pull-right">&nbsp;</span>
-              <button type="submit" class="btn btn-primary pull-right" ng-click="vm.fix(vm.form.shareForm.$valid)">Update</button>
-            </div>
+    </div>
+	<div class="row" style="margin-bottom:30px;">
+      <div class="form-group form-group col-md-7" >
+          <button type="button" class="btn btn-xs1 btn-secondary pull-right" ui-sref="shares.list">Back</button>
+          <span class="pull-right">&nbsp;</span>
+          <button type="submit" class="btn btn-primary pull-right" ng-click="vm.fix(vm.form.shareForm.$valid)">Update</button>
         </div>
-
-	</div>
+    </div>
     
   </section>
   

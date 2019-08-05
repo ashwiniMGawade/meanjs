@@ -57,7 +57,7 @@ exports.update = function (req, res) {
 exports.updateRequest = function (req, res) {
   var share = req.model;
 
-  share.status = (req.params.action ?  (req.params.action== 'approve' ? 'Approved' : 'Rejected') : req.body.status);
+  share.status = req.params.action == 'approve' ? 'Approved' : (req.params.action == 'fix' ? req.body.status :'Rejected');
   share.comment = req.body.comment || '';
 
   console.log(req.body, share)
