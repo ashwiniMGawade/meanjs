@@ -59,29 +59,31 @@ var getMailMessage = function(type, emailParams) {
   var message = '<tr><td>Request for '+categories[emailParams.share.category]+'-' +  type + '</td></tr><tr>'+
   '<td style="padding: 40px 30px 40px 30px; word-wrap: break-word;">';
   switch(type) {
-    case 'approval':  
-      message += '<div>Please take a minute to respond to the request of '+ emailParams.share.user.displayName+ '.</div>' ;
+    case 'approval': 
+
+      message +=  '<div>Please take a minute to respond to '+ categories[emailParams.share.category] + ' request of ' + emailParams.share.user.displayName + ' ('+emailParams.share.projectCode+')  created on '+ emailParams.share.created +      '</div><div>'+
+      'Please click <a href="'+config.domain+'/shares/'+emailParams.share._id+'">here</a> to respond to the request.</div>'      
       message += getMessageDetails(emailParams);
       break;
     case 'Approved': 
-      message += '<p style="text-align: justify;">Request of '+ emailParams.share.user.displayName+ ' is  approved  by ' + emailParams.reqUser.displayName + (emailParams.share.comment ? ' with the comment "'+ emailParams.share.comment+ '"' : '' );
+      message +=  '<p style="text-align: justify;">Request of '+categories[emailParams.share.category] + ' of ' + emailParams.share.user.displayName + ' ('+emailParams.share.projectCode+') created on '+ emailParams.share.created + ' is successfully approved by ' + emailParams.reqUser.displayName + (emailParams.share.comment ? ' with the comment "'+ emailParams.share.comment+ '"' : '' ) +' !</p>';
 	  message += getMessageDetails(emailParams);
       break;
     case 'Rejected': 
-      message += '<p style="text-align: justify;">Request of '+ emailParams.share.user.displayName+ ' is  rejected  by ' + emailParams.reqUser.displayName + (emailParams.share.comment ? ' with the comment "'+ emailParams.share.comment+ '"' : '' );
+      message += '<p style="text-align: justify;">Request of '+categories[emailParams.share.category] + ' of ' + emailParams.share.user.displayName + ' ('+emailParams.share.projectCode+') created on '+ emailParams.share.created + ' is rejected by ' + emailParams.reqUser.displayName + (emailParams.share.comment ? ' with the comment "'+ emailParams.share.comment + '"': '' ) + ' !</p>' ;
        message += getMessageDetails(emailParams);
       break;
     case 'Processing': 
-      message += '<p style="text-align: justify;">Request of  '+ emailParams.share.user.displayName+ ' is  getting processed  by ' + emailParams.reqUser.displayName;
-		message += getChangePermissionDetails(emailParams);		
+      message += '<p style="text-align: justify;">Request of '+categories[emailParams.share.category] + ' of ' + emailParams.share.user.displayName + ' ('+emailParams.share.projectCode+') created on '+ emailParams.share.created + ' is  getting processed  by ' + emailParams.reqUser.displayName;
+		message += getMessageDetails(emailParams);		
       break;
     case 'Contact Support': 
-      message += '<p style="text-align: justify;">Request of '+ emailParams.share.user.displayName+ 'has failed with some error. Contact admin for futher details!';
-	  message += getChangePermissionDetails(emailParams);	
+      message += '<p style="text-align: justify;">Request of '+categories[emailParams.share.category] + ' of ' + emailParams.share.user.displayName + ' ('+emailParams.share.projectCode+') created on '+ emailParams.share.created + ' has failed with some error. Contact EMAGStorage@infosys.com for futher details!';
+	  message += getMessageDetails(emailParams);	
       break;
      case 'Completed': 
-      message += '<p style="text-align: justify;">Request of  '+ emailParams.share.user.displayName+ ' has successfully completed by ' + emailParams.reqUser.displayName + ' !';
-      message += getChangePermissionDetails(emailParams);	
+      message += '<p style="text-align: justify;">Request of '+categories[emailParams.share.category] + ' of ' + emailParams.share.user.displayName + ' ('+emailParams.share.projectCode+') created on '+ emailParams.share.created + ' has successfully completed by ' + emailParams.reqUser.displayName + ' !';
+      message += getMessageDetails(emailParams);	
       break;
     case 'default' :
       message = '</td></tr>';

@@ -86,7 +86,7 @@ exports.updateRequest = function (req, res) {
       wfaDB.getClusterInfo(share.city, function(err, details) {
         if (err) {
           console.log("error in getting db details", err);
-          saveShareStatus(share, 'Contact Support', req.user);
+          saveShareStatus(share, 'Contact Support', req.user, "error in getting db details" + err);
         } else {
           var jobId;
           var args = {
@@ -104,7 +104,7 @@ exports.updateRequest = function (req, res) {
           clientWfa.executeWfaWorkflow(args, function (err, resWfa) {
             if (err) {
               console.log('executeWfaWorkflow : Failed to '+share.category+', Error: ' + err);
-              saveShareStatus(share, 'Contact Support', req.user);
+              saveShareStatus(share, 'Contact Support', req.user, 'executeWfaWorkflow : Failed to '+share.category+', Error: ' + err);
             } else {
               jobId = resWfa.jobId;
               console.log('executeWfaWorkflow: Response from WFA: ' + util.inspect(resWfa, {showHidden: false, depth: null}));
@@ -125,11 +125,11 @@ exports.updateRequest = function (req, res) {
       clientWfa.wfaJobStatus(args, function (err, resWfa) {
         if (err) {
           console.log('wfaJobStatus: Failed to obtain status, Error: ' + err);
-          saveShareStatus(share, 'Contact Support', user);
+          saveShareStatus(share, 'Contact Support', user, 'wfaJobStatus: Failed to obtain status, Error: ' + err);
         } else {
           if (resWfa.jobStatus === 'FAILED') {
             console.log('wfaJobStatus: Failed to '+share.category+', Job ID: ' + jobId);
-            saveShareStatus(share, 'Contact Support', user);
+            saveShareStatus(share, 'Contact Support', user, 'wfaJobStatus: Failed to '+share.category+', Job ID: ' + jobId);
           } else if (resWfa.jobStatus !== 'COMPLETED') {
             console.log('wfaJobStatus: Not completed yet, polling again in 30 seconds, Job ID: ' + jobId);
             setTimeout(function () { untilCreated(share, jobId, user); }, config.wfa.refreshRate);
@@ -294,8 +294,11 @@ exports.create = function (req, res) {
   };
 
 
-  var saveShareStatus = function(share, status, user) {
+  var saveShareStatus = function(share, status, user, err=null) {
     share.status = status;
+    if (status == "Contact Support") {
+      share.error = err
+    }
     share.save(function (err) {
       if (err) {
        console.log("error in saving the status", err)

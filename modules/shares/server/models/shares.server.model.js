@@ -160,7 +160,8 @@ var ShareSchema = new Schema({
     default: '',
     trim: true,
     required: 'Project approvers cannot be blank'
-  }
+  },
+  error: {}
 });
 
 ShareSchema.index({
