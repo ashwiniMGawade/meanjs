@@ -33,7 +33,7 @@
       <div class="row center-block " style="width:80%;" ng-show="vm.showFaq">
         <uib-accordion close-others="vm.oneAtATime">
           <div uib-accordion-group class="panel-default" ng-repeat="heading in vm.faq_headings | filter:vm.search:strict" >
-              <uib-accordion-heading>
+              <uib-accordion-heading style="outline: none;">
                 {{heading}}
                <!--  <i class="pull-right glyphicon" ng-class="{'glyphicon-chevron-down': vm.status.open, 'glyphicon-chevron-right': !vm.status.open}"> -->
               </uib-accordion-heading>
