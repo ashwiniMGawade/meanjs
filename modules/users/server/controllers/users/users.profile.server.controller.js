@@ -304,7 +304,7 @@ exports.getUsers = function(req, res) {
         } else {
           if ((! users) || (users.length == 0)) {
             logger.info('No users found.');
-            res.json([]);
+            res.json([{}]);
           }
           else {
             logger.info('findUsers: '+JSON.stringify(users));
@@ -369,7 +369,7 @@ exports.getUsersAndGroups = function(req, res) {
           } else {
             if ((! records) || (records.length == 0)) {
               console.log('No users found.');
-              res.json([]);
+              res.json([{}]);
             }
             else {
               logger.info('find: '+JSON.stringify(records));
