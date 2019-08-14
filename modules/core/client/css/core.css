@@ -354,3 +354,11 @@ fieldset[disabled] .navbar-custom .btn-link:focus {
    border-left-color:#6c757d91!important;
   }
 
+.faq_heading {
+    color: #1967d2;
+    font-size: 1.75rem;
+    font-weight: 400;
+    line-height: 2.25rem;
+    text-align: center;
+}
+
