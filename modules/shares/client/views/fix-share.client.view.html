@@ -11,7 +11,7 @@
 				<tr ng-if="vm.share.category=='newShare'"><th>Read And Write(PL)</th><td ng-bind="vm.share.readAndWrite" class="word-break-all break-word "></td></tr>
 				<tr ng-if="vm.share.category=='newShare'"><th>Read Write And Modify(CC)</th><td ng-bind="vm.share.readWriteAndModify" class="word-break-all break-word "></td></tr>    
 
-				<tr>
+				<tr class="danger">
 					<th>Error</th>
 					<td>
 						{{vm.share.error || "None"}}
@@ -48,7 +48,7 @@
 			
 		</div>
 		<div class="col-md-5">
-	        <table class="table table-stripped">
+	        <table class="table table-striped">
 	            <tr><th>Project Code</th><td ng-bind="vm.share.projectCode"></td></tr>
 	            <tr><th>Category</th><td ng-bind="vm.categories[vm.share.category]"></td></tr>
 	            <tr ng-if="vm.share.category=='newShare'"><th>Storage Requirement</th><td>

@@ -13,11 +13,13 @@
     </div>
     <div class="row">
       <p class="center-block ">
-        <a href=#" ><div class="faq_heading" ng-click="vm.togleFaq()">How can we help you?</div></a>
-        <div class="faq_heading" style="margin-top:10px;" ng-show="vm.showFaq">FAQ for Enterprise Storage</div>
+        <div class="faq_heading"><a ng-click="vm.togleFaq()">How can we help you?</a></div>
+        
         <div ng-show="vm.showFaq">
           <div class="col-md-4" >&nbsp;</div>
-          <div class="col-md-4" > <input class="form-control col-md-4 ng-pristine ng-valid ng-empty ng-touched center-block" type="text" ng-model="vm.search" placeholder="Search" style="margin-bottom:20px;">
+          <div class="col-md-4" >
+            <div class="faq_heading navbar-custom" style="margin-top:10px;color:white;padding:10px;" >FAQs for Enterprise Storage</div>
+            <input class="form-control col-md-4 ng-pristine ng-valid ng-empty ng-touched center-block" type="text" ng-model="vm.search" placeholder="Describe your issue" style="margin-bottom:20px;">
           </div>
           <div class="col-md-4" >&nbsp;</div>          
        </div>
