@@ -323,13 +323,61 @@ exports.getUsers = function(req, res) {
        logger.info("Loading from cache ADUsers?search"+search);
        logger.info(util.inspect(value, {showHidden: false, depth: null}));
        res.json(value);
-      //{ my: "Special", variable: 42 }
-      // ... do something ...
     }
   }
-});
+  }); 
+}
 
- 
+exports.getACLGroupUsers = function(req, res) {
+  var ActiveDirectory = require('activedirectory');  
+  var ADconfig = { 
+    url: config.ldap.url,
+    bindDN: config.ldap.bindDN, 
+    bindCredentials: config.ldap.bindCredentials, 
+    baseDN: config.ldap.searchBase
+ }
+
+  var ad = new ActiveDirectory(ADconfig);
+
+  var search = req.query.group;
+  if (search == "") {
+    return res.json([{}]);
+  }
+  var query = 'cn=*'+search+'*';
+
+  myCache.get("ACLGroupUsers?search="+search, function( err, value ){
+  if( !err ){
+    if(value == undefined){
+      // key not found
+      ad.findUsers(query, function(err, users) {
+        if (err) {      
+          logger.info('ERROR: ' +JSON.stringify(err));
+          res.status(400).send(err);
+        } else {
+          if ((! users) || (users.length == 0)) {
+            logger.info('No users found.');
+            res.json([{}]);
+          }
+          else {
+            logger.info('findUsers: '+JSON.stringify(users));
+            var keyArray = users.map(function(item) { 
+              return { 
+              'sAMAccountName' : item["sAMAccountName"],
+              'displayName' : item["displayName"],
+              }
+            });
+            myCache.set( "ACLGroupUsers?search="+search, keyArray, 10000 );  
+            res.json(keyArray);
+          }
+        }    
+      });
+    } else {
+       logger.info("Loading from cache ACLGroupUsers?search"+search);
+       logger.info(util.inspect(value, {showHidden: false, depth: null}));
+       res.json(value);
+    }
+  }
+  }); 
 }
 
 exports.getUsersAndGroups = function(req, res) {
@@ -353,9 +401,6 @@ exports.getUsersAndGroups = function(req, res) {
    // attributes: [ 'sAMAccountName', 'userPrinicipalName', 'displayName' ],
     sizeLimit : 0
   };
-
-  // var query = 'CN=*'+search+'*';
-  console.log(opts);
 
   myCache.get("ADUserGroups?search="+search, function( err, value ){
     if( !err ){
@@ -400,8 +445,6 @@ exports.getUsersAndGroups = function(req, res) {
           res.json(value);
       }
     }
-  });
-
-  
+  });  
 }
 

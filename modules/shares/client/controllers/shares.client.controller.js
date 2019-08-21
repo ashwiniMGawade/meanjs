@@ -172,7 +172,7 @@
           dynamicButtonTextSuffix: "Selected, Select different user",
         };
 
-        vm.customFilter = 'a';
+        vm.customFilter = '';
 
         vm.share = share; 
 
