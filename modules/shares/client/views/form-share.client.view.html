@@ -191,7 +191,7 @@
 				  
 				          				
 				           <div class="form-group" show-errors ng-if="vm.share.category == 'changePermission' && vm.share.operation && (vm.share.operation == 'addUserOrGroupToShare')">
-                    <label class="control-label" for="userOrGroupName">UserId/ Group</label>
+                    <label class="control-label" for="userOrGroupName">User ID/ Group</label>
                     <div  ng-dropdown-multiselect="" search-filter="vm.customFilter" options="vm.usersAndGroups" selected-model="vm.aclUserGroup" extra-settings="vm.acluserGroupSettings" translation-texts="vm.defaultUserSelectionText"  disabled= "(vm.usersAndGroups && vm.usersAndGroups.length > 0) ? false: true" events="vm.userDropdownaclUserGroupInitEvents"  class="acluserGroup" group-by="ADtype"></div>
 					         <div class="loader" ng-show="vm.acluserGroupLoader"></div>
                   </div>
@@ -219,7 +219,7 @@
 					
                     
                   <div class="form-group" show-errors ng-if="vm.share.category == 'changePermission' && vm.share.operation && (vm.share.operation == 'addUserToADGroup' || vm.share.operation == 'removeUserFromADGroup')">
-                    <label class="control-label" for="acl_users">UserIds</label>                  
+                    <label class="control-label" for="acl_users">User IDs</label>                  
 					            <p class="outlined" ng-if="vm.acl_users.length > 0">
                         <span class="selectedUser" ng-repeat=" user in vm.acl_users">
                           <span>{{user.id}}</span>
@@ -251,7 +251,7 @@
         
                     </div>
                     <div class="form-group" show-errors>
-                        <label class="control-label" for="incrementGb">Increment/Decrement the size By(GB)</label>
+                        <label class="control-label" for="incrementGb">Increment/Decrement the size by(GB)</label>
                         <input name="incrementGb" type="number" ng-model="vm.incrementGb" id="incrementGb" class="form-control" placeholder="Size" ng-required="vm.share.category == 'resize'"  step="5" ng-min="{{-vm.availableSize}}" required>
                         <div ng-messages="vm.form.shareForm.incrementGb.$error" role="alert">
                           <p class="help-block error-text" ng-message="required">Please select the size in step of 5.</p>
@@ -269,7 +269,7 @@
 
             <div class="row" style="margin-bottom:30px;">
               <div class="form-group col-md-7" >
-                  <button type="submit" class="btn btn-primary pull-right">{{vm.share._id ? 'Update' : 'Create'}}</button>
+                  <button type="submit" class="btn btn-primary pull-right" ng-click="vm.save(vm.form.shareForm.$valid)">{{vm.share._id ? 'Update' : 'Create'}}</button>
                 </div>
             </div>
 
@@ -278,28 +278,3 @@
       </form>
     </div>
   </section>
-
-  <script type="text/ng-template" id="customTemplate.html">
-    <a>
-        <!-- <img ng-src="http://upload.wikimedia.org/wikipedia/commons/thumb/{{match.model.flag}}" width="16"> -->
-        <span ng-bind-html="match.label | uibTypeaheadHighlight:query"></span>
-    </a>
-  </script>
-
-  <script type="text/ng-template" id="customPopupTemplate.html">
-    <div class="custom-popup-wrapper"
-       ng-style="{top: position().top+'px', left: position().left+'px'}"
-       style="display: block;"
-       ng-show="isOpen() && !moveInProgress"
-       aria-hidden="{{!isOpen()}}">
-      <p class="message">select location from drop down.</p>
-  
-      <ul class="dropdown-menu" role="listbox">
-        <li class="uib-typeahead-match" ng-repeat="match in matches track by $index" ng-class="{active: isActive($index) }"
-          ng-mouseenter="selectActive($index)" ng-click="selectMatch($index)" role="option" id="{{::match.id}}">
-          <div uib-typeahead-match index="$index" match="match" query="query" template-url="templateUrl"></div>
-        </li>
-      </ul>
-    </div>
-  </script>
-  
