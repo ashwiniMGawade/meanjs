@@ -225,7 +225,7 @@
                           <span>{{user.id}}</span>
                             <span aria-hidden="true" class="close inner-close" ng-click="vm.removeItem(vm.acl_users, $index)">&times;</span>
                       </p>
-                      {{(vm.users && vm.users.length > 0 && vm.share.acl_group !== ''}}
+                      {{(vm.users && vm.users.length > 0 && vm.share.acl_group !== '')}}
                     <div  ng-dropdown-multiselect="" search-filter="vm.customFilter" options="vm.users" selected-model="vm.acl_users" extra-settings="vm.useridSettings" translation-texts="vm.defaultUserOnlySelectionText"  disabled= "(vm.users && vm.users.length > 0 && vm.share.acl_group !== '')  ? false: true" events="vm.userDropdownUseridInitEvents"  class="userids" group-by="ADtype"></div>
 					         <div class="loader" ng-show="vm.useridsLoader"></div>
                   </div>
