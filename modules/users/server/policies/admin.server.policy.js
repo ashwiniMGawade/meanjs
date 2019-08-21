@@ -12,16 +12,61 @@ acl = new acl(new acl.memoryBackend());
  * Invoke Admin Permissions
  */
 exports.invokeRolesPolicies = function () {
-  acl.allow([{
+  acl.allow([
+  {
     roles: ['admin'],
     allows: [{
-      resources: '/meanjs/api/users',
+      resources: '/storage/api/users',
       permissions: '*'
-    }, {
-      resources: '/meanjs/api/users/:userId',
+    },
+    {
+      resources: '/storage/api/users/projectInfo',
       permissions: '*'
-    }]
-  }]);
+    },
+    {
+      resources: '/storage/api/users/list',
+      permissions: '*'
+    },
+    {
+      resources: '/storage/api/users/usersAndGroupsList',
+      permissions: '*'
+    },
+    {
+      resources: '/storage/api/users/ACLUserList',
+      permissions: '*'
+    },
+    {
+      resources: '/storage/api/users/:userId',
+      permissions: '*'
+    },
+    ]
+  },
+   {
+    roles: ['user'],
+    allows: [
+    {
+      resources: '/storage/api/users/projectInfo',
+      permissions: '*'
+    },
+    {
+      resources: '/storage/api/users/list',
+      permissions: '*'
+    },
+    {
+      resources: '/storage/api/users/usersAndGroupsList',
+      permissions: '*'
+    },
+    {
+      resources: '/storage/api/users/ACLUserList',
+      permissions: '*'
+    },
+    {
+      resources: '/storage/api/users/:userId',
+      permissions: '*'
+    },
+    ]
+  }
+  ]);
 };
 
 /**

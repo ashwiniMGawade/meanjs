@@ -3,6 +3,7 @@
 module.exports = function (app) {
   // User Routes
   var users = require('../controllers/users.server.controller');
+  var adminPolicy = require('../policies/admin.server.policy');
 
   // Setting up the users profile api
   app.route('/storage/api/users/me').get(users.me);
@@ -11,10 +12,11 @@ module.exports = function (app) {
   app.route('/storage/api/users/password').post(users.changePassword);
   app.route('/storage/api/users/picture').post(users.changeProfilePicture);
 
-  app.route('/storage/api/users/projectInfo').get(users.projectInfo);
-  app.route('/storage/api/users/list').get(users.getUsers);
+  app.route('/storage/api/users/projectInfo').get(adminPolicy.isAllowed, users.projectInfo);
+  app.route('/storage/api/users/list').get(adminPolicy.isAllowed, users.getUsers);
 
-  app.route('/storage/api/users/usersAndGroupsList').get(users.getUsersAndGroups);
+  app.route('/storage/api/users/usersAndGroupsList').get(adminPolicy.isAllowed, users.getUsersAndGroups);
+  app.route('/storage/api/users/ACLUserList').get(adminPolicy.isAllowed, users.getACLGroupUsers);
   // Finish by binding the user middleware
   app.param('userId', users.userByID);
 };

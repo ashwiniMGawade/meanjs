@@ -53,6 +53,11 @@
           method: 'GET',
           url: '/storage/api/users/usersAndGroupsList',
           isArray: true
+      },
+      getACLUsers: {
+          method: 'GET',
+          url: '/storage/api/users/ACLUserList',
+          isArray: true
         }
     });
 

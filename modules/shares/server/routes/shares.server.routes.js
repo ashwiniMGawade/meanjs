@@ -13,13 +13,13 @@ module.exports = function (app) {
     .post(shares.create);
 
   app.route('/storage/api/shares/getCifsShareDetails')
-    .get(shares.getCifsShareDetails)
+    .get(sharesPolicy.isAllowed, shares.getCifsShareDetails)
 
   app.route('/storage/api/shares/getCifsShareACLGroups')
-    .get(shares.getCifsShareACLGroups)
+    .get(sharesPolicy.isAllowed, shares.getCifsShareACLGroups)
 
   app.route('/storage/api/shares/listStatus')
-    .get(shares.listStatus)
+    .get(sharesPolicy.isAllowed, shares.listStatus)
     
 
   // Single share routes

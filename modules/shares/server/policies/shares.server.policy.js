@@ -24,6 +24,18 @@ exports.invokeRolesPolicies = function () {
     {
       resources: '/storage/api/shares/:shareId/:action',
       permissions: '*'
+    },
+    {
+      resources: '/storage/api/shares/getCifsShareDetails',
+      permissions: '*'
+    },
+    {
+      resources: '/storage/api/shares/getCifsShareACLGroups',
+      permissions: '*'
+    },
+     {
+      resources: '/storage/api/shares/listStatus',
+      permissions: '*'
     }
   ]
   }, {
@@ -33,6 +45,18 @@ exports.invokeRolesPolicies = function () {
       permissions: '*'
     }, {
       resources: '/storage/api/shares/:shareId',
+      permissions: '*'
+    },
+     {
+      resources: '/storage/api/shares/getCifsShareDetails',
+      permissions: '*'
+    },
+    {
+      resources: '/storage/api/shares/getCifsShareACLGroups',
+      permissions: '*'
+    },
+     {
+      resources: '/storage/api/shares/listStatus',
       permissions: '*'
     }]
   }]);
