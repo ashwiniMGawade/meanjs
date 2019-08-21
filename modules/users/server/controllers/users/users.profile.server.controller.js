@@ -339,17 +339,16 @@ exports.getACLGroupUsers = function(req, res) {
 
   var ad = new ActiveDirectory(ADconfig);
 
-  var search = req.query.group;
-  if (search == "") {
+   var groupname  = req.query.group;
+  if (groupname == "") {
     return res.json([{}]);
   }
-  var query = 'cn=*'+search+'*';
 
   myCache.get("ACLGroupUsers?search="+search, function( err, value ){
   if( !err ){
     if(value == undefined){
       // key not found
-      ad.findUsers(query, function(err, users) {
+      ad.getUsersForGroup(groupname, function(err, users) {
         if (err) {      
           logger.info('ERROR: ' +JSON.stringify(err));
           res.status(400).send(err);
@@ -359,7 +358,7 @@ exports.getACLGroupUsers = function(req, res) {
             res.json([{}]);
           }
           else {
-            logger.info('findUsers: '+JSON.stringify(users));
+            logger.info('getUsersForGroup: '+JSON.stringify(users));
             var keyArray = users.map(function(item) { 
               return { 
               'sAMAccountName' : item["sAMAccountName"],
