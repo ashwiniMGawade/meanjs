@@ -138,6 +138,9 @@
               var directiveScope =  angular.element(document.querySelector('.userids .multiselect-parent')).scope();
               directiveScope.$watch('input.searchFilter', function(newVal, oldVal) {
                 if (newVal !== oldVal && newVal != '' && newVal.length > 3) {
+                  if (vm.share.category == "removeUserFromADGroup") {
+                     vm.getACLGroupUsers(newVal, "useridsLoader");
+                  }
                   vm.getUsers(newVal, "useridsLoader");
                 }
                 
@@ -191,6 +194,23 @@
         }).$promise.then(function(res) {
     			vm[element] = false;
     			vm.users = res
+        });
+      }
+
+      vm.checkForUsersToRemove = function() {
+        if (vm.share.category == "removeUserFromADGroup" && vm.share.acl_group !== "") {
+          vm.getACLGroupUsers("", "useridsLoader");
+        }
+      }
+
+      vm.getACLGroupUsers = function( filterVal, element) {
+        vm[element] = true;
+        UsersService.getACLGroupUsers({
+          search: filterVal,
+          group: vm.share.acl_group
+        }).$promise.then(function(res) {
+          vm[element] = false;
+          vm.users = res
         });
       }
 

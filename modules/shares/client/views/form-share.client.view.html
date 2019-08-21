@@ -180,7 +180,7 @@
       
                     <label ng-if="vm.share.operation == 'removeUserOrGroupFromShare'" for="acl_group" class="control-label" >Select ACL Group or user to remove</label>  
       
-                    <select name="acl_group" ng-model="vm.share.acl_group" id="acl_group" class="form-control" ng-options="group.groupName as group.groupName for group in vm.getACLgroups()" required >
+                    <select name="acl_group" ng-model="vm.share.acl_group" id="acl_group" class="form-control" ng-options="group.groupName as group.groupName for group in vm.getACLgroups()" required  ng-change="vm.checkForUsersToRemove()">
                       <option value="">Please select a ACL group</option>
                     </select>
                     <div class="loader" ng-if="vm.aclGroupLoader"></div>
@@ -225,7 +225,7 @@
                           <span>{{user.id}}</span>
                             <span aria-hidden="true" class="close inner-close" ng-click="vm.removeItem(vm.acl_users, $index)">&times;</span>
                       </p>
-                    <div  ng-dropdown-multiselect="" search-filter="vm.customFilter" options="vm.users" selected-model="vm.acl_users" extra-settings="vm.useridSettings" translation-texts="vm.defaultUserOnlySelectionText"  disabled= "(vm.users && vm.users.length > 0) ? false: true" events="vm.userDropdownUseridInitEvents"  class="userids" group-by="ADtype"></div>
+                    <div  ng-dropdown-multiselect="" search-filter="vm.customFilter" options="vm.users" selected-model="vm.acl_users" extra-settings="vm.useridSettings" translation-texts="vm.defaultUserOnlySelectionText"  disabled= "((vm.users && vm.users.length > 0 ) || (vm.share.acl_group !== ''))  ? false: true" events="vm.userDropdownUseridInitEvents"  class="userids" group-by="ADtype"></div>
 					         <div class="loader" ng-show="vm.useridsLoader"></div>
                   </div>
                   <div ng-if="vm.share.category == 'rename'">
