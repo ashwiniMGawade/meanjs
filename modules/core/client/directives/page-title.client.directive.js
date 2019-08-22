@@ -18,7 +18,7 @@
       $rootScope.$on('$stateChangeSuccess', listener);
 
       function listener(event, toState) {
-        var applicationCoreTitle = 'Infosys Netapp automation',
+        var applicationCoreTitle = 'Infosys storage automation',
           separator = ' - ',
           stateTitle = applicationCoreTitle + separator;
 
