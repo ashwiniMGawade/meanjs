@@ -188,12 +188,12 @@ getCifsShareACLGroups = function(sharename, res) {
         console.log('Server getCifsShareACLGroups: MySQL Read: Result: ' + util.inspect(result, {showHidden: false, depth: null}));
         if (err) {
           console.log('Server getCifsShareACLGroups: MySQL Read: Error: ' + err);
-          res(err, {});
+          res(err, []);
         } else if (result.length > 0) {          
           res(null, result);
         } else {
           console.log('Server getClusterInfo(): MySQL Read: No Records found');
-          res("Server Read: No records found", {});
+          res("Server Read: No records found", []);
         }
         connection.release();
       });

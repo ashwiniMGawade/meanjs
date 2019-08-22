@@ -140,8 +140,9 @@
                 if (newVal !== oldVal && newVal != '' && newVal.length > 3) {
                   if (vm.share.operation == "removeUserFromADGroup") {
                      vm.getACLGroupUsers(newVal, "useridsLoader");
-                  }
-                  vm.getUsers(newVal, "useridsLoader");
+                  } else {
+                     vm.getUsers(newVal, "useridsLoader");
+                   }                 
                 }
                 
               });   
