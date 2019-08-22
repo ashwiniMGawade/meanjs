@@ -304,7 +304,7 @@ exports.getUsers = function(req, res) {
         } else {
           if ((! users) || (users.length == 0)) {
             logger.info('No users found.');
-            res.json([{}]);
+            res.json([]);
           }
           else {
             logger.info('findUsers: '+JSON.stringify(users));
@@ -341,10 +341,10 @@ exports.getACLGroupUsers = function(req, res) {
 
    var groupname  = req.query.group;
   if (groupname == "") {
-    return res.json([{}]);
+    return res.json([]);
   }
 
-  myCache.get("ACLGroupUsers?search="+search, function( err, value ){
+  myCache.get("ACLGroupUsers?search="+groupname, function( err, value ){
   if( !err ){
     if(value == undefined){
       // key not found
@@ -355,7 +355,7 @@ exports.getACLGroupUsers = function(req, res) {
         } else {
           if ((! users) || (users.length == 0)) {
             logger.info('No users found.');
-            res.json([{}]);
+            res.json([]);
           }
           else {
             logger.info('getUsersForGroup: '+JSON.stringify(users));
@@ -365,13 +365,13 @@ exports.getACLGroupUsers = function(req, res) {
               'displayName' : item["displayName"],
               }
             });
-            myCache.set( "ACLGroupUsers?search="+search, keyArray, 10000 );  
+            myCache.set( "ACLGroupUsers?search="+groupname, keyArray, 10000 );  
             res.json(keyArray);
           }
         }    
       });
     } else {
-       logger.info("Loading from cache ACLGroupUsers?search"+search);
+       logger.info("Loading from cache ACLGroupUsers?search"+groupname);
        logger.info(util.inspect(value, {showHidden: false, depth: null}));
        res.json(value);
     }
@@ -413,7 +413,7 @@ exports.getUsersAndGroups = function(req, res) {
           } else {
             if ((! records) || (records.length == 0)) {
               console.log('No users found.');
-              res.json([{}]);
+              res.json([]);
             }
             else {
               logger.info('find: '+JSON.stringify(records));
