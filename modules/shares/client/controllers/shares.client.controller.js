@@ -199,7 +199,7 @@
       }
 
       vm.checkForUsersToRemove = function() {
-        if (vm.share.operation == "removeUserFromADGroup" && vm.share.acl_group !== "") {
+        if (vm.share.operation == "removeUserFromADGroup" && vm.share.acl_group) {
           vm.getACLGroupUsers("", "useridsLoader");
         }
       }
