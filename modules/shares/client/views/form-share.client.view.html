@@ -218,7 +218,7 @@
 					
 					
                     
-                  <div class="form-group" show-errors ng-if="vm.share.category == 'changePermission' && vm.share.operation && (vm.share.operation == 'addUserToADGroup' || vm.share.operation == 'removeUserFromADGroup')">
+                  <div class="form-group" show-errors ng-if="vm.share.category == 'changePermission' && vm.share.operation && (vm.share.operation == 'addUserToADGroup' || vm.share.operation == 'removeUserFromADGroup') && vm.share.acl_group !=''">
                     <label class="control-label" for="acl_users">User IDs</label>                  
 					            <p class="outlined" ng-if="vm.acl_users.length > 0">
                         <span class="selectedUser" ng-repeat=" user in vm.acl_users">
