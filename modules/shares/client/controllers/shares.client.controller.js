@@ -187,6 +187,11 @@
         vm.readLoader = vm.readWriteLoader = vm.readWriteAndModifyLoader =  vm.useridsLoader = false;
         vm.aclGroupLoader = false;
 
+        vm.resetAllChangePermissions = function() {
+          vm.acl_users = [];
+          vm.aclUserGroup = [];
+        }
+
       
       vm.getUsers = function( filterVal, element) {
 		    vm[element] = true;

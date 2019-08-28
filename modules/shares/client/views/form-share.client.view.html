@@ -170,7 +170,7 @@
                         
               <div class="form-group" show-errors ng-if="vm.share.category == 'changePermission' && vm.share.operation && (vm.share.operation == 'addUserOrGroupToShare')">
                   <label class="control-label" for="userOrGroupName">User ID/ Group</label>
-                  <div  ng-dropdown-multiselect="" search-filter="vm.customFilter" options="vm.usersAndGroups" selected-model="vm.aclUserGroup" extra-settings="vm.acluserGroupSettings" translation-texts="vm.defaultUserSelectionText"  disabled= "(vm.usersAndGroups && vm.usersAndGroups.length > 0) ? false: true" events="vm.userDropdownaclUserGroupInitEvents"  class="acluserGroup" group-by="ADtype"></div>
+                  <div  ng-dropdown-multiselect="" search-filter="vm.customFilter" options="vm.usersAndGroups" selected-model="vm.aclUserGroup" extra-settings="vm.acluserGroupSettings" translation-texts="vm.defaultSingleUserGroupSelectionText"  disabled= "(vm.usersAndGroups && vm.usersAndGroups.length > 0) ? false: true" events="vm.userDropdownaclUserGroupInitEvents"  class="acluserGroup" group-by="ADtype"></div>
                  <div class="loader" ng-show="vm.acluserGroupLoader"></div>
               </div>
 
@@ -209,7 +209,7 @@
               <div class="col-md-5">
                   <div class="form-group" show-errors ng-if="vm.share.category == 'changePermission'">
                     <label for="operation" class="control-label">Select Operation</label>   
-                    <select name="operation" ng-model="vm.share.operation" id="operation" class="form-control" ng-options="key as value for (key , value) in vm.allowedOperations" required autofocus>
+                    <select name="operation" ng-model="vm.share.operation" id="operation" class="form-control" ng-options="key as value for (key , value) in vm.allowedOperations" required autofocus ng-change="resetAllChangePermissions()">
                       <option value="">Please select a Operation</option>
                     </select>
                     <div ng-messages="vm.form.shareForm.operation.$error" role="alert">
