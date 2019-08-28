@@ -209,7 +209,7 @@
               <div class="col-md-5">
                   <div class="form-group" show-errors ng-if="vm.share.category == 'changePermission'">
                     <label for="operation" class="control-label">Select Operation</label>   
-                    <select name="operation" ng-model="vm.share.operation" id="operation" class="form-control" ng-options="key as value for (key , value) in vm.allowedOperations" required autofocus ng-change="resetAllChangePermissions()">
+                    <select name="operation" ng-model="vm.share.operation" id="operation" class="form-control" ng-options="key as value for (key , value) in vm.allowedOperations" required autofocus ng-change="vm.resetAllChangePermissions()">
                       <option value="">Please select a Operation</option>
                     </select>
                     <div ng-messages="vm.form.shareForm.operation.$error" role="alert">
