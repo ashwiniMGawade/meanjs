@@ -19,6 +19,28 @@
           return _selected;
         }
       };
+
+      if (typeof Object.assign != 'function') {
+        Object.assign = function(target) {
+          'use strict';
+          if (target == null) {
+            throw new TypeError('Cannot convert undefined or null to object');
+          }
+
+          target = Object(target);
+          for (var index = 1; index < arguments.length; index++) {
+            var source = arguments[index];
+            if (source != null) {
+              for (var key in source) {
+                if (Object.prototype.hasOwnProperty.call(source, key)) {
+                  target[key] = source[key];
+                }
+              }
+            }
+          }
+          return target;
+        };
+      }
       
       /**reference from http://dotansimha.github.io/angularjs-dropdown-multiselect/docs/#/main */
         vm.readOnlyAndWritesettings = { 
@@ -315,15 +337,16 @@
       vm.getFilteredCategories = function() {
         var keyNewShareCat = 'newShare';
         var obj = {};
-        if (vm.cifShareDetails.sharepath) {
+        // if (vm.cifShareDetails.sharepath) {
           obj = Object.assign({}, vm.categories);
           delete obj[keyNewShareCat];
           return obj;
-         } else {          
-          obj[keyNewShareCat] = vm.categories[keyNewShareCat];
-          vm.share.category = keyNewShareCat;
-          return obj;
-        }        
+        //  } else {          
+        //   obj[keyNewShareCat] = vm.categories[keyNewShareCat];
+        //   vm.share.category = keyNewShareCat;
+        //   return obj;
+        // }  
+        // return vm.categories;      
       }
 
       
