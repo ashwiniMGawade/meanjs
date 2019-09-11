@@ -309,9 +309,9 @@ fieldset[disabled] .navbar-custom .btn-link:focus {
   background:  #b0cfe9 !important;
 }
 .gray {
-  background-color: #7D7B7B !important;
-  background: #7D7B7B !important;
-  border-color:#7D7B7B !important;
+  background-color: #bcbaba !important;
+  background: #bcbaba !important;
+  border-color:#bcbaba !important;
 }
 
 
@@ -322,9 +322,8 @@ fieldset[disabled] .navbar-custom .btn-link:focus {
 
 
 .success{
-  background-color:  #90EE90 !important;
-  background:  #90EE90 !important;
-}
+  background-color:  #90EE90  !important; /*#90EE90*/
+  background:  #90EE90  !important; }
 
 .pointer {
   width: 50px;
@@ -358,7 +357,7 @@ fieldset[disabled] .navbar-custom .btn-link:focus {
 }
 
 .gray.pointer:before {
-   border-left-color:#7D7B7B!important;
+   border-left-color:#bcbaba!important;
   }
 
 .faq_heading {
