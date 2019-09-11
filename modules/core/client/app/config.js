@@ -29,8 +29,8 @@
       startRight: 10,
       verticalSpacing: 20,
       horizontalSpacing: 20,
-      positionX: 'right',
-      positionY: 'bottom'
+      positionX: 'center',
+      positionY: 'top'
     });
   });
 }(window));

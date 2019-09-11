@@ -33,7 +33,10 @@
             break;
           case -1:  // Handle error if no response from server(Network Lost or Server not responding)
             var Notification = $injector.get('Notification');
-            Notification.error({ message: 'No response received from server. Please try again later.', title: 'Error processing request!', delay: 5000 });
+            Notification.error({ 
+              message: 'No response received from server. Please try again later.',
+              title: 'Error processing request!', 
+              delay: 5000 });
             break;
         }
       }
