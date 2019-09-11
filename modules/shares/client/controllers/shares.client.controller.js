@@ -310,8 +310,6 @@
       vm.removeItem = function(array, elementId){
         console.log(typeof array);
         array.splice(elementId, 1);
-        console.log(array, elementId);
-        console.log(array);
       }
 
       
@@ -378,7 +376,10 @@
       modalService.showModal({}, modalOptions).then(function (result) {
         SharesService.updateRequest({shareId: vm.share._id, action: 'approve'}, {"comment": $sanitize(vm.comment)} ,function () {
           $state.go('shares.list');
-          Notification.success({ message: '<i class="glyphicon glyphicon-ok"></i>Request is successfully approved will take some time to process the request!' });
+          Notification.success({
+            message: '<i class="glyphicon glyphicon-ok"></i>Request is successfully approved will take some time to process the request!',
+            positionX: 'center',
+            positionY: 'top' });
         });
       });
     }
@@ -393,7 +394,10 @@
       modalService.showModal({}, modalOptions).then(function (result) {
         SharesService.updateRequest({shareId: vm.share._id, action: 'reject'}, function () {
           $state.go('shares.list');
-          Notification.success({ message: '<i class="glyphicon glyphicon-ok"></i>Request is  successfully rejected!' });
+          Notification.success({
+            message: '<i class="glyphicon glyphicon-ok"></i>Request is  successfully rejected!',
+            positionX: 'center',
+            positionY: 'top' });
         });
       });
     }
@@ -424,24 +428,56 @@
         if ($window.confirm('Are you sure you want to delete?')) {
           vm.article.$remove(function () {
             $state.go('shares.list');
-            Notification.success({ message: '<i class="glyphicon glyphicon-ok"></i> Article deleted successfully!' });
+            Notification.success({
+              message: '<i class="glyphicon glyphicon-ok"></i> Article deleted successfully!',
+              positionX: 'center',
+              positionY: 'top' });
           });
         }
       }
 
       function checkUserIdsSpecified() {
         if (vm.readOnly.length == 0) {
-          Notification.error({ message: 'Please specify at least on user In Read Only field.', title: '<i class="glyphicon glyphicon-remove"></i> Share save error!' });
+          Notification.error({
+            message: 'Please specify at least one user In Read Only field.',
+            title: '<i class="glyphicon glyphicon-remove"></i> Share save error!',
+            delay: 10000,
+            positionX: 'center',
+            positionY: 'top'
+          });
           return false;
         }
         
         if (vm.readAndWrite.length == 0) {
-          Notification.error({ message: 'Please specify at least on user In Read And Write field.', title: '<i class="glyphicon glyphicon-remove"></i> Share save error!' });
+          Notification.error({
+            message: 'Please specify at least one user In Read And Write field.',
+            title: '<i class="glyphicon glyphicon-remove"></i> Share save error!',
+            delay: 10000,
+            positionX: 'center',
+            positionY: 'top'
+          });
           return false;
         }
 
         if (vm.readWriteAndModify.length <= 1) {
-          Notification.error({ message: 'Minimum 2 users required In Read Write and Modify field.', title: '<i class="glyphicon glyphicon-remove"></i> Share save error!' });
+          Notification.error({ 
+            message: 'Minimum 2 users required In Read Write and Modify field.',
+            title: '<i class="glyphicon glyphicon-remove"></i> Share save error!',
+             delay: 10000,
+            positionX: 'center',
+            positionY: 'top'
+          });
+          return false;
+        }
+
+        if (!vm.share.sizegb) {
+          Notification.error({ 
+            message: 'Please select file types from storage requirement.',
+            title: '<i class="glyphicon glyphicon-remove"></i> Share save error!',
+             delay: 10000,
+            positionX: 'center',
+            positionY: 'top'
+          });
           return false;
         }
         return true;
@@ -473,7 +509,13 @@
 
         if (vm.share.category == 'changePermission' &&  (vm.share.operation == 'addUserToADGroup' || vm.share.operation == 'removeUserFromADGroup')) {
           if (vm.acl_users.length == 0) {
-            Notification.error({ message: 'Please specify at least on user in UserIds.', title: '<i class="glyphicon glyphicon-remove"></i> Share save error!' });
+            Notification.error({
+              message: 'Please specify at least on user in UserIds.',
+              title: '<i class="glyphicon glyphicon-remove"></i> Share save error!',
+              delay: 10000,
+              positionX: 'center',
+              positionY: 'top'
+            });
             return false;
           }
           keyArray =  vm.acl_users.map(function(item) { return item["id"]; });
@@ -483,7 +525,13 @@
 		    if (vm.share.category == 'changePermission' &&  vm.share.operation == 'addUserOrGroupToShare') {
              if (vm.aclUserGroup.length == 0) 
              {
-              Notification.error({ message: 'Please specify user/group to add.', title: '<i class="glyphicon glyphicon-remove"></i> Share save error!' });
+              Notification.error({
+                message: 'Please specify user/group to add.',
+                title: '<i class="glyphicon glyphicon-remove"></i> Share save error!',
+                delay: 10000,
+                positionX: 'center',
+                positionY: 'top'
+              });
                return false;
              }
              keyArray =  vm.aclUserGroup.map(function(item) { return item["id"]; });
@@ -506,11 +554,20 @@
 
      function successCallback(res) {
         $state.go('shares.list'); // should we send the User to the list or the updated Article's view?
-        Notification.success({ message: '<i class="glyphicon glyphicon-ok"></i> Share saved successfully!' });
+        Notification.success({
+          message: '<i class="glyphicon glyphicon-ok"></i> Share saved successfully!',
+          positionX: 'center',
+          positionY: 'top'
+        });
       }
 
       function errorCallback(res) {
-        Notification.error({ message: res.data.message, title: '<i class="glyphicon glyphicon-remove"></i> Share save error!' });
+        Notification.error({ 
+          message: res.data.message, 
+          title: '<i class="glyphicon glyphicon-remove"></i> Share save error!',
+          delay: 10000,
+          positionX: 'center',
+          positionY: 'top' });
       }
 
      function fix () {
@@ -518,7 +575,10 @@
       share.fromFix = "true";
       SharesService.updateRequest({shareId: vm.share._id, action: 'fix'}, {"comment": $sanitize(vm.comment), "status": vm.share.status} ,function () {
             $state.go('shares.list');
-            Notification.success({ message: '<i class="glyphicon glyphicon-ok"></i>Request is successfully updated!' });
+            Notification.success({
+              message: '<i class="glyphicon glyphicon-ok"></i>Request is successfully updated!',
+              positionX: 'center',
+              positionY: 'top' });
           });
      }
 
