@@ -27,7 +27,12 @@ function keepalive() {
           console.log(err.code); // 'ER_BAD_DB_ERROR'
         }
         console.log('Keepalive RDS connection pool using connection id', connection.threadId);
-      })
+      });
+      connection.on('error', function(err) {
+        console.log(err.code); // 'ER_BAD_DB_ERROR'
+      });
+      
+      connection.release();
     }
   });
 }
@@ -174,6 +179,11 @@ getClusterInfo = function (location, res) {
           console.log('Server getClusterInfo(): MySQL Read: No Records found');
           res("Server Read: No records found", cifsShare);
         }
+
+        connection.on('error', function(err) {
+          console.log(err.code); // 'ER_BAD_DB_ERROR'
+        });
+        
         connection.release();
       });
     }
