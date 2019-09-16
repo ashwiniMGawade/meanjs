@@ -229,7 +229,27 @@ a:hover .header-profile-image {
     background-color: transparent;
     background-image: none;
   }
+  .pointer {
+    width: 46px;
+    height: 20px;
+  }
 }
+
+@media (min-width: 400px) and (max-width: 1024px) {
+  .pointer {
+    width: 16px !important;
+    height: 20px !important;
+    top: -30px !important;
+    right: -78px !important;
+  }
+  .oval {
+    height: 40px !important;
+    width: 80px !important;
+    border-radius: 80px / 40px;
+    padding:10px;
+  }
+}
+
 .navbar-custom .navbar-link {
   color: #fff;
 }
@@ -325,8 +345,9 @@ fieldset[disabled] .navbar-custom .btn-link:focus {
   background-color:  #90EE90  !important; /*#90EE90*/
   background:  #90EE90  !important; }
 
+
 .pointer {
-  width: 50px;
+  width: 46px;
   height: 20px;
   position: relative;
   background: #8180c0;
