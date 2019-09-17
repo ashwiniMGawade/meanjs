@@ -163,7 +163,7 @@
                     <label ng-if="vm.share.operation == 'removeUserOrGroupFromShare'" for="acl_group" class="control-label" >Select ACL Group or user to remove</label>  
       
                     <select name="acl_group" ng-model="vm.share.acl_group" id="acl_group" class="form-control" ng-options="group.groupName as group.groupName for group in vm.getACLgroups()" required  ng-change="vm.checkForUsersToRemove()">
-                      <option ng-if="vm.share.operation == 'addUserToADGroup' || vm.share.operation == 'removeUserFromADGroup'" value="">
+                      <option value="">
                          {{(vm.share.operation == 'addUserToADGroup' || vm.share.operation == 'removeUserFromADGroup') ? 'Please select a ACL group' : 'Please select a ACL group or user'}}</option>
                     </select>
                     <div class="loader" ng-if="vm.aclGroupLoader"></div>
