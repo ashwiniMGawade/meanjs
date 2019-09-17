@@ -38,7 +38,7 @@ var mailHeader = '<p>&nbsp;</p>'+
 '<tbody>'+
 '<tr>'+
 '<td>'+
-'<img width="1027" height="175" src="'+imgHeader+'" style="width:100%" alt="header" draggable="false" v:shapes="_x0000_i1025">'+
+'<img  height="175" src="'+imgHeader+'" style="width:100%" alt="header" draggable="false" v:shapes="_x0000_i1025">'+
 '</td>'+
 '</tr>'+
 '<tr>'+
