@@ -19,6 +19,7 @@
     <div class="table-responsive" ng-show="vm.pagedItems.length>0">
         <table ng-table="tableParams" class="table table-bordered table-striped">
             <tr>
+                <th ></th>
                 <th >Location</th>
                 <th>Business Unit</th>
                 <th >Project Code</th>
@@ -29,6 +30,7 @@
                 <th ng-if="vm.isAdmin"></th>
             </tr>
           <tr ng-repeat-start="share in vm.pagedItems" >
+            <td  width="10px">{{$index +1 }}</td>
             <td ng-bind="share.city" class="capitalize breakword" title="'Location'" sortable="'city'"></td>
             <td ng-bind="share.bu" class="capitalize breakword" title="'Business Unit'" sortable="'bu'"></td>
             <td ng-bind="share.projectCode" class="capitalize breakword" title="'Project Code'" sortable="'projectCode'"></td>
@@ -36,9 +38,10 @@
             <td ng-bind="share.status" ng-class="vm.getClass(share.status)" title="'Status'" sortable="'status'" class="breakword"></td>
             <td ng-bind="share.user.displayName" ng-if="vm.isAdmin" title="'user'" sortable="'user'" class="breakword"></td>
             <td><button type="button" class="btn btn-xs btn-primary" ui-sref="shares.view({shareId: share._id})">Details</button></td>
-            <td ng-if="vm.isAdmin"> <button  type="button" class="btn btn-xs btn-primary" ui-sref="shares.fix({shareId: share._id})" ng-disabled="share.status!=='Contact Support'">Fix</button></td>
+            <td ng-if="vm.isAdmin"> <button  type="button" class="btn btn-xs btn-primary" ui-sref="shares.fix({shareId: share._id})" ng-disabled="!(share.status=='Contact Support' || share.status=='Processing')">Fix</button></td>
           </tr>
           <tr ng-repeat-end>
+              <td ng-if="!(share.status == 'Completed' || share.status == 'Contact Support' || share.status == 'Rejected')"></td>
             <td ng-if="!(share.status == 'Completed' || share.status == 'Contact Support' || share.status == 'Rejected')">
                  <div class="oval success">Requested</div><div class="pointer"></div>
             </td>

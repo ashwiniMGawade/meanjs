@@ -77,8 +77,7 @@ exports.signup = function (req, res) {
 //   })(req, res, next);
 // };
 
-exports.signin = function( req, res, next) {
-  //logger.info(util.inspect(req.headers, {showHidden: false, depth: null}));
+exports.signin = function( req, res, next) {  
   logger.info("inside signin");
 
   if (req.isAuthenticated()) {
@@ -86,6 +85,7 @@ exports.signin = function( req, res, next) {
     next();
   }
   else {
+    logger.info(util.inspect(req.headers, {showHidden: false, depth: null}));
      passport.authenticate('WindowsAuthentication', function (err, user, info) {
         if (err || !user) {
           res.status(422).send(info);
@@ -184,7 +184,7 @@ exports.oauthCallback = function (req, res, next) {
  * Helper function to save or update a OAuth user profile
  */
 exports.saveOAuthUserProfile = function (req, providerUserProfile, done) {
-  console.log("save oauth user profile called", providerUserProfile)
+  // console.log("save oauth user profile called", providerUserProfile)
   // Setup info and user objects
   var info = {};
   var user;
@@ -213,7 +213,7 @@ exports.saveOAuthUserProfile = function (req, providerUserProfile, done) {
     $or: [mainProviderSearchQuery, additionalProviderSearchQuery]
   };
 
-  console.log("search query:", searchQuery)
+  // console.log("search query:", searchQuery)
 
   // Find existing user with this provider account
   User.findOne(searchQuery, function (err, existingUser) {

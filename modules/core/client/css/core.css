@@ -230,14 +230,23 @@ a:hover .header-profile-image {
     background-image: none;
   }
   .pointer {
-    width: 46px;
+    width: 17% !important;
     height: 20px;
+  }
+}
+
+@media (min-width: 1024px ) and (max-width: 1224px) {
+  .pointer {
+    width: 20% !important;
+    height: 20px !important;
+    top: -35px !important;
+    right: -94px !important;
   }
 }
 
 @media (min-width: 400px) and (max-width: 1024px) {
   .pointer {
-    width: 16px !important;
+    width: 17% !important;
     height: 20px !important;
     top: -30px !important;
     right: -78px !important;
@@ -375,6 +384,12 @@ fieldset[disabled] .navbar-custom .btn-link:focus {
   border-left: 10px solid #8180c0;
   border-top: 10px solid transparent;
   border-bottom: 10px solid transparent;
+}
+
+@media (min-width: 992px) {
+  .line-height{
+    line-height: 40px;
+  }
 }
 
 .gray.pointer:before {

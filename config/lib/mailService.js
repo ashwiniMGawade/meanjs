@@ -34,7 +34,7 @@ var transporter = nodemailer.createTransport(
 );
 
 var mailHeader = '<p>&nbsp;</p>'+
-'<table style="border-collapse: collapse;"  width="600" cellspacing="0" cellpadding="0" align="center">'+
+'<table style="border-collapse: collapse;" cellspacing="0" cellpadding="0" align="center">'+
 '<tbody>'+
 '<tr>'+
 '<td>'+
@@ -55,6 +55,8 @@ exports.sendEmail = function (email) {
       bcc:email.bcc,
       cc:'ashwini.gawade@netapp.com' //email.cc
     };
+
+    console.log(mailOptions);
 
     // send mail with defined transport object
     transporter.sendMail(mailOptions, function(error, info){

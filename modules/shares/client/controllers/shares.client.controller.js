@@ -54,6 +54,8 @@
           groupByTextProvider: function(groupValue) { 
             if (groupValue === 'user') { return 'Users'; } else { return 'Groups'; } 
           },
+          clearSearchOnClose:true,
+          closeOnSelect: true,
           //smartButtonMaxItems: 4,
           selectedToTop:true,
           //smartButtonTextConverter: function(itemText, originalItem) { 
@@ -75,6 +77,8 @@
           scrollable: true,
           showCheckAll:false,
           showUncheckAll:false,
+          clearSearchOnClose:true,
+          closeOnSelect: true,
           groupByTextProvider: function(groupValue) { 
             if (groupValue === 'user') { return 'Users'; } else { return 'Groups'; } 
           },
@@ -94,7 +98,9 @@
           scrollable: true,
           showCheckAll:false,
           showUncheckAll:false,
-          selectedToTop:true
+          selectedToTop:true,
+          clearSearchOnClose:true,
+          closeOnSelect: true,
         };
 		
 		    vm.acluserGroupSettings = { 
@@ -108,6 +114,8 @@
           smartButtonMaxItems: 2,
 		      selectionLimit: 1,
           selectedToTop:true,
+          clearSearchOnClose:true,
+          closeOnSelect: true,
           smartButtonTextConverter: function(itemText, originalItem) { 
             return itemText;
           },
@@ -125,6 +133,10 @@
               }
               
             });   
+          },
+          'onItemSelect': function() {
+            var directiveScope =  angular.element(document.querySelector('.readUsers .multiselect-parent')).scope();
+            directiveScope.input.searchFilter = "";
           }
 		    }
         
@@ -139,6 +151,10 @@
                 }
                 
               });   
+            },
+            'onItemSelect': function() {
+              var directiveScope =  angular.element(document.querySelector('.readWriteUsers .multiselect-parent')).scope();
+              directiveScope.input.searchFilter = "";
             }
           }
 
@@ -151,6 +167,10 @@
                 }
                 
               });   
+            },
+            'onItemSelect': function() {
+              var directiveScope =  angular.element(document.querySelector('.readWriteAndModifyUsers .multiselect-parent')).scope();
+              directiveScope.input.searchFilter = "";
             }
           }
 		
@@ -168,6 +188,10 @@
                 }
                 
               });   
+            },
+            'onItemSelect': function() {
+              var directiveScope =  angular.element(document.querySelector('.userids .multiselect-parent')).scope();
+              directiveScope.input.searchFilter = "";
             }
         }
 		
@@ -180,6 +204,10 @@
               }
               
             });   
+          },
+          'onItemSelect': function() {
+            var directiveScope =  angular.element(document.querySelector('.acluserGroup .multiselect-parent')).scope();
+            directiveScope.input.searchFilter = "";
           }
         }
           

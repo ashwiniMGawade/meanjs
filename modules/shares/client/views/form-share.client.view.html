@@ -50,8 +50,10 @@
                       <span>{{user.id}}</span>
                         <span aria-hidden="true" class="close inner-close" ng-click="vm.removeItem(vm.readOnly, $index)">&times;</span>
                   </p>
-                  <div ng-dropdown-multiselect="" search-filter="vm.customFilter" options="vm.usersAndGroups" selected-model="vm.readOnly" extra-settings="vm.readOnlyAndWritesettings" translation-texts="vm.defaultUserSelectionText"  disabled= "(vm.usersAndGroups && vm.usersAndGroups.length > 0) ? false: true" events="vm.userDropdownInitEvents" class="readUsers" group-by="ADtype"></div>
-                  <div class="loader" ng-show="vm.readLoader"></div>                
+                  <div ng-dropdown-multiselect="" search-filter="vm.customFilter" options="vm.usersAndGroups" selected-model="vm.readOnly" extra-settings="vm.readOnlyAndWritesettings" translation-texts="vm.defaultUserSelectionText"  events="vm.userDropdownInitEvents" class="readUsers" group-by="ADtype"></div>
+                  <div class="loader" ng-show="vm.readLoader"></div>  
+                  
+                  <!-- disabled= "(vm.usersAndGroups && vm.usersAndGroups.length > 0) ? false: true" -->
               </div>
               <div class="form-group" show-errors ng-if="vm.share.category == 'newShare'">
                   <label class="control-label" for="readAndWrite" >Read And Write(PL)</label>
@@ -61,7 +63,7 @@
                       <span>{{user.id}}</span>
                         <span aria-hidden="true" class="close inner-close" ng-click="vm.removeItem(vm.readAndWrite, $index)">&times;</span>
                   </p>
-                  <div ng-dropdown-multiselect="" search-filter="vm.customFilter" options="vm.usersAndGroups" selected-model="vm.readAndWrite" extra-settings="vm.readOnlyAndWritesettings" translation-texts="vm.defaultUserSelectionText"  disabled= "(vm.usersAndGroups && vm.usersAndGroups.length > 0) ? false: true" events="vm.userDropdownRWInitEvents" class="readWriteUsers" group-by="ADtype"></div>
+                  <div ng-dropdown-multiselect="" search-filter="vm.customFilter" options="vm.usersAndGroups" selected-model="vm.readAndWrite" extra-settings="vm.readOnlyAndWritesettings" translation-texts="vm.defaultUserSelectionText"  events="vm.userDropdownRWInitEvents" class="readWriteUsers" group-by="ADtype"></div>
                      <div class="loader" ng-show="vm.readWriteLoader"></div>
               </div>
               <div class="form-group" show-errors ng-if="vm.share.category == 'newShare'">  
@@ -71,7 +73,7 @@
                     <span>{{user.id}}</span>
                       <span aria-hidden="true" class="close inner-close" ng-click="vm.removeItem(vm.readWriteAndModify, $index)">&times;</span>
                 </p>
-                <div ng-dropdown-multiselect="" search-filter="vm.customFilter" options="vm.usersAndGroups" selected-model="vm.readWriteAndModify" extra-settings="vm.readWriteAndModifysettings" translation-texts="vm.defaultUserSelectionText" disabled= "(vm.usersAndGroups && vm.usersAndGroups.length > 0) ? false: true" events="vm.userDropdownRWMInitEvents" class="readWriteAndModifyUsers" group-by="ADtype"></div>
+                <div ng-dropdown-multiselect="" search-filter="vm.customFilter" options="vm.usersAndGroups" selected-model="vm.readWriteAndModify" extra-settings="vm.readWriteAndModifysettings" translation-texts="vm.defaultUserSelectionText" events="vm.userDropdownRWMInitEvents" class="readWriteAndModifyUsers" group-by="ADtype"></div>
                 <div class="loader" ng-show="vm.readWriteAndModifyLoader"></div>
                 <p class="help-block">Minimum 2 userIDs are required</p>
               </div>
@@ -82,12 +84,12 @@
               
              
               <div class="row"  ng-if="vm.share.category == 'newShare'">
-                <label class="control-label col-md-5 text-left" for="sizegb">Required Space (GB)</label>
-                <label class="content-right col-md-7" text-left name="sizegb">{{vm.share.sizegb || 0}}</label>
+                <label class="control-label col-md-5 text-left" for="sizegb">Required Space</label>
+                <label class="content-right col-md-7" text-left name="sizegb">{{vm.share.sizegb || 0}} GB</label>
               </div>
               <div class="row"  ng-if="vm.share.category == 'newShare'">
-                <label class="control-label col-md-5 text-left" for="cost">Cost($)</label>
-                <label class="content-right col-md-7 text-left" name="cost">{{vm.share.cost || 0}}</label>
+                <label class="control-label col-md-5 text-left" for="cost">Cost</label>
+                <label class="content-right col-md-7 text-left" name="cost">{{vm.share.cost || 0}} $</label>
               </div>   
               <div class="show-grid row"  ng-if="vm.share.category == 'newShare'">
                   <div class="">
@@ -96,8 +98,9 @@
               </div>
               <div class="show-grid row" ng-if="vm.share.category == 'newShare'">
                   <div class="form-group col-md-4">
-                    <label for="officeFile">Office File</label>
-                    <input name="officeFile" type="checkbox" ng-model="vm.share.storage.officeFile" id="officeFile"  class="form-control checkbox-left small" ng-change="calculateCapacity()">
+                      <label for="programmingFile">Programming File</label>
+                      <input name="programmingFile" type="checkbox" ng-model="vm.share.storage.programmingFile" id="programmingFile"  class="form-control checkbox-left small" ng-change="calculateCapacity()">
+                     
                   </div>
                   <div class="form-group col-md-4">
                     <label for="compressedFile">Compressed File</label>
@@ -111,16 +114,17 @@
               </div>
               <div class="show-grid row" ng-if="vm.share.category == 'newShare'">
                   <div class="form-group col-md-4">
-                    <label for="executableFile">Executable File</label>
-                    <input name="executableFile" type="checkbox" ng-model="vm.share.storage.executableFile" id="executableFile"  class="form-control checkbox-left small" ng-change="calculateCapacity()">
+                      <label for="officeFile">Office File</label>
+                      <input name="officeFile" type="checkbox" ng-model="vm.share.storage.officeFile" id="officeFile"  class="form-control checkbox-left small" ng-change="calculateCapacity()">
+                   
                   </div>
                   <div class="form-group col-md-4">
-                    <label for="imageFile">Image File</label>
+                    <label for="imageFile" >Image File</label>
                     <input name="imageFile" type="checkbox" ng-model="vm.share.storage.imageFile" id="imageFile"  class="form-control checkbox-left small" ng-change="calculateCapacity()">
                   </div>
                   <div class="form-group col-md-4">
-                    <label for="programmingFile">Programming File</label>
-                    <input name="programmingFile" type="checkbox" ng-model="vm.share.storage.programmingFile" id="programmingFile"  class="form-control checkbox-left small" ng-change="calculateCapacity()">
+                      <label for="executableFile">Executable File</label>
+                      <input name="executableFile" type="checkbox" ng-model="vm.share.storage.executableFile" id="executableFile"  class="form-control checkbox-left small" ng-change="calculateCapacity()">
                   </div>              
               </div>
               <div class="show-grid row" ng-if="vm.share.category == 'newShare'">
@@ -159,7 +163,8 @@
                     <label ng-if="vm.share.operation == 'removeUserOrGroupFromShare'" for="acl_group" class="control-label" >Select ACL Group or user to remove</label>  
       
                     <select name="acl_group" ng-model="vm.share.acl_group" id="acl_group" class="form-control" ng-options="group.groupName as group.groupName for group in vm.getACLgroups()" required  ng-change="vm.checkForUsersToRemove()">
-                      <option value="">Please select a ACL group</option>
+                      <option ng-if="vm.share.operation == 'addUserToADGroup' || vm.share.operation == 'removeUserFromADGroup'" value="">Please select a ACL group</option>
+                      <option ng-if="vm.share.operation == 'removeUserOrGroupFromShare'" value="">Please select a ACL group or user</option>
                     </select>
                     <div class="loader" ng-if="vm.aclGroupLoader"></div>
                     <div ng-messages="vm.form.shareForm.acl_group.$error" role="alert">

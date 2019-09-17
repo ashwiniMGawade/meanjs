@@ -10,7 +10,7 @@ var allowedPermissions = config.shared.share.allowedPermissions;
 
 var getMessageDetails = function(emailParams) {
 	var message = '';
-	message += '<table><td><b> Request Details:</b></td><tbody>' +        
+	message += '<div style="margin:10px"><table><td style="text-align:center"><b> Request Details:</b></td><tbody>' +        
         '<tr><td><b> Location</b></td><td>' + emailParams.share.city + '</td></tr>'+
         '<tr><td><b> Business Unit </b></td><td>' + emailParams.share.bu+ '</td></tr>';
 
@@ -20,8 +20,8 @@ var getMessageDetails = function(emailParams) {
              '<tr><td><b>Read Only(DV) </b></td><td>'+ emailParams.share.readOnly + '</td></tr>'+
              '<tr><td><b>Read And Write(PL) </b></td><td>'+ emailParams.share.readAndWrite + '</td></tr>'+
              '<tr><td><b>Read Write And Modify(CC)</b></td><td>'+ emailParams.share.readWriteAndModify + '</td></tr>'+
-             '<tr><td><b>Size(GB) </b></td><td>'+ emailParams.share.sizegb + '</td></tr>'+
-             '<tr><td><b>Cost</b></td><td>'+ emailParams.share.cost + '</td></tr>';
+             '<tr><td><b>Size </b></td><td>'+ emailParams.share.sizegb + ' GB</td></tr>'+
+             '<tr><td><b>Cost</b></td><td>'+ emailParams.share.cost + ' $ </td></tr>';
       }
 
       if(emailParams.share.category=='changePermission') {
@@ -43,10 +43,10 @@ var getMessageDetails = function(emailParams) {
   			}
       }
        if(emailParams.share.category=='resize') {
-        message += '<tr><td><b>New size(GB) </b></td><td>'+ emailParams.share.newSizegb + '</td></tr>';
+        message += '<tr><td><b>New size</b></td><td>'+ emailParams.share.newSizegb + ' GB </td></tr>';
        }
 
-      message +=  '</tbody></table>';
+      message +=  '</tbody></table></div>';
 
 			return message;
 }
@@ -59,7 +59,7 @@ var getMailMessage = function(type, emailParams) {
     case 'approval': 
 
       message +=  '<div>Please take a minute to respond to '+ categories[emailParams.share.category] + ' request of ' + emailParams.share.user.displayName + ' ('+emailParams.share.projectCode+')  created on '+ emailParams.share.created +      '</div><div>'+
-      'Please click <a href="'+config.domain+'/shares/'+emailParams.share._id+'">here</a> to respond to the request.</div>'      
+      'Please click <a href="'+config.domain+'/shares/'+emailParams.share._id+'">here </a> to respond to the request.</div>'      
       message += getMessageDetails(emailParams);
       break;
     case 'Approved': 
@@ -75,7 +75,7 @@ var getMailMessage = function(type, emailParams) {
 		message += getMessageDetails(emailParams);		
       break;
     case 'Contact Support': 
-      message += '<p style="text-align: justify;">Request of '+categories[emailParams.share.category] + ' of ' + emailParams.share.user.displayName + ' ('+emailParams.share.projectCode+') created on '+ emailParams.share.created + ' has failed with some error. Contact EMAGStorage@infosys.com for futher details!';
+      message += '<p style="text-align: justify;">Request of '+categories[emailParams.share.category] + ' of ' + emailParams.share.user.displayName + ' ('+emailParams.share.projectCode+') created on '+ emailParams.share.created + ' has failed with some error. Contact EMAGStorage@infosys.com for futher    details!';
 	  message += getMessageDetails(emailParams);	
       break;
      case 'Completed': 
@@ -153,8 +153,8 @@ exports.sendRequestStatusUpdateMailToUser = function(share, reqUser) {
   console.log(receiversList)
 
   var email = getEmailTemplate({
-    to: receiversList,
-    cc: share.user.email,
+    to: share.user.email,
+    cc: share.status == "Contact Support" ?  receiversList : '',
     share: share,
     reqUser: reqUser
   }, share.status);
