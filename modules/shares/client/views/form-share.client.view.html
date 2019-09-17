@@ -152,8 +152,8 @@
               </div>
 
               <div class="show-grid row" ng-if="vm.share.category == 'resize'">
-                <label class="control-label col-md-4 text-left" for="bu">Cost($)</label>
-                <label class="content-right col-md-8" name="bu">{{(vm.incrementGb * getYearDiff() * 1) > 0 ?(vm.incrementGb * getYearDiff() * 1) : 0 }}</label>
+                <label class="control-label col-md-4 text-left" for="bu">Cost</label>
+                <label class="content-right col-md-8" name="bu">{{(vm.incrementGb * getYearDiff() * 1) > 0 ?(vm.incrementGb * getYearDiff() * 1) : 0 }} $</label>
               </div> 
 
               <div class="form-group" show-errors ng-if="vm.share.category == 'changePermission' &&  (vm.share.operation == 'addUserToADGroup' || vm.share.operation == 'removeUserFromADGroup' || vm.share.operation == 'removeUserOrGroupFromShare')">
