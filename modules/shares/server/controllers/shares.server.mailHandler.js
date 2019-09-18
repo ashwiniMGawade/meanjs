@@ -10,7 +10,7 @@ var allowedPermissions = config.shared.share.allowedPermissions;
 
 var getMessageDetails = function(emailParams) {
 	var message = '';
-	message += '<div style="margin:10px"><table><td style="text-align:center"><b> Request Details:</b></td><tbody>' +        
+	message += '<br/><div style="margin:10px"><table><td><b> Request Details:</b></td><tbody>' +        
         '<tr><td><b> Location</b></td><td>' + emailParams.share.city + '</td></tr>'+
         '<tr><td><b> Business Unit </b></td><td>' + emailParams.share.bu+ '</td></tr>';
 
@@ -20,8 +20,8 @@ var getMessageDetails = function(emailParams) {
              '<tr><td><b>Read Only(DV) </b></td><td>'+ emailParams.share.readOnly + '</td></tr>'+
              '<tr><td><b>Read And Write(PL) </b></td><td>'+ emailParams.share.readAndWrite + '</td></tr>'+
              '<tr><td><b>Read Write And Modify(CC)</b></td><td>'+ emailParams.share.readWriteAndModify + '</td></tr>'+
-             '<tr><td><b>Size </b></td><td>'+ emailParams.share.sizegb + ' GB</td></tr>'+
-             '<tr><td><b>Cost</b></td><td>'+ emailParams.share.cost + ' $ </td></tr>';
+             '<tr><td><b>Size </b></td><td>'+ emailParams.share.sizegb + 'GB</td></tr>'+
+             '<tr><td><b>Cost</b></td><td>'+ emailParams.share.cost + '$ </td></tr>';
       }
 
       if(emailParams.share.category=='changePermission') {
@@ -43,7 +43,7 @@ var getMessageDetails = function(emailParams) {
   			}
       }
        if(emailParams.share.category=='resize') {
-        message += '<tr><td><b>New size</b></td><td>'+ emailParams.share.newSizegb + ' GB </td></tr>';
+        message += '<tr><td><b>New size</b></td><td>'+ emailParams.share.newSizegb + 'GB </td></tr>';
        }
 
       message +=  '</tbody></table></div>';
@@ -95,7 +95,7 @@ function getEmailTemplate(emailParams, type) {
     var htmlBody = '<table width="80%" cellspacing="0" cellpadding="0">'+
                       '<tbody>'+
                      getMailMessage(type, emailParams)+     
-                     '<p style="text-align: justify;">Please click <a href="'+config.domain+'/shares/'+emailParams.share._id+'">here</a> to see the request.</p></td></tr>'+      
+                     '<p style="text-align: justify;">Please click <a href="'+config.domain+'/shares/'+emailParams.share._id+'">here</a>  to see the request.</p></td></tr>'+      
                     '<tr><td>Regards,</td></tr>'+
                     '<tr><td>Storage Automation Team</td></tr>'+
                     '</tr>' +

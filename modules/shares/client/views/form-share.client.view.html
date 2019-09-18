@@ -92,11 +92,11 @@
              
               <div class="row"  ng-if="vm.share.category == 'newShare'">
                 <label class="control-label col-md-4 col-ls-4 col-sm-4 col-xs-4 text-left" for="sizegb">Required Space</label>
-                <label class="content-right col-md-8 col-sm-8 col-xs-8" text-left name="sizegb">{{vm.share.sizegb || 0}} GB</label>
+                <label class="content-right col-md-8 col-sm-8 col-xs-8" text-left name="sizegb">{{vm.share.sizegb || 0}}GB</label>
               </div>
               <div class="row"  ng-if="vm.share.category == 'newShare'">
                 <label class="control-label col-md-4  col-ls-4 col-sm-4 col-xs-4 text-left" for="cost">Cost</label>
-                <label class="content-right col-md-8  col-sm-8 col-xs-8 text-left" name="cost">{{vm.share.cost || 0}} $</label>
+                <label class="content-right col-md-8  col-sm-8 col-xs-8 text-left" name="cost">{{vm.share.cost || 0}}$</label>
               </div>   
               <div class="show-grid row"  ng-if="vm.share.category == 'newShare'">
                   <div class="">
@@ -162,7 +162,7 @@
 
               <div class="show-grid row" ng-if="vm.share.category == 'resize'">
                 <label class="control-label col-md-4 text-left" for="bu">Cost</label>
-                <label class="content-right col-md-8" name="bu">{{(vm.incrementGb * getYearDiff() * 1) > 0 ?(vm.incrementGb * getYearDiff() * 1) : 0 }} $</label>
+                <label class="content-right col-md-8" name="bu">{{(vm.incrementGb * getYearDiff() * 1) > 0 ?(vm.incrementGb * getYearDiff() * 1) : 0 }}$</label>
               </div> 
 
               <div class="form-group" show-errors ng-if="vm.share.category == 'changePermission' &&  (vm.share.operation == 'addUserToADGroup' || vm.share.operation == 'removeUserFromADGroup' || vm.share.operation == 'removeUserOrGroupFromShare')">
