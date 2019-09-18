@@ -184,7 +184,7 @@
                         
               <div class="form-group" show-errors ng-if="vm.share.category == 'changePermission' && vm.share.operation && (vm.share.operation == 'addUserOrGroupToShare')">
                   <label class="control-label" for="userOrGroupName">User ID/ Group</label>
-                  <div  ng-dropdown-multiselect="" search-filter="vm.customFilter" options="vm.usersAndGroups" selected-model="vm.aclUserGroup" extra-settings="vm.acluserGroupSettings" translation-texts="vm.defaultSingleUserGroupSelectionText"  disabled= "(vm.usersAndGroups && vm.usersAndGroups.length > 0) ? false: true" events="vm.userDropdownaclUserGroupInitEvents"  class="acluserGroup" group-by="ADtype"></div>
+                  <div  ng-dropdown-multiselect="" search-filter="vm.customFilter" options="vm.usersAndGroups" selected-model="vm.aclUserGroup" extra-settings="vm.acluserGroupSettings" translation-texts="vm.defaultSingleUserGroupSelectionText" events="vm.userDropdownaclUserGroupInitEvents"  class="acluserGroup" group-by="ADtype"></div>
                  <div class="loader" ng-show="vm.acluserGroupLoader"></div>
               </div>
 
@@ -208,7 +208,7 @@
                             <span aria-hidden="true" class="close inner-close" ng-click="vm.removeItem(vm.acl_users, $index)">&times;</span>
                       </p>
                      <!-- test {{(vm.users && vm.users.length > 0 && vm.share.acl_group !== '')}} -->
-                    <div  ng-dropdown-multiselect="" search-filter="vm.customFilter" options="vm.users" selected-model="vm.acl_users" extra-settings="vm.useridSettings" translation-texts="vm.defaultUserOnlySelectionText"  disabled= "(vm.users && vm.users.length > 0 && vm.share.acl_group !== '')  ? false: true" events="vm.userDropdownUseridInitEvents"  class="userids" group-by="ADtype"></div>
+                    <div  ng-dropdown-multiselect="" search-filter="vm.customFilter" options="vm.users" selected-model="vm.acl_users" extra-settings="vm.useridSettings" translation-texts="vm.defaultUserOnlySelectionText"  events="vm.userDropdownUseridInitEvents"  class="userids" group-by="ADtype"></div>
                    <div class="loader" ng-show="vm.useridsLoader"></div>
                   </div>
               

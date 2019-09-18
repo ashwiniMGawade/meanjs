@@ -59,7 +59,7 @@ var getMailMessage = function(type, emailParams) {
     case 'approval': 
 
       message +=  '<div>Please take a minute to respond to '+ categories[emailParams.share.category] + ' request of ' + emailParams.share.user.displayName + ' ('+emailParams.share.projectCode+')  created on '+ emailParams.share.created +      '</div><div>'+
-      'Please click <a href="'+config.domain+'/shares/'+emailParams.share._id+'">here </a> to respond to the request.</div>'      
+      'Please click <a href="'+config.domain+'/shares/'+emailParams.share._id+'">here</a> to respond to the request.</div>'      
       message += getMessageDetails(emailParams);
       break;
     case 'Approved': 
@@ -71,15 +71,15 @@ var getMailMessage = function(type, emailParams) {
        message += getMessageDetails(emailParams);
       break;
     case 'Processing': 
-      message += '<p style="text-align: justify;">Request of '+categories[emailParams.share.category] + ' of ' + emailParams.share.user.displayName + ' ('+emailParams.share.projectCode+') created on '+ emailParams.share.created + ' is  getting processed  by ' + emailParams.reqUser.displayName;
+      message += '<p style="text-align: justify;">Request of '+categories[emailParams.share.category] + ' of ' + emailParams.share.user.displayName + ' ('+emailParams.share.projectCode+') created on '+ emailParams.share.created + ' is  getting processed  by ' + emailParams.reqUser.displayName+ ' !</p>' ;
 		message += getMessageDetails(emailParams);		
       break;
     case 'Contact Support': 
-      message += '<p style="text-align: justify;">Request of '+categories[emailParams.share.category] + ' of ' + emailParams.share.user.displayName + ' ('+emailParams.share.projectCode+') created on '+ emailParams.share.created + ' has failed with some error. Contact EMAGStorage@infosys.com for futher    details!';
+      message += '<p style="text-align: justify;">Request of '+categories[emailParams.share.category] + ' of ' + emailParams.share.user.displayName + ' ('+emailParams.share.projectCode+') created on '+ emailParams.share.created + ' has failed with some error. Contact EMAGStorage@infosys.com for futher details!'+ ' !</p>' ;
 	  message += getMessageDetails(emailParams);	
       break;
      case 'Completed': 
-      message += '<p style="text-align: justify;">Request of '+categories[emailParams.share.category] + ' of ' + emailParams.share.user.displayName + ' ('+emailParams.share.projectCode+') created on '+ emailParams.share.created + ' has successfully completed by ' + emailParams.reqUser.displayName + ' !';
+      message += '<p style="text-align: justify;">Request of '+categories[emailParams.share.category] + ' of ' + emailParams.share.user.displayName + ' ('+emailParams.share.projectCode+') created on '+ emailParams.share.created + ' has successfully completed by ' + emailParams.reqUser.displayName + ' !'+ ' !</p>' ;
       message += getMessageDetails(emailParams);	
       break;
     case 'default' :
@@ -94,8 +94,8 @@ var getMailMessage = function(type, emailParams) {
 function getEmailTemplate(emailParams, type) {
     var htmlBody = '<table width="80%" cellspacing="0" cellpadding="0">'+
                       '<tbody>'+
-                     getMailMessage(type, emailParams)+     
-                     '<p style="text-align: justify;">Please click <a href="'+config.domain+'/shares/'+emailParams.share._id+'">here</a>  to see the request.</p></td></tr>'+      
+                     getMailMessage(type, emailParams)+  
+                     (type != 'approval' ? '<br/><p style="text-align: justify;">Please click <a href="'+config.domain+'/shares/'+emailParams.share._id+'">here</a> to see the request.</p>' : '' ) + '</td></tr>'+      
                     '<tr><td>Regards,</td></tr>'+
                     '<tr><td>Storage Automation Team</td></tr>'+
                     '</tr>' +
