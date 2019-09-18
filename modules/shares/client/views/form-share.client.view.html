@@ -36,13 +36,20 @@
                 <label for="category" class="control-label" >Select Category</label>   
                 <select name="category" ng-model="vm.share.category" id="category" class="form-control" ng-options="key as value for (key , value) in vm.getFilteredCategories()" ng-required="true">
                   <option value="">Please select a Category</option>
-                </select>
-               
-                     
+                </select>                     
                 <div ng-messages="vm.form.shareForm.category.$error" role="alert">
                   <p class="help-block error-text" ng-message="required">Category is required.</p>
                 </div>              
               </div>
+              <div class="form-group" show-errors ng-if="vm.share.category == 'changePermission'">
+                  <label for="operation" class="control-label">Select Operation</label>   
+                  <select name="operation" ng-model="vm.share.operation" id="operation" class="form-control" ng-options="key as value for (key , value) in vm.allowedOperations" required autofocus ng-change="vm.resetAllChangePermissions()">
+                    <option value="">Please select a Operation</option>
+                  </select>
+                  <div ng-messages="vm.form.shareForm.operation.$error" role="alert">
+                    <p class="help-block error-text" ng-message="required">ACL Operation required.</p>
+                  </div>              
+                </div>     
               <div class="form-group" show-errors ng-if="vm.share.category == 'newShare'"> 
                   <label class="control-label" for="readOnly">Read Only(DV)</label>
                   <p class="outlined" ng-if="vm.readOnly.length > 0">
@@ -211,16 +218,8 @@
           </div> -->
                    
             <div class="row">
-              <div class="col-md-5 col-sm-5">
-                  <div class="form-group" show-errors ng-if="vm.share.category == 'changePermission'">
-                    <label for="operation" class="control-label">Select Operation</label>   
-                    <select name="operation" ng-model="vm.share.operation" id="operation" class="form-control" ng-options="key as value for (key , value) in vm.allowedOperations" required autofocus ng-change="vm.resetAllChangePermissions()">
-                      <option value="">Please select a Operation</option>
-                    </select>
-                    <div ng-messages="vm.form.shareForm.operation.$error" role="alert">
-                      <p class="help-block error-text" ng-message="required">ACL Operation required.</p>
-                    </div>              
-                  </div>       
+              <div class="col-md-5 col-sm-5 ">
+                  
                     
                  
 					        
@@ -264,7 +263,7 @@
             </div>
 
             <div class="row">
-              <div class="form-group col-md-6 col-sm-6" >
+              <div class="form-group col-md-6 col-sm-6 col-xs-6" >
                   <button type="submit" class="btn btn-primary pull-right" ng-click="vm.save(vm.form.shareForm.$valid)">{{vm.share._id ? 'Update' : 'Create'}}</button>
                 </div>
             </div>

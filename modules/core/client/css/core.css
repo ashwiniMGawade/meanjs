@@ -260,6 +260,13 @@ a:hover .header-profile-image {
     border-radius: 80px / 40px;
     padding:10px;
   }
+  .multiselect-parent.btn-group{
+    width: 85%;
+  }
+
+  .form-control  {
+    width: 85%;
+  }
   /* input[type="checkbox"].small {
     display: inline-block;
     vertical-align: middle;
@@ -325,9 +332,7 @@ fieldset[disabled] .navbar-custom .btn-link:focus {
     margin-top: 10px;
 }
 
-.multiselect-parent.btn-group{
-  width: 80%;
-}
+
 
 .multiselect-parent.btn-group button {
   width: 100%;
@@ -401,6 +406,9 @@ fieldset[disabled] .navbar-custom .btn-link:focus {
   .filetypelabel {
     width:100%;
     text-align:center
+  }
+  .multiselect-parent.btn-group{
+    width: 100%;
   }
 }
 
