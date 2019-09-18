@@ -1,9 +1,9 @@
 <section>
     <div class="page-header">
-      <h2>Request: {{vm.categories[vm.share.category]}}</h2>
+      <h2 class="text-center">Request: {{vm.categories[vm.share.category]}}</h2>
     </div>
 	<div class="row">
-		<div class="col-md-5">
+		<div class="col-md-5 col-sm-5 col-xs-5 col-lg-5">
 			<table class="table table-striped">
 				<tr><th>Location</th><td ng-bind="vm.share.city"></td></tr>
 				<tr><th>Business Unit</th><td ng-bind="vm.share.bu"></td></tr>            
@@ -39,10 +39,8 @@
 			   
 			</table>
 		</div>
-		<div class="col-md-2">
-			
-		</div>
-		<div class="col-md-5">
+		<div class="col-md-1  col-sm-1 col-xs-1 col-lg-1"></div>
+		<div class="col-md-5 col-sm-5 col-xs-5 col-lg-5">
 	        <table class="table table-striped">
 	            <tr><th>Project Code</th><td ng-bind="vm.share.projectCode"></td></tr>
 	            <tr><th>Category</th><td ng-bind="vm.categories[vm.share.category]"></td></tr>
@@ -67,16 +65,14 @@
 
 	            <tr ng-if="vm.share.category=='resize'"><th>New Size(GB)</th><td ng-bind="vm.share.newSizegb" class="word-break-all"></td></tr>  
 	        </table>
-    	</div>
+			</div>
+		</div>
     	<div class="row">
-          <div class="form-group form-group col-md-7" >
+          <div class="form-group form-group col-md-6  col-sm-6 col-xs-6 col-lg-6" >
               <button type="button" class="btn btn-xs1 btn-secondary pull-right" ui-sref="shares.list">Back</button>
                <span class="pull-right">&nbsp;</span>
-              <button type="button" class="btn btn-primary pull-right" ui-sref="shares.fix({shareId: vm.share._id})" ng-if="vm.isAdmin && (vm.share.status =='Contact Support' || vm.share.status =='Processing'">Fix</button>
+              <button type="button" class="btn btn-primary pull-right" ui-sref="shares.fix({shareId: vm.share._id})" ng-if="vm.isAdmin && (vm.share.status =='Contact Support' || vm.share.status =='Processing')">Fix</button>
             </div>
-        </div>
-
-	</div>
-    
+        </div>    
   </section>
   

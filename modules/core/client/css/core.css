@@ -22,6 +22,7 @@
 .small {
   height: 20px;
 }
+
 .selectedUser{
     padding: 0 2px;
     margin: 2px;
@@ -233,6 +234,7 @@ a:hover .header-profile-image {
     width: 17% !important;
     height: 20px;
   }
+ 
 }
 
 @media (min-width: 1024px ) and (max-width: 1224px) {
@@ -242,6 +244,7 @@ a:hover .header-profile-image {
     top: -35px !important;
     right: -94px !important;
   }
+  
 }
 
 @media (min-width: 400px) and (max-width: 1024px) {
@@ -257,6 +260,11 @@ a:hover .header-profile-image {
     border-radius: 80px / 40px;
     padding:10px;
   }
+  /* input[type="checkbox"].small {
+    display: inline-block;
+    vertical-align: middle;
+    width: 20%;
+  } */
 }
 
 .navbar-custom .navbar-link {
@@ -318,7 +326,7 @@ fieldset[disabled] .navbar-custom .btn-link:focus {
 }
 
 .multiselect-parent.btn-group{
-  width: 100%;
+  width: 80%;
 }
 
 .multiselect-parent.btn-group button {
@@ -390,6 +398,10 @@ fieldset[disabled] .navbar-custom .btn-link:focus {
   .line-height{
     line-height: 40px;
   }
+  .filetypelabel {
+    width:100%;
+    text-align:center
+  }
 }
 
 .gray.pointer:before {
@@ -405,3 +417,17 @@ fieldset[disabled] .navbar-custom .btn-link:focus {
     cursor:pointer;
 }
 
+
+/* 
+.multiselect-parent.open > .dropdown-menu {
+  position:relative;
+}
+
+.multiselect-parent.open > .dropdown-menu li:first-child  {
+  position:absolute; 
+}
+
+
+.multiselect-parent.open > .dropdown-menu li:first-child div  {
+  position:fixed;
+} */

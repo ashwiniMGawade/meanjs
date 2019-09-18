@@ -1,6 +1,6 @@
 <section>
     <div class="page-header">
-      <h1>{{vm.share._id ? 'Edit Request' : 'New Request'}}</h1>
+      <h2 class="text-center">{{vm.share._id ? 'Edit Request' : 'New Request'}}</h1>
     </div>
     <div class="pull-right">
       <a ng-if="vm.share._id" class="btn btn-primary" ng-click="vm.remove()">
@@ -11,26 +11,26 @@
       <form name="vm.form.shareForm" class="form-horizontal" ng-submit="vm.save(vm.form.shareForm.$valid)" novalidate>
         <fieldset>
           <div class="row">
-            <div class="col-md-5 col-xs-5 pull-left">
+            <div class="col-md-5 col-sm-5">
               <div class="row">
-                  <label class="control-label col-md-4 text-left" for="bu">Business Unit</label>
-                  <label class="content-right col-md-8" name="bu">{{vm.share.bu}}</label>
+                  <label class="control-label col-md-4 col-ls-4 col-sm-4 col-xs-4 text-left" for="bu">Business Unit</label>
+                  <label class="content-right col-md-8 col-sm-8 col-xs-8" name="bu">{{vm.share.bu}}</label>
               </div>  
               <div class="row" ng-if="vm.share.category =='newShare'">
-                  <label class="control-label col-md-4 text-left" for="bu">Category</label>
-                  <label class="content-right col-md-8" name="bu">{{vm.categories[vm.share.category]}}</label>
+                  <label class="control-label col-md-4 col-ls-4 col-sm-4 col-xs-4 text-left" for="bu">Category</label>
+                  <label class="content-right col-md-8 col-sm-8 col-xs-8" name="bu">{{vm.categories[vm.share.category]}}</label>
               </div>  
               <div class="row" ng-if="vm.cifShareDetails.sharepath">
-                  <label class="control-label col-md-4 text-left" for="sharePath">Share Path</label>
-                  <label class="content-right col-md-8" name="sharePath">{{vm.cifShareDetails.sharepath}}</label>
+                  <label class="control-label col-md-4 col-ls-4 col-sm-4 col-xs-4 text-left" for="sharePath">Share Path</label>
+                  <label class="content-right col-md-8 col-sm-8 col-xs-8" name="sharePath">{{vm.cifShareDetails.sharepath}}</label>
                 </div>
               <div class="row">
-                <label class="control-label col-md-4 text-left" for="city">Location</label>
-                <label class="content-right col-md-8" name="city">{{vm.share.city}}</label>
+                <label class="control-label col-md-4  col-ls-4 col-sm-4 col-xs-4 text-left" for="city">Location</label>
+                <label class="content-right col-md-8 col-sm-8 col-xs-8" name="city">{{vm.share.city}}</label>
               </div>
                <div class="row">
-                <label class="control-label col-md-4 text-left" for="projectCode">Project Code</label>
-                <label class="content-right col-md-8" name="projectCode">{{vm.share.projectCode}}</label>
+                <label class="control-label col-md-4 col-ls-4 col-sm-4 col-xs-4 text-left" for="projectCode">Project Code</label>
+                <label class="content-right col-md-8 col-sm-8 col-xs-8" name="projectCode">{{vm.share.projectCode}}</label>
               </div>                       
               <div class="form-group" show-errors ng-if="vm.share.category !='newShare'">
                 <label for="category" class="control-label" >Select Category</label>   
@@ -79,17 +79,17 @@
               </div>
              
             </div>
-            <div class="col-md-2 col-xs-5 pull-left "></div>
-            <div class="col-md-5 col-xs-5 pull-right">
+            <div class="col-md-1 col-sm-1"></div>
+            <div class="col-md-6 col-sm-6">
               
              
               <div class="row"  ng-if="vm.share.category == 'newShare'">
-                <label class="control-label col-md-5 text-left" for="sizegb">Required Space</label>
-                <label class="content-right col-md-7" text-left name="sizegb">{{vm.share.sizegb || 0}} GB</label>
+                <label class="control-label col-md-4 col-ls-4 col-sm-4 col-xs-4 text-left" for="sizegb">Required Space</label>
+                <label class="content-right col-md-8 col-sm-8 col-xs-8" text-left name="sizegb">{{vm.share.sizegb || 0}} GB</label>
               </div>
               <div class="row"  ng-if="vm.share.category == 'newShare'">
-                <label class="control-label col-md-5 text-left" for="cost">Cost</label>
-                <label class="content-right col-md-7 text-left" name="cost">{{vm.share.cost || 0}} $</label>
+                <label class="control-label col-md-4  col-ls-4 col-sm-4 col-xs-4 text-left" for="cost">Cost</label>
+                <label class="content-right col-md-8  col-sm-8 col-xs-8 text-left" name="cost">{{vm.share.cost || 0}} $</label>
               </div>   
               <div class="show-grid row"  ng-if="vm.share.category == 'newShare'">
                   <div class="">
@@ -97,47 +97,47 @@
                   </div>
               </div>
               <div class="show-grid row" ng-if="vm.share.category == 'newShare'">
-                  <div class="form-group col-md-4">
-                      <label for="programmingFile">Programming File</label>
+                  <div class="form-group col-md-4 col-sm-4 col-xs-4">
+                      <label for="programmingFile" class="filetypelabel">Programming File</label>
                       <input name="programmingFile" type="checkbox" ng-model="vm.share.storage.programmingFile" id="programmingFile"  class="form-control checkbox-left small" ng-change="calculateCapacity()">
                      
                   </div>
-                  <div class="form-group col-md-4">
-                    <label for="compressedFile">Compressed File</label>
+                  <div class="form-group col-md-4 col-sm-4 col-xs-4">
+                    <label for="compressedFile" class="filetypelabel">Compressed File</label>
                     <input name="compressedFile" type="checkbox" ng-model="vm.share.storage.compressedFile" id="compressedFile"  class="form-control checkbox-left small" ng-change="calculateCapacity()">
                   </div>
-                  <div class="form-group col-md-4">
-                    <label for="dataAndDBFile">Data and DB File</label>
+                  <div class="form-group col-md-4 col-sm-4 col-xs-4">
+                    <label for="dataAndDBFile" class="filetypelabel">Data and DB File</label>
                     <input name="dataAndDBFile" type="checkbox" ng-model="vm.share.storage.dataAndDBFile" id="dataAndDBFile"  class="form-control checkbox-left small" ng-change="calculateCapacity()">
                   </div>
                   
               </div>
               <div class="show-grid row" ng-if="vm.share.category == 'newShare'">
-                  <div class="form-group col-md-4">
-                      <label for="officeFile">Office File</label>
+                  <div class="form-group col-md-4 col-sm-4 col-xs-4">
+                      <label for="officeFile" class="filetypelabel">Office File</label>
                       <input name="officeFile" type="checkbox" ng-model="vm.share.storage.officeFile" id="officeFile"  class="form-control checkbox-left small" ng-change="calculateCapacity()">
                    
                   </div>
-                  <div class="form-group col-md-4">
-                    <label for="imageFile" >Image File</label>
+                  <div class="form-group col-md-4 col-sm-4 col-xs-4">
+                    <label for="imageFile" class="filetypelabel">Image File</label>
                     <input name="imageFile" type="checkbox" ng-model="vm.share.storage.imageFile" id="imageFile"  class="form-control checkbox-left small" ng-change="calculateCapacity()">
                   </div>
-                  <div class="form-group col-md-4">
-                      <label for="executableFile">Executable File</label>
+                  <div class="form-group col-md-4 col-sm-4 col-xs-4">
+                      <label for="executableFile" class="filetypelabel">Executable File</label>
                       <input name="executableFile" type="checkbox" ng-model="vm.share.storage.executableFile" id="executableFile"  class="form-control checkbox-left small" ng-change="calculateCapacity()">
                   </div>              
               </div>
               <div class="show-grid row" ng-if="vm.share.category == 'newShare'">
-                  <div class="form-group col-md-4">
-                    <label for="videoFile">Video File</label>
+                  <div class="form-group col-md-4 col-sm-4 col-xs-4">
+                    <label for="videoFile" class="filetypelabel">Video File</label>
                     <input name="videoFile" type="checkbox" ng-model="vm.share.storage.videoFile" id="videoFile"  class="form-control checkbox-left small" ng-change="calculateCapacity()">
                   </div>
-                  <div class="form-group col-md-4">
-                    <label for="audioFile">Audio File</label>
+                  <div class="form-group col-md-4 col-sm-4 col-xs-4">
+                    <label for="audioFile" class="filetypelabel">Audio File</label>
                     <input name="audioFile" type="checkbox" ng-model="vm.share.storage.audioFile" id="audioFile"  class="form-control checkbox-left small" ng-change="calculateCapacity()">
                   </div>
-                  <div class="form-group col-md-4">
-                    <label for="backupFile">Backup File</label>
+                  <div class="form-group col-md-4 col-sm-4 col-xs-4">
+                    <label for="backupFile" class="filetypelabel">Backup File</label>
                     <input name="backupFile" type="checkbox" ng-model="vm.share.storage.backupFile" id="backupFile"  class="form-control checkbox-left small" ng-change="calculateCapacity()">
                   </div>              
               </div>
@@ -211,7 +211,7 @@
           </div> -->
                    
             <div class="row">
-              <div class="col-md-5">
+              <div class="col-md-5 col-sm-5">
                   <div class="form-group" show-errors ng-if="vm.share.category == 'changePermission'">
                     <label for="operation" class="control-label">Select Operation</label>   
                     <select name="operation" ng-model="vm.share.operation" id="operation" class="form-control" ng-options="key as value for (key , value) in vm.allowedOperations" required autofocus ng-change="vm.resetAllChangePermissions()">
@@ -264,7 +264,7 @@
             </div>
 
             <div class="row">
-              <div class="form-group col-md-7" >
+              <div class="form-group col-md-6 col-sm-6" >
                   <button type="submit" class="btn btn-primary pull-right" ng-click="vm.save(vm.form.shareForm.$valid)">{{vm.share._id ? 'Update' : 'Create'}}</button>
                 </div>
             </div>
