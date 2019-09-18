@@ -87,7 +87,7 @@
              
             </div>
             <div class="col-md-1 col-sm-1"></div>
-            <div class="col-md-6 col-sm-6">
+            <div class="col-md-5 col-sm-6">
               
              
               <div class="row"  ng-if="vm.share.category == 'newShare'">
@@ -121,6 +121,10 @@
               </div>
               <div class="show-grid row" ng-if="vm.share.category == 'newShare'">
                   <div class="form-group col-md-4 col-sm-4 col-xs-4">
+                      <label for="executableFile" class="filetypelabel">Executable File</label>
+                      <input name="executableFile" type="checkbox" ng-model="vm.share.storage.executableFile" id="executableFile"  class="form-control checkbox-left small" ng-change="calculateCapacity()">
+                  </div>   
+                  <div class="form-group col-md-4 col-sm-4 col-xs-4">
                       <label for="officeFile" class="filetypelabel">Office File</label>
                       <input name="officeFile" type="checkbox" ng-model="vm.share.storage.officeFile" id="officeFile"  class="form-control checkbox-left small" ng-change="calculateCapacity()">
                    
@@ -129,12 +133,13 @@
                     <label for="imageFile" class="filetypelabel">Image File</label>
                     <input name="imageFile" type="checkbox" ng-model="vm.share.storage.imageFile" id="imageFile"  class="form-control checkbox-left small" ng-change="calculateCapacity()">
                   </div>
-                  <div class="form-group col-md-4 col-sm-4 col-xs-4">
-                      <label for="executableFile" class="filetypelabel">Executable File</label>
-                      <input name="executableFile" type="checkbox" ng-model="vm.share.storage.executableFile" id="executableFile"  class="form-control checkbox-left small" ng-change="calculateCapacity()">
-                  </div>              
+                            
               </div>
               <div class="show-grid row" ng-if="vm.share.category == 'newShare'">
+                  <div class="form-group col-md-4 col-sm-4 col-xs-4">
+                      <label for="backupFile" class="filetypelabel">Backup File</label>
+                      <input name="backupFile" type="checkbox" ng-model="vm.share.storage.backupFile" id="backupFile"  class="form-control checkbox-left small" ng-change="calculateCapacity()">
+                    </div>   
                   <div class="form-group col-md-4 col-sm-4 col-xs-4">
                     <label for="videoFile" class="filetypelabel">Video File</label>
                     <input name="videoFile" type="checkbox" ng-model="vm.share.storage.videoFile" id="videoFile"  class="form-control checkbox-left small" ng-change="calculateCapacity()">
@@ -143,10 +148,7 @@
                     <label for="audioFile" class="filetypelabel">Audio File</label>
                     <input name="audioFile" type="checkbox" ng-model="vm.share.storage.audioFile" id="audioFile"  class="form-control checkbox-left small" ng-change="calculateCapacity()">
                   </div>
-                  <div class="form-group col-md-4 col-sm-4 col-xs-4">
-                    <label for="backupFile" class="filetypelabel">Backup File</label>
-                    <input name="backupFile" type="checkbox" ng-model="vm.share.storage.backupFile" id="backupFile"  class="form-control checkbox-left small" ng-change="calculateCapacity()">
-                  </div>              
+                             
               </div>
 
               <div class="form-group" show-errors ng-if="vm.share.category == 'resize'">

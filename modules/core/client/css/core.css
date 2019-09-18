@@ -95,7 +95,6 @@
 .content-right{
   padding-left: 20px;
   font-weight: 100;
-  padding-top:7px;
 }
 footer.navbar-default.navbar-fixed-bottom
  {
@@ -247,6 +246,14 @@ a:hover .header-profile-image {
   
 }
 
+@media (max-width: 400px) {
+  
+  .form-horizontal .form-group {
+    margin-right: 0px; 
+    margin-left: -15px; 
+  }
+}
+
 @media (min-width: 400px) and (max-width: 1024px) {
   .pointer {
     width: 17% !important;
@@ -267,6 +274,12 @@ a:hover .header-profile-image {
   .form-control  {
     width: 85%;
   }
+
+  .form-horizontal .form-group {
+    margin-right: 0px; 
+    margin-left: -15px; 
+  }
+
   /* input[type="checkbox"].small {
     display: inline-block;
     vertical-align: middle;
@@ -399,6 +412,17 @@ fieldset[disabled] .navbar-custom .btn-link:focus {
   border-bottom: 10px solid transparent;
 }
 
+@media (min-width: 768px) {
+  .content-right {
+    padding-top:7px;
+  }
+  .form-horizontal .form-group {
+    margin-right: 0px; 
+    margin-left: -15px; 
+  }
+
+}
+
 @media (min-width: 992px) {
   .line-height{
     line-height: 40px;
@@ -423,6 +447,11 @@ fieldset[disabled] .navbar-custom .btn-link:focus {
     line-height: 2.25rem;
     text-align: center;
     cursor:pointer;
+}
+
+.filetypelabel {
+  overflow-wrap: break-word;
+  padding:2px;
 }
 
 
