@@ -7,6 +7,7 @@ var path = require('path'),
   errorHandler = require(path.resolve('./modules/core/server/controllers/errors.server.controller')),
   path = require('path'),
    util = require('util'),
+  moment = require('momnet'),
   logger = require(path.resolve('./config/lib/log')),
   mongoose = require('mongoose'),
   passport = require('passport'),
@@ -76,6 +77,12 @@ exports.signup = function (req, res) {
 //     }
 //   })(req, res, next);
 // };
+
+	
+var customTimestamp = function(){
+  var formattedDate = moment().format('MMM Do YYYY, h:mm:ss a');
+  return formattedDate;
+};
 
 exports.signin = function( req, res, next) {  
   logger.info(customTimestamp() +"inside signin");
