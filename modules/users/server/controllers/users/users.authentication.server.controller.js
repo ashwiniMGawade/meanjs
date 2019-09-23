@@ -78,10 +78,11 @@ exports.signup = function (req, res) {
 // };
 
 exports.signin = function( req, res, next) {  
-  logger.info("inside signin");
+  logger.info(customTimestamp() +"inside signin");
 
   if (req.isAuthenticated()) {
     // already logged in 
+    logger.info(customTimestamp() +"already logged in");
     next();
   }
   else {
