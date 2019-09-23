@@ -19,6 +19,11 @@ var noReturnUrls = [
   '/authentication/signup'
 ];
 
+var customTimestamp = function(){
+  var formattedDate = moment().format('MMM Do YYYY, h:mm:ss a');
+  return formattedDate;
+};
+
 /**
  * Signup
  */
@@ -79,12 +84,10 @@ exports.signup = function (req, res) {
 // };
 
 	
-var customTimestamp = function(){
-  var formattedDate = moment().format('MMM Do YYYY, h:mm:ss a');
-  return formattedDate;
-};
+
 
 exports.signin = function( req, res, next) {  
+
   logger.info(customTimestamp() +"inside signin");
 
   if (req.isAuthenticated()) {
