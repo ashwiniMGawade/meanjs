@@ -231,19 +231,72 @@ a:hover .header-profile-image {
   }
   .pointer {
     width: 17% !important;
-    height: 20px;
+    height: 20px !important;
+    top: -33px !important;
+    right: -86px !important;
+  }
+
+  .small-pointer {
+    width:17% !important;
+  }
+
+  .oval {
+    height: 45px !important;
+    width: 90px !important;
+    border-radius: 90px / 45px;
+    padding: 10px;
   }
  
 }
 
-@media (min-width: 1024px ) and (max-width: 1224px) {
+
+@media (min-width: 992px ) and (max-width: 1024px) {
   .pointer {
-    width: 20% !important;
+    width: 34% !important;
     height: 20px !important;
-    top: -35px !important;
-    right: -94px !important;
+    top: -33px !important;
+    right: -87px !important;
+  }
+
+  .small-pointer {
+    width:21% !important;
+  }
+  .oval {
+    height: 45px !important;
+    width: 90px !important;
+    border-radius: 90px / 45px;
+    padding: 10px;
   }
   
+}
+
+@media (min-width: 1025px ) and (max-width: 1224px) {
+  .pointer {
+    width: 33% !important;
+    height: 20px !important;
+    top: -35px !important;
+    right: -95px !important;
+  }
+  .small-pointer {
+    width:19%!important;
+  }
+}
+
+
+@media  (min-width: 1225px) and (max-width: 1256px) {
+ 
+  .small-pointer {
+    width:30%!important;
+  }
+  .pointer {
+    width:33%;
+    height: 20px;
+    position: relative;
+    background: #8180c0;
+    top: -35px;
+    right:-98px;
+  }
+ 
 }
 
 @media (max-width: 400px) {
@@ -252,9 +305,7 @@ a:hover .header-profile-image {
     margin-right: 0px; 
     margin-left: -15px; 
   }
-}
 
-@media (min-width: 400px) and (max-width: 1024px) {
   .pointer {
     width: 17% !important;
     height: 20px !important;
@@ -267,6 +318,16 @@ a:hover .header-profile-image {
     border-radius: 80px / 40px;
     padding:10px;
   }
+  .small-pointer {
+    width:17% !important;
+  }
+
+
+}
+
+@media (min-width: 400px) and (max-width: 1024px) {
+ 
+ 
   .multiselect-parent.btn-group{
     width: 90%;
   }
@@ -387,8 +448,10 @@ fieldset[disabled] .navbar-custom .btn-link:focus {
 
 
   .small-pointer {
-    width:30% !important;
+    width:30%;
   }
+
+
 
 .pointer {
   width:42%;
@@ -421,6 +484,24 @@ fieldset[disabled] .navbar-custom .btn-link:focus {
   border-bottom: 10px solid transparent;
 }
 
+@media (min-width: 768px) and  (max-width: 992px) {
+  .small-pointer {
+    width:17% !important;
+  }
+  .pointer {
+    width: 17% !important;
+    height: 20px !important;
+    top: -33px !important;
+    right: -86px !important;
+  }
+  .oval {
+    height: 45px !important;
+    width: 90px !important;
+    border-radius: 90px / 45px;
+    padding: 10px;
+  }
+}
+
 @media (min-width: 768px) {
   .content-right {
     padding-top:7px;
@@ -443,6 +524,25 @@ fieldset[disabled] .navbar-custom .btn-link:focus {
   .multiselect-parent.btn-group{
     width: 100%;
   }
+ 
+}
+
+
+
+@media (min-width: 1256px) {
+ 
+  .small-pointer {
+    width:30%;
+  }
+  /* .pointer {
+    width:33%;
+    height: 20px;
+    position: relative;
+    background: #8180c0;
+    top: -35px;
+    right:-98px;
+  } */
+ 
 }
 
 .gray.pointer:before {
@@ -470,8 +570,8 @@ fieldset[disabled] .navbar-custom .btn-link:focus {
   color: white;
   padding-top: 4px !important;
   padding-bottom: 4px !important;
-  line-height: 30px;
-  font-size: 25px;
+  line-height: 32px;
+  font-size: 30px;
 }
 
 /* 
