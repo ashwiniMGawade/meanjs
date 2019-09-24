@@ -10,7 +10,7 @@ var allowedPermissions = config.shared.share.allowedPermissions;
 
 var getMessageDetails = function(emailParams) {
 	var message = '';
-	message += '<br/><div style="margin:10px"><table><td><b> Request Details:</b></td><tbody>' +        
+	message += '<br/><div style="margin:10px"><div class="text-center"><b> Request Details:</b></div><table><tbody>' +        
         '<tr><td><b> Location</b></td><td>' + emailParams.share.city + '</td></tr>'+
         '<tr><td><b> Business Unit </b></td><td>' + emailParams.share.bu+ '</td></tr>';
 
