@@ -184,6 +184,8 @@ exports.delete = function (req, res) {
  * List of Shares
  */
 exports.list = function (req, res) {
+
+  logger.info("list called");
   var query = {};
 
   var searchPhrase = req.query.s;
