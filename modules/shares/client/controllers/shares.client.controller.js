@@ -411,7 +411,7 @@
             positionX: 'center',
             positionY: 'top'
           });
-          $state.go('shares.list');
+           setTimeout(function() {$state.go('shares.list')}, 1000);
         });
       });
     }
