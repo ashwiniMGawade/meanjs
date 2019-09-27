@@ -403,7 +403,8 @@
       };
 
       modalService.showModal({}, modalOptions).then(function (result) {
-        SharesService.updateRequest({shareId: vm.share._id, action: 'approve'}, {"comment": $sanitize(vm.comment)} ,function (response) {
+        SharesService.updateRequest({shareId: vm.share._id, action: 'approve'}, {"comment": $sanitize(vm.comment)})
+        .$promise.then(function (response) {
           console.log(response);
           Notification.success({
               message: '<i class="glyphicon glyphicon-ok"></i>Request is successfully approved will take some time to process the request!',
@@ -422,7 +423,8 @@
         bodyText: ['Are you sure you want to reject this request?']
       };
       modalService.showModal({}, modalOptions).then(function (result) {
-        SharesService.updateRequest({shareId: vm.share._id, action: 'reject'}, function (response) {
+        SharesService.updateRequest({shareId: vm.share._id, action: 'reject'})
+        .$promise.then(function (response) {
           console.log(response);
           $state.go('shares.list');
           Notification.success({
