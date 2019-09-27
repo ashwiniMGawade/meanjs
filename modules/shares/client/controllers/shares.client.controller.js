@@ -407,11 +407,12 @@
         .$promise.then(function (response) {
           console.log(response);
           Notification.success({
-              message: '<i class="glyphicon glyphicon-ok"></i>Request is successfully approved will take some time to process the request!',
-              positionX: 'center',
-              positionY: 'top' });
+            message: '<i class="glyphicon glyphicon-ok"></i>Request is successfully approved will take some time to process the request!',
+            positionX: 'center',
+            positionY: 'top'
           });
-        $state.go('shares.list');
+          $state.go('shares.list');
+        });
       });
     }
 
@@ -430,7 +431,8 @@
           Notification.success({
             message: '<i class="glyphicon glyphicon-ok"></i>Request is  successfully rejected!',
             positionX: 'center',
-            positionY: 'top' });
+            positionY: 'top' 
+          });
         });
       });
     }
