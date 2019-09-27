@@ -64,9 +64,9 @@ exports.updateRequest = function (req, res) {
   logger.info("updating request for action = "+req.params.action  +" share status="+ share.status);
   console.log(req.body, share)
 
-  saveShareStatus(share, share.status, req.user);
-    logger.info("changed the share status="+ shareData.status);    
-    res.json(shareData);
+    saveShareStatus(share, share.status, req.user);
+    logger.info("changed the share status="+ share.status);    
+    res.json(share);
     mailHandler.sendRequestStatusUpdateMailToUser(share, req.user);
 
     //execute the wfa workflow if the status changes to approved
