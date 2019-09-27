@@ -403,13 +403,13 @@
       };
 
       modalService.showModal({}, modalOptions).then(function (result) {
-        SharesService.updateRequest({shareId: vm.share._id, action: 'approve'}, {"comment": $sanitize(vm.comment)} ,function () {
-         
+        SharesService.updateRequest({shareId: vm.share._id, action: 'approve'}, {"comment": $sanitize(vm.comment)} ,function (response) {
+          console.log(response);
           Notification.success({
-            message: '<i class="glyphicon glyphicon-ok"></i>Request is successfully approved will take some time to process the request!',
-            positionX: 'center',
-            positionY: 'top' });
-        });
+              message: '<i class="glyphicon glyphicon-ok"></i>Request is successfully approved will take some time to process the request!',
+              positionX: 'center',
+              positionY: 'top' });
+          });
         $state.go('shares.list');
       });
     }
