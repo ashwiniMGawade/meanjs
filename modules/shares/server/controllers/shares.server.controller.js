@@ -60,6 +60,7 @@ exports.updateRequest = function (req, res) {
   share.status = req.params.action == 'approve' ? 'Approved' : (req.params.action == 'fix' ? req.body.status :'Rejected');
   share.comment = req.body.comment || '';
 
+  logger.info("updating request for action = "+req.params.action  +" share status="+ share.status);
   console.log(req.body, share)
 
   share.save(function (err) {
@@ -68,8 +69,7 @@ exports.updateRequest = function (req, res) {
         message: errorHandler.getErrorMessage(err)
       });
     }
-
-    
+    logger.info("changed the share status="+ share.status);    
     res.json(share);
     mailHandler.sendRequestStatusUpdateMailToUser(share, req.user);
 
@@ -303,6 +303,8 @@ exports.create = function (req, res) {
       if (err) {
        console.log("error in saving the status", err)
       } else {
+        console.log("saving share status to "+ share.status);
+        logger.info("saving share status to "+ share.status);
          mailHandler.sendRequestStatusUpdateMailToUser(share, user);
       }
     });
