@@ -608,12 +608,13 @@
      function fix () {
       var share = vm.share;
       share.fromFix = "true";
-      SharesService.updateRequest({shareId: vm.share._id, action: 'fix'}, {"comment": $sanitize(vm.comment), "status": vm.share.status} ,function () {
+      SharesService.updateRequest({shareId: vm.share._id, action: 'fix'}, {"comment": $sanitize(vm.comment), "status": vm.share.status}).$promise.then(function () {
             $state.go('shares.list');
             Notification.success({
               message: '<i class="glyphicon glyphicon-ok"></i>Request is successfully updated!',
               positionX: 'center',
-              positionY: 'top' });
+              positionY: 'top' 
+            });
           });
      }
 
