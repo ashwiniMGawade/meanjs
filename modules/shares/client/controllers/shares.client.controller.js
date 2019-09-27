@@ -422,7 +422,8 @@
         bodyText: ['Are you sure you want to reject this request?']
       };
       modalService.showModal({}, modalOptions).then(function (result) {
-        SharesService.updateRequest({shareId: vm.share._id, action: 'reject'}, function () {
+        SharesService.updateRequest({shareId: vm.share._id, action: 'reject'}, function (response) {
+          console.log(response);
           $state.go('shares.list');
           Notification.success({
             message: '<i class="glyphicon glyphicon-ok"></i>Request is  successfully rejected!',
