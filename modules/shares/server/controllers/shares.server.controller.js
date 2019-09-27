@@ -64,12 +64,7 @@ exports.updateRequest = function (req, res) {
   logger.info("updating request for action = "+req.params.action  +" share status="+ share.status);
   console.log(req.body, share)
 
-  share.save(function (err, shareData) {
-    if (err) {
-      return res.status(422).send({
-        message: errorHandler.getErrorMessage(err)
-      });
-    }
+  saveShareStatus(share, share.status, req.user);
     logger.info("changed the share status="+ shareData.status);    
     res.json(shareData);
     mailHandler.sendRequestStatusUpdateMailToUser(share, req.user);
@@ -162,7 +157,6 @@ exports.updateRequest = function (req, res) {
     //   });
     // }
      }
-  });
 };
 /**
  * Delete a share
