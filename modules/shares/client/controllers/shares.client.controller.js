@@ -427,12 +427,12 @@
         SharesService.updateRequest({shareId: vm.share._id, action: 'reject'})
         .$promise.then(function (response) {
           console.log(response);
-          $state.go('shares.list');
           Notification.success({
             message: '<i class="glyphicon glyphicon-ok"></i>Request is  successfully rejected!',
             positionX: 'center',
             positionY: 'top' 
           });
+          setTimeout(function() {$state.go('shares.list')}, 1000);
         });
       });
     }
