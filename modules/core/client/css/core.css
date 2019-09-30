@@ -56,7 +56,7 @@
 
 .oval {
     width: 100px;
-    height: 50px;
+    height: 15px;
     border-radius: 100px / 50px;
     text-align: center;
     vertical-align: middle;
@@ -232,7 +232,7 @@ a:hover .header-profile-image {
   .pointer {
     width: 17% !important;
     height: 20px !important;
-    top: -33px !important;
+    top: -10px !important;
     right: -86px !important;
   }
 
@@ -241,7 +241,7 @@ a:hover .header-profile-image {
   }
 
   .oval {
-    height: 45px !important;
+    height: 15px !important;
     width: 90px !important;
     border-radius: 90px / 45px;
     padding: 10px;
@@ -254,7 +254,7 @@ a:hover .header-profile-image {
   .pointer {
     width: 34% !important;
     height: 20px !important;
-    top: -33px !important;
+    top: -10px !important;
     right: -87px !important;
   }
 
@@ -262,7 +262,7 @@ a:hover .header-profile-image {
     width:21% !important;
   }
   .oval {
-    height: 45px !important;
+    height: 15px !important;
     width: 90px !important;
     border-radius: 90px / 45px;
     padding: 10px;
@@ -273,12 +273,13 @@ a:hover .header-profile-image {
 @media (min-width: 1025px ) and (max-width: 1224px) {
   .pointer {
     width: 33% !important;
-    height: 20px !important;
+    height: 10px !important;
     top: -35px !important;
     right: -95px !important;
   }
   .small-pointer {
     width:19%!important;
+	top:-10px !important;
   }
 }
 
@@ -292,7 +293,7 @@ a:hover .header-profile-image {
     width:33%;
     height: 20px;
     position: relative;
-    background: #8180c0;
+    background: transparent;
     top: -35px;
     right:-98px;
   }
@@ -447,9 +448,35 @@ fieldset[disabled] .navbar-custom .btn-link:focus {
   background:  #8BC34A  !important; }
 
 
-  .small-pointer {
+  
+.text-blue{
+  color: #337ab7 !important;  
+}
+
+.text-gray {
+  color: #bcbaba !important;  
+}
+
+.text-danger{
+  color: #d43f3a !important;  
+}
+
+.text-success{
+  color:  #4cae4c  !important; 
+}
+
+.text-warning {
+  color:#f0ad4e
+}
+
+.small-pointer {
     width:30%;
-  }
+}
+
+.status-text
+{
+  text-align: center;
+}
 
 
 
@@ -457,9 +484,9 @@ fieldset[disabled] .navbar-custom .btn-link:focus {
   width:42%;
   height: 20px;
   position: relative;
-  background: #8180c0;
-  top: -35px;
-  right:-98px;
+  background: transparent !important;
+  top: -14px;
+  right:-97px;
 }
 .pointer:after {
   content: "";
@@ -468,7 +495,7 @@ fieldset[disabled] .navbar-custom .btn-link:focus {
   bottom: 0;
   width: 0;
   height: 0;
-  border-left: 10px solid white;
+  /* border-left: 10px solid white; */
   border-top: 10px solid transparent;
   border-bottom: 10px solid transparent;
 }
@@ -479,7 +506,7 @@ fieldset[disabled] .navbar-custom .btn-link:focus {
   bottom: 0;
   width: 0;
   height: 0;
-  border-left: 10px solid #8180c0;
+  border-left: 10px solid #245580;
   border-top: 10px solid transparent;
   border-bottom: 10px solid transparent;
 }
@@ -491,14 +518,14 @@ fieldset[disabled] .navbar-custom .btn-link:focus {
   .pointer {
     width: 17% !important;
     height: 20px !important;
-    top: -33px !important;
+    top: -10px !important;
     right: -86px !important;
   }
   .oval {
-    height: 45px !important;
+    height: 20px !important;
     width: 90px !important;
     border-radius: 90px / 45px;
-    padding: 10px;
+    padding: 5px;
   }
 }
 

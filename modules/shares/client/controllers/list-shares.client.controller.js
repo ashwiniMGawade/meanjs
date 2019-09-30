@@ -42,12 +42,12 @@
 
       vm.getClass = function(status) {
         switch(status) {
-          case 'Contact Support': return 'danger'; break;
-          case 'Completed': return 'success'; break;
-          case 'Pending Approval': return 'warning'; break;
-          case 'Processing': return 'blue'; break;
-          case 'Approved': return 'success'; break;
-          case 'Rejected': return 'danger'; break;
+          case 'Contact Support': return 'text-danger'; break;
+          case 'Completed': return 'text-success'; break;
+          case 'Pending Approval': return 'text-warning'; break;
+          case 'Processing': return 'text-blue'; break;
+          case 'Approved': return 'text-success'; break;
+          case 'Rejected': return 'text-danger'; break;
           default: return 'primary';
         }
       }
