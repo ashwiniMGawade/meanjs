@@ -33,6 +33,9 @@ module.exports.start = function start(callback) {
 
   _this.init(function (app, db, config) {
 
+    require('events').EventEmitter.defaultMaxListeners = 15;
+
+    process.on('warning', e => console.warn(e.stack));
     // Start the app by listening on <port> at <host>
     app.listen(config.port, config.host, function () {
       // Create server URL
