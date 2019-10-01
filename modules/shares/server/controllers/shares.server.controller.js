@@ -15,6 +15,7 @@ var path = require('path'),
   userController = require(path.resolve('./modules/users/server/controllers/admin.server.controller')),
   wfaDB = require(path.resolve('./modules/shares/server/controllers/shares.server.wfa.db.read')),
   mailHandler = require(path.resolve('./modules/shares/server/controllers/shares.server.mailHandler'));
+  // var multiparty = require('multiparty');
 
    logger.info("share module");
 
@@ -72,6 +73,7 @@ exports.updateRequest = function (req, res) {
     });
   
     mailHandler.sendRequestStatusUpdateMailToUser(share, req.user);
+
 
     //execute the wfa workflow if the status changes to approved
     if (share.status == 'Approved') {
@@ -257,14 +259,15 @@ exports.list = function (req, res) {
           message: errorHandler.getErrorMessage(err)
         });
       }
+      logger.info("count=>"+ count);
       if (count > 0) {
-        Share.find(query).skip(page*perPage).limit(perPage).sort('-created').populate('user', 'displayName').exec(function (err, shares) {
+        Share.find(query).skip(page*perPage).limit(perPage).sort('-created').populate('user', 'displayName').exec(function (err, sharesData) {
           if (err) {
             return res.status(422).send({
               message: errorHandler.getErrorMessage(err)
             });
           }
-          res.json({'shares': shares, total: count});
+          res.json({'shares': sharesData, total: count});
         });
       } else {
         res.json({'shares': [], total:count});
@@ -306,6 +309,7 @@ exports.create = function (req, res) {
       } else {
         console.log("saving share status to "+ share.status);
         logger.info("saving share status to "+ share.status);
+        //setTimeout(function() {console.log("added delay for test")}, 10000)
          mailHandler.sendRequestStatusUpdateMailToUser(share, user);
       }
     });
@@ -358,3 +362,60 @@ exports.getCifsShareACLGroups = function(req, res) {
 exports.listStatus = function (req, res) {
   res.json(Share.schema.path('status').enumValues);
 };
+
+
+// exports.parseMail = function(req, res) {
+//   console.log('Receiving webhook.');
+
+//   /* Respond early to avoid timouting the mailin server. */
+//   // res.send(200);
+
+//   /* Parse the multipart form. The attachments are parsed into fields and can
+//    * be huge, so set the maxFieldsSize accordingly. */
+//   var form = new multiparty.Form({
+//       maxFieldsSize: 70000000
+//   });
+
+//   form.on('progress', function () {
+//       var start = Date.now();
+//       var lastDisplayedPercentage = -1;
+//       return function (bytesReceived, bytesExpected) {
+//           var elapsed = Date.now() - start;
+//           var percentage = Math.floor(bytesReceived / bytesExpected * 100);
+//           if (percentage % 20 === 0 && percentage !== lastDisplayedPercentage) {
+//               lastDisplayedPercentage = percentage;
+//               console.log('Form upload progress ' +
+//                   percentage + '% of ' + bytesExpected / 1000000 + 'Mb. ' + elapsed + 'ms');
+//           }
+//       };
+//   }());
+
+//   form.parse(req, function (err, fields) {
+//       console.log(util.inspect(fields.mailinMsg, {
+//           depth: 5
+//       }));
+
+//       console.log('Parsed fields: ' + Object.keys(fields));
+
+//       /* Write down the payload for ulterior inspection. */
+//       async.auto({
+//           writeParsedMessage: function (cbAuto) {
+//               fs.writeFile('payload.json', fields.mailinMsg, cbAuto);
+//           },
+//           writeAttachments: function (cbAuto) {
+//               var msg = JSON.parse(fields.mailinMsg);
+//               async.eachLimit(msg.attachments, 3, function (attachment, cbEach) {
+//                   fs.writeFile(attachment.generatedFileName, fields[attachment.generatedFileName], 'base64', cbEach);
+//               }, cbAuto);
+//           }
+//       }, function (err) {
+//           if (err) {
+//               console.log(err.stack);
+//               res.send(500, 'Unable to write payload');
+//           } else {
+//               console.log('Webhook payload written.');
+//               res.send(200);
+//           }
+//       });
+//   });
+// }
