@@ -262,20 +262,18 @@ exports.projectInfo = function(req, res) {
   });
   
 
- //  res.json({ txtibucode: 'MDT' ,//'MFGADM', //NFSShare
- //  dm: 'subhankar           ',
- //  pm: 'Kaustav_Bhowmik     ',
- //  startDate: "2012-09-10T00:00:00.000Z",
- //  endDate: "2014-12-31T00:00:00.000Z",
- //  city: "BANGALORE",
- //  projectcode: "MDT2018"
- // });
+//   res.json({ txtibucode: 'MDT' ,//'MFGADM', //NFSShare
+//   dm: 'subhankar           ',
+//   pm: 'Kaustav_Bhowmik     ',
+//   startDate: "2012-09-10T00:00:00.000Z",
+//   endDate: "2014-12-31T00:00:00.000Z",
+//   city: "BANGALORE",
+//   projectcode: "MDT2018"
+//  });
 }
 
 exports.getUsers = function(req, res) {
-  var ActiveDirectory = require('activedirectory');
-  console.log(config.ldap)
-  
+  var ActiveDirectory = require('activedirectory');  
   var ADconfig = { 
     url: config.ldap.url,
     bindDN: config.ldap.bindDN, 
@@ -307,7 +305,7 @@ exports.getUsers = function(req, res) {
             res.json([]);
           }
           else {
-            logger.info('findUsers: '+JSON.stringify(users));
+            // logger.info('findUsers: '+JSON.stringify(users));
             var keyArray = users.map(function(item) { 
               return { 
               'sAMAccountName' : item["sAMAccountName"],
@@ -321,7 +319,7 @@ exports.getUsers = function(req, res) {
       });
     } else {
        logger.info("Loading from cache ADUsers?search"+search);
-       logger.info(util.inspect(value, {showHidden: false, depth: null}));
+      //  logger.info(util.inspect(value, {showHidden: false, depth: null}));
        res.json(value);
     }
   }
@@ -358,7 +356,7 @@ exports.getACLGroupUsers = function(req, res) {
             res.json([]);
           }
           else {
-            logger.info('getUsersForGroup: '+JSON.stringify(users));
+            // logger.info('getUsersForGroup: '+JSON.stringify(users));
             var keyArray = users.map(function(item) { 
               return { 
               'sAMAccountName' : item["sAMAccountName"],
@@ -372,7 +370,7 @@ exports.getACLGroupUsers = function(req, res) {
       });
     } else {
        logger.info("Loading from cache ACLGroupUsers?search"+groupname);
-       logger.info(util.inspect(value, {showHidden: false, depth: null}));
+      //  logger.info(util.inspect(value, {showHidden: false, depth: null}));
        res.json(value);
     }
   }
@@ -416,7 +414,7 @@ exports.getUsersAndGroups = function(req, res) {
               res.json([]);
             }
             else {
-              logger.info('find: '+JSON.stringify(records));
+              // logger.info('find: '+JSON.stringify(records));
               var keyArray = records.users.map(function(item) { 
                 return { 
                 'sAMAccountName' : item["sAMAccountName"],
@@ -440,7 +438,7 @@ exports.getUsersAndGroups = function(req, res) {
         });
       } else {
           logger.info("Loading from cache ADUserGroups?search"+search);
-          logger.info(util.inspect(value, {showHidden: false, depth: null}));
+          // logger.info(util.inspect(value, {showHidden: false, depth: null}));
           res.json(value);
       }
     }
