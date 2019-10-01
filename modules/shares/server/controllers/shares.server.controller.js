@@ -63,7 +63,6 @@ exports.updateRequest = function (req, res) {
   share.comment = req.body.comment || '';
 
   logger.info("updating request for action = "+req.params.action  +" share status="+ share.status);
-  console.log(req.body, share);
     share.save(function (err, shareData) {
       if (err) {
       console.log("error in saving the status", err)
