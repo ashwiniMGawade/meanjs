@@ -44,8 +44,8 @@
         switch(status) {
           case 'Contact Support': return 'text-danger'; break;
           case 'Completed': return 'text-success'; break;
-          case 'Pending Approval': return 'text-warning'; break;
-          case 'Processing': return 'text-blue'; break;
+          case 'Pending Approval': return 'text-processing'; break;
+          case 'Processing': return 'text-processing'; break;
           case 'Approved': return 'text-success'; break;
           case 'Rejected': return 'text-danger'; break;
           default: return 'primary';

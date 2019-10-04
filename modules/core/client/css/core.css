@@ -35,6 +35,7 @@
 }
 .brand-image{
   height: 24px;
+  margin-left:-8px;
 }
 .control-label {
 	padding-bottom: 5px;
@@ -91,6 +92,7 @@
 }
 .help-block {
   margin-bottom:0px;
+  font-size:12px;
 }
 .content-right{
   padding-left: 20px;
@@ -259,7 +261,7 @@ a:hover .header-profile-image {
   }
 
   .small-pointer {
-    width:21% !important;
+    width:20% !important;
   }
   .oval {
     height: 15px !important;
@@ -278,11 +280,17 @@ a:hover .header-profile-image {
     right: -95px !important;
   }
   .small-pointer {
-    width:19%!important;
-	top:-10px !important;
+    width:15%!important;
+	top:-4px !important;
   }
 }
 
+@media (min-width: 1200px ) and (max-width: 1223px) {
+  .small-pointer {
+    width:31%!important;
+	top:-4px !important;
+  }
+}
 
 @media  (min-width: 1225px) and (max-width: 1256px) {
  
@@ -469,6 +477,10 @@ fieldset[disabled] .navbar-custom .btn-link:focus {
   color:#f0ad4e
 }
 
+.text-processing {
+  color:#337ab7
+}
+
 .small-pointer {
     width:30%;
 }
@@ -518,7 +530,7 @@ fieldset[disabled] .navbar-custom .btn-link:focus {
   .pointer {
     width: 17% !important;
     height: 20px !important;
-    top: -10px !important;
+    top: -15px !important;
     right: -86px !important;
   }
   .oval {
@@ -544,10 +556,10 @@ fieldset[disabled] .navbar-custom .btn-link:focus {
   .line-height{
     line-height: 40px;
   }
-  .filetypelabel {
+  /* .filetypelabel {
     width:100%;
     text-align:center
-  }
+  } */
   .multiselect-parent.btn-group{
     width: 100%;
   }
@@ -587,7 +599,9 @@ fieldset[disabled] .navbar-custom .btn-link:focus {
 
 .filetypelabel {
   overflow-wrap: break-word;
-  padding:2px;
+  padding-top:2px;
+  padding-left:10px;
+  font-weight:normal;
 }
 
 .imgBottomContent {
@@ -614,3 +628,32 @@ fieldset[disabled] .navbar-custom .btn-link:focus {
 .multiselect-parent.open > .dropdown-menu li:first-child div  {
   position:fixed;
 } */
+
+.user-header-custom {
+  left:18px;
+}
+
+.section-custom-grid-layout
+{
+  margin-left: -15px;
+  margin-right:-10px;
+}
+
+a:focus {
+  border-color: #fff !important;
+  outline: 0;
+  -webkit-box-shadow: none;
+  box-shadow: none;
+}
+
+.form-checkbox-custom {
+  display:flex;
+}
+
+.form-checkbox-custom input[type="checkbox"] {
+  width:auto !important;
+}
+
+html {
+  scroll-behavior: smooth;
+}
