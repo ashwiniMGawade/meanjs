@@ -261,7 +261,7 @@ exports.list = function (req, res) {
       logger.info("count=>"+ count);
       if (count > 0) {
         var queryex = Share.find(query).skip(page*perPage).limit(perPage).sort('-created').populate('user', 'displayName').exec(function (err, sharesData) {
-          logger.info( util.inspect(queryex, {showHidden: false, depth: null}));
+          // logger.info( util.inspect(queryex, {showHidden: false, depth: null}));
           if (err) {
             return res.status(422).send({
               message: errorHandler.getErrorMessage(err)
