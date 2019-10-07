@@ -1,20 +1,25 @@
 <section>
-  <div class="  dashboard-content">
-    <div class="row jumbotron text-center" style="padding:5px 0px 0px 0px;margin-bottom:10px;background:none">
+  <div class="dashboard-content">
+    <div class="row jumbotron text-center" style="padding:2px 0px 0px 0px;margin-bottom:10px;background:none">
       <!-- <div class="col-md-6 col-md-offset-5 col-sm-6 col-sm-offset-5 col-xs-12 col-xs-offset-5"> -->
-        <img alt="NetApp" class="img-responsive center-block" style="width:100%" src="modules/core/client/img/brand/main-page.png" />
-        <div class="imgBottomContent">Storage as a Service</div>
-      
+      <img alt="NetApp" class="img-responsive center-block" style="width:75%; margin-left: 12%;" src="modules/core/client/img/brand/main-page.png"
+      />
+      <div class="imgBottomContent">Storage as a Service</div>
+
       <!-- </div> -->
-    
-    <div class="row text-center jumbotron" style="margin:0px;padding-left:20px;">
-      <p>
-          <a style="font-size: 80%;" class="pull-left" ui-sref="shares.list">History</a>
-          <a style="font-size: 80%;padding-left:20px" ui-sref="shares.create"  class="pull-left">My Request</a>
-          <a style="font-size: 80%;padding-left:20px"  ng-click="vm.togleFaq()" href="#" class="pull-left">Help</a>
-        </p>
+
+      <div class="row text-center jumbotron dashboard-links" style="margin:0px;padding-left:20px;">
+        <div style="text-align: center; font-size:28px;">
+          <a ui-sref="shares.list" class="dashboard-custom-a">
+            <span class="glyphicon glyphicon-time"></span> History</a>
+          <a ui-sref="shares.create" class="dashboard-custom-a">
+            <span class="glyphicon glyphicon-user"></span> My Request</a>
+          </span>
+          <a class="dashboard-custom-a" id="help" ng-click="vm.togleFaq('help-1');" href="#">
+            <span class="glyphicon glyphicon-question-sign"> </span> Help</a>
+        </div>
+      </div>
     </div>
-  </div>
     <!-- <div class="row">
       <p>
         <a style="font-size: 17px;" class="pull-left" ui-sref="shares.list">My Requests</a>
@@ -24,136 +29,191 @@
     <div class="row">
       <p class="center-block ">
         <!-- <div class="faq_heading"><a ng-click="vm.togleFaq()">How can we help you?</a></div> -->
-        
+
         <div ng-show="vm.showFaq">
-          <div class="col-md-4 col-sm-4 col-xs-1" >&nbsp;</div>
-          <div class="col-md-4 col-sm-4 col-xs-10" >
-            <div class="faq_heading navbar-custom" style="margin:10px;color:white;padding:5px;" >FAQs for Enterprise Storage</div>
-           <!--  <input class="form-control col-md-4 ng-pristine ng-valid ng-empty ng-touched center-block" type="text" ng-model="vm.search" placeholder="Describe your issue" style="margin-bottom:20px;"> -->
+          <div class="col-md-4 col-sm-4 col-xs-1">&nbsp;</div>
+          <div class="col-md-4 col-sm-4 col-xs-10">
+            <div class="faq_heading navbar-custom" style="margin:10px;color:white;padding:5px;">FAQs for Enterprise Storage</div>
+            <!--  <input class="form-control col-md-4 ng-pristine ng-valid ng-empty ng-touched center-block" type="text" ng-model="vm.search" placeholder="Describe your issue" style="margin-bottom:20px;"> -->
           </div>
-           
-       </div>
+
+        </div>
       </p>
     </div>
-      <!-- <div class="row center-block">
+    <!-- <div class="row center-block">
         <div class="col-md-4" >
             <input class="form-control col-md-4 ng-pristine ng-valid ng-empty ng-touched center-block" type="text" ng-model="vm.search" placeholder="Search" ng-change="vm.searchRecords()" style="">
         </div>
       </div> -->
-      <div class="row center-block " style="width:80%;" ng-show="vm.showFaq">
-        <uib-accordion close-others="vm.oneAtATime">
-          <div uib-accordion-group class="panel-default" ng-repeat="heading in vm.faq_headings | filter:vm.search:strict" >
-              <uib-accordion-heading style="outline: none;">
-                {{heading}}
-               <!--  <i class="pull-right glyphicon" ng-class="{'glyphicon-chevron-down': vm.status.open, 'glyphicon-chevron-right': !vm.status.open}"> -->
-              </uib-accordion-heading>
-            <div style="text-align:left" ng-show="heading == 'How can I get Space for my Project in Enterprise Storage?'">
-              <p><b>Answer - </b>Project Space can be obtained by logging a request on UI by the PM under “http://blrkecstrg01/storage/”. Based on the requirement, CCD creates a share as per the project code in ALCON and the nominated member by PM is given full control as CC (Configuration Controller). Thereafter, CC will manage security permissions of the project share.</p>
+    <div id="help-1" class="row center-block " style="width:80%;" ng-show="vm.showFaq">
+      <uib-accordion close-others="vm.oneAtATime">
+        <div uib-accordion-group class="panel-default" ng-repeat="heading in vm.faq_headings | filter:vm.search:strict">
+          <uib-accordion-heading style="outline: none;">
+            {{heading}}
+            <!--  <i class="pull-right glyphicon" ng-class="{'glyphicon-chevron-down': vm.status.open, 'glyphicon-chevron-right': !vm.status.open}"> -->
+          </uib-accordion-heading>
+          <div  style="text-align:left" ng-show="heading == 'How can I get Space for my Project in Enterprise Storage?'">
+            <p >
+              <b>Answer - </b>Project Space can be obtained by logging a request on UI by the PM under “http://blrkecstrg01/storage/”.
+              Based on the requirement, CCD creates a share as per the project code in ALCON and the nominated member by
+              PM is given full control as CC (Configuration Controller). Thereafter, CC will manage security permissions
+              of the project share.</p>
 
-              <p>CCD will also create a mirror of this project folder at the secondary storage at remote site for DR purpose.</p>
+            <p>CCD will also create a mirror of this project folder at the secondary storage at remote site for DR purpose.</p>
 
-              <p>In case of any generic requirement for space creation such as HR Requirement, DC Specific Requirement, Org-Wide Requirements, etc., the same is provisioned based on the approval from DM with a definite end date when the share will be removed automatically</p>
-            </div>
-           <!--  <div uib-accordion-group class="panel-default" heading="How is the backup taken for the data kept on Project Shares?"> -->
-            <div style="text-align:left" ng-if="heading == 'How is the backup taken for the data kept on Project Shares?'">
-              <p><b>Answer - </b>Data backup is done based on Point-in-time copy of data using snapshot technology which stores only byte level incremental data on the same disk. The data in the snapshots can be accessed and restored at file or folder level by system administrators.</p>
+            <p>In case of any generic requirement for space creation such as HR Requirement, DC Specific Requirement, Org-Wide
+              Requirements, etc., the same is provisioned based on the approval from DM with a definite end date when the
+              share will be removed automatically</p>
+          </div>
+          <!--  <div uib-accordion-group class="panel-default" heading="How is the backup taken for the data kept on Project Shares?"> -->
+          <div style="text-align:left" ng-if="heading == 'How is the backup taken for the data kept on Project Shares?'">
+            <p>
+              <b>Answer - </b>Data backup is done based on Point-in-time copy of data using snapshot technology which stores
+              only byte level incremental data on the same disk. The data in the snapshots can be accessed and restored at
+              file or folder level by system administrators.</p>
 
-              <table class="table table-bordered table-striped text-center">
+            <table class="table table-bordered table-striped text-center">
+              <tr>
+                <th class="text-center">Type of Backup</th>
+                <th class="text-center">Frequency</th>
+                <th class="text-center">Preservation</th>
+              </tr>
+              <tbody>
                 <tr>
-                  <th class="text-center">Type of Backup</th>
-                  <th class="text-center">Frequency</th>
-                  <th class="text-center">Preservation</th>
+                  <td>Hourly Snapshots</td>
+                  <td>Every 3 hours during business hours (10AM to 4PM)</td>
+                  <td>3 days</td>
                 </tr>
-                <tbody>
-                  <tr>
-                    <td>Hourly Snapshots</td>
-                    <td>Every 3 hours during business hours (10AM to 4PM)</td>
-                    <td>3 days</td>
-                  </tr>
-                  <tr>
-                    <td>Daily Snapshots</td>
-                    <td>Every night 12AM - 7 days a week</td>
-                    <td>2 weeks</td>
-                  </tr>
-                  <tr>
-                    <td>Weekly Snapshots</td>
-                    <td>Once in a week. (Sunday Midnight) Daily snapshot will not be taken on this day.</td>
-                    <td>12 weeks</td>
-                  </tr>
-                </tbody>
-              </table>
-            </div>
+                <tr>
+                  <td>Daily Snapshots</td>
+                  <td>Every night 12AM - 7 days a week</td>
+                  <td>2 weeks</td>
+                </tr>
+                <tr>
+                  <td>Weekly Snapshots</td>
+                  <td>Once in a week. (Sunday Midnight) Daily snapshot will not be taken on this day.</td>
+                  <td>12 weeks</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
 
-            <div style="text-align:left" ng-if="heading == 'Is the data available at remote site in case of disaster?'">
-              <p><b>Answer - </b>Yes. Data from Primary server is replicated onto a Secondary server at a different location at frequent intervals i.e. once in 6 hours using SnapMirror technology.</p>          
-            </div>
-            
-            <div style="text-align:left" ng-if="heading == 'Do we have hardware redundancy for these servers?'">
-              <p ><b>Answer - </b>Yes. Servers at all the location are in cluster mode. They are configured with Redundant and Hot Spare Disks. Also, they have dual power supply with UPS.</p>          
-            </div>
-         
-            <div style="text-align:left" ng-if="heading == 'How much space can be given for a new Project?'">
-              <p ><b>Answer - </b>To start a project we can allocate 5 GB of space initially or 200 MB per user if the number of project members are high. Whichever is higher!</p>          
-            </div>
+          <div style="text-align:left" ng-if="heading == 'Is the data available at remote site in case of disaster?'">
+            <p>
+              <b>Answer - </b>Yes. Data from Primary server is replicated onto a Secondary server at a different location at
+              frequent intervals i.e. once in 6 hours using SnapMirror technology.</p>
+          </div>
 
-            <div style="text-align:left" ng-if="heading == 'Can I increase the space of my project share?'">
-              <p ><b>Answer - </b>You can raise a ticket in UI(http://blrkecstrg01/storage/) under Resize project share.</p>          
-            </div>
+          <div style="text-align:left" ng-if="heading == 'Do we have hardware redundancy for these servers?'">
+            <p>
+              <b>Answer - </b>Yes. Servers at all the location are in cluster mode. They are configured with Redundant and Hot
+              Spare Disks. Also, they have dual power supply with UPS.</p>
+          </div>
 
-            <div style="text-align:left" ng-if="heading == 'Our project is moving from one DC to another. What can be done for this?'">
-              <p ><b>Answer - </b>PM has to raise a request in UI(http://blrkecstrg01/storage/) under Project migration with the location where the data is residing. Data Migration is done in three phases, i.e. initial copy, incremental copy and final copy.</p>          
-            </div>
+          <div style="text-align:left" ng-if="heading == 'How much space can be given for a new Project?'">
+            <p>
+              <b>Answer - </b>To start a project we can allocate 5 GB of space initially or 200 MB per user if the number of
+              project members are high. Whichever is higher!</p>
+          </div>
 
-            <div style="text-align:left" ng-if="heading == 'How do I access my project share?'">
-              <p ><b>Answer - </b>All the Project Shares in Enterprise Storage can be access using the DFS path \\ad.infosys.com\storage. Inside this path you can browse to your location, then your IBU and then to your Project Share.</p>        
-            </div>
+          <div style="text-align:left" ng-if="heading == 'Can I increase the space of my project share?'">
+            <p>
+              <b>Answer - </b>You can raise a ticket in UI(http://blrkecstrg01/storage/) under Resize project share.</p>
+          </div>
 
-            <div style="text-align:left" ng-if="heading == 'How can I get access to my Project Share?'">
-              <p ><b>Answer - </b>Get in touch with the CC (Configuration Controller) of your Project. Project CC should provide you the access based on your role for the project.</p>        
-            </div>
+          <div style="text-align:left" ng-if="heading == 'Our project is moving from one DC to another. What can be done for this?'">
+            <p>
+              <b>Answer - </b>PM has to raise a request in UI(http://blrkecstrg01/storage/) under Project migration with the
+              location where the data is residing. Data Migration is done in three phases, i.e. initial copy, incremental
+              copy and final copy.</p>
+          </div>
 
-            <div style="text-align:left" ng-if="heading == 'For my Project, the CC is on leave for the day. I need to access files urgently. What can be done?'">
-              <p ><b>Answer - </b>Raise new request under “Add or Remove permission” category, request will assign for the approval, once approved you will get access to the share</p>        
-            </div>
+          <div style="text-align:left" ng-if="heading == 'How do I access my project share?'">
+            <p>
+              <b>Answer - </b>All the Project Shares in Enterprise Storage can be access using the DFS path \\ad.infosys.com\storage.
+              Inside this path you can browse to your location, then your IBU and then to your Project Share.</p>
+          </div>
 
-            <div style="text-align:left" ng-if="heading == 'What the responsibilities of CC of a project?'">
-              <p ><b>Answer - </b>CC will be responsible for the access given to various people on the shared project folder and should consult with CCD for any help in managing the project folder. The CC should add the persons in the respective group judiciously and on project requirement only. Further changes of permissions or addition/deletion of members to the different groups should be done by the CC of the project.</p>        
-            </div>
+          <div style="text-align:left" ng-if="heading == 'How can I get access to my Project Share?'">
+            <p>
+              <b>Answer - </b>Get in touch with the CC (Configuration Controller) of your Project. Project CC should provide
+              you the access based on your role for the project.</p>
+          </div>
 
-            <div style="text-align:left" ng-if="heading == 'I\'m the CC of the Project XYZ. How do I add or remove permissions for my team members?'">
-              <p><b>Answer - </b>Permissions are assigned to Project Shares based on the group membership. Normally there will be three security groups namely CC, PL and DV. Only CC (apart from administrators) will have full control on the share. PL group will be having Modify rights and DV group will be having only Read permission which can be changed wherever required by the CC.</p>
+          <div style="text-align:left" ng-if="heading == 'For my Project, the CC is on leave for the day. I need to access files urgently. What can be done?'">
+            <p>
+              <b>Answer - </b>Raise new request under “Add or Remove permission” category, request will assign for the approval,
+              once approved you will get access to the share</p>
+          </div>
 
-              <p>Go to <b>Start</b>, <b>Computer</b> and click on <b>Network</b> on left side pane. In the tool bar click on <b>Search Active Directory</b>:</p>   
-              <img alt="NetApp" class="img-responsive center-block" style="width:50%" src="modules/core/client/img/screens/faq-screen-1.png" />   
-              <p>Select <b>Active Directory</b> from the drop down menu and type the <b>group name</b> which you want to manage in the <b>Name Field</b> and click on <b>Find Now</b>. Now the group will be shown in the bottom pane of the search window. (Sequence numbered)  </p>  
-              <img alt="NetApp" class="img-responsive center-block" style="width:50%" src="modules/core/client/img/screens/faq-screen-2.png" /> 
-              <p>Double click on the group name to open the properties window. Clicking on the ADD button, which will open up a menu where you can add the user to this group as shown below. (Sequence Numbered)</p>  
-              <img alt="NetApp" class="img-responsive center-block" style="width:50%" src="modules/core/client/img/screens/faq-screen-3.png" /> 
-              <p>Now this user is added to the group and the permissions will get effective when the user re login to the domain.</p>
-            </div>
-            <div style="text-align:left" ng-if="heading == 'Important Points to be noted for CC role'">
-              <p><b>Points - </b>
-                <ul style="text-align:left">
-                  <li>Never remove access for Administrators group from any share. If administrators group ID is removed access, recovery of deleted files will not be possible by the Admins.</li>
-                  <li>Do not give permissions to open DLs which have the all the users of the domain or list of all employees for a given location.</li>
-                  <li>Do not ever give permissions to group such as “Everyone” or <b> “Domain Users”</b>. </li>
-                  <li>Make sure that you are providing access to the right users; always give permission to the user based on their mail id, not with their display name.</li>
-                  <li>Give users only the necessary privilege to carry out their job, If a user in DV group need write access on to only one folder, don’t add him to PL group, rather give him write/modify access only on that folder.</li>
-                  <li>At any point, if you have any doubt, please call CCD to clarify yourself.</li>
-                </ul>
-              </p>        
-            </div>       
-        </uib-accordion>
+          <div style="text-align:left" ng-if="heading == 'What the responsibilities of CC of a project?'">
+            <p>
+              <b>Answer - </b>CC will be responsible for the access given to various people on the shared project folder and
+              should consult with CCD for any help in managing the project folder. The CC should add the persons in the respective
+              group judiciously and on project requirement only. Further changes of permissions or addition/deletion of members
+              to the different groups should be done by the CC of the project.</p>
+          </div>
+
+          <div style="text-align:left" ng-if="heading == 'I\'m the CC of the Project XYZ. How do I add or remove permissions for my team members?'">
+            <p>
+              <b>Answer - </b>Permissions are assigned to Project Shares based on the group membership. Normally there will
+              be three security groups namely CC, PL and DV. Only CC (apart from administrators) will have full control on
+              the share. PL group will be having Modify rights and DV group will be having only Read permission which can
+              be changed wherever required by the CC.</p>
+
+            <p>Go to
+              <b>Start</b>,
+              <b>Computer</b> and click on
+              <b>Network</b> on left side pane. In the tool bar click on
+              <b>Search Active Directory</b>:</p>
+            <img alt="NetApp" class="img-responsive center-block" style="width:50%" src="modules/core/client/img/screens/faq-screen-1.png"
+            />
+            <p>Select
+              <b>Active Directory</b> from the drop down menu and type the
+              <b>group name</b> which you want to manage in the
+              <b>Name Field</b> and click on
+              <b>Find Now</b>. Now the group will be shown in the bottom pane of the search window. (Sequence numbered) </p>
+            <img alt="NetApp" class="img-responsive center-block" style="width:50%" src="modules/core/client/img/screens/faq-screen-2.png"
+            />
+            <p>Double click on the group name to open the properties window. Clicking on the ADD button, which will open up
+              a menu where you can add the user to this group as shown below. (Sequence Numbered)</p>
+            <img alt="NetApp" class="img-responsive center-block" style="width:50%" src="modules/core/client/img/screens/faq-screen-3.png"
+            />
+            <p>Now this user is added to the group and the permissions will get effective when the user re login to the domain.</p>
+          </div>
+          <div style="text-align:left" ng-if="heading == 'Important Points to be noted for CC role'">
+            <p>
+              <b>Points - </b>
+              <ul style="text-align:left">
+                <li>Never remove access for Administrators group from any share. If administrators group ID is removed access,
+                  recovery of deleted files will not be possible by the Admins.</li>
+                <li>Do not give permissions to open DLs which have the all the users of the domain or list of all employees for
+                  a given location.</li>
+                <li>Do not ever give permissions to group such as “Everyone” or
+                  <b> “Domain Users”</b>. </li>
+                <li>Make sure that you are providing access to the right users; always give permission to the user based on their
+                  mail id, not with their display name.</li>
+                <li>Give users only the necessary privilege to carry out their job, If a user in DV group need write access on
+                  to only one folder, don’t add him to PL group, rather give him write/modify access only on that folder.</li>
+                <li>At any point, if you have any doubt, please call CCD to clarify yourself.</li>
+              </ul>
+            </p>
+          </div>
+      </uib-accordion>
       </div>
     </div>
 
-    <div style="margin:10px;" class="center-block text-center row"><span style="color:#777;;"><i style="font-size:12px;font-family:sans-serif">
-        Project Data Storage, backup & archival are essential requirements for any project. This service provides a reliable and highly available storage space to store data using any protocol. The data stored is protected using access control mechanisms, backed up at defined intervals and replicated regularly to DR site.
+    <div style="margin:10px;" class="center-block text-center row">
+      <span style="color:#777;;">
+        <i style="font-size:12px;font-family:sans-serif">
+          Project Data Storage, backup & archival are essential requirements for any project. This service provides a reliable and
+          highly available storage space to store data using any protocol. The data stored is protected using access control
+          mechanisms, backed up at defined intervals and replicated regularly to DR site.
         </i>
-        </span>
-      </div>
+      </span>
+    </div>
   </div>
 
-  
-  
+
+
 </section>

@@ -37,8 +37,8 @@
                 <td ng-bind="vm.categories[share.category]" class="capitalize breakword" title="'Category'" sortable="'category'"></td>
                 <td ng-bind="share.status" ng-class="vm.getClass(share.status)" title="'Status'" sortable="'status'" class="breakword"></td>
                 <td ng-bind="share.user.displayName" ng-if="vm.isAdmin" title="'user'" sortable="'user'" class="breakword"></td>
-                <td><button type="button" class="btn btn-xs btn-primary" ui-sref="shares.view({shareId: share._id})">Details</button></td>
-                <td ng-if="vm.isAdmin"> <button type="button" class="btn btn-xs btn-primary" ui-sref="shares.fix({shareId: share._id})"
+                <td class="td-center"><button type="button" class="btn btn-xs btn-primary" ui-sref="shares.view({shareId: share._id})">Details</button></td>
+                <td ng-if="vm.isAdmin" class="td-center"> <button type="button" class="btn btn-xs btn-primary" ui-sref="shares.fix({shareId: share._id})"
                         ng-disabled="!(share.status=='Contact Support')">Fix</button></td>
             </tr>
             <tr ng-repeat-end>

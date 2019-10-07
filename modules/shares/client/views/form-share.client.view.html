@@ -34,7 +34,7 @@
               </div>
             </div>
             <div class="form-group" show-errors ng-if="vm.share.category == 'newShare'">
-              <label class="control-label" for="readOnly">Read Only(DV)</label>
+              <label class="control-label" for="readOnly">Read Only (DV)</label>
               <p class="outlined" ng-if="vm.readOnly.length > 0">
                 <span class="selectedUser" ng-repeat=" user in vm.readOnly">
                   <span>{{user.id}}</span>
@@ -48,7 +48,7 @@
               <!-- disabled= "(vm.usersAndGroups && vm.usersAndGroups.length > 0) ? false: true" -->
             </div>
             <div class="form-group" show-errors ng-if="vm.share.category == 'newShare'">
-              <label class="control-label" for="readAndWrite">Read And Write(PL)</label>
+              <label class="control-label" for="readAndWrite">Read And Write (PL)</label>
               <p class="outlined" ng-if="vm.readAndWrite.length > 0">
                 <span class="selectedUser" ng-repeat=" user in vm.readAndWrite">
                   <span>{{user.id}}</span>
@@ -60,7 +60,7 @@
               <div class="loader" ng-show="vm.readWriteLoader"></div>
             </div>            
             <div class="form-group" show-errors ng-if="vm.share.category == 'newShare'">
-              <label class="control-label" for="readWriteAndModify">Read Write And Modify(CC)</label>
+              <label class="control-label" for="readWriteAndModify">Read Write And Modify (CC)</label>
               <p class="outlined" ng-if="vm.readWriteAndModify.length > 0">
                 <span class="selectedUser" ng-repeat=" user in vm.readWriteAndModify">
                   <span>{{user.id}}</span>
@@ -75,10 +75,10 @@
             </div>           
             <div class="show-grid row" ng-if="vm.share.category == 'newShare'">
               <div>
-                <label class="control-label"  for="readWriteAndModify">Storage Requirement For:</label>
+                <label class="control-label"  for="readWriteAndModify">Storage Requirement For</label>
               </div>
             </div>
-            <div class="show-grid row" style="margin-top:15px;" ng-if="vm.share.category == 'newShare'">
+            <div class="show-grid row" style="margin-top:5px;" ng-if="vm.share.category == 'newShare'">
               <div class="form-group col-md-4 col-sm-4 col-xs-4 form-checkbox-custom">
                 <input name="programmingFile" type="checkbox" ng-model="vm.share.storage.programmingFile" id="programmingFile" class="form-control checkbox-left small"
                   ng-change="calculateCapacity()">
@@ -156,11 +156,11 @@
               <label class="content-right col-md-8" name="bu">{{(vm.incrementGb * getYearDiff() * 1) > 0 ?(vm.incrementGb * getYearDiff() * 1) : 0 }}$</label>
             </div>
             <div class="row" ng-if="vm.share.category == 'newShare'">
-              <label class="control-label col-md-3 col-ls-3 col-sm-3 col-xs-3 text-left" for="sizegb">Required Space: </label>
+              <label class="control-label col-md-3 col-ls-3 col-sm-3 col-xs-3 text-left" for="sizegb">Required Space </label>
               <label style="font-weight: bold !important;" class="content-right col-md-9 col-sm-9 col-xs-9" text-left name="sizegb">{{vm.share.sizegb || 0}} GB</label>                                        
             </div>
             <div class="row" ng-if="vm.share.category == 'newShare'">            
-              <label class="control-label col-md-3  col-ls-3 col-sm-3 col-xs-3 text-left" for="cost">Cost: </label>
+              <label class="control-label col-md-3  col-ls-3 col-sm-3 col-xs-3 text-left" for="cost">Cost </label>
               <label style="font-weight: bold !important;" class="content-right col-md-9  col-sm-9 col-xs-9 text-left" name="cost">${{vm.share.cost || 0}}</label>
             </div>
             <div class="form-group" show-errors ng-if="vm.share.category == 'changePermission' &&  (vm.share.operation == 'addUserToADGroup' || vm.share.operation == 'removeUserFromADGroup' || vm.share.operation == 'removeUserOrGroupFromShare')">
@@ -215,23 +215,23 @@
           <div class="col-md-1 col-sm-1"></div>
           <div class="col-md-5 col-sm-5">
 
-              <div class="row">
+              <div class="row custom-margin-top-6">
                   <label class="control-label col-md-4 col-ls-4 col-sm-4 col-xs-4 text-left" for="bu">Business Unit</label>
                   <label class="content-right col-md-8 col-sm-8 col-xs-8" name="bu">{{vm.share.bu}}</label>
                 </div>
-                <div class="row" ng-if="vm.share.category =='newShare'">
+                <div class="row custom-margin-top-15" ng-if="vm.share.category =='newShare'">
                   <label class="control-label col-md-4 col-ls-4 col-sm-4 col-xs-4 text-left" for="bu">Category</label>
                   <label class="content-right col-md-8 col-sm-8 col-xs-8" name="bu">{{vm.categories[vm.share.category]}}</label>
                 </div>
-                <div class="row" ng-if="vm.cifShareDetails.sharepath">
+                <div class="row custom-margin-top-15" ng-if="vm.cifShareDetails.sharepath">
                   <label class="control-label col-md-4 col-ls-4 col-sm-4 col-xs-4 text-left" for="sharePath">Share Path</label>
                   <label class="content-right col-md-8 col-sm-8 col-xs-8" name="sharePath">{{vm.cifShareDetails.sharepath}}</label>
                 </div>
-                <div class="row">
+                <div class="row custom-margin-top-15">
                   <label class="control-label col-md-4  col-ls-4 col-sm-4 col-xs-4 text-left" for="city">Location</label>
                   <label class="content-right col-md-8 col-sm-8 col-xs-8" name="city">{{vm.share.city}}</label>
                 </div>
-                <div class="row">
+                <div class="row custom-margin-top-15">
                   <label class="control-label col-md-4 col-ls-4 col-sm-4 col-xs-4 text-left" for="projectCode">Project Code</label>
                   <label class="content-right col-md-8 col-sm-8 col-xs-8" name="projectCode">{{vm.share.projectCode}}</label>
                 </div>               
