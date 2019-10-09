@@ -99,6 +99,8 @@ exports.signin = function( req, res, next) {
     logger.info(util.inspect(req.headers, {showHidden: false, depth: null}));
      passport.authenticate('WindowsAuthentication', function (err, user, info) {
         if (err || !user) {
+          logger.info(customTimestamp() +"error in loggin in");
+          logger.info(util.inspect(err, {showHidden: false, depth: null}));
           res.status(422).send(info);
         } else {
           logger.info(customTimestamp() + "  user logged in");

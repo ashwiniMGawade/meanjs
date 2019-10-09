@@ -305,7 +305,7 @@ exports.getUsers = function(req, res) {
             res.json([]);
           }
           else {
-            // logger.info('findUsers: '+JSON.stringify(users));
+            logger.info('findUsers: '+JSON.stringify(users));
             var keyArray = users.map(function(item) { 
               return { 
               'sAMAccountName' : item["sAMAccountName"],
@@ -326,56 +326,76 @@ exports.getUsers = function(req, res) {
   }); 
 }
 
+// exports.getACLGroupUsers = function(req, res) {
+//   var ActiveDirectory = require('activedirectory');  
+//   var ADconfig = { 
+//     url: config.ldap.url,
+//     bindDN: config.ldap.bindDN, 
+//     bindCredentials: config.ldap.bindCredentials, 
+//     baseDN: config.ldap.searchBase
+//  }
+
+//   var ad = new ActiveDirectory(ADconfig);
+
+//    var groupname  = req.query.group;
+//   if (groupname == "") {
+//     return res.json([]);
+//   }
+
+//   myCache.get("ACLGroupUsers?search="+groupname, function( err, value ){
+//   if( !err ){
+//     if(value == undefined){
+//       // key not found
+//       ad.getUsersForGroup(groupname, function(err, users) {
+//         if (err) {      
+//           logger.info('ERROR: ' +JSON.stringify(err));
+//           res.status(400).send(err);
+//         } else {
+//           if ((! users) || (users.length == 0)) {
+//             logger.info('No users found.');
+//             res.json([]);
+//           }
+//           else {
+//             // logger.info('getUsersForGroup: '+JSON.stringify(users));
+//             var keyArray = users.map(function(item) { 
+//               return { 
+//               'sAMAccountName' : item["sAMAccountName"],
+//               'displayName' : item["displayName"],
+//               }
+//             });
+//             myCache.set( "ACLGroupUsers?search="+groupname, keyArray, 10000 );  
+//             res.json(keyArray);
+//           }
+//         }    
+//       });
+//     } else {
+//        logger.info("Loading from cache ACLGroupUsers?search"+groupname);
+//       //  logger.info(util.inspect(value, {showHidden: false, depth: null}));
+//        res.json(value);
+//     }
+//   }
+//   }); 
+// }
+
 exports.getACLGroupUsers = function(req, res) {
-  var ActiveDirectory = require('activedirectory');  
-  var ADconfig = { 
-    url: config.ldap.url,
-    bindDN: config.ldap.bindDN, 
-    bindCredentials: config.ldap.bindCredentials, 
-    baseDN: config.ldap.searchBase
- }
-
-  var ad = new ActiveDirectory(ADconfig);
-
-   var groupname  = req.query.group;
-  if (groupname == "") {
-    return res.json([]);
-  }
-
-  myCache.get("ACLGroupUsers?search="+groupname, function( err, value ){
-  if( !err ){
-    if(value == undefined){
-      // key not found
-      ad.getUsersForGroup(groupname, function(err, users) {
-        if (err) {      
-          logger.info('ERROR: ' +JSON.stringify(err));
-          res.status(400).send(err);
-        } else {
-          if ((! users) || (users.length == 0)) {
-            logger.info('No users found.');
-            res.json([]);
-          }
-          else {
-            // logger.info('getUsersForGroup: '+JSON.stringify(users));
-            var keyArray = users.map(function(item) { 
-              return { 
-              'sAMAccountName' : item["sAMAccountName"],
-              'displayName' : item["displayName"],
-              }
-            });
-            myCache.set( "ACLGroupUsers?search="+groupname, keyArray, 10000 );  
-            res.json(keyArray);
-          }
-        }    
-      });
-    } else {
-       logger.info("Loading from cache ACLGroupUsers?search"+groupname);
-      //  logger.info(util.inspect(value, {showHidden: false, depth: null}));
-       res.json(value);
-    }
-  }
-  }); 
+  const Shell = require('node-powershell');
+ 
+  const ps = new Shell({
+    executionPolicy: 'Bypass',
+    noProfile: true
+  });
+  ps.addCommand('echo node-powershell');
+  ps.invoke()
+  .then(output => {
+    console.log(output);
+  })
+  .catch(err => {
+    console.log(err);
+  });
 }
+
+
+
 
 exports.getUsersAndGroups = function(req, res) {
   var ActiveDirectory = require('activedirectory');
@@ -414,7 +434,7 @@ exports.getUsersAndGroups = function(req, res) {
               res.json([]);
             }
             else {
-              // logger.info('find: '+JSON.stringify(records));
+               logger.info('find: '+JSON.stringify(records));
               var keyArray = records.users.map(function(item) { 
                 return { 
                 'sAMAccountName' : item["sAMAccountName"],
