@@ -384,7 +384,10 @@ exports.getACLGroupUsers = function(req, res) {
     executionPolicy: 'Bypass',
     noProfile: true
   });
-  ps.addCommand('echo node-powershell');
+  //ps.addCommand('E:/infy/scripts/emagScript.ps1');
+  var username = "_VFMAdmin";
+  var pass = "%Serv1Df$@5#";  
+  ps.addCommand('$userPassword = ConvertTo-SecureString -String ' + pass + ' -AsPlainText -Force; $cred = New-Object  System.Management.Automation.PSCredential("_VFMAdmin", $userPassword); get-adgroupmember -Identity Emagstorage  -Credential $cred  | Select-Object Name');
   ps.invoke()
   .then(output => {
     console.log(output);

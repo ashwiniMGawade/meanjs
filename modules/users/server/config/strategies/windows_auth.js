@@ -27,7 +27,8 @@ module.exports = function (config) {
 			if (!req.headers['x-iisnode-logon_user']) return null;
 			logger.info(customTimestamp() + " "+ req.headers['x-iisnode-logon_user']);
 	    
-	    //return req.headers['x-iisnode-logon_user'].split('\\')[1];
+			//return req.headers['x-iisnode-logon_user'].split('\\')[1];
+			logger.info("name is"+req.headers['x-iisnode-logon_user'].substring(11));
 	    return req.headers['x-iisnode-logon_user'].substring(11);
 	  }
 	}, function(req, profile, done){
