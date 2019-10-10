@@ -21,6 +21,7 @@ module.exports = {
   },
  ldap: {
     url: process.env.LDAP_URL,
+    user:process.env.LDAP_USER,
     bindDN:process.env.LDAP_BIND_DN,
     bindCredentials:process.env.LDAP_BIND_CREDENTIALS,
     searchBase:process.env.LDAP_SEARCH_BASE

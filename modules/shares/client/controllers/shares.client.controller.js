@@ -363,16 +363,16 @@
       vm.getFilteredCategories = function() {
         var keyNewShareCat = 'newShare';
         var obj = {};
-        // if (vm.cifShareDetails.sharepath) {
-        //   obj = Object.assign({}, vm.categories);
-        //   delete obj[keyNewShareCat];
-        //   return obj;
-        //  } else {          
-        //   obj[keyNewShareCat] = vm.categories[keyNewShareCat];
-        //   vm.share.category = keyNewShareCat;
-        //   return obj;
-        // }  
-        return vm.categories;
+        if (vm.cifShareDetails.sharepath) {
+          obj = Object.assign({}, vm.categories);
+          delete obj[keyNewShareCat];
+          return obj;
+         } else {          
+          obj[keyNewShareCat] = vm.categories[keyNewShareCat];
+          vm.share.category = keyNewShareCat;
+          return obj;
+        }  
+        // return vm.categories;
       }
 
       

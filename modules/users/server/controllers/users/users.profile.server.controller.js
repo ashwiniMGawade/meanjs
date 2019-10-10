@@ -377,24 +377,52 @@ exports.getUsers = function(req, res) {
 //   }); 
 // }
 
-exports.getACLGroupUsers = function(req, res) {
-  const Shell = require('node-powershell');
+exports.getACLGroupUsers = function(req, res) { 
+  var groupname  = req.query.group;
+  if (groupname == "") {
+    return res.json([]);
+  }
+
+  myCache.get("ACLGroupUsers?search="+groupname, function( err, value ){
+    if( !err ){
+      if(value == undefined){
+              // key not found
+        const Shell = require('node-powershell');
+
+        const ps = new Shell({
+          executionPolicy: 'Bypass',
+          noProfile: true
+        });
+        //ps.addCommand('E:/infy/scripts/emagScript.ps1');
+        var username = config.ldap.user;
+        var pass = config.ldap.bindCredentials  
+        ps.addCommand('$userPassword = ConvertTo-SecureString -String ' + pass + ' -AsPlainText -Force; $cred = New-Object  System.Management.Automation.PSCredential("'+username+'", $userPassword); get-adgroupmember -Identity '+groupname+'  -Credential $cred  | Select-Object Name, sAMAccountName | ConvertTo-Json');
+        ps.invoke()
+        .then(output => {
+          console.log(output);
+          var data = JSON.parse(output);
+          var keyArray = data.map(function(item) { 
+            return { 
+            'sAMAccountName' : item["sAMAccountName"],
+            'displayName' : item["Name"],
+            }
+          });
+          myCache.set( "ACLGroupUsers?search="+groupname, keyArray, 10000 );  
+          res.json(keyArray);
+        })
+        .catch(err => {
+          console.log(err);
+          res.json([]);
+        });
+      } else {
+          logger.info("Loading from cache ACLGroupUsers?search"+groupname);
+        //  logger.info(util.inspect(value, {showHidden: false, depth: null}));
+          res.json(value);
+      }
+    }
+
+  });
  
-  const ps = new Shell({
-    executionPolicy: 'Bypass',
-    noProfile: true
-  });
-  //ps.addCommand('E:/infy/scripts/emagScript.ps1');
-  var username = "_VFMAdmin";
-  var pass = "%Serv1Df$@5#";  
-  ps.addCommand('$userPassword = ConvertTo-SecureString -String ' + pass + ' -AsPlainText -Force; $cred = New-Object  System.Management.Automation.PSCredential("_VFMAdmin", $userPassword); get-adgroupmember -Identity Emagstorage  -Credential $cred  | Select-Object Name');
-  ps.invoke()
-  .then(output => {
-    console.log(output);
-  })
-  .catch(err => {
-    console.log(err);
-  });
 }
 
 
