@@ -15,8 +15,8 @@ module.exports = function (app) {
   app.route('/storage/api/shares/getCifsShareDetails')
     .get(sharesPolicy.isAllowed, shares.getCifsShareDetails)
 
-  app.route('/storage/api/shares/getCifsShareDetails')
-    .get(sharesPolicy.isAllowed, shares.getCifsShareDetails)
+  app.route('/storage/api/shares/getCifsShareACLGroups')
+    .get(sharesPolicy.isAllowed, shares.getCifsShareACLGroups)
 
   app.route('/storage/api/shares/getNewShareProcessingDetails')
     .get(sharesPolicy.isAllowed, shares.getNewShareProcessingDetails)
