@@ -30,6 +30,10 @@ exports.invokeRolesPolicies = function () {
       permissions: '*'
     },
     {
+      resources: '/storage/api/shares/getNewShareProcessingDetails',
+      permissions: '*'
+    },
+    {
       resources: '/storage/api/shares/getCifsShareACLGroups',
       permissions: '*'
     },
@@ -49,6 +53,10 @@ exports.invokeRolesPolicies = function () {
     },
      {
       resources: '/storage/api/shares/getCifsShareDetails',
+      permissions: '*'
+    },
+    {
+      resources: '/storage/api/shares/getNewShareProcessingDetails',
       permissions: '*'
     },
     {

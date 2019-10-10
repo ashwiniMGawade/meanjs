@@ -22,6 +22,11 @@
           method: 'GET',
           url: '/storage/api/shares/getCifsShareDetails'
         },
+        getNewShareProcessingDetails: {
+          method: 'GET',
+          url:'/storage/api/shares/getNewShareProcessingDetails',
+          isArray: true
+        },
         getCifsShareACLGroups: {
           method: 'GET',
           url: '/storage/api/shares/getCifsShareACLGroups',
