@@ -12,6 +12,7 @@
       var vm = this;
 
       vm.selected = undefined;
+      vm.showErrorMessage = false;
       vm.ngModelOptionsSelected = function(value) {
         if (arguments.length) {
           _selected = value;
@@ -289,7 +290,17 @@
       }
     
       if ( projectInfo) {
-		   vm.aclGroupLoader  = true;
+        //check existing request under processing state exist for the new project share creation
+        SharesService.getNewShareProcessingDetails({
+          'bu': projectInfo.txtibucode,
+          'projectCode': projectInfo.projectcode, 
+          'location':projectInfo.city
+        }).$promise.then(function(res) {
+           if(res.length > 0) {
+              vm.showErrorMessage = true;
+           } 
+        });    
+		    vm.aclGroupLoader  = true;
         SharesService.getCifsShareDetails({
           'volname': projectInfo.txtibucode,
           'sharename': projectInfo.projectcode, 
@@ -308,7 +319,7 @@
               vm.aclGroups = res;
 			        vm.aclGroupLoader  = false;
             });
-          }          
+          }    
         });
 
         vm.getACLgroups = function() {

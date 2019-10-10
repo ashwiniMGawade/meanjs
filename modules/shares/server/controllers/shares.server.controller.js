@@ -363,6 +363,33 @@ exports.listStatus = function (req, res) {
   res.json(Share.schema.path('status').enumValues);
 };
 
+exports.getNewShareProcessingDetails = function(req, res) {
+  var query = {};
+  var city = req.params.location || '';
+  var bu = req.params.bu || '';
+  var projectCode = req.params.projectCode || '';
+
+  if (city != '') {
+    query.city = city;
+  }
+  if (bu != '') {
+    query.bu = bu;
+  }
+  if (projectCode != '') {
+    query.projectCode = projectCode;
+  }
+  query.category = "newShare";
+  query.status = "Processing";
+  Share.find(query).populate('user', ['displayName', 'email']).exec(function (err, share) {
+    if (err) {
+      return  res.json();
+    } else if (!share) {
+      return  res.json();
+    }
+    return res.json(share);
+  });
+}
+
 
 // exports.parseMail = function(req, res) {
 //   console.log('Receiving webhook.');
