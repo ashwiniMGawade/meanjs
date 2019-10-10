@@ -365,9 +365,9 @@ exports.listStatus = function (req, res) {
 
 exports.getNewShareProcessingDetails = function(req, res) {
   var query = {};
-  var city = req.params.location.toLowerCase() || '';
-  var bu = req.params.bu || '';
-  var projectCode = req.params.projectCode || '';
+  var city = req.query.location.toLowerCase() || '';
+  var bu = req.query.bu || '';
+  var projectCode = req.query.projectCode || '';
 
   if (city != '') {
     query.city = city;
