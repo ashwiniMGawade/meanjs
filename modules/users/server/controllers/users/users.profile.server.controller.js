@@ -305,7 +305,7 @@ exports.getUsers = function(req, res) {
             res.json([]);
           }
           else {
-            logger.info('findUsers: '+JSON.stringify(users));
+            // logger.info('findUsers: '+JSON.stringify(users));
             var keyArray = users.map(function(item) { 
               return { 
               'sAMAccountName' : item["sAMAccountName"],
@@ -399,7 +399,6 @@ exports.getACLGroupUsers = function(req, res) {
         ps.addCommand('$userPassword = ConvertTo-SecureString -String ' + pass + ' -AsPlainText -Force; $cred = New-Object  System.Management.Automation.PSCredential("'+username+'", $userPassword); get-adgroupmember -Identity '+groupname+'  -Credential $cred  | Select-Object Name, sAMAccountName | ConvertTo-Json');
         ps.invoke()
         .then(output => {
-          console.log(output);
           var data = JSON.parse(output);
           var keyArray = data.map(function(item) { 
             return { 
@@ -465,7 +464,7 @@ exports.getUsersAndGroups = function(req, res) {
               res.json([]);
             }
             else {
-               logger.info('find: '+JSON.stringify(records));
+              //  logger.info('find: '+JSON.stringify(records));
               var keyArray = records.users.map(function(item) { 
                 return { 
                 'sAMAccountName' : item["sAMAccountName"],
