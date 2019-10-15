@@ -97,30 +97,35 @@ exports.signin = function( req, res, next) {
   }
   else {
     logger.info(util.inspect(req.headers, {showHidden: false, depth: null}));
-     passport.authenticate('WindowsAuthentication', function (err, user, info) {
-        if (err || !user) {
-          logger.info(customTimestamp() +"error in loggin in");
-          logger.info(util.inspect(err, {showHidden: false, depth: null}));
-          res.status(422).send(info);
-        } else {
-          logger.info(customTimestamp() + "  user logged in");
-          // Remove sensitive data before login
-          user.password = undefined;
-          user.salt = undefined;
+    try {
+      passport.authenticate('WindowsAuthentication', function (err, user, info) {
+          if (err || !user) {
+            logger.info(customTimestamp() +"error in loggin in");
+            logger.info(util.inspect(err, {showHidden: false, depth: null}));
+            res.status(422).send(info);
+          } else {
+            logger.info(customTimestamp() + "  user logged in");
+            // Remove sensitive data before login
+            user.password = undefined;
+            user.salt = undefined;
 
-          console.log(user);
+            console.log(user);
 
-          req.login(user, function (err) {
-            if (err) {
-              res.status(400).send(err);
-            } else {
-              //res.json(user);
-              logger.info("user is logged in");
-              next();
-            }
-          });
-        }
-    })(req, res, next);
+            req.login(user, function (err) {
+              if (err) {
+                res.status(400).send(err);
+              } else {
+                //res.json(user);
+                logger.info("user is logged in");
+                next();
+              }
+            });
+          }
+      })(req, res, next);
+    } catch(err) {
+      logger.info(customTimestamp() +"caught error in");
+      logger.info(util.inspect(req.headers, {showHidden: false, depth: null}));
+    } 
   }
 }
 
