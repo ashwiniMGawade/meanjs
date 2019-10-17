@@ -802,7 +802,7 @@ h3{
 }
 
 .main-section-custom {
-  background-image: url('http://blrkecstrg01/storage/modules/core/client/img/brand/main-image-1.jpg');
+  background-image: url('./../img/brand/main-image-1.jpg');
 }
 
 .dashboard-link-area {

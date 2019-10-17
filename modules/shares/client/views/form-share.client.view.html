@@ -9,8 +9,8 @@
   </div>
 
   
-  <div ng-if="!vm.showErrorMessage" ng-init="vm.calculateCapacity();">
-    <form name="vm.form.shareForm" class="form-horizontal" ng-submit="vm.save(vm.form.shareForm.$valid)" novalidate>
+  <div ng-init="vm.calculateCapacity();">
+    <form name="vm.form.shareForm" class="form-horizontal" novalidate>
       <fieldset>
         <div class="row">
           <div class="col-md-6 col-sm-6">
@@ -149,11 +149,11 @@
             </div>
             <div class="row" ng-if="vm.share.category == 'newShare'">
               <label class="control-label col-md-3 col-ls-3 col-sm-3 col-xs-3 text-left" for="sizegb">Required Space </label>
-              <label style="font-weight: bold !important;" class="content-right col-md-9 col-sm-9 col-xs-9" text-left name="sizegb">{{vm.share.sizegb || 0}} GB</label>                                        
+              <label style="font-weight: bold !important;" class="content-right col-md-9 col-sm-9 col-xs-9" text-left name="sizegb">{{vm.share.sizegb || 0}}GB</label>                                        
             </div>
             <div class="row" ng-if="vm.share.category == 'newShare'">            
               <label class="control-label col-md-3  col-ls-3 col-sm-3 col-xs-3 text-left" for="cost">Cost </label>
-              <label style="font-weight: bold !important;" class="content-right col-md-9  col-sm-9 col-xs-9 text-left" name="cost">${{vm.share.cost || 0}}</label>
+              <label style="font-weight: bold !important;" class="content-right col-md-9  col-sm-9 col-xs-9 text-left" name="cost">{{vm.share.cost || 0}}$</label>
             </div>
             <div class="form-group" show-errors ng-if="vm.share.category == 'changePermission' &&  (vm.share.operation == 'addUserToADGroup' || vm.share.operation == 'removeUserFromADGroup' || vm.share.operation == 'removeUserOrGroupFromShare')">
         
@@ -281,12 +281,12 @@
     </form>
   </div>
 
-  <div ng-if="vm.showErrorMessage">
+  <!-- <div ng-if="vm.showErrorMessage">
     <div class="alert alert-warning" role="alert">
       <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
       <span class="sr-only">Warning:</span>
       <span ng-if="!vm.errorMessage">New Project share creation request for project {{vm.project.projectcode}} is being processed.
         Please wait for it to be completed, to perform more operation s on it.</span>
     </div>
-  </div>
+  </div> -->
 </section>

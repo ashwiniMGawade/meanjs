@@ -14,7 +14,8 @@ angular.module('core').service('modalService', ['$uibModal',
       closeButtonText: 'Close',
       actionButtonText: 'OK',
       headerText: 'Proceed?',
-      bodyText: ['Perform this action?']
+      bodyText: ['Perform this action?'],
+      showCancel: true
     };
 
     this.showModal = function (customModalDefaults, customModalOptions) {
