@@ -844,3 +844,29 @@ h3{
   background-repeat: repeat-x;
   border-color: #1e4a93;
 }
+
+.panel-default > .panel-heading {
+  background-image: -webkit-linear-gradient(top, #f5f5f5 0%, #e8e8e8 100%);
+  background-image: -o-linear-gradient(top, #f5f5f5 0%, #e8e8e8 100%);
+  background-image: -webkit-gradient(linear, left top, left bottom, from(#f5f5f5), to(#e8e8e8));
+  background-image: linear-gradient(to bottom, #fbfbfb 0%, #fbfbfb 100%);
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#fff5f5f5', endColorstr='#ffe8e8e8', GradientType=0);
+  background-repeat: repeat-x;
+}
+
+.btn-primary {
+  color: #fff;
+  background-color: #1e4a93;
+  border-color: #1e4a93;
+  border-radius: 0px;
+}
+
+.btn-primary:hover, .btn-primary:focus, .btn-primary:active, .btn-primary.active, .open>.dropdown-toggle.btn-primary {
+  color: #fff;
+  background-color: #1e4a93;
+  border-color: #1e4a93; /*set the color you want here*/
+}
+
+.form-control {
+  border-radius:0px;
+}
