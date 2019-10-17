@@ -15,12 +15,13 @@ config.wfa.sql.database = '';
 var connectionPool = mysql.createPool(config.wfa.sql);
 var getCifsShare, getClusterInfo, getCifsShareACLGroups;
 
-setInterval(keepalive, 180000); // 30 mins
+setInterval(keepalive, 1800000); // 30 mins
 function keepalive() {
   console.log("##################################")
   connectionPool.getConnection(function(err, connection) {
       if(err){
         console.log('MySQL Read: Keepalive Connection Error: ' + err);
+
       } else {  
       connection.query('SELECT 1 + 1 AS solution', function (err) {
         if (err) {

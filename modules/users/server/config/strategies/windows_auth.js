@@ -20,6 +20,7 @@ module.exports = function (config) {
 	      bindDN: config.ldap.bindDN, 
 	      bindCredentials: config.ldap.bindCredentials, 
 	     base: config.ldap.searchBase,
+		 reconnect:true,
 		 //search_query: '(&(ObjectClass=user)(sAMAccountName={0})(l=*)(extensionAttribute2=*))'
 	  },
 	  passReqToCallback: true,

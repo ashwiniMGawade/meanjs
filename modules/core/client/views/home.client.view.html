@@ -1,40 +1,54 @@
-<section>
+<section class="main-section-custom" >
   <div class="dashboard-content">
-    <div class="row jumbotron text-center" style="padding:2px 0px 0px 0px;margin-bottom:10px;background:none">
+    <div class="row jumbotron text-center" style="margin-bottom:10px;background:none; border-radius: 0px !important; padding-bottom:0px;">
       <!-- <div class="col-md-6 col-md-offset-5 col-sm-6 col-sm-offset-5 col-xs-12 col-xs-offset-5"> -->
-      <img alt="NetApp" class="img-responsive center-block" style="width:75%; margin-left: 12%;" src="modules/core/client/img/brand/main-page.png"
+      <!-- <img alt="Infosys" class="img-responsive center-block" style="width:75%; margin-left: 12%;" src="modules/core/client/img/brand/main-page.png"
       />
-      <div class="imgBottomContent">Storage as a Service</div>
+      <div class="imgBottomContent">Storage as a Service</div> -->
 
       <!-- </div> -->
+      <div style="font-size: 48px; color: #fff; font-weight: 600;margin-top: 10px;">Infosys IT | CCD</div>
+      <br>
+      <div style="font-size: 32px;color: #fff;">Storage as a Service</div>
 
-      <div class="row text-center jumbotron dashboard-link-area" style="margin:0px;padding-left:20px;">
+      <div class="row text-center jumbotron dashboard-link-area" style="padding-left:20px;">
         <div class="dashboard-links">
-          <a ui-sref="shares.list" class="dashboard-custom-a">
-            <span class="glyphicon glyphicon-time"></span> History</a>
-          <a ui-sref="shares.create" class="dashboard-custom-a">
-            <span class="glyphicon glyphicon-user"></span> My Request</a>
-          </span>
-          <a class="dashboard-custom-a" id="help" ng-click="vm.togleFaq('help-1');" href="#">
-            <span class="glyphicon glyphicon-question-sign"> </span> Help</a>
+          <div class="dashboard-links-padding">
+            <span class="glyphicon glyphicon-time"></span>
+            <br>
+            <a ui-sref="shares.list" class="dashboard-custom-a">
+              History</a><br>
+              <p class="dashboard-link-subtext">View created requests and its status</p>
+          </div>
+          <span class="span-divider"></span>
+          <div class="dashboard-links-padding">
+            <span class="glyphicon glyphicon-share"></span>
+            <br>
+            <a ui-sref="shares.create" class="dashboard-custom-a">
+              New Request</a><br>
+              <p class="dashboard-link-subtext">Create new share request</p>
+        
+          </div>
+          <span class="span-divider"></span>
+          <div class="dashboard-links-padding"> 
+            <span class="glyphicon glyphicon-question-sign"> </span>
+            <br>
+            <a class="dashboard-custom-a" id="help" ng-click="vm.togleFaq('help-1');" href="#">
+              Help</a>
+              <br>
+              <p class="dashboard-link-subtext">FAQs to know the portal better</p>
+            
+          </div>
         </div>
       </div>
     </div>
-    <!-- <div class="row">
-      <p>
-        <a style="font-size: 17px;" class="pull-left" ui-sref="shares.list">My Requests</a>
-         <a style="font-size: 17px;" ui-sref="shares.create"  class="pull-right">New Request</a>
-      </p>
-    </div> -->
     <div class="row">
-      <p class="center-block ">
-        <!-- <div class="faq_heading"><a ng-click="vm.togleFaq()">How can we help you?</a></div> -->
+      <p class="center-block ">       
 
         <div ng-show="vm.showFaq">
           <div class="col-md-4 col-sm-4 col-xs-1">&nbsp;</div>
           <div class="col-md-4 col-sm-4 col-xs-10">
-            <div class="faq_heading navbar-custom" style="margin:10px;color:white;padding:5px;">FAQs for Enterprise Storage</div>
-            <!--  <input class="form-control col-md-4 ng-pristine ng-valid ng-empty ng-touched center-block" type="text" ng-model="vm.search" placeholder="Describe your issue" style="margin-bottom:20px;"> -->
+            <div class="faq_heading navbar-custom" style="margin:10px;color:white;padding:5px;">FAQs for Enterprise Storage</div>            
           </div>
 
         </div>
@@ -166,18 +180,18 @@
               <b>Computer</b> and click on
               <b>Network</b> on left side pane. In the tool bar click on
               <b>Search Active Directory</b>:</p>
-            <img alt="NetApp" class="img-responsive center-block" style="width:50%" src="modules/core/client/img/screens/faq-screen-1.png"
+            <img alt="Infosys" class="img-responsive center-block" style="width:50%" src="modules/core/client/img/screens/faq-screen-1.png"
             />
             <p>Select
               <b>Active Directory</b> from the drop down menu and type the
               <b>group name</b> which you want to manage in the
               <b>Name Field</b> and click on
               <b>Find Now</b>. Now the group will be shown in the bottom pane of the search window. (Sequence numbered) </p>
-            <img alt="NetApp" class="img-responsive center-block" style="width:50%" src="modules/core/client/img/screens/faq-screen-2.png"
+            <img alt="Infosys" class="img-responsive center-block" style="width:50%" src="modules/core/client/img/screens/faq-screen-2.png"
             />
             <p>Double click on the group name to open the properties window. Clicking on the ADD button, which will open up
               a menu where you can add the user to this group as shown below. (Sequence Numbered)</p>
-            <img alt="NetApp" class="img-responsive center-block" style="width:50%" src="modules/core/client/img/screens/faq-screen-3.png"
+            <img alt="Infosys" class="img-responsive center-block" style="width:50%" src="modules/core/client/img/screens/faq-screen-3.png"
             />
             <p>Now this user is added to the group and the permissions will get effective when the user re login to the domain.</p>
           </div>
@@ -204,12 +218,12 @@
     </div>
 
     <div style="margin:10px;" class="center-block text-center row">
-      <span style="color:#777;;">
-        <i style="font-size:12px;font-family:sans-serif">
+      <span style="color:#434957">
+        <p style="font-size:15px;">
           Project Data Storage, backup & archival are essential requirements for any project. This service provides a reliable and
           highly available storage space to store data using any protocol. The data stored is protected using access control
           mechanisms, backed up at defined intervals and replicated regularly to DR site.
-        </i>
+        </p>
       </span>
     </div>
   </div>

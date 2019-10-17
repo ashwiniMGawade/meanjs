@@ -71,10 +71,9 @@
         var percent = Math.min(time / duration, 1)
         // Apply the easing.
         // It can cause bad-looking slow frames in browser performance tool, so be careful.
-        percent = easing(percent)
-        console.log(startingY + diff * percent);
+        percent = easing(percent);     
         
-        window.scrollTo(0, startingY - diff * 2 * percent)
+        window.scrollTo(0, (startingY - diff * percent)+ 450);
     
         // Proceed with animation as long as we wanted it to.
         if (time < duration) {
