@@ -151,8 +151,8 @@ module.exports = {
         'group': 'Group'
       },
       allowedChangePermissionOperations :{
-        "addUserOrGroupToShare": "Add User or Group To Share",
-        "removeUserOrGroupFromShare": "Remove User or Group from Share",
+        // "addUserOrGroupToShare": "Add User or Group To Share",
+        // "removeUserOrGroupFromShare": "Remove User or Group from Share",
         "addUserToADGroup": "Add User To Active Directory Group",
         "removeUserFromADGroup": "Remove User from Active Directory Group",
       },

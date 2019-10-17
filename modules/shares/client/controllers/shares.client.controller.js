@@ -408,17 +408,21 @@
       
       vm.getFilteredCategories = function() {
         var keyNewShareCat = 'newShare';
+        var retireVolWfcat = 'retireVolumeWorkflow'
         var obj = {};
         if (vm.cifShareDetails.sharepath) {
           obj = Object.assign({}, vm.categories);
           delete obj[keyNewShareCat];
+          if(!vm.isAdmin) {
+            delete obj[retireVolWfcat];
+          }
           return obj;
          } else {          
           obj[keyNewShareCat] = vm.categories[keyNewShareCat];
           vm.share.category = keyNewShareCat;
           return obj;
         }  
-        // return vm.categories;
+        //return vm.categories;
       }
 
       
