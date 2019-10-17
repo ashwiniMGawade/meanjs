@@ -266,7 +266,7 @@ exports.projectInfo = function(req, res) {
 //   dm: 'subhankar           ',
 //   pm: 'Kaustav_Bhowmik     ',
 //   startDate: "2012-09-10T00:00:00.000Z",
-//   endDate: "2014-12-31T00:00:00.000Z",
+//   endDate: "2019-12-31T00:00:00.000Z",
 //   city: "BANGALORE",
 //   projectcode: "MDT2018"
 //  });
@@ -284,9 +284,14 @@ exports.getUsers = function(req, res) {
   var ad = new ActiveDirectory(ADconfig);
 
   var search = req.query.search || 'a';
+  var projectcode = req.query.projectCode;
+  var projectQueryPart = '';
+  if (projectcode != ''){
+    projectQueryPart = '(extensionAttribute2='+projectcode+')'
+  }
 
   var opts = {
-    filter: '(&(objectClass=user)(|(sAMAccountName=*'+search+'*)(displayName=*'+search+'*)(userPrinicipalName=*'+search+'*)))', //'(&(objectCategory=Person)(sAMAccountName=*))' (!userAccountControl:1.2.840.113556.1.4.803:=2)
+    filter: '(&(objectClass=user)'+projectQueryPart+'(|(sAMAccountName=*'+search+'*)(displayName=*'+search+'*)(userPrinicipalName=*'+search+'*)))', //'(&(objectCategory=Person)(sAMAccountName=*))' (!userAccountControl:1.2.840.113556.1.4.803:=2)
     attributes: [ 'sAMAccountName', 'userPrinicipalName', 'displayName' ],
     sizeLimit : 0
   };
@@ -439,11 +444,17 @@ exports.getUsersAndGroups = function(req, res) {
   var ad = new ActiveDirectory(ADconfig);
 
   var search = req.query.search || 'a';
+  var projectcode = req.query.projectCode;
+  var projectQueryPart = '';
+  if (projectcode != ''){
+    projectQueryPart = '(extensionAttribute2='+projectcode+')'
+  }
+ 
 
   var opts = {
     filter:'(|'+
       '(&(objectClass=group)(!(objectClass=computer))(!(objectClass=user))(!(objectClass=person))(CN=*'+search+'*))'+
-     '(&(objectClass=user)(|(sAMAccountName=*'+search+'*)(displayName=*'+search+'*)(userPrinicipalName=*'+search+'*))))',
+     '(&(objectClass=user)'+projectQueryPart+'(|(sAMAccountName=*'+search+'*)(displayName=*'+search+'*)(userPrinicipalName=*'+search+'*))))',
    // filter: '(&(objectClass=user)(sAMAccountName=*'+search+'*))', //'(&(objectCategory=Person)(sAMAccountName=*))' (!userAccountControl:1.2.840.113556.1.4.803:=2)
    // attributes: [ 'sAMAccountName', 'userPrinicipalName', 'displayName' ],
     sizeLimit : 0
@@ -464,7 +475,7 @@ exports.getUsersAndGroups = function(req, res) {
               res.json([]);
             }
             else {
-              //  logger.info('find: '+JSON.stringify(records));
+                logger.info('find: '+JSON.stringify(records));
               var keyArray = records.users.map(function(item) { 
                 return { 
                 'sAMAccountName' : item["sAMAccountName"],
