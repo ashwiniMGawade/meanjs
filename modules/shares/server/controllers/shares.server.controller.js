@@ -365,7 +365,7 @@ exports.listStatus = function (req, res) {
 
 exports.getNewShareProcessingDetails = function(req, res) {
   var query = {};
-  var city = req.query.location.toLowerCase() || '';
+  var city = req.query.location.toUpperCase() || '';
   var bu = req.query.bu || '';
   var projectCode = req.query.projectCode || '';
 
@@ -380,13 +380,14 @@ exports.getNewShareProcessingDetails = function(req, res) {
   }
   query.category = "newShare";
   query.status = "Processing";
-  Share.find(query).populate('user', ['displayName', 'email']).exec(function (err, share) {
+  var queryExec = Share.find(query).exec(function (err, sharedata) {
+   console.log( util.inspect(queryExec, {showHidden: false, depth: null}));
     if (err) {
       return  res.json();
-    } else if (!share) {
+    } else if (!sharedata) {
       return  res.json();
     }
-    return res.json(share);
+    return res.json(sharedata);
   });
 }
 

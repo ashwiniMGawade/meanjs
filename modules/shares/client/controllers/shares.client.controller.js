@@ -11,8 +11,7 @@
     function SharesController($scope, $state, $window, share, Authentication, Notification, projectInfo,  SharesService, UsersService,  modalService, $sanitize, $filter) {
       var vm = this;
 
-      vm.selected = undefined;
-      vm.showErrorMessage = false;
+      vm.selected = undefined;      
       vm.ngModelOptionsSelected = function(value) {
         if (arguments.length) {
           _selected = value;
@@ -63,6 +62,36 @@
             //return itemText;
           //}
         };
+
+        vm.showError = function(err, redirect=false) {
+          var modalOptions = {
+            closeButtonText: 'Cancel',
+            actionButtonText: 'Ok',
+            headerText: '<span class="text-danger"><span class="glyphicon glyphicon-alert" aria-hidden="true"></span>&nbsp;&nbsp;Error!</span>',
+            bodyText: ['<div class="alert alert-danger">'+err+'</div>'],
+            showCancel:false
+          };
+          modalService.showModal({}, modalOptions).then(function (result) {
+            if (redirect) {
+              $state.go('home');
+            }
+          });
+        }
+    
+        vm.showWarning = function(err, redirect=false) {
+          var modalOptions = {
+            closeButtonText: 'Cancel',
+            actionButtonText: 'Ok',
+            headerText: '<span class="text-warning"><span class="glyphicon glyphicon-alert" aria-hidden="true"></span> Warning !</span>',
+            bodyText: ['<div class="alert alert-warning">'+err+'</div>'],
+            showCancel:false
+          };
+          modalService.showModal({}, modalOptions).then(function (result) {
+            if (redirect) {
+              $state.go('home');
+            }
+          });
+        }
 
         vm.readOnly = [];
         vm.readAndWrite = [];
@@ -288,8 +317,12 @@
           });
         });
       }
-    
       if ( projectInfo) {
+        //validate the projectcode
+        var projectEndDate = new Date(projectInfo.endDate);
+       if (projectEndDate < new Date()) {
+        vm.showError("Your project with code '"+projectInfo.txtibucode+"' is expired! Please contact your manager!", true)
+       }
         //check existing request under processing state exist for the new project share creation
         SharesService.getNewShareProcessingDetails({
           'bu': projectInfo.txtibucode,
@@ -297,53 +330,55 @@
           'location':projectInfo.city
         }).$promise.then(function(res) {
            if(res.length > 0) {
-              vm.showErrorMessage = true;
-           } 
-        });    
-		    vm.aclGroupLoader  = true;
-        SharesService.getCifsShareDetails({
-          'volname': projectInfo.txtibucode,
-          'sharename': projectInfo.projectcode, 
-          'location':projectInfo.city
-        }).$promise.then(function(res) {
-          vm.cifShareDetails = res;
-          vm.usedsizegb = vm.cifShareDetails.usedGB || 0;
-          vm.allocatedSize = vm.cifShareDetails.hardLimit || 0;
-          vm.availableSize = vm.allocatedSize - vm.usedsizegb;
-          //get groups for existing cifs share
-          if (vm.cifShareDetails.sharename) {
-            vm.share.category = '';
-            SharesService.getCifsShareACLGroups({
-              'sharename': vm.cifShareDetails.sharename
+              vm.showWarning("New Project share creation request for project '"+projectInfo.txtibucode+"' is being processed. Please wait for it to be completed, to perform more operations on it.", true)
+           } else {
+            vm.aclGroupLoader  = true;
+            SharesService.getCifsShareDetails({
+              'volname': projectInfo.txtibucode,
+              'sharename': projectInfo.projectcode, 
+              'location':projectInfo.city
             }).$promise.then(function(res) {
-              vm.aclGroups = res;
-			        vm.aclGroupLoader  = false;
+              vm.cifShareDetails = res;
+              vm.usedsizegb = vm.cifShareDetails.usedGB || 0;
+              vm.allocatedSize = vm.cifShareDetails.hardLimit || 0;
+              vm.availableSize = vm.allocatedSize - vm.usedsizegb;
+              //get groups for existing cifs share
+              if (vm.cifShareDetails.sharename) {
+                vm.share.category = '';
+                SharesService.getCifsShareACLGroups({
+                  'sharename': vm.cifShareDetails.sharename
+                }).$promise.then(function(res) {
+                  vm.aclGroups = res;
+                  vm.aclGroupLoader  = false;
+                });
+              }    
             });
-          }    
-        });
 
-        vm.getACLgroups = function() {
-          if (vm.aclGroups.length > 0) {
-            if (vm.share.operation == 'removeUserOrGroupFromShare') {
-              return vm.aclGroups;
+            vm.getACLgroups = function() {
+              if (vm.aclGroups.length > 0) {
+                if (vm.share.operation == 'removeUserOrGroupFromShare') {
+                  return vm.aclGroups;
+                }
+                if (vm.share.operation == 'addUserToADGroup' || vm.share.operation == 'removeUserFromADGroup') {
+                  var data = $filter('filter')(vm.aclGroups, vm.cifShareDetails.sharename);
+                  return data;
+                }
+              }
             }
-            if (vm.share.operation == 'addUserToADGroup' || vm.share.operation == 'removeUserFromADGroup') {
-              var data = $filter('filter')(vm.aclGroups, vm.cifShareDetails.sharename);
-              return data;
-            }
-          }
-        }
-        
-        vm.project.startDate = new Date(projectInfo.startDate)
-        vm.project.endDate = new Date(projectInfo.endDate)
-        vm.share.city = vm.share.city || projectInfo.city;
-        vm.share.bu = vm.share.bu || projectInfo.txtibucode;
-        vm.share.projectCode = vm.share.projectCode || projectInfo.projectcode;
-        vm.share.approvers = vm.share.approvers || projectInfo.dm + ';'+ projectInfo.pm;
+            
+            vm.project.startDate = new Date(projectInfo.startDate)
+            vm.project.endDate = new Date(projectInfo.endDate)
+            vm.share.city = vm.share.city || projectInfo.city;
+            vm.share.bu = vm.share.bu || projectInfo.txtibucode;
+            vm.share.projectCode = vm.share.projectCode || projectInfo.projectcode;
+            vm.share.approvers = vm.share.approvers || projectInfo.dm + ';'+ projectInfo.pm;
 
-        //get users list
-        vm.getUsersAndGroups(vm.customFilter);	  
-        vm.getUsers(vm.customFilter);    
+            //get users list
+            vm.getUsersAndGroups(vm.customFilter);	  
+            vm.getUsers(vm.customFilter);    
+           }
+        });    
+		    
     }
 
       vm.removeItem = function(array, elementId){
@@ -373,17 +408,21 @@
       
       vm.getFilteredCategories = function() {
         var keyNewShareCat = 'newShare';
+        var retireVolWfcat = 'retireVolumeWorkflow'
         var obj = {};
         if (vm.cifShareDetails.sharepath) {
           obj = Object.assign({}, vm.categories);
           delete obj[keyNewShareCat];
+          if(!vm.isAdmin) {
+            delete obj[retireVolWfcat];
+          }
           return obj;
          } else {          
           obj[keyNewShareCat] = vm.categories[keyNewShareCat];
           vm.share.category = keyNewShareCat;
           return obj;
         }  
-        // return vm.categories;
+        //return vm.categories;
       }
 
       
@@ -426,6 +465,7 @@
         });
       });
     }
+
 
     vm.reject = function() {
       var modalOptions = {
@@ -484,46 +524,50 @@
 
       function checkUserIdsSpecified() {
         if (vm.readOnly.length == 0) {
-          Notification.error({
-            message: 'Please specify at least one user In Read Only field.',
-            title: '<i class="glyphicon glyphicon-remove"></i> Share save error!',
-            delay: 10000,
-            positionX: 'center',
-            positionY: 'top'
-          });
+          vm.showError('Please specify at least one user In Read Only field.');
+          // Notification.error({
+          //   message: 'Please specify at least one user In Read Only field.',
+          //   title: '<i class="glyphicon glyphicon-remove"></i> Share save error!',
+          //   delay: 10000,
+          //   positionX: 'center',
+          //   positionY: 'top'
+          // });
           return false;
         }
         
         if (vm.readAndWrite.length == 0) {
-          Notification.error({
-            message: 'Please specify at least one user In Read And Write field.',
-            title: '<i class="glyphicon glyphicon-remove"></i> Share save error!',
-            delay: 10000,
-            positionX: 'center',
-            positionY: 'top'
-          });
+          vm.showError('Please specify at least one user In Read And Write field.');
+          // Notification.error({
+          //   message: 'Please specify at least one user In Read And Write field.',
+          //   title: '<i class="glyphicon glyphicon-remove"></i> Share save error!',
+          //   delay: 10000,
+          //   positionX: 'center',
+          //   positionY: 'top'
+          // });
           return false;
         }
 
         if (vm.readWriteAndModify.length <= 1) {
-          Notification.error({ 
-            message: 'Minimum 2 users required In Read Write and Modify field.',
-            title: '<i class="glyphicon glyphicon-remove"></i> Share save error!',
-             delay: 10000,
-            positionX: 'center',
-            positionY: 'top'
-          });
+          vm.showError('Minimum 2 users required In Read Write and Modify field.');
+          // Notification.error({ 
+          //   message: 'Minimum 2 users required In Read Write and Modify field.',
+          //   title: '<i class="glyphicon glyphicon-remove"></i> Share save error!',
+          //    delay: 10000,
+          //   positionX: 'center',
+          //   positionY: 'top'
+          // });
           return false;
         }
 
         if (!vm.share.sizegb) {
-          Notification.error({ 
-            message: 'Please select file types from storage requirement.',
-            title: '<i class="glyphicon glyphicon-remove"></i> Share save error!',
-             delay: 10000,
-            positionX: 'center',
-            positionY: 'top'
-          });
+          vm.showError('Please select file types from storage requirement.');
+          // Notification.error({ 
+          //   message: 'Please select file types from storage requirement.',
+          //   title: '<i class="glyphicon glyphicon-remove"></i> Share save error!',
+          //    delay: 10000,
+          //   positionX: 'center',
+          //   positionY: 'top'
+          // });
           return false;
         }
         return true;
@@ -555,13 +599,14 @@
 
         if (vm.share.category == 'changePermission' &&  (vm.share.operation == 'addUserToADGroup' || vm.share.operation == 'removeUserFromADGroup')) {
           if (vm.acl_users.length == 0) {
-            Notification.error({
-              message: 'Please specify at least on user in UserIds.',
-              title: '<i class="glyphicon glyphicon-remove"></i> Share save error!',
-              delay: 10000,
-              positionX: 'center',
-              positionY: 'top'
-            });
+            vm.showError('Please specify at least one user in UserIds.');
+            // Notification.error({
+            //   message: 'Please specify at least on user in UserIds.',
+            //   title: '<i class="glyphicon glyphicon-remove"></i> Share save error!',
+            //   delay: 10000,
+            //   positionX: 'center',
+            //   positionY: 'top'
+            // });
             return false;
           }
           keyArray =  vm.acl_users.map(function(item) { return item["id"]; });
@@ -571,13 +616,14 @@
 		    if (vm.share.category == 'changePermission' &&  vm.share.operation == 'addUserOrGroupToShare') {
              if (vm.aclUserGroup.length == 0) 
              {
-              Notification.error({
-                message: 'Please specify user/group to add.',
-                title: '<i class="glyphicon glyphicon-remove"></i> Share save error!',
-                delay: 10000,
-                positionX: 'center',
-                positionY: 'top'
-              });
+              vm.showError('Please specify user/group to add.');
+              // Notification.error({
+              //   message: 'Please specify user/group to add.',
+              //   title: '<i class="glyphicon glyphicon-remove"></i> Share save error!',
+              //   delay: 10000,
+              //   positionX: 'center',
+              //   positionY: 'top'
+              // });
                return false;
              }
              keyArray =  vm.aclUserGroup.map(function(item) { return item["id"]; });
@@ -608,12 +654,13 @@
       }
 
       function errorCallback(res) {
-        Notification.error({ 
-          message: res.data.message, 
-          title: '<i class="glyphicon glyphicon-remove"></i> Share save error!',
-          delay: 10000,
-          positionX: 'center',
-          positionY: 'top' });
+        vm.showError(res.data.message);
+        // Notification.error({ 
+        //   message: res.data.message, 
+        //   title: '<i class="glyphicon glyphicon-remove"></i> Share save error!',
+        //   delay: 10000,
+        //   positionX: 'center',
+        //   positionY: 'top' });
       }
 
      function fix () {
