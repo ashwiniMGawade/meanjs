@@ -295,7 +295,7 @@ exports.getUsers = function(req, res) {
     attributes: [ 'sAMAccountName', 'userPrinicipalName', 'displayName' ],
     sizeLimit : 0
   };
-
+console.log(opts);
   myCache.get("ADUsers?search="+search, function( err, value ){
   if( !err ){
     if(value == undefined){
