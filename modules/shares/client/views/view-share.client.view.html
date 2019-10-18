@@ -25,15 +25,24 @@
 				</tr>
 				<tr ng-show="vm.showActions">
 						<th>Comment</th>
+						
 						<td>
-							<input type="text" name="comment" ng-model="vm.comment">
+							<form name="shareForm" class="form-horizontal" novalidate>
+								<div class="form-group"  show-errors>
+									<input type="text" name="comment" ng-model="vm.comment" class="form-control" required>
+									<div ng-messages="shareForm.comment.$error" role="alert">
+										<p class="help-block error-text" ng-message="required">Comment is required.</p>
+									</div>
+								</div>
+							</form>
 						</td>
+						
 					</tr>
 				<tr>
 				  <th></th>
 				  <td>
-					<button ng-if="vm.isAdmin && vm.share.status=='Pending Approval' && vm.showActions" type="button" class="btn btn-xs1 btn-primary" ng-click="vm.approve()">Approve</button>
-					<button ng-if="vm.isAdmin && vm.share.status=='Pending Approval' && vm.showActions" type="button" class="btn btn-xs1 btn-danger" ng-click="vm.reject()">Reject</button>					
+					<button ng-if="vm.isAdmin && vm.share.status=='Pending Approval' && vm.showActions" type="button" class="btn btn-xs1 btn-primary" ng-click="vm.approve(shareForm.$valid)">Approve</button>
+					<button ng-if="vm.isAdmin && vm.share.status=='Pending Approval' && vm.showActions" type="button" class="btn btn-xs1 btn-danger" ng-click="vm.reject(shareForm.$valid)">Reject</button>					
 				  </td>
 				</tr>
 			   

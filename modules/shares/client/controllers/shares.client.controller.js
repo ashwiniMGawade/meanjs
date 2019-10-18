@@ -453,7 +453,11 @@
         return diff;
     }
 
-    vm.approve = function() {
+    vm.approve = function(isValid) {
+      if (!isValid) {
+        $scope.$broadcast('show-errors-check-validity', 'shareForm');
+        return false;
+      }
       var modalOptions = {
         closeButtonText: 'Cancel',
         actionButtonText: 'Ok',
@@ -476,7 +480,11 @@
     }
 
 
-    vm.reject = function() {
+    vm.reject = function(isValid) {
+      if (!isValid) {
+        $scope.$broadcast('show-errors-check-validity', 'shareForm');
+        return false;
+      }
       var modalOptions = {
         closeButtonText: 'Cancel',
         actionButtonText: 'Ok',
