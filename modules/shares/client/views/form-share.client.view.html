@@ -9,7 +9,7 @@
   </div>
 
   
-  <div ng-init="vm.calculateCapacity();">
+  <div ng-init="vm.calculateCapacity();" ng-show="vm.showPage">
     <form name="vm.form.shareForm" class="form-horizontal" novalidate>
       <fieldset>
         <div class="row">
@@ -279,6 +279,10 @@
         </div>
     </fieldset>
     </form>
+  </div>
+
+  <div class="row text-center" ng-show="!vm.showPage">
+    <div class="page-loader"></div>
   </div>
 
   <!-- <div ng-if="vm.showErrorMessage">

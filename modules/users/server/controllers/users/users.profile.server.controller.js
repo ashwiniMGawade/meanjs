@@ -284,7 +284,7 @@ exports.getUsers = function(req, res) {
   var ad = new ActiveDirectory(ADconfig);
 
   var search = req.query.search || 'a';
-  var projectcode = req.query.projectCode;
+  var projectcode = trim(req.query.projectCode);
   var projectQueryPart = '';
   if (projectcode != ''){
     projectQueryPart = '(extensionAttribute2='+projectcode+')'
@@ -444,7 +444,7 @@ exports.getUsersAndGroups = function(req, res) {
   var ad = new ActiveDirectory(ADconfig);
 
   var search = req.query.search || 'a';
-  var projectcode = req.query.projectCode;
+  var projectcode = trim(req.query.projectCode);
   var projectQueryPart = '';
   if (projectcode != ''){
     projectQueryPart = '(extensionAttribute2='+projectcode+')'
