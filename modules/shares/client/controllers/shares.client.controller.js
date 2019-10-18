@@ -270,6 +270,9 @@
         vm.resetAllChangePermissions = function() {
           vm.acl_users = [];
           vm.aclUserGroup = [];
+          if(vm.share.acl_group) {
+            vm.checkForUsersToRemove()
+          }
         }
 
       
@@ -287,6 +290,8 @@
       vm.checkForUsersToRemove = function() {
         if (vm.share.operation == "removeUserFromADGroup" && vm.share.acl_group) {
           vm.getACLGroupUsers("", "useridsLoader");
+        } else if (vm.share.operation == "addUserToADGroup" && vm.share.acl_group) {
+          vm.getUsers("", "useridsLoader");
         }
       }
 
@@ -323,7 +328,7 @@
         //validate the projectcode
         var projectEndDate = new Date(projectInfo.endDate);
        if (projectEndDate < new Date()) {
-        vm.showError("Your project with code '"+projectInfo.txtibucode+"' is expired! Please contact your manager!", true)
+        vm.showError("Your project with code '"+projectInfo.txtibucode+"' is expired, please get it validated!", true)
        }
         //check existing request under processing state exist for the new project share creation
         SharesService.getNewShareProcessingDetails({
@@ -335,11 +340,13 @@
               vm.showWarning("New Project share creation request for project '"+projectInfo.txtibucode+"' is being processed. Please wait for it to be completed, to perform more operations on it.", true)
            } else {
             vm.aclGroupLoader  = true;
+            vm.showPage = false;
             SharesService.getCifsShareDetails({
               'volname': projectInfo.txtibucode,
               'sharename': projectInfo.projectcode, 
               'location':projectInfo.city
             }).$promise.then(function(res) {
+              vm.showPage = true;
               vm.cifShareDetails = res;
               vm.usedsizegb = vm.cifShareDetails.usedGB || 0;
               vm.allocatedSize = vm.cifShareDetails.hardLimit || 0;
