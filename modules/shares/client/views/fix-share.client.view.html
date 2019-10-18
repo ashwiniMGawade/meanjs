@@ -73,7 +73,7 @@
 					</td>
 				</tr>
 				
-				<tr ng-show="(vm.share.status=='Approved' || vm.share.status=='Rejected')">
+				<tr ng-if="(vm.share.status=='Approved' || vm.share.status=='Rejected')">
 					<th>Comment</th>
 					<td>
 						<div class="form-group"  show-errors>
