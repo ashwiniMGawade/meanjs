@@ -453,7 +453,11 @@
         return diff;
     }
 
-    vm.approve = function() {
+    vm.approve = function(isValid) {
+      if (!isValid) {
+        $scope.$broadcast('show-errors-check-validity', 'shareForm');
+        return false;
+      }
       var modalOptions = {
         closeButtonText: 'Cancel',
         actionButtonText: 'Ok',
@@ -476,7 +480,11 @@
     }
 
 
-    vm.reject = function() {
+    vm.reject = function(isValid) {
+      if (!isValid) {
+        $scope.$broadcast('show-errors-check-validity', 'shareForm');
+        return false;
+      }
       var modalOptions = {
         closeButtonText: 'Cancel',
         actionButtonText: 'Ok',
@@ -672,7 +680,11 @@
         //   positionY: 'top' });
       }
 
-     function fix () {
+     function fix (isValid) {
+      if (!isValid) {
+        $scope.$broadcast('show-errors-check-validity', 'vm.form.shareForm');
+        return false;
+      }
       var share = vm.share;
       share.fromFix = "true";
       SharesService.updateRequest({shareId: vm.share._id, action: 'fix'}, {"comment": $sanitize(vm.comment), "status": vm.share.status}).$promise.then(function () {
