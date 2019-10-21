@@ -10,44 +10,44 @@ var allowedPermissions = config.shared.share.allowedPermissions;
 
 var getMessageDetails = function(emailParams) {
 	var message = '';
-	message += '<br/><div style="margin:10px"><div class="text-center"><b> Request Details:</b></div><table><tbody>' +        
-        '<tr><td><b> Location</b></td><td>' + emailParams.share.city + '</td></tr>'+
-        '<tr><td><b> Business Unit </b></td><td>' + emailParams.share.bu+ '</td></tr>';
+	message += '<br/><div><div class="text-center"><b> &nbsp;Request Details:</b></div><table><tbody>' +        
+        '<tr><td><b> Location</b></td><td></td><td>' + emailParams.share.city + '</td></tr>'+
+        '<tr><td><b> Business Unit </b></td><td></td><td>' + emailParams.share.bu+ '</td></tr>';
 
 
       if(emailParams.share.category=='newShare') {
          message += 
-             '<tr><td><b>Read Only(DV) </b></td><td>'+ emailParams.share.readOnly + '</td></tr>'+
-             '<tr><td><b>Read And Write(PL) </b></td><td>'+ emailParams.share.readAndWrite + '</td></tr>'+
-             '<tr><td><b>Read Write And Modify(CC)</b></td><td>'+ emailParams.share.readWriteAndModify + '</td></tr>'+
-             '<tr><td><b>Size </b></td><td>'+ emailParams.share.sizegb + 'GB</td></tr>'+
-             '<tr><td><b>Cost</b></td><td>'+ emailParams.share.cost + '$ </td></tr>';
+             '<tr><td><b>Read Only(DV) </b></td> <td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td><td>'+ emailParams.share.readOnly + '</td></tr>'+
+             '<tr><td><b>Read And Write(PL) </b></td> <td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td><td>'+ emailParams.share.readAndWrite + '</td></tr>'+
+             '<tr><td><b>Read Write And Modify(CC)</b></td> <td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td><td>'+ emailParams.share.readWriteAndModify + '</td></tr>'+
+             '<tr><td><b>Size </b></td> <td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td><td>'+ emailParams.share.sizegb + 'GB</td></tr>'+
+             '<tr><td><b>Cost</b></td> <td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td><td>'+ emailParams.share.cost + '$ </td></tr>';
       }
 
       if(emailParams.share.category=='changePermission') {
   			 message += '<tr><td><b>Operation</b></td><td>'+ allowedOperations[emailParams.share.operation] + '</td></tr>';
   			if (emailParams.share.category=='changePermission' && emailParams.share.operation != 'addUserOrGroupToShare') {
-  				message += '<tr><td><b>ACL Group</b><td> '+ emailParams.share.acl_group + '</td></tr>';
+  				message += '<tr><td><b>ACL Group</b></td> <td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td> <td> '+ emailParams.share.acl_group + '</td></tr>';
   			}
   			
   			if (emailParams.share.category=='changePermission' && (emailParams.share.operation == 'addUserToADGroup' || emailParams.share.operation == 'removeUserFromADGroup')) {
-  				message += '<tr><td><b>ACL UserIds</b></td><td>'+ emailParams.share.acl_users + '</td></tr>';
+  				message += '<tr><td><b>ACL UserIds</b></td> <td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td><td>'+ emailParams.share.acl_users + '</td></tr>';
   			}
   			
   			if (emailParams.share.category=='changePermission' && emailParams.share.operation == 'addUserOrGroupToShare') {
-  				message += '<tr><td><b>ACL User or group</b></td><td>'+ emailParams.share.userOrGroupName + '</td></tr>';
+  				message += '<tr><td><b>ACL User or group</b></td> <td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td><td>'+ emailParams.share.userOrGroupName + '</td></tr>';
   			}
   			
   			if (emailParams.share.category=='changePermission' && emailParams.share.operation == 'addUserOrGroupToShare') {
-  				message += '<tr><td><b>ACL User or group Permissions </b></td><td>'+ allowedPermissions[emailParams.share.userOrGroupPermissions] + '</td></tr>';
+  				message += '<tr><td><b>ACL User or group Permissions </b></td> <td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td><td>'+ allowedPermissions[emailParams.share.userOrGroupPermissions] + '</td></tr>';
   			}
       }
        if(emailParams.share.category=='resize') {
-        message += '<tr><td><b>New size</b></td><td>'+ emailParams.share.newSizegb + 'GB </td></tr>';
+        message += '<tr><td><b>New size</b></td> <td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td><td>'+ emailParams.share.newSizegb + 'GB </td></tr>';
        }
 
       message +=  '</tbody></table></div>';
-
+    
 			return message;
 }
 
@@ -59,7 +59,7 @@ var getMailMessage = function(type, emailParams) {
     case 'approval': 
 
       message +=  '<div>Please take a minute to respond to '+ categories[emailParams.share.category] + ' request of ' + emailParams.share.user.displayName + ' ('+emailParams.share.projectCode+')  created on '+ emailParams.share.created +      '</div><div>'+
-      'Please click <a href="'+config.domain+'/shares/'+emailParams.share._id+'">here</a> to respond to the request.</div>'      
+      '<br>Please click <a href="'+config.domain+'/shares/'+emailParams.share._id+'">here</a> to respond to the request.</div>'      
       message += getMessageDetails(emailParams);
       break;
     case 'Approved': 
@@ -92,7 +92,7 @@ var getMailMessage = function(type, emailParams) {
 
 
 function getEmailTemplate(emailParams, type) {
-    var htmlBody = '<table width="80%" cellspacing="0" cellpadding="0">'+
+    var htmlBody = '<!–[if mso]><style>table, div {font-family: Calibri !important;}</style><table  width="80%" cellspacing="0" cellpadding="0">'+
                       '<tbody>'+
                      getMailMessage(type, emailParams)+  
                      (type != 'approval' ? '<br/><p style="text-align: justify;">Please click <a href="'+config.domain+'/shares/'+emailParams.share._id+'">here</a> to see the request.</p>' : '' ) + '</td></tr>'+      
