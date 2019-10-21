@@ -63,7 +63,10 @@
           //}
         };
 
-        vm.showError = function(err, redirect=false) {
+        vm.showError = function(err, redirect) {
+          if(redirect === undefined) {
+            redirect = false;
+          }
           var modalOptions = {
             closeButtonText: 'Cancel',
             actionButtonText: 'Ok',
@@ -78,7 +81,10 @@
           });
         }
     
-        vm.showWarning = function(err, redirect=false) {
+        vm.showWarning = function(err, redirect) {
+          if(redirect === undefined) {
+            redirect = false;
+          }
           var modalOptions = {
             closeButtonText: 'Cancel',
             actionButtonText: 'Ok',
