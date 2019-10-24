@@ -18,7 +18,7 @@
     </div>
     <div class="table-responsive" ng-show="vm.pagedItems.length>0">
         <table ng-table="tableParams" class="table table-bordered table-striped">
-            <tr>
+            <tr class="history-table">
                 <th></th>
                 <th>Location</th>
                 <th>Business Unit</th>
@@ -46,17 +46,19 @@
                 <td ng-if="!(share.status == 'Completed' || share.status == 'Contact Support' || share.status == 'Rejected')">
                     <div class="oval text-success ">Requested</div>
                     <div class="pointer" ng-class="{ 'small-pointer' : vm.isAdmin} "></div>
+                   
                 </td>
                 <td ng-if="!(share.status == 'Completed' || share.status == 'Contact Support' || share.status == 'Rejected')">
                     <div class="oval" ng-class="{'text-processing': share.status == 'Pending Approval', 'text-success': share.status== 'Approved' || share.status== 'Processing' }">Approved</div>
+                    <div class="pointer" ng-class="{ 'small-pointer' : vm.isAdmin} "></div>
+                </td>
+                <td ng-if="!(share.status == 'Completed' || share.status == 'Contact Support' || share.status == 'Rejected')">
+                    <div class="oval" ng-class="{'text-gray': share.status == 'Pending Approval' || share.status== 'Approved', 'text-processing':  share.status== 'Processing' }">Processing</div>
                     <div class="pointer" ng-class="{'gray': share.status == 'Pending Approval', 'small-pointer' : vm.isAdmin }"></div>
                 </td>
                 <td ng-if="!(share.status == 'Completed' || share.status == 'Contact Support' || share.status == 'Rejected')">
-                    <div class="oval" ng-class="{'text-gray': share.status == 'Pending Approval' || share.status== 'Approved', 'text-success':  share.status== 'Processing' }">Processing</div>
-                    <div class="pointer " ng-class="{'gray': share.status == 'Pending Approval' || share.status== 'Approved', 'small-pointer' : vm.isAdmin}"></div>
-                </td>
-                <td ng-if="!(share.status == 'Completed' || share.status == 'Contact Support' || share.status == 'Rejected')">
                     <div class="oval text-gray">Completed</div>
+                    <div class="pointer " ng-class="{'gray': share.status == 'Pending Approval' || share.status== 'Completed', 'small-pointer' : vm.isAdmin}"></div>
                 </td>
             </tr>
         </table>
