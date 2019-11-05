@@ -272,6 +272,7 @@
         vm.cifShareDetails = {};
         vm.readLoader = vm.readWriteLoader = vm.readWriteAndModifyLoader =  vm.useridsLoader = false;
         vm.aclGroupLoader = false;
+        vm.IsLoggedInUserInCC = false;
 
         vm.resetAllChangePermissions = function() {
           vm.acl_users = [];
@@ -365,6 +366,7 @@
                 }).$promise.then(function(res) {
                   vm.aclGroups = res;
                   vm.aclGroupLoader  = false;
+                  IfLoggedInUserIsInCC();
                 });
               }    
             });
@@ -596,6 +598,24 @@
         return true;
         
       }
+
+      function IfLoggedInUserIsInCC() {
+        var acl_groups = $filter('filter')(vm.aclGroups, vm.cifShareDetails.sharename);
+        console.log(acl_groups);
+        var cc_group =  $filter('filter')(acl_groups, {groupName: "CC"});
+        var cc_groupname = cc_group[0]['groupName'];
+        UsersService.getACLGroupUsers({
+          search: "",
+          group: cc_groupname
+        }).$promise.then(function(res) {
+          console.log(res);
+          var userFound = $filter('filter')(res, {sAMAccountName: Authentication.user.username, displayName: Authentication.user.displayName});
+          if (userFound.length > 0) {
+            vm.IsLoggedInUserInCC = true
+          }
+        });
+      
+      }
   
       // Save Share
       function save(isValid) {
@@ -621,6 +641,7 @@
         }
 
         if (vm.share.category == 'changePermission' &&  (vm.share.operation == 'addUserToADGroup' || vm.share.operation == 'removeUserFromADGroup')) {
+          vm.share.IsLoggedInUserInCC = vm.IsLoggedInUserInCC;
           if (vm.acl_users.length == 0) {
             vm.showError('Please specify at least one user in UserIds.');
             // Notification.error({
@@ -632,6 +653,7 @@
             // });
             return false;
           }
+          
           keyArray =  vm.acl_users.map(function(item) { return item["id"]; });
           vm.share.acl_users = keyArray.join(';');
         }
@@ -658,6 +680,7 @@
         if (vm.share.category == 'resize') {
           vm.share.newSizegb = vm.availableSize + vm.incrementGb
         }
+
   
         // Create a new share, or update the current instance
         vm.share.createOrUpdate()

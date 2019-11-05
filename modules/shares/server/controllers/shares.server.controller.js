@@ -70,94 +70,74 @@ exports.updateRequest = function (req, res) {
 
 
     //execute the wfa workflow if the status changes to approved
-    if (share.status == 'Approved') {
-      var clientWfa = require('./shares.server.wfa.share.controller');
-      sendToWorkflowForExecution(share);
-      
-    function sendToWorkflowForExecution(share) {
-      //set the status to processing      
-      saveShareStatus(share, 'Processing', req.user);
-      var volName = share.bu;
-
-      wfaDB.getClusterInfo(share.city, function(err, details) {
-        if (err) {
-          console.log("error in getting db details", err);
-          saveShareStatus(share, 'Contact Support', req.user, "error in getting db details" + err);
-        } else {
-          var jobId;
-          var args = {
-            primarycluster: details.primarycluster,
-            primaryvserver: details.primaryvserver,
-            secondarycluster:details.secondarycluster,
-            secondaryvserver: details.secondaryvserver,
-            volumeName:volName,
-            shareName: share.projectCode,
-            cityAbbr: details.cityAbbr,
-            share: share
-          };
-          console.log("called create share wfa", args);
-      
-          clientWfa.executeWfaWorkflow(args, function (err, resWfa) {
-            if (err) {
-              console.log('executeWfaWorkflow : Failed to '+share.category+', Error: ' + err);
-              saveShareStatus(share, 'Contact Support', req.user, 'executeWfaWorkflow : Failed to '+share.category+', Error: ' + err);
-            } else {
-              jobId = resWfa.jobId;
-              console.log('executeWfaWorkflow: Response from WFA: ' + util.inspect(resWfa, {showHidden: false, depth: null}));
-              untilCreated(share, jobId, req.user);
-            }
-          });
-        }
-      }) 
-     
+    if (share.status == 'Approved') {     
+      sendToWorkflowForExecution(share, req.user);    
     }
-    
-    function untilCreated(share, jobId, user) {
+};
+
+function sendToWorkflowForExecution(share, user) {
+  //set the status to processing      
+  var clientWfa = require('./shares.server.wfa.share.controller');
+  saveShareStatus(share, 'Processing', user);
+  var volName = share.bu;
+
+  wfaDB.getClusterInfo(share.city, function(err, details) {
+    if (err) {
+      console.log("error in getting db details", err);
+      saveShareStatus(share, 'Contact Support', user, "error in getting db details" + err);
+    } else {
+      var jobId;
       var args = {
-        share: share,
-        jobId: jobId
+        primarycluster: details.primarycluster,
+        primaryvserver: details.primaryvserver,
+        secondarycluster:details.secondarycluster,
+        secondaryvserver: details.secondaryvserver,
+        volumeName:volName,
+        shareName: share.projectCode,
+        cityAbbr: details.cityAbbr,
+        share: share
       };
-    
-      clientWfa.wfaJobStatus(args, function (err, resWfa) {
+      console.log("called create share wfa", args);
+  
+      clientWfa.executeWfaWorkflow(args, function (err, resWfa) {
         if (err) {
-          console.log('wfaJobStatus: Failed to obtain status, Error: ' + err);
-          saveShareStatus(share, 'Contact Support', user, 'wfaJobStatus: Failed to obtain status, Error: ' + err);
+          console.log('executeWfaWorkflow : Failed to '+share.category+', Error: ' + err);
+          saveShareStatus(share, 'Contact Support', user, 'executeWfaWorkflow : Failed to '+share.category+', Error: ' + err);
         } else {
-          if (resWfa.jobStatus === 'FAILED') {
-            console.log('wfaJobStatus: Failed to '+share.category+', Job ID: ' + jobId);
-            saveShareStatus(share, 'Contact Support', user, 'wfaJobStatus: Failed to '+share.category+', Job ID: ' + jobId + ", errorMessage = "+resWfa.errorMessage);
-          } else if (resWfa.jobStatus !== 'COMPLETED') {
-            console.log('wfaJobStatus: Not completed yet, polling again in 30 seconds, Job ID: ' + jobId);
-            setTimeout(function () { untilCreated(share, jobId, user); }, config.wfa.refreshRate);
-          } else {
-            saveShareStatus(share, 'Completed', user); 
-          }
+          jobId = resWfa.jobId;
+          console.log('executeWfaWorkflow: Response from WFA: ' + util.inspect(resWfa, {showHidden: false, depth: null}));
+          untilCreated(share, jobId, user);
         }
       });
     }
+  }) 
 
-    // function getOutputs(category, jobId) {
-    //   var args = {
-    //     jobId: jobId,
-    //     category: category 
-    //   };
-  
-    //   clientWfa.wfaJobOut(args, function (err, resWfa) {
-    //     if (err) {
-    //       console.log('wfaJobOut: Failed to obtain output, Error: ' + err);
-    //       saveShareStatus(share, 'Contact Support');
-    //     } else {
-    //       if (resWfa) {            
-    //         saveShareStatus(share, 'Completed');                       
-    //       } else {
-    //         console.log('wfaJobOut: No output parameters: Response from WFA: '+ resWfa);
-    //         saveShareStatus(share, 'Contact Support');
-    //       }
-    //     }
-    //   });
-    // }
-     }
-};
+}
+
+function untilCreated(share, jobId, user) {
+  var clientWfa = require('./shares.server.wfa.share.controller');
+  var args = {
+    share: share,
+    jobId: jobId
+  };
+
+  clientWfa.wfaJobStatus(args, function (err, resWfa) {
+    if (err) {
+      console.log('wfaJobStatus: Failed to obtain status, Error: ' + err);
+      saveShareStatus(share, 'Contact Support', user, 'wfaJobStatus: Failed to obtain status, Error: ' + err);
+    } else {
+      if (resWfa.jobStatus === 'FAILED') {
+        console.log('wfaJobStatus: Failed to '+share.category+', Job ID: ' + jobId);
+        saveShareStatus(share, 'Contact Support', user, 'wfaJobStatus: Failed to '+share.category+', Job ID: ' + jobId + ", errorMessage = "+resWfa.errorMessage);
+      } else if (resWfa.jobStatus !== 'COMPLETED') {
+        console.log('wfaJobStatus: Not completed yet, polling again in 30 seconds, Job ID: ' + jobId);
+        setTimeout(function () { untilCreated(share, jobId, user); }, config.wfa.refreshRate);
+      } else {
+        saveShareStatus(share, 'Completed', user); 
+      }
+    }
+  });
+}
 /**
  * Delete a share
  */
@@ -270,8 +250,17 @@ exports.list = function (req, res) {
  * Create an share
  */
 exports.create = function (req, res) {
+    var autoApprove = false;
+    if (req.body.IsLoggedInUserInCC) {
+      autoApprove = true;
+      delete req.body.IsLoggedInUserInCC;
+    }
+   
     var share = new Share(req.body);    
     share.user = req.user;  
+    if(autoApprove) {
+      share.status = "Approved";     
+    }
     share.save(function (err) {
       if (err) {
         return res.status(422).send({
@@ -279,28 +268,32 @@ exports.create = function (req, res) {
         });
       } else {
         res.json(share);
-        mailHandler.sendMailForApproval(share, req.user);        
+        if (autoApprove) {
+          sendToWorkflowForExecution(share, req.user);
+        } else {
+          mailHandler.sendMailForApproval(share, req.user);        
+        }       
       }
     });  
   };
 
 
-  var saveShareStatus = function(share, status, user, err=null) {
-    share.status = status;
-    if (status == "Contact Support") {
-      share.error = err
-    }
-    share.save(function (err) {
-      if (err) {
-       console.log("error in saving the status", err)
-      } else {
-        console.log("saving share status to "+ share.status);
-        logger.info("saving share status to "+ share.status);
-        //setTimeout(function() {console.log("added delay for test")}, 10000)
-         mailHandler.sendRequestStatusUpdateMailToUser(share, user);
-      }
-    });
+var saveShareStatus = function(share, status, user, err=null) {
+  share.status = status;
+  if (status == "Contact Support") {
+    share.error = err
   }
+  share.save(function (err) {
+    if (err) {
+      console.log("error in saving the status", err)
+    } else {
+      console.log("saving share status to "+ share.status);
+      logger.info("saving share status to "+ share.status);
+      //setTimeout(function() {console.log("added delay for test")}, 10000)
+        mailHandler.sendRequestStatusUpdateMailToUser(share, user);
+    }
+  });
+}
 
 /**
  * Share middleware
@@ -324,7 +317,7 @@ exports.shareByID = function (req, res, next, id) {
   });
 };
 
-exports.getCifsShareDetails = function (req, res) {
+exports.getCifsShareDetails = function (req, res) { 
   wfaDB.getCifsShare(req.query.location.toLowerCase(), req.query.volname, req.query.sharename, function(err, details) {
     if (err) {
       res.json({});
