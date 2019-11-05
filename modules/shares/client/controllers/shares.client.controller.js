@@ -602,8 +602,14 @@
       function IfLoggedInUserIsInCC() {
         var acl_groups = $filter('filter')(vm.aclGroups, vm.cifShareDetails.sharename);
         console.log(acl_groups);
-        var cc_group =  $filter('filter')(acl_groups, {groupName: "CC"});
-        var cc_groupname = cc_group[0]['groupName'];
+        var cc_groupname 
+        angular.forEach(acl_groups, function(item) {
+          var str = item.groupName.substr(item.groupName.length - 2);
+          console.log(str);
+          if (str == "CC") {
+            cc_groupname = item.groupName;
+          }				
+        });
         UsersService.getACLGroupUsers({
           search: "",
           group: cc_groupname
