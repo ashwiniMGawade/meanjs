@@ -5,10 +5,14 @@
     .module('core')
     .controller('HomeController', HomeController);
 
-  function HomeController() {
+    HomeController.$inject = ['Authentication'];
+
+  function HomeController(Authentication) {
     var vm = this;
     vm.oneAtATime = true;
     vm.showFaq  = false;
+    vm.authentication = Authentication;
+    vm.isAdmin = Authentication.user.roles.indexOf('admin') != -1;
 
     vm.items = ['Item 1', 'Item 2', 'Item 3'];
 

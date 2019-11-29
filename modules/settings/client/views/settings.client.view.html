@@ -1,0 +1,39 @@
+<div class="page-header">
+    <h1>Settings</h1>
+</div>
+<div class="n-data-table n-band--centered ">
+    <table>
+      <thead>
+      <tr class="n-data-table__header-row">
+        <th>Location</th>
+        <th>Space(TB)</th>
+        <th>Total Cost ($)</th>
+        <th>Cost per GB ($)</th>
+        <th>Actions</th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr ng-repeat="setting in vm.settings">
+        <th class="n-data-table__header-row">{{setting.location}}</th>
+        <td>{{setting.space}}</td>
+        <td>
+          <span ng-bind="setting.cost" ng-show="!vm.editSettings[setting._id]"></span>
+          <div class="form-group>">
+              <input id="settings_{{setting._id}}" type="number" ng-model="$parent[setting._id]" ng-show="vm.editSettings[setting._id]" ng-init="$parent[setting._id] = setting.cost" class="form-control">
+          </div>
+          
+        </td>
+        <td ng-bind="setting.space*1024/setting.cost | number:2"></td>
+        <td class="td-center">
+          <span  class="glyphicon glyphicon-edit" ng-click="vm.edit(setting._id)" ng-show="!vm.editSettings[setting._id]" title="Edit">
+          </span>
+          <span  class="glyphicon glyphicon-floppy-save"  title="Save" ng-click="vm.save(setting, $parent[setting._id])" ng-show="vm.editSettings[setting._id]">
+            </span>
+        </td>
+      </tr>      
+      
+      </tbody>
+    </table>
+
+  </div>
+  

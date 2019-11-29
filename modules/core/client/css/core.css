@@ -905,8 +905,7 @@ th {
 }
 
 .history-table th {
-  color: #fbfbfb;
-  background: #1e4a93;
+  background: #f2f2f2;
   position:sticky;
 }
 
@@ -983,7 +982,7 @@ h3{
 
 .dashboard-links-padding {
   padding-left:60px;
-  padding-right: 90px;
+  padding-right: 60px;
 }
 
 .dashboard-link-subtext {
@@ -1290,4 +1289,24 @@ font-size: 48px; color: #fff; font-weight: 600;margin-top: 10px;
   margin-left: -40px;
   width: 123px;
 }
+}
+
+.n-data-table thead>tr {
+  background: #f2f2f2;
+}
+
+.n-data-table th {
+  font-family: 'Gotham SSm A','Gotham SSm B',Helvetica,Arial,sans-serif;
+  font-weight: 500;
+  font-style: normal;
+  text-align: left;
+}
+
+.n-data-table td, .n-data-table th {
+  border-bottom: 1px solid #eaeaea;
+  font-size: 14px;
+  max-width: none;
+  padding: 15px 15px 15px 30px;
+  text-align:center;
+  color:#1e4a93;
 }

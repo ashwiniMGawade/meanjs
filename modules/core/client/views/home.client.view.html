@@ -39,6 +39,18 @@
               <p class="dashboard-link-subtext">FAQs for Enterprise Storage</p>
             
           </div>
+
+          <span ng-if="vm.isAdmin" class="span-divider"></span>
+          <div ng-if="vm.isAdmin" class="dashboard-links-padding"> 
+            <span class="glyphicon glyphicon-cog"> </span>
+            <br>
+            <a class="dashboard-custom-a" id="help" ui-sref="settings.list">
+              Settings</a>
+              <br>
+              <p class="dashboard-link-subtext">Configure settings</p>
+            
+          </div>
+
         </div>
       </div>
     </div>
