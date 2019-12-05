@@ -234,7 +234,7 @@ exports.me = function (req, res) {
 
 exports.projectInfo = function(req, res) {
   
-  var request = new Request("Select txtibucode,dm,pm,startDate,endDate,projectcode from V_AHD_ProjectDetails where projectcode ='" + req.user.providerData.projectCode + "';", function (err, rowCount, rows) {
+  var request = new Request("Select txtibucode,dm,pm,startDate,endDate,projectcode,unitCode from V_AHD_ProjectDetails where projectcode ='" + req.user.providerData.projectCode + "';", function (err, rowCount, rows) {
 
     if (err) {
         console.log(err);
@@ -280,6 +280,11 @@ exports.getUsers = function(req, res) {
     bindCredentials: config.ldap.bindCredentials, 
     baseDN: config.ldap.searchBase
  }
+
+ res.json([{ 
+  'sAMAccountName' : "test",
+  'displayName' : "test ashwini",
+  }]);
 
   var ad = new ActiveDirectory(ADconfig);
 
@@ -387,6 +392,15 @@ exports.getACLGroupUsers = function(req, res) {
   if (groupname == "") {
     return res.json([]);
   }
+
+  res.json([{ 
+    'sAMAccountName' : "local-admin",
+    'displayName' : "Admin Local",
+    },
+    { 
+      'sAMAccountName' : "local_user",
+      'displayName' : "User Local",
+      }]);
 
   myCache.get("ACLGroupUsers?search="+groupname, function( err, value ){
     if( !err ){

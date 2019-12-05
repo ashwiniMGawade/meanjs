@@ -11,16 +11,16 @@
   function routeConfig($stateProvider) {
     // Users state routing
     $stateProvider
-      .state('settings', {
-        abstract: true,
-        url: '/settings',
-        templateUrl: 'modules/users/client/views/settings/settings.client.view.html',
-        controller: 'SettingsController',
-        controllerAs: 'vm',
-        data: {
-          roles: ['user', 'admin']
-        }
-      })
+      // .state('settings', {
+      //   abstract: true,
+      //   url: '/settings',
+      //   templateUrl: 'modules/users/client/views/settings/settings.client.view.html',
+      //   controller: 'SettingsController',
+      //   controllerAs: 'vm',
+      //   data: {
+      //     roles: ['user', 'admin']
+      //   }
+      // })
       .state('settings.profile', {
         url: '/profile',
         templateUrl: 'modules/users/client/views/settings/edit-profile.client.view.html',

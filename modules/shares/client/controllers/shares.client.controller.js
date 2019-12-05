@@ -6,9 +6,9 @@
       .controller('SharesController', SharesController);
       
   
-    SharesController.$inject = ['$scope', '$state', '$window', 'shareResolve', 'Authentication', 'Notification', 'projectResolve',  'SharesService',  'UsersService', 'modalService', '$sanitize', '$filter'];
+    SharesController.$inject = ['$scope', '$state', '$window', 'shareResolve', 'Authentication', 'Notification', 'projectResolve',  'SharesService',  'UsersService', 'SettingsService','modalService', '$sanitize', '$filter'];
   
-    function SharesController($scope, $state, $window, share, Authentication, Notification, projectInfo,  SharesService, UsersService,  modalService, $sanitize, $filter) {
+    function SharesController($scope, $state, $window, share, Authentication, Notification, projectInfo,  SharesService, UsersService,  SettingsService, modalService, $sanitize, $filter) {
       var vm = this;
 
       vm.selected = undefined;      
@@ -19,6 +19,7 @@
           return _selected;
         }
       };
+      
 
       if (typeof Object.assign != 'function') {
         Object.assign = function(target) {
@@ -176,8 +177,6 @@
           }
 		    }
         
-		
-		
         vm.userDropdownRWInitEvents = {
             'onInitDone': function() {
               var directiveScope =  angular.element(document.querySelector('.readWriteUsers .multiselect-parent')).scope();
@@ -293,6 +292,20 @@
     			vm.users = res
         });
       }
+
+      vm.costPerGb = 1;
+
+      //get the cost as per location
+      SettingsService.query({  
+        'location':projectInfo.city        
+      } ,function (data) {
+        var locationSettings = data.settings[0];
+        if (locationSettings) {
+          vm.costPerGb = locationSettings.space*1024 / ( locationSettings.cost);
+          vm.costPerGb = $filter('number')(vm.costPerGb, 2)
+        }
+       
+      });
 
       vm.checkForUsersToRemove = function() {
         if (vm.share.operation == "removeUserFromADGroup" && vm.share.acl_group) {
@@ -514,19 +527,8 @@
     }
     
     $scope.calculateCapacity = function() {
-        var fileSizeArray = sharedConfig.share.fileSizeArray;
-        vm.share.sizegb = 0;
-
-        angular.forEach(vm.share.storage, function(value, key) {
-          if(value) {
-            vm.share.sizegb += fileSizeArray[key]; 
-          }
-        });
-        var years = dateDiffInYears(vm.project.startDate, vm.project.endDate);
-
-        years = years ? years : 1;
-        console.log(years)
-        vm.share.cost = vm.share.sizegb * 1 * years;
+        vm.share.cost = vm.share.sizegb * vm.costPerGb;
+        vm.share.cost = $filter('number')(vm.share.cost, 2)
     }
 
     $scope.getYearDiff = function() {
@@ -585,7 +587,7 @@
         }
 
         if (!vm.share.sizegb) {
-          vm.showError('Please select file types from storage requirement.');
+          vm.showError('Please enter the storage size requirement.');
           // Notification.error({ 
           //   message: 'Please select file types from storage requirement.',
           //   title: '<i class="glyphicon glyphicon-remove"></i> Share save error!',
