@@ -266,7 +266,6 @@
         vm.share = share; 
 
         vm.aclGroups = [];  
-        vm.share.storage = vm.share.storage || {}
         vm.project = projectInfo;
         vm.cifShareDetails = {};
         vm.readLoader = vm.readWriteLoader = vm.readWriteAndModifyLoader =  vm.useridsLoader = false;
@@ -431,7 +430,6 @@
       vm.allowedOperations = sharedConfig.share.allowedChangePermissionOperations;
       vm.allowedPermissions = sharedConfig.share.allowedPermissions;
 	    vm.allowedACLTypes= sharedConfig.share.allowedACLTypes;
-      vm.fileSizeTypes = sharedConfig.share.fileSizeTypes;
 
       vm.toggleActions = function() {
         vm.showActions = !vm.showActions;

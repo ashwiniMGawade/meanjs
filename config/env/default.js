@@ -130,17 +130,6 @@ module.exports = {
           "retireVolumeWorkflow": "Retire Volume Workflow",
 //           "migration": "Project Migration Workflow"
       },
-      fileSizeTypes: {
-        "officeFile":"Office File",
-        "compressedFile": "Compressed File",
-        "dataAndDBFile": "Data And Database File",
-        "executableFile": "Executable File",
-        "imageFile": "Image File",
-        "programmingFile":"Programming File",
-        "videoFile": "Video File",
-        "audioFile":"Audio File",
-        "backupFile":"Backup File"
-      },
       allowedPermissions: {
         'FullControl': 'Full Control',
         'Read': 'Read',

@@ -124,10 +124,6 @@ var ShareSchema = new Schema({
     //max: [16384, 'Share Size should be lesser than or equal to 16384'],
     trim: true,
     required: function() { return this.category === 'newShare' ?'Share cost required' : false },
-    validate : {
-      validator : Number.isInteger,
-      message   : '{VALUE} is not an integer value for cost'
-    }
   },
   newSizegb: {
     type: Number,
