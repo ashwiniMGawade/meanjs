@@ -234,7 +234,7 @@ exports.me = function (req, res) {
 
 exports.projectInfo = function(req, res) {
   
-  var request = new Request("Select txtibucode,dm,pm,startDate,endDate,projectcode,unitCode from V_AHD_ProjectDetails where projectcode ='" + req.user.providerData.projectCode + "';", function (err, rowCount, rows) {
+  var request = new Request("Select txtibucode,dm,pm,startDate,endDate,projectcode from V_AHD_ProjectDetails where projectcode ='" + req.user.providerData.projectCode + "';", function (err, rowCount, rows) {
 
     if (err) {
         console.log(err);
@@ -300,7 +300,7 @@ exports.getUsers = function(req, res) {
     attributes: [ 'sAMAccountName', 'userPrinicipalName', 'displayName' ],
     sizeLimit : 0
   };
-console.log(opts);
+
   myCache.get("ADUsers?search="+search, function( err, value ){
   if( !err ){
     if(value == undefined){
