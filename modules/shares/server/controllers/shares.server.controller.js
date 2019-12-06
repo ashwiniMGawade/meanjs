@@ -56,6 +56,7 @@ exports.updateRequest = function (req, res) {
 
   share.status = req.params.action == 'approve' ? 'Approved' : (req.params.action == 'fix' ? req.body.status :'Rejected');
   share.comment = req.body.comment || '';
+  share.volumeName = req.body.volumeName || '';
 
   logger.info("updating request for action = "+req.params.action  +" share status="+ share.status);
     share.save(function (err, shareData) {
@@ -79,7 +80,7 @@ function sendToWorkflowForExecution(share, user) {
   //set the status to processing      
   var clientWfa = require('./shares.server.wfa.share.controller');
   saveShareStatus(share, 'Processing', user);
-  var volName = share.bu;
+  var volName = share.volumeName!= '' ? share.volumeName : share.bu;
 
   wfaDB.getClusterInfo(share.city, function(err, details) {
     if (err) {
@@ -371,6 +372,69 @@ exports.getNewShareProcessingDetails = function(req, res) {
   });
 }
 
+
+exports.parseAndProcessMails = function(req, res) {
+  var Imap = require('imap'),
+    inspect = require('util').inspect;
+
+    var imap = new Imap({
+      user: 'ashwini.gawade27@gmail.com',
+      password: '8l!DBG8(XAqfen',
+      host: 'imap.gmail.com',
+      port: 993,
+      tls: true
+    });
+
+    function openInbox(cb) {
+      imap.openBox('INBOX', true, cb);
+    }
+
+    imap.once('ready', function() {
+      openInbox(function(err, box) {
+        if (err) throw err;
+        var f = imap.seq.fetch('1:3', {
+          bodies: 'HEADER.FIELDS (FROM TO SUBJECT DATE)',
+          struct: true
+        });
+        f.on('message', function(msg, seqno) {
+          console.log('Message #%d', seqno);
+          var prefix = '(#' + seqno + ') ';
+          msg.on('body', function(stream, info) {
+            var buffer = '';
+            stream.on('data', function(chunk) {
+              buffer += chunk.toString('utf8');
+            });
+            stream.once('end', function() {
+              console.log(prefix + 'Parsed header: %s', inspect(Imap.parseHeader(buffer)));
+            });
+          });
+          msg.once('attributes', function(attrs) {
+            console.log(prefix + 'Attributes: %s', inspect(attrs, false, 8));
+          });
+          msg.once('end', function() {
+            console.log(prefix + 'Finished');
+          });
+        });
+        f.once('error', function(err) {
+          console.log('Fetch error: ' + err);
+        });
+        f.once('end', function() {
+          console.log('Done fetching all messages!');
+          imap.end();
+        });
+      });
+    });
+     
+    imap.once('error', function(err) {
+      console.log(err);
+    });
+     
+    imap.once('end', function() {
+      console.log('Connection ended');
+    });
+     
+    imap.connect();
+}
 
 // exports.parseMail = function(req, res) {
 //   console.log('Receiving webhook.');

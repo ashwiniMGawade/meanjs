@@ -296,16 +296,17 @@
       vm.costPerGb = 1;
 
       //get the cost as per location
-      SettingsService.query({  
-        'location':projectInfo.city        
-      } ,function (data) {
-        var locationSettings = data.settings[0];
-        if (locationSettings) {
-          vm.costPerGb = locationSettings.space*1024 / ( locationSettings.cost);
-          vm.costPerGb = $filter('number')(vm.costPerGb, 2)
-        }
-       
-      });
+      var getCostPerGb = function() {
+        SettingsService.query({  
+          'location':projectInfo.city        
+        } ,function (data) {
+          var locationSettings = data.settings[0];
+          if (locationSettings) {
+            vm.costPerGb = locationSettings.space*1024 / ( locationSettings.cost);
+            vm.costPerGb = $filter('number')(vm.costPerGb, 2)
+          }
+        });
+      }
 
       vm.checkForUsersToRemove = function() {
         if (vm.share.operation == "removeUserFromADGroup" && vm.share.acl_group) {
@@ -361,6 +362,7 @@
            } else {
             vm.aclGroupLoader  = true;
             vm.showPage = false;
+            getCostPerGb();
             SharesService.getCifsShareDetails({
               'volname': projectInfo.txtibucode,
               'sharename': projectInfo.projectcode, 
@@ -724,7 +726,10 @@
       }
       var share = vm.share;
       share.fromFix = "true";
-      SharesService.updateRequest({shareId: vm.share._id, action: 'fix'}, {"comment": $sanitize(vm.comment), "status": vm.share.status}).$promise.then(function () {
+      SharesService.updateRequest(
+        {shareId: vm.share._id, action: 'fix'},
+        {"comment": $sanitize(vm.comment), "status": vm.share.status, "volumeName": vm.volumeName}
+        ).$promise.then(function () {
             $state.go('shares.list');
             Notification.success({
               message: '<i class="glyphicon glyphicon-ok"></i>Request is successfully updated!',

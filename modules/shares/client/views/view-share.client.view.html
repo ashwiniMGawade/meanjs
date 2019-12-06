@@ -6,10 +6,7 @@
 		<div class="col-md-5 col-sm-5 col-lg-5">
 			<table class="table table-striped">
 				<tr><th>Location</th><td ng-bind="vm.share.city"></td></tr>
-				<tr><th>Business Unit</th><td ng-bind="vm.share.bu"></td></tr>            
-				<tr ng-if="vm.share.category=='newShare'"><th>Read Only(DV)</th><td ng-bind="vm.share.readOnly" class="word-break-all break-word "></td></tr>
-				<tr ng-if="vm.share.category=='newShare'"><th>Read And Write(PL)</th><td ng-bind="vm.share.readAndWrite" class="word-break-all break-word "></td></tr>
-				<tr ng-if="vm.share.category=='newShare'"><th>Read Write And Modify(CC)</th><td ng-bind="vm.share.readWriteAndModify" class="word-break-all break-word "></td></tr>           
+				<tr><th>Business Unit</th><td ng-bind="vm.share.bu"></td></tr>     
 
 				<tr><th>Status</th><td ng-bind="vm.share.status" class="word-break-all"></td></tr>
 				<tr><th>Request Raised On</th>
@@ -53,13 +50,10 @@
 	        <table class="table table-striped">
 	            <tr><th>Project Code</th><td ng-bind="vm.share.projectCode"></td></tr>
 	            <tr><th>Category</th><td ng-bind="vm.categories[vm.share.category]"></td></tr>
-	            <tr ng-if="vm.share.category=='newShare'"><th>Storage Requirement</th><td>
-				<ul ng-repeat="(file, details) in vm.share.storage">
-					<li ng-if="details==true" style="list-style-type: square;">
-	                    {{ vm.fileSizeTypes[file]}}
-	                  </li>
-					  </ul>
-				</td></tr>
+				<tr ng-if="vm.share.category=='newShare'"><th>Read Only(DV)</th><td ng-bind="vm.share.readOnly" class="word-break-all break-word "></td></tr>
+				<tr ng-if="vm.share.category=='newShare'"><th>Read And Write(PL)</th><td ng-bind="vm.share.readAndWrite" class="word-break-all break-word "></td></tr>
+				<tr ng-if="vm.share.category=='newShare'"><th>Read Write And Modify(CC)</th><td ng-bind="vm.share.readWriteAndModify" class="word-break-all break-word "></td></tr>           
+				
 	            <tr ng-if="vm.share.category=='newShare'"><th>Cost</th><td>{{vm.share.cost}}$</td></tr>
 	            <tr ng-if="vm.share.category=='newShare'"><th>Size</th><td>{{vm.share.sizegb}}GB</td></tr>
 	            <tr ng-if="vm.share.category=='changePermission'"><th>Selected Operation</th><td ng-bind="vm.allowedOperations[vm.share.operation]" class="word-break-all"></td></tr>

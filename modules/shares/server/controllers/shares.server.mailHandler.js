@@ -16,6 +16,10 @@ var getMessageDetails = function(emailParams) {
 
 
       if(emailParams.share.category=='newShare') {
+        if(emailParams.share.volumeName != '') {
+          message += 
+          '<tr><td><b>Volume Name </b></td> <td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td><td>'+ emailParams.share.volumeName + '</td></tr>';
+        }
          message += 
              '<tr><td><b>Read Only(DV) </b></td> <td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td><td>'+ emailParams.share.readOnly + '</td></tr>'+
              '<tr><td><b>Read And Write(PL) </b></td> <td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td><td>'+ emailParams.share.readAndWrite + '</td></tr>'+
