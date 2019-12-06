@@ -378,8 +378,8 @@ exports.parseAndProcessMails = function(req, res) {
     inspect = require('util').inspect;
 
     var imap = new Imap({
-      user: 'ashwini.gawade27@gmail.com',
-      password: '8l!DBG8(XAqfen',
+      user: 'testes',
+      password: 'tsettse',
       host: 'imap.gmail.com',
       port: 993,
       tls: true

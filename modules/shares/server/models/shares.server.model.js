@@ -107,7 +107,6 @@ var ShareSchema = new Schema({
             message: '`{VALUE}` not a valid value for ACL Permission'
           }
   },
-  storage: {},
   sizegb: {
     type: Number,
     min: [1, 'Share Size should be greater than or equal to 1'],
