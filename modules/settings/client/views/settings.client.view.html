@@ -24,7 +24,7 @@
         <td>
           <span ng-bind="setting.cost" ng-show="!vm.editSettings[setting._id]"></span>
           <div class="form-group>">
-              <input id="settings_{{setting._id}}" type="number" ng-model="$parent[setting._id]" ng-show="vm.editSettings[setting._id]" ng-init="$parent[setting._id] = setting.cost" class="form-control">
+              <input id="settings_{{setting._id}}" type="number" ng-model="$parent[setting._id]" ng-show="vm.editSettings[setting._id]" ng-init="$parent[setting._id] = setting.cost" class="form-control text-center">
           </div>
           
         </td>
