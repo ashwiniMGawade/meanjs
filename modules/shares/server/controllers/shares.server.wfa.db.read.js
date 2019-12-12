@@ -65,7 +65,7 @@ getCifsShare = function (location, volumename, sharename, res) {
       'cm_storage.cluster.primary_address AS ClusterIP, ' +
       'cm_storage.vserver.name AS VserverName, ' +
       'cm_storage.volume.name AS VolumeName, ' +
-      'cm_storage.cifs_share.path AS Path, ' +  
+      'infosource.dfsinfo.dfspath AS Path, ' +  
       'round(cm_storage.volume.size_mb/1024) as sizeGB, '+
       'CEIL(cm_storage.qtree.disk_soft_limit_mb/1024) as softLimit, '+
       'CEIL(cm_storage.qtree.disk_limit_mb/1024) as hardLimit, '+
@@ -76,6 +76,7 @@ getCifsShare = function (location, volumename, sharename, res) {
       'cm_storage.volume,' +
       'cm_storage.cluster,' + 
       'cm_storage.qtree '+
+      'infosource.dfsinfo '+
     'where ' +
       'cm_storage.volume.junction_path = SUBSTRING_INDEX(cm_storage.cifs_share.path, "/", 2)  '+ 
       'AND cm_storage.vserver.id = cm_storage.cifs_share.vserver_id  '+     
@@ -90,7 +91,9 @@ getCifsShare = function (location, volumename, sharename, res) {
       ')' +                                                                      
       'AND LOWER(cm_storage.volume.name)= LOWER(?)  ' +
       'AND LOWER(cm_storage.qtree.name) = LOWER(?) '+
-      'AND LOWER(cm_storage.cifs_share.name)= LOWER(?)  ';
+      'AND LOWER(cm_storage.cifs_share.name)= LOWER(?) '+
+      'And LOWER(infosource.dfsinfo.projectcode) = LOWER(?) '+
+      'And LOWER(infosource.dfsinfo.location) = LOWER(?) ';
 
     console.log('Server getCifsShare: MySQL Read: Query: ' + util.inspect(args, {showHidden: false, depth: null}));
 
@@ -107,7 +110,9 @@ getCifsShare = function (location, volumename, sharename, res) {
             cifsShareDetails.primarycluster.toLowerCase(),
             volumename.toLowerCase(),
             sharename.toLowerCase(),
-            sharename.toLowerCase()
+            sharename.toLowerCase(),
+            sharename.toLowerCase(),
+            cifsShareDetails.cityAbbr.toLowerCase(),
           ], function (err, result) {
             console.log('Server getCifsShare: MySQL Read: Result: ' + util.inspect(result, {showHidden: false, depth: null}));
             if (err) {
