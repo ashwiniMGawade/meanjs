@@ -45,6 +45,16 @@
         });
       }
 
+      vm.refreshData = function() {
+        vm.loading = true;
+        SettingsService.query({      
+          "refresh": true    
+        } ,function (data) {
+          vm.settings = data.settings;
+          vm.loading = false;
+        });
+      }
+
       vm.save  = function(setting, value) {
         var settingObject = setting;
         SettingsService.updateRequest({settingId: settingObject._id}, {"cost": $sanitize(value)})
