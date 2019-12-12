@@ -29,7 +29,7 @@
           <span ng-bind="setting.cost" ng-show="!vm.editSettings[setting._id]"></span>
           <div class="form-group>" ng-show="vm.editSettings[setting._id]">
               <input id="settings_{{setting._id}}" type="number" ng-model="$parent[setting._id]"  ng-init="$parent[setting._id] = setting.cost" class="form-control text-center" style="width: 90%;display: inline-block;">
-              <span  class="glyphicon glyphicon-remove"  title="Cancel" ng-click="vm.hideEdit(setting._id)">
+              <span  class="glyphicon glyphicon-remove"  title="Cancel" ng-click="vm.hideEdit(setting._id);$parent[setting._id] = setting.cost;">
                 </span>
           </div>
           
