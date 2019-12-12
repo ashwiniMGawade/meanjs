@@ -29,6 +29,10 @@
       vm.edit  = function(settingId) {
         vm.editSettings[settingId] = true;
       }
+
+      vm.hideEdit = function(settingId) {
+        vm.editSettings[settingId] = false;
+      }
       vm.showError = function(err) {      
         var modalOptions = {
           closeButtonText: 'Cancel',
