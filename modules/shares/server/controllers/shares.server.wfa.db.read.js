@@ -150,11 +150,11 @@ getClusterInfo = function (location, res) {
   };
 
   var args = ' Select '+
-  'locationmapping.locationmapping.pcluster as primarycluster, locationmapping.locationmapping.pvserver primaryvserver,  locationmapping.locationmapping.scluster as secondarycluster, locationmapping.locationmapping.svserver secondaryvserver, locationmapping.locationmapping.psname as cityAbbr '+
+  'infosource.locationmapping.pcluster as primarycluster, infosource.locationmapping.pvserver primaryvserver,  infosource.locationmapping.scluster as secondarycluster, infosource.locationmapping.svserver secondaryvserver, infosource.locationmapping.psname as cityAbbr '+
   'FROM ' +
-  'locationmapping.locationmapping ' +
+  'infosource.locationmapping ' +
   'WHERE ' +
-  'LOWER(locationmapping.locationmapping.plocation) = ? ';
+  'LOWER(infosource.locationmapping.plocation) = ? ';
 
    console.log('Server getClusterInfo: MySQL Read: Query: ' + util.inspect(args, {showHidden: false, depth: null}));
 
