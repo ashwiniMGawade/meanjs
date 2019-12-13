@@ -356,7 +356,17 @@
           'projectCode': projectInfo.projectcode, 
           'location':projectInfo.city
         }).$promise.then(function(res) {
-           if(res.length > 0) {
+          var showProcessingWarning = false;
+          var completedReqExistWarning = false
+          res.forEach(function(row) {
+            if (row._id == "Processing" && row.count > 0) {
+              showProcessingWarning = true;
+            }
+            if (row._id == "Completed" && row.count > 0) {
+              completedReqExistWarning = true;
+            }
+          })
+           if(showProcessingWarning) {
               vm.showWarning("New Project share creation request for project '"+projectInfo.txtibucode+"' is being processed. Please wait for it to be completed, to perform more operations on it.", true)
            } else {
             vm.aclGroupLoader  = true;
@@ -382,7 +392,10 @@
                   vm.aclGroupLoader  = false;
                   IfLoggedInUserIsInCC();
                 });
-              }    
+              }  
+              else if(completedReqExistWarning) {
+                vm.showWarning("New Project share creation request for project '"+projectInfo.txtibucode+"' is already completed. Please wait for some time to sync the data, to perform more operations on it.", true)
+              }
             });
 
             vm.getACLgroups = function() {
@@ -452,7 +465,7 @@
           vm.share.category = keyNewShareCat;
           return obj;
         }  
-        //return vm.categories;
+        // return vm.categories;
       }
 
       

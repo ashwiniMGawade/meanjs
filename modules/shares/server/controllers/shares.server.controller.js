@@ -360,15 +360,33 @@ exports.getNewShareProcessingDetails = function(req, res) {
     query.projectCode = projectCode;
   }
   query.category = "newShare";
-  query.status = "Processing";
-  var queryExec = Share.find(query).exec(function (err, sharedata) {
+  query.status = {$in: ['Processing', 'Completed']}
+
+  
+  var queryExec = Share.aggregate([
+    {$match: query},
+    {
+      $project: {
+          _id: 1, // let's remove bson id's from request's result
+          status: 1, // we need this field
+      }
+  },
+  {
+      $group: {
+          _id: '$status',
+          count: { $sum: 1 }
+      }
+  }]).exec(function (err, sharedata) {
+    console.log("sharedata", sharedata)
    console.log( util.inspect(queryExec, {showHidden: false, depth: null}));
     if (err) {
       return  res.json();
     } else if (!sharedata) {
       return  res.json();
+    } else {
+      return res.json(sharedata);
     }
-    return res.json(sharedata);
+   
   });
 }
 
