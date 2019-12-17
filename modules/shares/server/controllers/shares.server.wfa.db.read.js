@@ -75,7 +75,7 @@ getCifsShare = function (location, volumename, sharename, res) {
       'cm_storage.vserver,' +
       'cm_storage.volume,' +
       'cm_storage.cluster,' + 
-      'cm_storage.qtree '+
+      'cm_storage.qtree, '+
       'infosource.dfsinfo '+
     'where ' +
       'cm_storage.volume.junction_path = SUBSTRING_INDEX(cm_storage.cifs_share.path, "/", 2)  '+ 
