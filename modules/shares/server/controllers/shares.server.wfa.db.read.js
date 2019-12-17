@@ -93,7 +93,8 @@ getCifsShare = function (location, volumename, sharename, res) {
       'AND LOWER(cm_storage.qtree.name) = LOWER(?) '+
       'AND LOWER(cm_storage.cifs_share.name)= LOWER(?) '+
       'And LOWER(infosource.dfsinfo.projectcode) = LOWER(?) '+
-      'And LOWER(infosource.dfsinfo.location) = LOWER(?) ';
+      'And LOWER(infosource.dfsinfo.location) = LOWER(?) ' +
+      'And LOWER(infosource.dfsinfo.state) = LOWER(?) ' ;
 
     console.log('Server getCifsShare: MySQL Read: Query: ' + util.inspect(args, {showHidden: false, depth: null}));
 
@@ -113,6 +114,7 @@ getCifsShare = function (location, volumename, sharename, res) {
             sharename.toLowerCase(),
             sharename.toLowerCase(),
             cifsShareDetails.cityAbbr.toLowerCase(),
+            "online"
           ], function (err, result) {
             console.log('Server getCifsShare: MySQL Read: Result: ' + util.inspect(result, {showHidden: false, depth: null}));
             if (err) {
