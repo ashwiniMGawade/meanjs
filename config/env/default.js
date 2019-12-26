@@ -100,6 +100,11 @@ module.exports = {
       bucket: process.env.S3_BUCKET
     }
   },
+  ews: {
+    user: process.env.EWS_USER,
+    password: process.env.EWS_PASS,
+    host:process.env.EWS_HOST
+  },
   uploads: {
     // Storage can be 'local' or 's3'
     storage: process.env.UPLOADS_STORAGE || 'local',

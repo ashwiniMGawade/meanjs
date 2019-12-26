@@ -11,6 +11,7 @@ var path = require('path'),
   logger = require(path.resolve('./config/lib/log')),
   Share = mongoose.model('Share'),
   User = mongoose.model('User'),
+  fs = require('fs'),
   errorHandler = require(path.resolve('./modules/core/server/controllers/errors.server.controller')),
   userController = require(path.resolve('./modules/users/server/controllers/admin.server.controller')),
   wfaDB = require(path.resolve('./modules/shares/server/controllers/shares.server.wfa.db.read')),
@@ -391,91 +392,97 @@ exports.getNewShareProcessingDetails = function(req, res) {
 }
 
 
-exports.parseAndProcessMails = function(req, res) {
+// exports.parseAndProcessMails = function(req, res) {
+//   const EWS = require('node-ews');
+ 
+//   // exchange server connection info
+//   const ewsConfig = {
+//     username: 'myuser@domain.com',
+//     password: 'mypassword',
+//     host: 'https://ews.domain.com'
+//   };
+  
+//   // initialize node-ews
+//   const ews = new EWS(ewsConfig);
+  
+//   // define ews api function
+//   const ewsFunction = 'ExpandDL';
+  
+//   // define ews api function args
+//   const ewsArgs = {
+//     'Mailbox': {
+//       'EmailAddress':'publiclist@domain.com'
+//     }
+//   };
+  
+//   // query EWS and print resulting JSON to console
+//   ews.run(ewsFunction, ewsArgs)
+//     .then(result => {
+//       console.log(JSON.stringify(result));
+//     })
+//     .catch(err => {
+//       console.log(err.message);
+//     });
+// }
+
+//create new subscription
+
+exports.parseAndProcessMails = function() {
   const EWS = require('node-ews');
  
   // exchange server connection info
-  const ewsConfig = {
-    username: 'myuser@domain.com',
-    password: 'mypassword',
-    host: 'https://ews.domain.com'
+  const ewsConfig1 = {
+    username: config.ews.user,
+    password: config.ews.password,
+    host: config.ews.host
   };
   
   // initialize node-ews
-  const ews = new EWS(ewsConfig);
+  const ews = new EWS(ewsConfig1);
+  var jsonPath = path.join(__dirname, '..', 'NotificationService.wsdl');
   
-  // define ews api function
-  const ewsFunction = 'ExpandDL';
-  
-  // define ews api function args
-  const ewsArgs = {
-    'Mailbox': {
-      'EmailAddress':'publiclist@domain.com'
-    }
+
+  // specify listener service options
+  const serviceOptions = {
+    port: 3001, // defaults to port 8000
+    path: '/', // defaults to '/notification'
+    // If you do not have NotificationService.wsdl it can be found via a quick Google search
+    xml:fs.readFileSync(jsonPath, 'utf8') // the xml field is required
   };
-  
-  // query EWS and print resulting JSON to console
-  ews.run(ewsFunction, ewsArgs)
-    .then(result => {
-      console.log(JSON.stringify(result));
-    })
-    .catch(err => {
-      console.log(err.message);
-    });
+
+  // create the listener service
+  ews.notificationService(serviceOptions, function(response) {
+    console.log(new Date().toISOString(), '| Received EWS Push Notification');
+    console.log(new Date().toISOString(), '| Response:', JSON.stringify(response));
+    // Do something with response
+    return {SendNotificationResult: { SubscriptionStatus: 'OK' } }; // respond with 'OK' to keep subscription alive
+    // return {SendNotificationResult: { SubscriptionStatus: 'UNSUBSCRIBE' } }; // respond with 'UNSUBSCRIBE' to unsubscribe
+  })
+  .then(server => {
+    server.log = function(type, data) {
+      console.log(new Date().toISOString(), '| ', type, ':', data);
+    };
+  });
+
+  // create a push notification subscription
+// https://msdn.microsoft.com/en-us/library/office/aa566188
+  const ewsConfig = {
+  PushSubscriptionRequest: {
+    FolderIds: {
+      DistinguishedFolderId: {
+        attributes: {
+          Id: 'inbox'
+        }
+      }
+    },
+    EventTypes: {
+      EventType: ['NewMailEvent']
+    },
+    StatusFrequency: 1,
+    // subscription notifications will be sent to our listener service
+    URL: 'http://' + require('os').hostname() + ':' + serviceOptions.port + serviceOptions.path
+  }
+  };
+  ews.run('Subscribe', ewsConfig);
+
 }
-
-// exports.parseMail = function(req, res) {
-//   console.log('Receiving webhook.');
-
-//   /* Respond early to avoid timouting the mailin server. */
-//   // res.send(200);
-
-//   /* Parse the multipart form. The attachments are parsed into fields and can
-//    * be huge, so set the maxFieldsSize accordingly. */
-//   var form = new multiparty.Form({
-//       maxFieldsSize: 70000000
-//   });
-
-//   form.on('progress', function () {
-//       var start = Date.now();
-//       var lastDisplayedPercentage = -1;
-//       return function (bytesReceived, bytesExpected) {
-//           var elapsed = Date.now() - start;
-//           var percentage = Math.floor(bytesReceived / bytesExpected * 100);
-//           if (percentage % 20 === 0 && percentage !== lastDisplayedPercentage) {
-//               lastDisplayedPercentage = percentage;
-//               console.log('Form upload progress ' +
-//                   percentage + '% of ' + bytesExpected / 1000000 + 'Mb. ' + elapsed + 'ms');
-//           }
-//       };
-//   }());
-
-//   form.parse(req, function (err, fields) {
-//       console.log(util.inspect(fields.mailinMsg, {
-//           depth: 5
-//       }));
-
-//       console.log('Parsed fields: ' + Object.keys(fields));
-
-//       /* Write down the payload for ulterior inspection. */
-//       async.auto({
-//           writeParsedMessage: function (cbAuto) {
-//               fs.writeFile('payload.json', fields.mailinMsg, cbAuto);
-//           },
-//           writeAttachments: function (cbAuto) {
-//               var msg = JSON.parse(fields.mailinMsg);
-//               async.eachLimit(msg.attachments, 3, function (attachment, cbEach) {
-//                   fs.writeFile(attachment.generatedFileName, fields[attachment.generatedFileName], 'base64', cbEach);
-//               }, cbAuto);
-//           }
-//       }, function (err) {
-//           if (err) {
-//               console.log(err.stack);
-//               res.send(500, 'Unable to write payload');
-//           } else {
-//               console.log('Webhook payload written.');
-//               res.send(200);
-//           }
-//       });
-//   });
-// }
