@@ -9,7 +9,8 @@ module.exports = {
         // bower:css
         'public/lib/bootstrap/dist/css/bootstrap.css',
         'public/lib/bootstrap/dist/css/bootstrap-theme.css',
-        'public/lib/angular-ui-notification/dist/angular-ui-notification.css'
+        'public/lib/angular-ui-notification/dist/angular-ui-notification.css',
+        'public/assets/css/fonts/447892/DDDB34F581F073045.css'
         // endbower
       ],
       js: [
@@ -26,7 +27,7 @@ module.exports = {
         'public/lib/owasp-password-strength-test/owasp-password-strength-test.js',
         'public/lib/angular-sanitize/angular-sanitize.min.js',
         'public/lib/angularjs-dropdown-multiselect/src/angularjs-dropdown-multiselect.js',
-        'public/lib/ngInfiniteScroll/build/ng-infinite-scroll.min.js'
+        'public/lib/ngInfiniteScroll/build/ng-infinite-scroll.min.js'      
         // endbower
       ],
       tests: ['public/lib/angular-mocks/angular-mocks.js']

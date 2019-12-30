@@ -128,6 +128,7 @@ module.exports = {
     share: {
       categories: {
           "newShare": "New Project Share Creation",
+          "newVolume": "New volume Creation",
           "changePermission": "Add or Remove permission",
           "resize": "Resize Project Share",
 //           "rename": "Rename Project Share",
@@ -150,17 +151,6 @@ module.exports = {
         "addUserToADGroup": "Add User To Active Directory Group",
         "removeUserFromADGroup": "Remove User from Active Directory Group",
       },
-      fileSizeArray : {
-        "officeFile":5,
-        "compressedFile":4,
-        "dataAndDBFile":10,
-        "executableFile":7,
-        "imageFile": 3,
-        "programmingFile":3,
-        "videoFile":10,
-        "audioFile":4,
-        "backupFile":10
-      }
   }
   }
 
