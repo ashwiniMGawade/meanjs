@@ -109,8 +109,6 @@ exports.signin = function( req, res, next) {
             user.password = undefined;
             user.salt = undefined;
 
-            console.log(user);
-
             req.login(user, function (err) {
               if (err) {
                 res.status(400).send(err);
@@ -124,7 +122,7 @@ exports.signin = function( req, res, next) {
       })(req, res, next);
     } catch(err) {
       logger.info(customTimestamp() +"caught error in");
-      logger.info(util.inspect(req.headers, {showHidden: false, depth: null}));
+      // logger.info(util.inspect(req.headers, {showHidden: false, depth: null}));
     } 
   }
 }
