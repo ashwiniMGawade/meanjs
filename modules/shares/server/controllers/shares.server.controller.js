@@ -460,8 +460,8 @@ var  GetMail = function(ews, item_id, change_key) {
             }
             if(share.status != statusVal) {
               saveShareStatus(share, statusVal, user);
-			  if (statusVal == "Approved") {
-                sendToWorkflowForExecution(share, user);
+              if (statusVal == "Approved") {
+                setTimeout(function () { sendToWorkflowForExecution(share, user); }, config.wfa.refreshRate);
               }
             }
           });
