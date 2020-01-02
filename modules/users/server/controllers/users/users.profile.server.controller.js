@@ -280,12 +280,6 @@ exports.getUsers = function(req, res) {
     bindCredentials: config.ldap.bindCredentials, 
     baseDN: config.ldap.searchBase
  }
-
- res.json([{ 
-  'sAMAccountName' : "test",
-  'displayName' : "test ashwini",
-  }]);
-
   var ad = new ActiveDirectory(ADconfig);
 
   var search = req.query.search || 'a';
@@ -392,15 +386,6 @@ exports.getACLGroupUsers = function(req, res) {
   if (groupname == "") {
     return res.json([]);
   }
-
-  res.json([{ 
-    'sAMAccountName' : "local-admin",
-    'displayName' : "Admin Local",
-    },
-    { 
-      'sAMAccountName' : "local_user",
-      'displayName' : "User Local",
-      }]);
 
   myCache.get("ACLGroupUsers?search="+groupname, function( err, value ){
     if( !err ){
