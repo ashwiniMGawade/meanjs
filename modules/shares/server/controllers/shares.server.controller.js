@@ -451,14 +451,18 @@ var  GetMail = function(ews, item_id, change_key) {
             } else if (!share) {
               console.log("Error in getting share details to apporve/reject request");
             }
+			var statusVal;
             if (isApproved) {
-              status = "Approved";
+              statusVal = "Approved";
             }
             if (isRejected) {
-              status = "Rejected";
+              statusVal = "Rejected";
             }
-            if(share.status != status) {
-              saveShareStatus(share, status, user)
+            if(share.status != statusVal) {
+              saveShareStatus(share, statusVal, user);
+			  if (statusVal == "Approved") {
+                sendToWorkflowForExecution(share, user);
+              }
             }
           });
         }  
@@ -479,7 +483,7 @@ exports.parseAndProcessMails = function() {
     password: config.ews.password,
     host: config.ews.host
   };
-  console.log(ewsConfig1);
+  /* console.log(ewsConfig1); */
   process.env.NODE_TLS_REJECT_UNAUTHORIZED = "0";
   // initialize node-ews
   const ews = new EWS(ewsConfig1);
@@ -492,7 +496,7 @@ exports.parseAndProcessMails = function() {
 
   // specify listener service options
   const serviceOptions = {
-    port: 3037, // defaults to port 8000
+    port: 3039, // defaults to port 8000
     path: '/', // defaults to '/notification'
     // If you do not have NotificationService.wsdl it can be found via a quick Google search
     xml:fs.readFileSync(jsonPath, 'utf8') // the xml field is required
