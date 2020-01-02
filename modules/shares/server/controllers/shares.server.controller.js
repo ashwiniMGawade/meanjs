@@ -391,39 +391,82 @@ exports.getNewShareProcessingDetails = function(req, res) {
   });
 }
 
-
-// exports.parseAndProcessMails = function(req, res) {
-//   const EWS = require('node-ews');
- 
-//   // exchange server connection info
-//   const ewsConfig = {
-//     username: 'myuser@domain.com',
-//     password: 'mypassword',
-//     host: 'https://ews.domain.com'
-//   };
+var  GetMail = function(ews, item_id, change_key) {
   
-//   // initialize node-ews
-//   const ews = new EWS(ewsConfig);
-  
-//   // define ews api function
-//   const ewsFunction = 'ExpandDL';
-  
-//   // define ews api function args
-//   const ewsArgs = {
-//     'Mailbox': {
-//       'EmailAddress':'publiclist@domain.com'
-//     }
-//   };
+   // define ews api function
+  const ewsFunction = 'GetItem';
+  const ewsArgs = { 
+    'ItemShape': {
+      'BaseShape': 'Default',
+      'IncludeMimeContent':false
+    },
+    'ItemIds' : {
+      'ItemId': {
+        'attributes': {
+          'Id': item_id,
+          'ChangeKey' :change_key
+        }
+      }
+    }
+  }
   
 //   // query EWS and print resulting JSON to console
-//   ews.run(ewsFunction, ewsArgs)
-//     .then(result => {
-//       console.log(JSON.stringify(result));
-//     })
-//     .catch(err => {
-//       console.log(err.message);
-//     });
-// }
+   ews.run(ewsFunction, ewsArgs)
+     .then(result => {
+        console.log(JSON.stringify(result));
+        var message = result.ResponseMessages.GetItemResponseMessage.Items.Message;
+        var subject = message.Subject;
+        var isValidSubeject = subject.indexOf("RE: Approval Required for") == 0;
+        console.log("isValidSubeject", isValidSubeject);
+
+        var userEmail = message.From.Mailbox.EmailAddress;
+        console.log("userEmail", userEmail);
+        var userName = message.From.Mailbox.Name;
+        console.log("userName", userName);
+
+        var user = {"displayName": userName, "email":userEmail}
+        var responseMessage= message.Body['$value'];
+        console.log(responseMessage);
+    
+        var isApproved = responseMessage.toLowerCase().indexOf("approved") > -1;
+        var isRejected = responseMessage.toLowerCase().indexOf("rejected") > -1;
+        console.log("isApproved",isApproved);
+        console.log("isRejected", isRejected);
+      
+        var fromString = responseMessage.substr(responseMessage.toLowerCase().indexOf("<b>from:</b>"), 100);
+        var isValidRequestSentFromAutomationTeam = fromString.indexOf(config.mailer.from) > -1;
+
+        console.log("isValidRequestSentFromAutomationTeam", isValidRequestSentFromAutomationTeam)
+      
+        var requestId = responseMessage.substr(responseMessage.toLowerCase().indexOf("storage/shares/")+15, 24);
+
+        console.log("requestId", requestId)
+
+        //request is valid
+        if (isValidRequestSentFromAutomationTeam && requestId!= "") {
+          //get the share details
+          Share.findById(requestId).exec(function (err, share) {
+            if (err) {
+              console.log("Error in getting share details to apporve/reject request");
+            } else if (!share) {
+              console.log("Error in getting share details to apporve/reject request");
+            }
+            if (isApproved) {
+              status = "Approved";
+            }
+            if (isRejected) {
+              status = "Rejected";
+            }
+            if(share.status != status) {
+              saveShareStatus(share, status, user)
+            }
+          });
+        }  
+     })
+     .catch(err => {
+       console.log(err.message);
+     });
+ }
 
 //create new subscription
 
@@ -432,19 +475,24 @@ exports.parseAndProcessMails = function() {
  
   // exchange server connection info
   const ewsConfig1 = {
-    username: config.ews.user,
+     username: config.ews.user,
     password: config.ews.password,
     host: config.ews.host
   };
-  
+  console.log(ewsConfig1);
+  process.env.NODE_TLS_REJECT_UNAUTHORIZED = "0";
   // initialize node-ews
   const ews = new EWS(ewsConfig1);
+  ews.auth.toString = function() {
+    return 'auth';
+  }
+  console.log(ews);
   var jsonPath = path.join(__dirname, '..', 'NotificationService.wsdl');
   
 
   // specify listener service options
   const serviceOptions = {
-    port: 3001, // defaults to port 8000
+    port: 3037, // defaults to port 8000
     path: '/', // defaults to '/notification'
     // If you do not have NotificationService.wsdl it can be found via a quick Google search
     xml:fs.readFileSync(jsonPath, 'utf8') // the xml field is required
@@ -452,13 +500,27 @@ exports.parseAndProcessMails = function() {
 
   // create the listener service
   ews.notificationService(serviceOptions, function(response) {
+	  console.log("--------response------");
     console.log(new Date().toISOString(), '| Received EWS Push Notification');
     console.log(new Date().toISOString(), '| Response:', JSON.stringify(response));
+	var notification = response.ResponseMessages.SendNotificationResponseMessage.Notification;
+	console.log("notification", notification);
+	//check the notification has the new mal event
+	if ( notification.hasOwnProperty("NewMailEvent")) {
+		console.log("inside newmailevent")
+		var itemId = notification.NewMailEvent.ItemId ;
+		console.log(itemId);
+		console.log(itemId.attributes.Id)
+		GetMail(ews, itemId.attributes.Id, itemId.attributes.ChangeKey);
     // Do something with response
+	}
+	
     return {SendNotificationResult: { SubscriptionStatus: 'OK' } }; // respond with 'OK' to keep subscription alive
     // return {SendNotificationResult: { SubscriptionStatus: 'UNSUBSCRIBE' } }; // respond with 'UNSUBSCRIBE' to unsubscribe
   })
   .then(server => {
+	  console.log("in server---------------------------");
+	  console.log(server);
     server.log = function(type, data) {
       console.log(new Date().toISOString(), '| ', type, ':', data);
     };
