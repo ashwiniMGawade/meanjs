@@ -445,13 +445,13 @@ var  GetMail = function(ews, item_id, change_key) {
         //request is valid
         if (isValidRequestSentFromAutomationTeam && requestId!= "") {
           //get the share details
-          Share.findById(requestId).exec(function (err, share) {
+          Share.findById(requestId).populate('user', ['displayName', 'email']).exec(function (err, share) {
             if (err) {
               console.log("Error in getting share details to apporve/reject request");
             } else if (!share) {
               console.log("Error in getting share details to apporve/reject request");
             }
-			var statusVal;
+		    	var statusVal;
             if (isApproved) {
               statusVal = "Approved";
             }
@@ -496,7 +496,7 @@ exports.parseAndProcessMails = function() {
 
   // specify listener service options
   const serviceOptions = {
-    port: 3039, // defaults to port 8000
+    port: 3040, // defaults to port 8000
     path: '/', // defaults to '/notification'
     // If you do not have NotificationService.wsdl it can be found via a quick Google search
     xml:fs.readFileSync(jsonPath, 'utf8') // the xml field is required

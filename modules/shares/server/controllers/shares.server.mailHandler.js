@@ -29,7 +29,7 @@ var getMessageDetails = function(emailParams) {
       }
 
       if(emailParams.share.category=='changePermission') {
-  			 message += '<tr><td><b>Operation</b></td><td>'+ allowedOperations[emailParams.share.operation] + '</td></tr>';
+  			 message += '<tr><td><b>Operation</b></td><td> <td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>'+ allowedOperations[emailParams.share.operation] + '</td></tr>';
   			if (emailParams.share.category=='changePermission' && emailParams.share.operation != 'addUserOrGroupToShare') {
   				message += '<tr><td><b>ACL Group</b></td> <td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td> <td> '+ emailParams.share.acl_group + '</td></tr>';
   			}
