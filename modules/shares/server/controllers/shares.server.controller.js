@@ -416,8 +416,8 @@ var  GetMail = function(ews, item_id, change_key) {
         console.log(JSON.stringify(result));
         var message = result.ResponseMessages.GetItemResponseMessage.Items.Message;
         var subject = message.Subject;
-        var isValidSubeject = subject.indexOf("RE: Approval Required for") == 0;
-        console.log("isValidSubeject", isValidSubeject);
+        var isValidSubject = subject.indexOf("RE: Approval Required for") == 0;
+        console.log("isValidSubject", isValidSubject);
 
         var userEmail = message.From.Mailbox.EmailAddress;
         console.log("userEmail", userEmail);
@@ -435,15 +435,19 @@ var  GetMail = function(ews, item_id, change_key) {
       
         var fromString = responseMessage.substr(responseMessage.toLowerCase().indexOf("<b>from:</b>"), 100);
         var isValidRequestSentFromAutomationTeam = fromString.indexOf(config.mailer.from) > -1;
-
         console.log("isValidRequestSentFromAutomationTeam", isValidRequestSentFromAutomationTeam)
+
+        var parentSubject = responseMessage.substr(responseMessage.toLowerCase().indexOf("<b>subject:</b>") + 15, 100);
+        var isValidSubject = isValidSubject && parentSubject.indexOf(" Approval Required for") == 0;
+
+        console.log("isValidSubject", isValidSubject);
       
         var requestId = responseMessage.substr(responseMessage.toLowerCase().indexOf("storage/shares/")+15, 24);
 
         console.log("requestId", requestId)
 
         //request is valid
-        if (isValidRequestSentFromAutomationTeam && requestId!= "") {
+        if (isValidRequestSentFromAutomationTeam && isValidSubject && requestId!= "") {
           //get the share details
           Share.findById(requestId).populate('user', ['displayName', 'email']).exec(function (err, share) {
             if (err) {
