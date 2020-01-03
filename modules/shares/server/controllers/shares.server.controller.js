@@ -426,20 +426,20 @@ var  GetMail = function(ews, item_id, change_key) {
 
         var user = {"displayName": userName, "email":userEmail}
         var responseMessage= message.Body['$value'];
-        console.log(responseMessage);
+       // console.log(responseMessage);
     
         var isApproved = responseMessage.toLowerCase().indexOf("approved") > -1;
         var isRejected = responseMessage.toLowerCase().indexOf("rejected") > -1;
         console.log("isApproved",isApproved);
         console.log("isRejected", isRejected);
       
-        var fromString = responseMessage.substr(responseMessage.toLowerCase().indexOf("<b>from:</b>"), 100);
-        var isValidRequestSentFromAutomationTeam = fromString.indexOf(config.mailer.from) > -1;
+        var fromString = responseMessage.substr(responseMessage.toLowerCase().indexOf("from:"), 200);
+        var isValidRequestSentFromAutomationTeam = fromString.toLowerCase().indexOf(config.mailer.from.toLowerCase()) > -1;
         console.log("isValidRequestSentFromAutomationTeam", isValidRequestSentFromAutomationTeam)
 
         var parentSubject = responseMessage.substr(responseMessage.toLowerCase().indexOf("<b>subject:</b>") + 15, 100);
         var isValidSubject = isValidSubject && parentSubject.indexOf(" Approval Required for") == 0;
-
+/*  */
         console.log("isValidSubject", isValidSubject);
       
         var requestId = responseMessage.substr(responseMessage.toLowerCase().indexOf("storage/shares/")+15, 24);
@@ -462,8 +462,10 @@ var  GetMail = function(ews, item_id, change_key) {
             if (isRejected) {
               statusVal = "Rejected";
             }
-            if(share.status != statusVal) {
-              saveShareStatus(share, statusVal, user);
+			console.log("share.status=", share.status, "statusval=",statusVal)
+            if(share.status != statusVal && share.status == "Pending Approval") {
+				console.log("inside if#########################");
+              saveShareStatus(share, statusVal,  user);
               if (statusVal == "Approved") {
                 setTimeout(function () { sendToWorkflowForExecution(share, user); }, config.wfa.refreshRate);
               }
