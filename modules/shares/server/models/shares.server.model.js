@@ -45,7 +45,9 @@ var ShareSchema = new Schema({
   volumeName: {
     type: String,
     default: '',
-    trim: true
+    trim: true,
+    match: [ /^[a-zA-Z\-0-9\._]+$/ , 'volumeName: Only alphanumeric chars including dash and underscore are allowed.'],
+    required: function() { return this.category === 'newVolume' ? 'Volume name can not be blank' : false; },
   },
   comment: {
     type: String,

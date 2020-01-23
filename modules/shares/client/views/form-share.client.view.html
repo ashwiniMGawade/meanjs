@@ -150,6 +150,18 @@
                 translation-texts="vm.defaultOnlyUserSelectionText" events="vm.userDropdownUseridInitEvents" class="userids" group-by="ADtype"></div>
               <div class="loader" ng-show="vm.useridsLoader"></div>
             </div>
+
+            <div ng-if="vm.share.category == 'newVolume'">
+              <div class="form-group" show-errors>
+                <label class="control-label" for="volumeName">Volume name</label>
+                <input name="volumeName" type="text" ng-model="vm.share.volumeName" id="volumeName" class="form-control" placeholder="Volume Name" ng-required="vm.share.category == 'newVolume'"
+                  ng-pattern="/^[a-zA-Z\-0-9\._]+$/">
+                <div ng-messages="vm.form.shareForm.volumeName.$error" role="alert">
+                  <p class="help-block error-text" ng-message="required">Volume name is required.</p>
+                  <p class="help-block error-text" ng-message="pattern">Only alphanumeric chars including dash and underscore are allowed.</p>
+                </div>
+              </div>
+            </div>
         
           </div>
           <div class="col-md-1 col-sm-1"></div>

@@ -33,6 +33,7 @@
 	        <table class="table table-striped">
 	            <tr><th>Project Code</th><td ng-bind="vm.share.projectCode"></td></tr>
 				<tr><th>Category</th><td ng-bind="vm.categories[vm.share.category]"></td></tr>
+				<tr ng-if="vm.share.category=='newVolume'"><th>Volume Name</th><td ng-bind="vm.share.volumeName" class="word-break-all break-word "></td></tr>
 				<tr ng-if="vm.share.category=='newShare'"><th>Read Only(DV)</th><td ng-bind="vm.share.readOnly" class="word-break-all break-word "></td></tr>
 				<tr ng-if="vm.share.category=='newShare'"><th>Read And Write(PL)</th><td ng-bind="vm.share.readAndWrite" class="word-break-all break-word "></td></tr>
 				<tr ng-if="vm.share.category=='newShare'"><th style="width:200px;">Read Write And Modify(CC)</th><td ng-bind="vm.share.readWriteAndModify" class="word-break-all break-word "></td></tr>

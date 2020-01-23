@@ -44,6 +44,7 @@ module.exports = {
     },
     workflows: {
       'newShare': 'https://'+process.env.WFA_SERVER_HOST+'/rest/workflows/7d394429-b44d-41bb-9ba5-901ce5264b99/jobs',
+      'newVolume': 'https://'+process.env.WFA_SERVER_HOST+'/rest/workflows/a56b0cf1-22f4-4664-8213-b6d4526ae3a9/jobs',
       'changePermission':
       {
         'addUserOrGroupToShare': 'https://'+process.env.WFA_SERVER_HOST+'/rest/workflows/94372219-e211-4eae-8168-0376b7ef49a9/jobs',

@@ -57,7 +57,11 @@ exports.updateRequest = function (req, res) {
 
   share.status = req.params.action == 'approve' ? 'Approved' : (req.params.action == 'fix' ? req.body.status :'Rejected');
   share.comment = req.body.comment || '';
-  share.volumeName = req.body.volumeName || '';
+
+  if(share.category == "newShare") {
+    share.volumeName = req.body.volumeName || '';
+  }
+  
 
   logger.info("updating request for action = "+req.params.action  +" share status="+ share.status);
     share.save(function (err, shareData) {

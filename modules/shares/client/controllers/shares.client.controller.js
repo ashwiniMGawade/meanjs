@@ -393,9 +393,9 @@
                   IfLoggedInUserIsInCC();
                 });
               }  
-              else if(completedReqExistWarning) {
-                vm.showWarning("New Project share creation request for project '"+projectInfo.txtibucode+"' is already completed. Please wait for some time to sync the data, to perform more operations on it.", true)
-              }
+              // else if(completedReqExistWarning) {
+              //   vm.showWarning("New Project share creation request for project '"+projectInfo.txtibucode+"' is already completed. Please wait for some time to sync the data, to perform more operations on it.", true)
+              // }
             });
 
             vm.getACLgroups = function() {
@@ -451,21 +451,28 @@
       
       vm.getFilteredCategories = function() {
         var keyNewShareCat = 'newShare';
-        var retireVolWfcat = 'retireVolumeWorkflow'
+        var keRretireVolWfcat = 'retireVolumeWorkflow'
+        var keyNewVolumeCat = 'newVolume';
         var obj = {};
         if (vm.cifShareDetails.sharepath) {
           obj = Object.assign({}, vm.categories);
           delete obj[keyNewShareCat];
           if(!vm.isAdmin) {
-            delete obj[retireVolWfcat];
+            delete obj[keRretireVolWfcat];
+            delete obj[keyNewVolumeCat];
           }
           return obj;
          } else {          
           obj[keyNewShareCat] = vm.categories[keyNewShareCat];
-          vm.share.category = keyNewShareCat;
+          if(!vm.isAdmin) {
+            vm.share.category = keyNewShareCat;
+          } else {
+            obj[keyNewVolumeCat] = vm.categories[keyNewVolumeCat];
+          }
+         
           return obj;
         }  
-        // return vm.categories;
+        //return vm.categories;
       }
 
       
@@ -701,14 +708,12 @@
         if (vm.share.category == 'resize') {
           vm.share.newSizegb = vm.availableSize + vm.incrementGb
         }
-
   
         // Create a new share, or update the current instance
         vm.share.createOrUpdate()
           .then(successCallback)
           .catch(errorCallback);
   
-       
       }
 
      function successCallback(res) {
