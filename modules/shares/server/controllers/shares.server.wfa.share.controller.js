@@ -81,6 +81,19 @@ var getWorkflowArgs = function(req) {
         '<comments>DFaaS Engine share Create: ' + req.share._id + ' ' + req.share.user.displayName + '</comments>' +
         '</workflowInput>';
       break;
+    case "newVolume" : 
+    args.data = '<workflowInput>' +
+        '<userInputValues>' +
+        '<userInputEntry value="' + (req.primarycluster || '') + '" key="srcClusterName"/>' +
+        '<userInputEntry value="' + (req.primaryvserver || '') + '" key="srcVserverName"/>' +
+        '<userInputEntry value="' + (req.volumeName || '') + '" key="srcVolumeName"/>' +
+        '<userInputEntry value="' + (req.cityAbbr || '') + '" key="primaryLocation"/>' +
+        '<userInputEntry value="' + (req.secondarycluster || '') + '" key="destClusterName"/>' +
+        '<userInputEntry value="' + (req.secondaryvserver || '') + '" key="destVserver"/>' +
+        '</userInputValues>' +
+        '<comments>DFaaS Engine Volume Create: ' + req.share._id + ' ' + req.share.user.displayName + '</comments>' +
+        '</workflowInput>';
+      break;
     case 'resize': 
       args.data = '<workflowInput>' +
         '<userInputValues>' +
@@ -128,7 +141,9 @@ var getWorkflowArgs = function(req) {
         '<userInputEntry value="' + (req.primarycluster || '') + '" key="clusterName"/>' +
         '<userInputEntry value="' + (req.primaryvserver || '') + '" key="vserverName"/>' +
         '<userInputEntry value="' + (req.volumeName || '') + '" key="volumeName"/>' +
-        '<userInputEntry value="' + (req.shareName || '') + '" key="shareName"/>' +       
+        '<userInputEntry value="' + (req.shareName || '') + '" key="shareName"/>' +   
+        //location 
+        // 1. deletion required 2.archival required => either of them needs to be selected
         '</userInputValues>' +
         '<comments>DFaaS Engine volume retire workflow: ' + req.share._id + ' ' + req.share.user.displayName + '</comments>' +
         '</workflowInput>';
