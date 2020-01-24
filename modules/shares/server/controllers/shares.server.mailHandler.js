@@ -46,9 +46,12 @@ var getMessageDetails = function(emailParams) {
   				message += '<tr><td><b>ACL User or group Permissions </b></td> <td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td><td>'+ allowedPermissions[emailParams.share.userOrGroupPermissions] + '</td></tr>';
   			}
       }
-       if(emailParams.share.category=='resize') {
+      if(emailParams.share.category=='resize') {
         message += '<tr><td><b>New size</b></td> <td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td><td>'+ emailParams.share.newSizegb + 'GB </td></tr>';
-       }
+      }
+      if(emailParams.share.category=='newVolume') {
+        message += '<tr><td><b>Volume Name</b></td> <td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td><td>'+ emailParams.share.volumeName + 'GB </td></tr>';
+      }
 
       message +=  '</tbody></table></div>';
     
@@ -126,7 +129,6 @@ function getEmailTemplate(emailParams, type) {
       cc: emailParams.cc || ''
     };
     
-    console.log(email)
     return email;
   }
 
@@ -154,7 +156,7 @@ var getReceiversMail = function(share) {
 
 exports.sendRequestStatusUpdateMailToUser = function(share, reqUser) {
   var receiversList = getReceiversMail(share);
-  console.log(receiversList)
+  // console.log(receiversList)
 
   var email = getEmailTemplate({
     to: share.user.email,

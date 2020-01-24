@@ -89,7 +89,7 @@ var getWorkflowArgs = function(req) {
         '<userInputEntry value="' + (req.volumeName || '') + '" key="srcVolumeName"/>' +
         '<userInputEntry value="' + (req.cityAbbr || '') + '" key="primaryLocation"/>' +
         '<userInputEntry value="' + (req.secondarycluster || '') + '" key="destClusterName"/>' +
-        '<userInputEntry value="' + (req.secondaryvserver || '') + '" key="destVserver"/>' +
+        '<userInputEntry value="' + (req.secondaryvserver || '') + '" key="destVserverName"/>' +
         '</userInputValues>' +
         '<comments>DFaaS Engine Volume Create: ' + req.share._id + ' ' + req.share.user.displayName + '</comments>' +
         '</workflowInput>';
