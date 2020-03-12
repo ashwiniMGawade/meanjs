@@ -239,12 +239,11 @@ getCifsShareACLGroups = function(sharename, res) {
 var getVolumesList = function(location, res) {
   console.log('Server getVolumesList: MySQL Read: Retrieving volume list in the location: \"' + location + '\" ');
 
-  var args = "SELECT volume.name AS 'volume' "+
-  "FROM cm_storage.volume " +
-  "LEFT JOIN cm_storage.vserver ON cm_storage.vserver.objid = cm_storage.volume.vserverId " +
-  "LEFT JOIN cm_storage.cluster ON cm_storage.cluster.objid = cm_storage.volume.clusterId " + 
-  "LEFT JOIN infosource.locationmapping ON LOWER(cm_storage.cluster.name) = LOWER(infosource.locationmapping.pcluster) " + 
-  "WHERE volume.isVserverRoot=0 AND volume.volTypeRaw='rw' AND LOWER(infosource.locationmapping.plocation) = ? ";
+  var args = "SELECT volume.name AS volume, cluster.name FROM cm_storage.volume " +
+  "LEFT JOIN cm_storage.vserver ON cm_storage.vserver.id = cm_storage.volume.vserver_id "+
+  "LEFT JOIN cm_storage.cluster ON cm_storage.cluster.id = cm_storage.vserver.cluster_id "+
+  "LEFT JOIN infosource.locationmapping ON LOWER(cm_storage.cluster.name) = LOWER(infosource.locationmapping.pcluster) "+
+  "WHERE cm_storage.volume.type='rw' AND LOWER(infosource.locationmapping.plocation) = ? ";
 
   console.log('Server getCifsShareACLGroups: MySQL Read: Query: ' + util.inspect(args, {showHidden: false, depth: null}));
 
