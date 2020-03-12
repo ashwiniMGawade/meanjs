@@ -104,7 +104,8 @@
         vm.readAndWrite = [];
         vm.readWriteAndModify = [];
         vm.acl_users = [];
-    		vm.aclUserGroup = [];
+        vm.aclUserGroup = [];
+        
 
         vm.readWriteAndModifysettings = { 
           enableSearch: true, 
@@ -307,6 +308,13 @@
         });
       }
 
+      var getListOfLocations = function() {
+        SettingsService.query({     
+        } ,function (data) {
+         vm.locations = data.settings;
+        });
+      }
+
       vm.checkForUsersToRemove = function() {
         if (vm.share.operation == "removeUserFromADGroup" && vm.share.acl_group) {
           vm.getACLGroupUsers("", "useridsLoader");
@@ -438,6 +446,10 @@
       vm.save = save;
       vm.showActions = false;
       vm.fix=fix;
+
+      if (vm.isAdmin) {
+       getListOfLocations();
+      }
 
       vm.categories = sharedConfig.share.categories;
       vm.allowedOperations = sharedConfig.share.allowedChangePermissionOperations;
