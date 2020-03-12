@@ -352,6 +352,17 @@
           });
         });
       }
+      vm.volumes = [];
+
+      vm.listVolumes = function() {
+        SharesService.listVolumes({
+          location: vm.share.city
+        }).$promise.then(function(res) {
+          vm.volumes = res
+        });
+      }
+
+
       if ( projectInfo) {
         //validate the projectcode
         var projectEndDate = new Date(projectInfo.endDate);

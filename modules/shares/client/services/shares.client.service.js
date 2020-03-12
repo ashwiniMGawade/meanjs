@@ -37,6 +37,11 @@
           url: '/storage/api/shares/listStatus',
           isArray: true
         },
+        listVolumes: {
+          method: 'GET',
+          url: '/storage/api/shares/listVolumes',
+          isArray: true
+        },
         updateRequest: {
           method: 'PUT',
           params: {

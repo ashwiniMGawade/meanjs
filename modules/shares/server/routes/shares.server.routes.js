@@ -24,6 +24,9 @@ module.exports = function (app) {
   app.route('/storage/api/shares/listStatus')
     .get(sharesPolicy.isAllowed, shares.listStatus)
 
+  app.route('/storage/api/shares/listVolumes')
+    .get(sharesPolicy.isAllowed, shares.listVolumes)
+
   app.route('/storage/api/shares/webhook')
     .get(shares.parseAndProcessMails)    
 

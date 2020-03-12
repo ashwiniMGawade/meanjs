@@ -40,6 +40,10 @@ exports.invokeRolesPolicies = function () {
      {
       resources: '/storage/api/shares/listStatus',
       permissions: '*'
+    },
+    {
+      resources: '/storage/api/shares/listVolumes',
+      permissions: '*'
     }
   ]
   }, {

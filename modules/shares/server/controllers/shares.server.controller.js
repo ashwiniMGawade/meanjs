@@ -349,6 +349,18 @@ exports.listStatus = function (req, res) {
   res.json(Share.schema.path('status').enumValues);
 };
 
+exports.listVolumes = function (req, res) {
+  console.log("called");  
+  wfaDB.getVolumesList(req.query.location.toLowerCase(), function(err, details) {
+    if (err) {
+      res.json([]);
+    } else {
+      console.log(details)
+      res.json(details);
+    }
+  }) 
+};
+
 exports.getNewShareProcessingDetails = function(req, res) {
   var query = {};
   var city = req.query.location ? req.query.location.toUpperCase() : '';

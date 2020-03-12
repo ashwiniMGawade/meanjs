@@ -236,6 +236,43 @@ getCifsShareACLGroups = function(sharename, res) {
   });
 };
 
+var getVolumesList = function(location, res) {
+  console.log('Server getVolumesList: MySQL Read: Retrieving volume list in the location: \"' + location + '\" ');
+
+  var args = "SELECT volume.name AS 'volume' "+
+  "FROM cm_storage.volume " +
+  "LEFT JOIN cm_storage.vserver ON cm_storage.vserver.objid = cm_storage.volume.vserverId " +
+  "LEFT JOIN cm_storage.cluster ON cm_storage.cluster.objid = cm_storage.volume.clusterId " + 
+  "LEFT JOIN infosource.locationmapping ON LOWER(cm_storage.cluster.name) = LOWER(infosource.locationmapping.pcluster) " + 
+  "WHERE volume.isVserverRoot=0 AND volume.volTypeRaw='rw' AND LOWER(infosource.locationmapping.plocation) = ? ";
+
+  console.log('Server getCifsShareACLGroups: MySQL Read: Query: ' + util.inspect(args, {showHidden: false, depth: null}));
+
+  console.log(location.toLowerCase())
+
+  connectionPool.getConnection(function(err, connection) {
+    if(err){
+      console.log('Server getVolumesList: MySQL Read: Connection Error: ' + err);
+      res(err, []);
+    }else{
+      connection.query(args, [location.toLowerCase(), "%"+sharename.toLowerCase()+"%"], function (err, result) {
+        console.log('Server getVolumesList: MySQL Read: Result: ' + util.inspect(result, {showHidden: false, depth: null}));
+        if (err) {
+          console.log('Server getVolumesList: MySQL Read: Error: ' + err);
+          res(err, []);
+        } else if (result.length > 0) {          
+          res(null, result);
+        } else {
+          console.log('Server getVolumesList(): MySQL Read: No Records found');
+          res("Server Read: No records found", []);
+        }
+        connection.release();
+      });
+    }
+  });
+}
+
 exports.getCifsShare = getCifsShare;
 exports.getClusterInfo = getClusterInfo;
 exports.getCifsShareACLGroups = getCifsShareACLGroups;
+exports.getVolumesList = getVolumesList;
