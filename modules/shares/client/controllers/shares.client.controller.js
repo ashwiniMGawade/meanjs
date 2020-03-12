@@ -285,8 +285,8 @@
       vm.getUsers = function( filterVal, element) {
 		    vm[element] = true;
         UsersService.getUsers({
-          search: filterVal,
-          projectCode:projectInfo.projectcode,
+          search: filterVal
+          // projectCode:projectInfo.projectcode,
         }).$promise.then(function(res) {
     			vm[element] = false;
     			vm.users = res
@@ -337,8 +337,8 @@
       vm.getUsersAndGroups = function( filterVal, element) {
         vm[element] = true;
         UsersService.getUsersAndGroups({
-          search: filterVal,
-          projectCode:projectInfo.projectcode,
+          search: filterVal
+          // projectCode:projectInfo.projectcode,
         }).$promise.then(function(res) {
           vm[element] = false;
           vm.usersAndGroups = res

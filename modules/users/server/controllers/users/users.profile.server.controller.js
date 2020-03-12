@@ -266,7 +266,7 @@ exports.projectInfo = function(req, res) {
 //   dm: 'subhankar           ',
 //   pm: 'Kaustav_Bhowmik     ',
 //   startDate: "2012-09-10T00:00:00.000Z",
-//   endDate: "2019-12-31T00:00:00.000Z",
+//   endDate: "2020-12-31T00:00:00.000Z",
 //   city: "BANGALORE",
 //   projectcode: "MDT2018"
 //  });
@@ -404,12 +404,20 @@ exports.getACLGroupUsers = function(req, res) {
         ps.invoke()
         .then(output => {
           var data = JSON.parse(output);
-          var keyArray = data.map(function(item) { 
-            return { 
-            'sAMAccountName' : item["sAMAccountName"],
-            'displayName' : item["Name"],
-            }
-          });
+          if (data.length > 0) {
+            var keyArray = data.map(function(item) { 
+              return { 
+              'sAMAccountName' : item["sAMAccountName"],
+              'displayName' : item["Name"],
+              }
+            });
+          } else {
+            var keyArray = [{
+              'sAMAccountName' : data["sAMAccountName"],
+              'displayName' : data["Name"],
+              }]
+          }
+         
           myCache.set( "ACLGroupUsers?search="+groupname, keyArray, 10000 );  
           res.json(keyArray);
         })
