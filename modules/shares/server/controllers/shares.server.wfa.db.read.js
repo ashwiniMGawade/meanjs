@@ -254,7 +254,7 @@ var getVolumesList = function(location, res) {
       console.log('Server getVolumesList: MySQL Read: Connection Error: ' + err);
       res(err, []);
     }else{
-      connection.query(args, [location.toLowerCase(), "%"+sharename.toLowerCase()+"%"], function (err, result) {
+      connection.query(args, [location.toLowerCase()], function (err, result) {
         console.log('Server getVolumesList: MySQL Read: Result: ' + util.inspect(result, {showHidden: false, depth: null}));
         if (err) {
           console.log('Server getVolumesList: MySQL Read: Error: ' + err);
