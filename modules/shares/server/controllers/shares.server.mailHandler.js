@@ -26,6 +26,9 @@ var getMessageDetails = function(emailParams) {
              '<tr><td><b>Read Write And Modify(CC)</b></td> <td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td><td>'+ emailParams.share.readWriteAndModify + '</td></tr>'+
              '<tr><td><b>Size </b></td> <td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td><td>'+ emailParams.share.sizegb + 'GB</td></tr>'+
              '<tr><td><b>Cost</b></td> <td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td><td>'+ emailParams.share.cost + '$ </td></tr>';
+        if (emailParams.path!== null) {
+          message += '<tr><td><b>Share Path</b></td> <td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td><td>"'+ emailParams.path + '"</td></tr>';
+        }
       }
 
       if(emailParams.share.category=='changePermission') {
@@ -154,7 +157,7 @@ var getReceiversMail = function(share) {
   return receiversList;
 }
 
-exports.sendRequestStatusUpdateMailToUser = function(share, reqUser) {
+exports.sendRequestStatusUpdateMailToUser = function(share, reqUser, path = null) {
   var receiversList = getReceiversMail(share);
   // console.log(receiversList)
 
@@ -162,7 +165,8 @@ exports.sendRequestStatusUpdateMailToUser = function(share, reqUser) {
     to: share.user.email,
     cc: share.status == "Contact Support" ?  receiversList : '',
     share: share,
-    reqUser: reqUser
+    reqUser: reqUser,
+    path: path
   }, share.status);
 
   mailService.sendEmail(email)

@@ -112,7 +112,7 @@ function sendToWorkflowForExecution(share, user) {
         } else {
           jobId = resWfa.jobId;
           console.log('executeWfaWorkflow: Response from WFA: ' + util.inspect(resWfa, {showHidden: false, depth: null}));
-          untilCreated(share, jobId, user);
+          untilCreated(share, jobId, user, details.cityAbbr);
         }
       });
     }
@@ -120,7 +120,7 @@ function sendToWorkflowForExecution(share, user) {
 
 }
 
-function untilCreated(share, jobId, user) {
+function untilCreated(share, jobId, user, cityAbbr) {
   var clientWfa = require('./shares.server.wfa.share.controller');
   var args = {
     share: share,
@@ -137,9 +137,17 @@ function untilCreated(share, jobId, user) {
         saveShareStatus(share, 'Contact Support', user, 'wfaJobStatus: Failed to '+share.category+', Job ID: ' + jobId + ", errorMessage = "+resWfa.errorMessage);
       } else if (resWfa.jobStatus !== 'COMPLETED') {
         console.log('wfaJobStatus: Not completed yet, polling again in 30 seconds, Job ID: ' + jobId);
-        setTimeout(function () { untilCreated(share, jobId, user); }, config.wfa.refreshRate);
+        setTimeout(function () { untilCreated(share, jobId, user, cityAbbr); }, config.wfa.refreshRate);
       } else {
-        saveShareStatus(share, 'Completed', user); 
+        //get the share path details
+        wfaDB.getCifsSharePath(share.shareName, cityAbbr, function(err, details) {
+          if (err) {
+            console.log("error in getting db details", err);
+            saveShareStatus(share, 'Contact Support', user, "error in getting path details" + err);
+          } else {
+            saveShareStatus(share, 'Completed', user, null , details.path); 
+          }
+        });
       }
     }
   });
@@ -284,7 +292,7 @@ exports.create = function (req, res) {
   };
 
 
-var saveShareStatus = function(share, status, user, err=null) {
+var saveShareStatus = function(share, status, user, err=null, path=null) {
   share.status = status;
   if (status == "Contact Support") {
     share.error = err
@@ -296,7 +304,7 @@ var saveShareStatus = function(share, status, user, err=null) {
       console.log("saving share status to "+ share.status);
       logger.info("saving share status to "+ share.status);
       //setTimeout(function() {console.log("added delay for test")}, 10000)
-        mailHandler.sendRequestStatusUpdateMailToUser(share, user);
+        mailHandler.sendRequestStatusUpdateMailToUser(share, user, path);
     }
   });
 }

@@ -13,8 +13,8 @@ var mysql = require('mysql2'),
 console.log(config.wfa.sql);
 config.wfa.sql.database = '';
 var connectionPool = mysql.createPool(config.wfa.sql);
-var getCifsShare, getClusterInfo, getCifsShareACLGroups;
-
+var getCifsShare, getClusterInfo, getCifsShareACLGroups, getCifsSharePath;
+ 
 setInterval(keepalive, 1800000); // 30 mins
 function keepalive() {
   console.log("##################################")
@@ -271,7 +271,59 @@ var getVolumesList = function(location, res) {
   });
 }
 
+getCifsSharePath = function (location, shareName, res) {
+
+  console.log('Server getCifsSharePath: MySQL Read: Retrieving Admin share details for location: \"' + location + '\" ');
+
+  var cifsSharePath = {
+    path:''
+  };
+
+  var args = ' Select '+
+  ' infosource.dfsinfo.dfspath AS Path ' +  
+  'FROM ' +
+  'infosource.dfsinfo ' +
+  'WHERE ' +
+  ' LOWER(infosource.dfsinfo.projectcode) = LOWER(?) '+
+  'And LOWER(infosource.dfsinfo.location) = LOWER(?) ' +
+  'And LOWER(infosource.dfsinfo.state) = LOWER(?) ' ;
+
+   console.log('Server getCifsSharePath: MySQL Read: Query: ' + util.inspect(args, {showHidden: false, depth: null}));
+
+  connectionPool.getConnection(function(err, connection) {
+    if(err){
+      console.log('Server getCifsSharePath: MySQL Read: Connection Error: ' + err);
+      res(err, cifsShare);
+    }else{
+      connection.query(args, [ 
+        sharename.toLowerCase(),
+        location.toLowerCase(),
+        "online"
+      ], function (err, result) {
+        console.log('Server getCifsSharePath: MySQL Read: Result: ' + util.inspect(result, {showHidden: false, depth: null}));
+        if (err) {
+          console.log('Server getCifsSharePath: MySQL Read: Error: ' + err);
+          res(err, cifsShare);
+        } else if (result.length > 0) {
+            cifsShare.path = result[0].Path;          
+            res(null, cifsShare);
+        } else {
+          console.log('Server getCifsSharePath(): MySQL Read: No Records found');
+          res("Server Read: No records found", cifsShare);
+        }
+
+        // connection.on('error', function(err) {
+        //   console.log(err.code); // 'ER_BAD_DB_ERROR'
+        // });
+        
+        connection.release();
+      });
+    }
+  });
+};
+
 exports.getCifsShare = getCifsShare;
 exports.getClusterInfo = getClusterInfo;
 exports.getCifsShareACLGroups = getCifsShareACLGroups;
 exports.getVolumesList = getVolumesList;
+exports.getCifsSharePath = getCifsSharePath;
