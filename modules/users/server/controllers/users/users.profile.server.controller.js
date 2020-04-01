@@ -482,7 +482,7 @@ exports.getUsersAndGroups = function(req, res) {
               res.json([]);
             }
             else {
-                logger.info('find: '+JSON.stringify(records));
+                // logger.info('find: '+JSON.stringify(records));
               var keyArray = records.users.map(function(item) { 
                 return { 
                 'sAMAccountName' : item["sAMAccountName"],

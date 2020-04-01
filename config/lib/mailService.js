@@ -56,7 +56,7 @@ exports.sendEmail = function (email) {
       cc:'ashwini.gawade@netapp.com' //email.cc
     };
 
-    console.log(mailOptions);
+    // console.log(mailOptions);
 
     // send mail with defined transport object
     transporter.sendMail(mailOptions, function(error, info){
