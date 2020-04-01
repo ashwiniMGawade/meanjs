@@ -140,14 +140,18 @@ function untilCreated(share, jobId, user, cityAbbr) {
         setTimeout(function () { untilCreated(share, jobId, user, cityAbbr); }, config.wfa.refreshRate);
       } else {
         //get the share path details
-        wfaDB.getCifsSharePath(share.shareName, cityAbbr, function(err, details) {
-          if (err) {
-            console.log("error in getting db details", err);
-            saveShareStatus(share, 'Contact Support', user, "error in getting path details" + err);
-          } else {
-            saveShareStatus(share, 'Completed', user, null , details.path); 
-          }
-        });
+        if (share.category == "newShare") {
+          wfaDB.getCifsSharePath(share.shareName, cityAbbr, function(err, details) {
+            if (err) {
+              console.log("error in getting share path details on workflow completion ", err);
+              saveShareStatus(share, 'Contact Support', user, "error in getting path details" + err);
+            } else {
+              saveShareStatus(share, 'Completed', user, null , details.path); 
+            }
+          });
+        } else {
+          saveShareStatus(share, 'Completed', user); 
+        }
       }
     }
   });

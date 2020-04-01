@@ -293,23 +293,23 @@ getCifsSharePath = function (location, shareName, res) {
   connectionPool.getConnection(function(err, connection) {
     if(err){
       console.log('Server getCifsSharePath: MySQL Read: Connection Error: ' + err);
-      res(err, cifsShare);
+      res(err, cifsSharePath);
     }else{
       connection.query(args, [ 
-        sharename.toLowerCase(),
+        shareName.toLowerCase(),
         location.toLowerCase(),
         "online"
       ], function (err, result) {
         console.log('Server getCifsSharePath: MySQL Read: Result: ' + util.inspect(result, {showHidden: false, depth: null}));
         if (err) {
           console.log('Server getCifsSharePath: MySQL Read: Error: ' + err);
-          res(err, cifsShare);
+          res(err, cifsSharePath);
         } else if (result.length > 0) {
-            cifsShare.path = result[0].Path;          
-            res(null, cifsShare);
+            cifsSharePath.path = result[0].Path;          
+            res(null, cifsSharePath);
         } else {
           console.log('Server getCifsSharePath(): MySQL Read: No Records found');
-          res("Server Read: No records found", cifsShare);
+          res("Server Read: No records found", cifsSharePath);
         }
 
         // connection.on('error', function(err) {
