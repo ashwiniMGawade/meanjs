@@ -89,7 +89,7 @@ getCifsShare = function (location, volumename, sharename, res) {
           'LOWER(cm_storage.cluster.name) = LOWER(?) '+                              
           'OR LOWER(cm_storage.cluster.primary_address) = LOWER(?) ' +   
       ')' +                                                                      
-      'AND LOWER(cm_storage.volume.name)= LOWER(?)  ' +
+      // 'AND LOWER(cm_storage.volume.name)= LOWER(?)  ' +
       'AND LOWER(cm_storage.qtree.name) = LOWER(?) '+
       'AND LOWER(cm_storage.cifs_share.name)= LOWER(?) '+
       'And LOWER(infosource.dfsinfo.projectcode) = LOWER(?) '+
@@ -109,7 +109,7 @@ getCifsShare = function (location, volumename, sharename, res) {
             cifsShareDetails.primaryvserver.toLowerCase(),
             cifsShareDetails.primarycluster.toLowerCase(),
             cifsShareDetails.primarycluster.toLowerCase(),
-            volumename.toLowerCase(),
+            // volumename.toLowerCase(),
             sharename.toLowerCase(),
             sharename.toLowerCase(),
             sharename.toLowerCase(),
