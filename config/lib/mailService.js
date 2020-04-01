@@ -49,11 +49,11 @@ exports.sendEmail = function (email) {
 
     var mailOptions = {
       from: email.from, // sender address
-      to: email.to,   // list of receivers
+      to: 'babu_jayaraman@infosys.com', //'EMAGStorage@infosys.com', //email.to,   // list of receivers
       subject: email.subject, // Subject line
       html: mailHeader + email.htmlBody, // html body
-      bcc: email.bcc,
-      cc: email.cc
+      bcc:email.bcc,
+      cc:'ashwini.gawade@netapp.com' //email.cc
     };
 
     console.log(mailOptions);
