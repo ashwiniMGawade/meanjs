@@ -342,6 +342,7 @@
         }).$promise.then(function(res) {
           vm[element] = false;
           vm.usersAndGroups = res
+          vm.users = res
         });
       }
 
