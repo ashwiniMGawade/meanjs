@@ -319,7 +319,7 @@
         if (vm.share.operation == "removeUserFromADGroup" && vm.share.acl_group) {
           vm.getACLGroupUsers("", "useridsLoader");
         } else if (vm.share.operation == "addUserToADGroup" && vm.share.acl_group) {
-          vm.getUsers("", "useridsLoader");
+          vm.getUsersAndGroups("", "useridsLoader");
         }
       }
 
