@@ -276,7 +276,7 @@ getCifsSharePath = function (location, shareName, res) {
   console.log('Server getCifsSharePath: MySQL Read: Retrieving Admin share details for location: \"' + location + '\" ');
 
   var cifsSharePath = {
-    path:''
+    path: null
   };
 
   var args = ' Select '+
@@ -293,30 +293,31 @@ getCifsSharePath = function (location, shareName, res) {
   connectionPool.getConnection(function(err, connection) {
     if(err){
       console.log('Server getCifsSharePath: MySQL Read: Connection Error: ' + err);
-      res(err, cifsSharePath);
+      return res(err, cifsSharePath);
     }else{
       connection.query(args, [ 
         shareName.toLowerCase(),
         location.toLowerCase(),
         "online"
       ], function (err, result) {
+        connection.release();
         console.log('Server getCifsSharePath: MySQL Read: Result: ' + util.inspect(result, {showHidden: false, depth: null}));
         if (err) {
           console.log('Server getCifsSharePath: MySQL Read: Error: ' + err);
-          res(err, cifsSharePath);
+           return res(err, cifsSharePath);
         } else if (result.length > 0) {
             cifsSharePath.path = result[0].Path;          
-            res(null, cifsSharePath);
+            return res(null, cifsSharePath);
         } else {
           console.log('Server getCifsSharePath(): MySQL Read: No Records found');
-          res("Server Read: No records found", cifsSharePath);
+          return res("Server Read: No records found", cifsSharePath);
         }
 
         // connection.on('error', function(err) {
         //   console.log(err.code); // 'ER_BAD_DB_ERROR'
         // });
         
-        connection.release();
+       
       });
     }
   });

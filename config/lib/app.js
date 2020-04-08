@@ -7,9 +7,11 @@ var config = require('../config'),
   mongooseService = require('./mongoose'),
   express = require('./express'),
   chalk = require('chalk'),
+  path = require("path"),
   seed = require('./mongo-seed');
 
 function seedDB() {
+  
   if (config.seedDB && config.seedDB.seed) {
     console.log(chalk.bold.red('Warning:  Database seeding is turned on'));
     seed.start();
@@ -23,6 +25,8 @@ module.exports.init = function init(callback) {
 
     // Initialize express
     var app = express.init(db);
+
+
     if (callback) callback(app, db, config);
 
   });
@@ -52,6 +56,13 @@ module.exports.start = function start(callback) {
         console.log(chalk.green('MEAN.JS version: ' + config.meanjs['meanjs-version']));
       console.log('--');
 
+     //configure with ews
+      setTimeout(function() {
+        var shareController = require(path.resolve('./modules/shares/server/controllers/shares.server.controller'));
+        console.log("ews subscriber called after 10 sec")
+        shareController.parseAndProcessMails();
+      }, 10000)
+      
       if (callback) callback(app, db, config);
     });
 

@@ -80,16 +80,13 @@
           </uib-accordion-heading>
           <div  style="text-align:left" ng-show="heading == 'How can I get Space for my Project in Enterprise Storage?'">
             <p >
-              <b>Answer - </b>Project Space can be obtained by logging a request on UI by the PM under “http://blrkecstrg01/storage/”.
-              Based on the requirement, CCD creates a share as per the project code in ALCON and the nominated member by
-              PM is given full control as CC (Configuration Controller). Thereafter, CC will manage security permissions
+              <b>Answer - </b>Project Space can be obtained by logging a request on UI by the PM under <a href="http://blrkecstrg01/storage/" target="_blank"> “http://blrkecstrg01/storage/”</a>.
+              Based on the given input share creation gets processed automatically as per the project code in ALCON. Nominated member by
+              PM is given full control as CC (Configuration Controller), Modify control to PL and read to DV. Thereafter, CC will manage security permissions
               of the project share.</p>
 
-            <p>CCD will also create a mirror of this project folder at the secondary storage at remote site for DR purpose.</p>
+            <p>Similarly mirror of this project folder gets created in the secondary storage at remote site for DR purpose.</p>
 
-            <p>In case of any generic requirement for space creation such as HR Requirement, DC Specific Requirement, Org-Wide
-              Requirements, etc., the same is provisioned based on the approval from DM with a definite end date when the
-              share will be removed automatically</p>
           </div>
           <!--  <div uib-accordion-group class="panel-default" heading="How is the backup taken for the data kept on Project Shares?"> -->
           <div style="text-align:left" ng-if="heading == 'How is the backup taken for the data kept on Project Shares?'">
@@ -101,24 +98,31 @@
             <table class="table table-bordered table-striped text-center">
               <tr>
                 <th class="text-center">Type of Backup</th>
-                <th class="text-center">Frequency</th>
-                <th class="text-center">Preservation</th>
+                <th class="text-center">Timings</th>
+                <th class="text-center">Retention</th>
               </tr>
               <tbody>
                 <tr>
                   <td>Hourly Snapshots</td>
-                  <td>Every 3 hours during business hours (10AM to 4PM)</td>
+                  <td>10 AM, 2 PM, 6PM and 10 PM</td>
                   <td>3 days</td>
                 </tr>
                 <tr>
                   <td>Daily Snapshots</td>
-                  <td>Every night 12AM - 7 days a week</td>
-                  <td>2 weeks</td>
+                  <td>12AM</td>
+                  <td>14 days for NAS</br>
+                    7 days for NFS
+                  </td>
                 </tr>
                 <tr>
                   <td>Weekly Snapshots</td>
-                  <td>Once in a week. (Sunday Midnight) Daily snapshot will not be taken on this day.</td>
+                  <td>12AM every Sunday</td>
                   <td>12 weeks</td>
+                </tr>
+                <tr>
+                  <td>SnapMirror</td>
+                  <td>Every 4 hours</td>
+                  <td>Not Applicable</td>
                 </tr>
               </tbody>
             </table>
@@ -127,7 +131,7 @@
           <div style="text-align:left" ng-if="heading == 'Is the data available at remote site in case of disaster?'">
             <p>
               <b>Answer - </b>Yes. Data from Primary server is replicated onto a Secondary server at a different location at
-              frequent intervals i.e. once in 6 hours using SnapMirror technology.</p>
+              frequent intervals i.e. once in 4 hours using SnapMirror technology.</p>
           </div>
 
           <div style="text-align:left" ng-if="heading == 'Do we have hardware redundancy for these servers?'">
@@ -138,18 +142,17 @@
 
           <div style="text-align:left" ng-if="heading == 'How much space can be given for a new Project?'">
             <p>
-              <b>Answer - </b>To start a project we can allocate 5 GB of space initially or 200 MB per user if the number of
-              project members are high. Whichever is higher!</p>
+              <b>Answer - </b>To start a project we can allocate 5 GB of space initially.</p>
           </div>
 
           <div style="text-align:left" ng-if="heading == 'Can I increase the space of my project share?'">
             <p>
-              <b>Answer - </b>You can raise a ticket in UI(http://blrkecstrg01/storage/) under Resize project share.</p>
+              <b>Answer - </b>You can raise a ticket in UI <a href="http://blrkecstrg01/storage/" target="_blank"> (http://blrkecstrg01/storage/)</a> under Resize project share.</p>
           </div>
 
           <div style="text-align:left" ng-if="heading == 'Our project is moving from one DC to another. What can be done for this?'">
             <p>
-              <b>Answer - </b>PM has to raise a request in UI(http://blrkecstrg01/storage/) under Project migration with the
+              <b>Answer - </b>PM has to raise a request in UI <a href="http://blrkecstrg01/storage/" target="_blank"> (http://blrkecstrg01/storage/)</a> under Project migration with the
               location where the data is residing. Data Migration is done in three phases, i.e. initial copy, incremental
               copy and final copy.</p>
           </div>

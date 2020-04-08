@@ -26,7 +26,7 @@ var getMessageDetails = function(emailParams) {
              '<tr><td><b>Read Write And Modify(CC)</b></td> <td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td><td>'+ emailParams.share.readWriteAndModify + '</td></tr>'+
              '<tr><td><b>Size </b></td> <td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td><td>'+ emailParams.share.sizegb + 'GB</td></tr>'+
              '<tr><td><b>Cost</b></td> <td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td><td>'+ emailParams.share.cost + '$ </td></tr>';
-        if (emailParams.path!== null) {
+        if (emailParams.path != null || typeof emailParams.path != "undefined") {
           message += '<tr><td><b>Share Path</b></td> <td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td><td>"'+ emailParams.path + '"</td></tr>';
         }
       }
