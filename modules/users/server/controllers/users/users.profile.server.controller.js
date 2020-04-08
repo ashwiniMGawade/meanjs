@@ -461,7 +461,7 @@ exports.getUsersAndGroups = function(req, res) {
   var opts = {
     filter:'(|'+
       '(&(objectClass=group)(!(objectClass=computer))(!(objectClass=user))(!(objectClass=person))(CN=*'+search+'*))'+
-     '(&(objectClass=user)'+projectQueryPart+'(|(sAMAccountName=*'+search+'*)(displayName=*'+search+'*)(userPrinicipalName=*'+search+'*))))',
+     '(&(objectClass=user)'+projectQueryPart+'(|(sAMAccountName=*'+search+'*)(displayName=*'+search+'*)(userPrinicipalName=*'+search+'*)(mailNickname=*'+search+'))))',
    // filter: '(&(objectClass=user)(sAMAccountName=*'+search+'*))', //'(&(objectCategory=Person)(sAMAccountName=*))' (!userAccountControl:1.2.840.113556.1.4.803:=2)
    // attributes: [ 'sAMAccountName', 'userPrinicipalName', 'displayName' ],
     sizeLimit : 0
