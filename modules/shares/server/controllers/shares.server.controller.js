@@ -111,7 +111,7 @@ function sendToWorkflowForExecution(share, user) {
           saveShareStatus(share, 'Contact Support', user, 'executeWfaWorkflow : Failed to '+share.category+', Error: ' + err);
         } else {
           jobId = resWfa.jobId;
-          console.log('executeWfaWorkflow: Response from WFA: ' + util.inspect(resWfa, {showHidden: false, depth: null}));
+          // console.log('executeWfaWorkflow: Response from WFA: ' + util.inspect(resWfa, {showHidden: false, depth: null}));
           untilCreated(share, jobId, user, details.cityAbbr);
         }
       });
@@ -141,7 +141,7 @@ function untilCreated(share, jobId, user, cityAbbr) {
       } else {
         //get the share path details
         if (share.category == "newShare") {
-          wfaDB.getCifsSharePath(share.shareName, cityAbbr, function(err, details) {
+          wfaDB.getCifsSharePath(cityAbbr, share.projectCode, function(err, details) {
             if (err) {
               console.log("error in getting share path details on workflow completion ", err);
               saveShareStatus(share, 'Contact Support', user, "error in getting path details" + err);
