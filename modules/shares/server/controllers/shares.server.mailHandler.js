@@ -9,6 +9,7 @@ var allowedOperations = config.shared.share.allowedChangePermissionOperations;
 var allowedPermissions = config.shared.share.allowedPermissions;
 
 var getMessageDetails = function(emailParams) {
+  console.log("email-params",emailParams )
 	var message = '';
 	message += '<br/><div><div class="text-center"><b> &nbsp;Request Details:</b></div><table><tbody>' +        
         '<tr><td><b> Location</b></td><td></td><td>' + emailParams.share.city + '</td></tr>'+
