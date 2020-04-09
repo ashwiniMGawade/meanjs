@@ -69,7 +69,7 @@ var getMailMessage = function(type, emailParams) {
     case 'approval': 
 
       message +=  '<div>Please take a minute to respond to '+ categories[emailParams.share.category] + ' request of ' + emailParams.share.user.displayName + ' ('+emailParams.share.projectCode+')  created on '+ emailParams.share.created +      '</div><div>'+
-      '<br>Please click <a href="'+config.domain+'/shares/'+emailParams.share._id+'">here</a> to respond to the request or reply to this mail with message containing case insensitive <b>"Approved"</b> or <b>"Rejected"<b> keyword. </div>'      
+      '<br>Please click <a href="'+config.domain+'/shares/'+emailParams.share._id+'">here</a> to respond to the request or reply to this mail with message containing case insensitive <b>"Approved"</b> or <b>"Rejected"</b> keyword. </div>'      
       message += getMessageDetails(emailParams);
       break;
     case 'Approved': 
