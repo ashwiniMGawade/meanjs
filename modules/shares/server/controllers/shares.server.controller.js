@@ -306,7 +306,7 @@ var saveShareStatus = function(share, status, user, err=null, path=null) {
       console.log("error in saving the status", err)
     } else {
       console.log("saving share status to "+ share.status);
-      logger.info("saving share status to "+ share.status);
+      logger.info("saving share status to "+ share.status + " with path as= "+ path);
       //setTimeout(function() {console.log("added delay for test")}, 10000)
         mailHandler.sendRequestStatusUpdateMailToUser(share, user, path);
     }

@@ -306,7 +306,8 @@ getCifsSharePath = function (location, shareName, res) {
           console.log('Server getCifsSharePath: MySQL Read: Error: ' + err);
            return res(err, cifsSharePath);
         } else if (result.length > 0) {
-            cifsSharePath.path = result[0].Path;          
+            cifsSharePath.path = result[0].Path;  
+            console.log("share-path is + ", result )        
             return res(null, cifsSharePath);
         } else {
           console.log('Server getCifsSharePath(): MySQL Read: No Records found');
