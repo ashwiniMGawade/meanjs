@@ -26,7 +26,7 @@ var getMessageDetails = function(emailParams) {
              '<tr><td><b>Read Write And Modify(CC)</b></td> <td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td><td>'+ emailParams.share.readWriteAndModify + '</td></tr>'+
              '<tr><td><b>Size </b></td> <td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td><td>'+ emailParams.share.sizegb + 'GB</td></tr>'+
              '<tr><td><b>Cost</b></td> <td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td><td>'+ emailParams.share.cost + '$ </td></tr>';
-        if (emailParams.path != null || typeof emailParams.path != "undefined") {
+        if (emailParams.path != null || typeof emailParams.path != "undefined" || emailParams.path !== "null") {
           message += '<tr><td><b>Share Path</b></td> <td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td><td>"'+ emailParams.path + '"</td></tr>';
         }
       }
@@ -69,7 +69,7 @@ var getMailMessage = function(type, emailParams) {
     case 'approval': 
 
       message +=  '<div>Please take a minute to respond to '+ categories[emailParams.share.category] + ' request of ' + emailParams.share.user.displayName + ' ('+emailParams.share.projectCode+')  created on '+ emailParams.share.created +      '</div><div>'+
-      '<br>Please click <a href="'+config.domain+'/shares/'+emailParams.share._id+'">here</a> to respond to the request or reply to this mail with message containing case insensitive "Approved" or "Rejected" keyword. </div>'      
+      '<br>Please click <a href="'+config.domain+'/shares/'+emailParams.share._id+'">here</a> to respond to the request or reply to this mail with message containing case insensitive <b>"Approved"</b> or <b>"Rejected"<b> keyword. </div>'      
       message += getMessageDetails(emailParams);
       break;
     case 'Approved': 

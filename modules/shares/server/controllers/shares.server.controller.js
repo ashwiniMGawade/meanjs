@@ -455,9 +455,10 @@ var  GetMail = function(ews, item_id, change_key) {
         var user = {"displayName": userName, "email":userEmail}
         var responseMessage= message.Body['$value'];
        // console.log(responseMessage);
-    
-        var isApproved = responseMessage.toLowerCase().indexOf("approved") > -1;
-        var isRejected = responseMessage.toLowerCase().indexOf("rejected") > -1;
+
+
+        var isApproved = (responseMessage.toLowerCase().match(/approved/g) || []).length;
+        var isRejected = (responseMessage.toLowerCase().match(/rejected/g) || []).length;
         console.log("isApproved",isApproved);
         console.log("isRejected", isRejected);
       
@@ -484,10 +485,10 @@ var  GetMail = function(ews, item_id, change_key) {
               console.log("Error in getting share details to apporve/reject request");
             }
 		    	var statusVal;
-            if (isApproved) {
+            if (isApproved > 1) {
               statusVal = "Approved";
             }
-            if (isRejected) {
+            if (isRejected > 1) {
               statusVal = "Rejected";
             }
 			console.log("share.status=", share.status, "statusval=",statusVal)
