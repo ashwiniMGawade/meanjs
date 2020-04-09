@@ -441,7 +441,7 @@ var  GetMail = function(ews, item_id, change_key) {
 //   // query EWS and print resulting JSON to console
    ews.run(ewsFunction, ewsArgs)
      .then(result => {
-        console.log(JSON.stringify(result));
+        // console.log(JSON.stringify(result));
         var message = result.ResponseMessages.GetItemResponseMessage.Items.Message;
         var subject = message.Subject;
         var isValidSubject = subject.indexOf("RE: Approval Required for") == 0;
@@ -491,9 +491,9 @@ var  GetMail = function(ews, item_id, change_key) {
             if (isRejected > 1) {
               statusVal = "Rejected";
             }
-			console.log("share.status=", share.status, "statusval=",statusVal)
+			      console.log("share.status=", share.status, "statusval=",statusVal)
             if(share.status != statusVal && share.status == "Pending Approval") {
-				console.log("inside if#########################");
+				    console.log("inside if#########################");
               saveShareStatus(share, statusVal,  user);
               if (statusVal == "Approved") {
                 setTimeout(function () { sendToWorkflowForExecution(share, user); }, config.wfa.refreshRate);
@@ -541,9 +541,9 @@ exports.parseAndProcessMails = function() {
   ews.notificationService(serviceOptions, function(response) {
 	  console.log("--------response------");
     console.log(new Date().toISOString(), '| Received EWS Push Notification');
-    console.log(new Date().toISOString(), '| Response:', JSON.stringify(response));
+    // console.log(new Date().toISOString(), '| Response:', JSON.stringify(response));
 	var notification = response.ResponseMessages.SendNotificationResponseMessage.Notification;
-	console.log("notification", notification);
+	// console.log("notification", notification);
 	//check the notification has the new mal event
 	if ( notification.hasOwnProperty("NewMailEvent")) {
 		console.log("inside newmailevent")
