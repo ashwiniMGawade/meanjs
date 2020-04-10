@@ -445,12 +445,12 @@ var  GetMail = function(ews, item_id, change_key) {
         var message = result.ResponseMessages.GetItemResponseMessage.Items.Message;
         var subject = message.Subject;
         var isValidSubject = subject.indexOf("RE: Approval Required for") == 0;
-        console.log("isValidSubject", isValidSubject);
+        // console.log("isValidSubject", isValidSubject);
 
         var userEmail = message.From.Mailbox.EmailAddress;
-        console.log("userEmail", userEmail);
+        // console.log("userEmail", userEmail);
         var userName = message.From.Mailbox.Name;
-        console.log("userName", userName);
+        // console.log("userName", userName);
 
         var user = {"displayName": userName, "email":userEmail}
         var responseMessage= message.Body['$value'];
@@ -464,16 +464,16 @@ var  GetMail = function(ews, item_id, change_key) {
       
         var fromString = responseMessage.substr(responseMessage.toLowerCase().indexOf("from:"), 200);
         var isValidRequestSentFromAutomationTeam = fromString.toLowerCase().indexOf(config.mailer.from.toLowerCase()) > -1;
-        console.log("isValidRequestSentFromAutomationTeam", isValidRequestSentFromAutomationTeam)
+        // console.log("isValidRequestSentFromAutomationTeam", isValidRequestSentFromAutomationTeam)
 
         var parentSubject = responseMessage.substr(responseMessage.toLowerCase().indexOf("<b>subject:</b>") + 15, 100);
         var isValidSubject = isValidSubject && parentSubject.indexOf(" Approval Required for") == 0;
 /*  */
-        console.log("isValidSubject", isValidSubject);
+        // console.log("isValidSubject", isValidSubject);
       
         var requestId = responseMessage.substr(responseMessage.toLowerCase().indexOf("storage/shares/")+15, 24);
 
-        console.log("requestId", requestId)
+        // console.log("requestId", requestId)
 
         //request is valid
         if (isValidRequestSentFromAutomationTeam && isValidSubject && requestId!= "") {
@@ -484,7 +484,7 @@ var  GetMail = function(ews, item_id, change_key) {
             } else if (!share) {
               console.log("Error in getting share details to apporve/reject request");
             }
-		    	var statusVal;
+            var statusVal = "";
             if (isApproved > 1) {
               statusVal = "Approved";
             }
@@ -492,8 +492,8 @@ var  GetMail = function(ews, item_id, change_key) {
               statusVal = "Rejected";
             }
 			      console.log("share.status=", share.status, "statusval=",statusVal)
-            if(share.status != statusVal && share.status == "Pending Approval") {
-				    console.log("inside if#########################");
+            if(statusVal != "" &&  share.status != statusVal && share.status == "Pending Approval") {
+				      console.log("inside if#########################");
               saveShareStatus(share, statusVal,  user);
               if (statusVal == "Approved") {
                 setTimeout(function () { sendToWorkflowForExecution(share, user); }, config.wfa.refreshRate);
@@ -525,7 +525,7 @@ exports.parseAndProcessMails = function() {
   ews.auth.toString = function() {
     return 'auth';
   }
-  console.log(ews);
+  // console.log(ews);
   var jsonPath = path.join(__dirname, '..', 'NotificationService.wsdl');
   
 
@@ -559,7 +559,7 @@ exports.parseAndProcessMails = function() {
   })
   .then(server => {
 	  console.log("in server---------------------------");
-	  console.log(server);
+	  // console.log(server);
     server.log = function(type, data) {
       console.log(new Date().toISOString(), '| ', type, ':', data);
     };

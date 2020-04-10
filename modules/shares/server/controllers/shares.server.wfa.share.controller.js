@@ -20,7 +20,7 @@ exports.executeWfaWorkflow = function (req, res) {
       data = data.toString('utf8');
     }
 
-    console.log('share '+req.share.category+' WFA : Data received from WFA: ' + util.inspect(data, {showHidden: false, depth: null}));
+    // console.log('share '+req.share.category+' WFA : Data received from WFA: ' + util.inspect(data, {showHidden: false, depth: null}));
     if (data && data.job && data.job.$) {
       res(null, { jobId: data.job.$.jobId });
     } else {
@@ -29,13 +29,13 @@ exports.executeWfaWorkflow = function (req, res) {
   });
 
   shareCreateReq.on('requestTimeout', function (reqWfa) {
-    console.log('share '+req.share.category+' : Request has expired - Request: ' + util.inspect(reqWfa, {showHidden: false, depth: null}));
+    // console.log('share '+req.share.category+' : Request has expired - Request: ' + util.inspect(reqWfa, {showHidden: false, depth: null}));
     reqWfa.abort();
     res('share '+req.share.category+' : Request Timeout');
   });
 
   shareCreateReq.on('responseTimeout', function (resWfa) {
-    console.log('share '+req.share.category+' : Response has expired - Response: ' + util.inspect(resWfa, {showHidden: false, depth: null}));
+    // console.log('share '+req.share.category+' : Response has expired - Response: ' + util.inspect(resWfa, {showHidden: false, depth: null}));
     res('share '+req.share.category+' : Response Timeout');
   });
 
@@ -190,8 +190,7 @@ exports.wfaJobStatus = function (req, res) {
     if (Buffer.isBuffer(data)) {
       data = data.toString('utf8');
     }
-
-    console.log('share WFA CreateStatus: Received: ' + util.inspect(data, {showHidden: false, depth: null}));
+    // console.log('share WFA CreateStatus: Received: ' + util.inspect(data, {showHidden: false, depth: null}));
     if (data.job) {
       shareOut = {
         jobStatus: data.job.jobStatus.jobStatus,
@@ -205,13 +204,13 @@ exports.wfaJobStatus = function (req, res) {
   });
 
   shareCreateStatusReq.on('requestTimeout', function (reqWfa) {
-    console.log('share WFA CreateStatus: Request has expired - Request: ' + util.inspect(reqWfa, {showHidden: false, depth: null}));
+    // console.log('share WFA CreateStatus: Request has expired - Request: ' + util.inspect(reqWfa, {showHidden: false, depth: null}));
     reqWfa.abort();
     res('share WFA CreateStatus: Request Timeout');
   });
 
   shareCreateStatusReq.on('responseTimeout', function (resWfa) {
-    console.log('share WFA CreateStatus: Response has expired - Response: ' + util.inspect(resWfa, {showHidden: false, depth: null}));
+    // console.log('share WFA CreateStatus: Response has expired - Response: ' + util.inspect(resWfa, {showHidden: false, depth: null}));
     res('share WFA CreateStatus: Response Timeout');
   });
 
@@ -248,7 +247,7 @@ exports.wfaJobOut = function (req, res) {
     }
     console.log("job id=" + req.jobId);
 
-    console.log('share WFA CreateOut: Received: ' + util.inspect(data, {showHidden: false, depth: null}));
+    // console.log('share WFA CreateOut: Received: ' + util.inspect(data, {showHidden: false, depth: null}));
     if (data.collection) {
       shareOut = {
         ipVirtClus: data.collection.keyAndValuePair[0].$.value,
