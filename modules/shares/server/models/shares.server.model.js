@@ -54,6 +54,11 @@ var ShareSchema = new Schema({
     default: '',
     trim: true
   },
+  resizeReason: {
+    type: String,
+    trim: true,
+    required: function() { return this.category === 'resize' ?'Reason for resize is required' : false },
+  },
   readOnly: {
     type: String,
     default: '',

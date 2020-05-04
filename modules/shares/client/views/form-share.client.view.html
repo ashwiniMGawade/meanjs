@@ -24,6 +24,7 @@
               <div ng-messages="vm.form.shareForm.category.$error" role="alert">
                 <p class="help-block error-text" ng-message="required">Category is required.</p>
               </div>
+              <p class="help-block">add/remove permissions is applicable only to the shares which are created using this portal. Otherwise, old shares request will fail from here and will cause dissatisfaction</p>
             </div>
             <div class="form-group" show-errors ng-if="vm.share.category == 'changePermission'">
               <label for="operation" class="control-label">Select Operation</label>
@@ -85,8 +86,17 @@
                 <p class="help-block error-text" ng-message="min">Please select the size lesser than or equal to {{vm.availableSize}}.</p>
               </div>
             </div>
+            <div class="show-grid row" ng-if="vm.share.category == 'resize' && vm.incrementGb> 50">
+              <div class="form-group"  show-errors>
+                <label class="control-label" for="reason">Reason/Comments</label>
+                <input type="text" name="reason" ng-model="vm.resizeReason" class="form-control" required>
+                <div ng-messages="shareForm.reason.$error" role="alert">
+                  <p class="help-block error-text" ng-message="required">Reason for the space is required.</p>
+                </div>
+              </div>
+            </div>
             <div class="show-grid row" ng-if="vm.share.category == 'resize'">
-              <label class="control-label col-md-4 text-left" for="bu" >Cost ($) </label>
+              <label class="control-label col-md-4 text-left" for="bu" >Approx. Cost($) </label>
               <label class="content-right col-md-8" name="bu" ng-bind="(vm.incrementGb * vm.costPerGb) | number:2"></label>
             </div>
             
@@ -100,7 +110,7 @@
                 </div>
               </div>
             <div class="row" ng-if="vm.share.category == 'newShare'">            
-              <label class="control-label col-md-3  col-ls-3 col-sm-3 col-xs-3 text-left" for="cost">Cost</label>
+              <label class="control-label col-md-3  col-ls-3 col-sm-3 col-xs-3 text-left" for="cost">Approx. Cost($)</label>
               <label style="font-weight: bold !important;" class="content-right col-md-9  col-sm-9 col-xs-9 text-left" name="cost" >{{vm.share.cost || 0}}$</label>
             </div>
             <div class="form-group" show-errors ng-if="vm.share.category == 'changePermission' &&  (vm.share.operation == 'addUserToADGroup' || vm.share.operation == 'removeUserFromADGroup' || vm.share.operation == 'removeUserOrGroupFromShare')">
