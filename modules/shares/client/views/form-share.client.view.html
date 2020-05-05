@@ -24,7 +24,7 @@
               <div ng-messages="vm.form.shareForm.category.$error" role="alert">
                 <p class="help-block error-text" ng-message="required">Category is required.</p>
               </div>
-              <p class="help-block">add/remove permissions is applicable only to the shares which are created using this portal. Otherwise, old shares request will fail from here and will cause dissatisfaction</p>
+              
             </div>
             <div class="form-group" show-errors ng-if="vm.share.category == 'changePermission'">
               <label for="operation" class="control-label">Select Operation</label>
@@ -35,6 +35,7 @@
               <div ng-messages="vm.form.shareForm.operation.$error" role="alert">
                 <p class="help-block error-text" ng-message="required">ACL Operation required.</p>
               </div>
+              <p class="help-block">add/remove permissions is applicable only to the shares which are created using this portal. </br>Otherwise, old shares request will fail from here and will cause dissatisfaction</p>
             </div>
             <div class="form-group" show-errors ng-if="vm.share.category == 'newShare'">
               <label class="control-label" for="readOnly">Read Only (DV)</label>
