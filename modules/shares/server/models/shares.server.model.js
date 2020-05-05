@@ -57,7 +57,7 @@ var ShareSchema = new Schema({
   resizeReason: {
     type: String,
     trim: true,
-    required: function() { return this.category === 'resize' ?'Reason for resize is required' : false },
+    required: function() { return this.category === 'resize' && this.sizegb > 50 ?'Reason for resize is required' : false },
   },
   readOnly: {
     type: String,
