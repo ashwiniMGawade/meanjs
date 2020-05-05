@@ -67,7 +67,8 @@
 
 	            <tr ng-if="vm.share.category=='rename'"><th>New Name</th><td ng-bind="vm.share.newName" class="word-break-all"></td></tr>
 
-	            <tr ng-if="vm.share.category=='resize'"><th>New Size</th><td class="word-break-all">{{vm.share.newSizegb}}GB</td></tr>  
+				<tr ng-if="vm.share.category=='resize'"><th>New Size</th><td class="word-break-all">{{vm.share.newSizegb}}GB</td></tr>  
+				<tr ng-if="vm.share.category=='resize' && vm.share.resizeReason!=''"><th>Resize Reason</th><td class="word-break-all">{{vm.share.resizeReason}}</td></tr>  
 	        </table>
 			</div>
 		</div>

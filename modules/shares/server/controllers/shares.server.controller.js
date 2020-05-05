@@ -273,13 +273,15 @@ exports.create = function (req, res) {
       autoApprove = true;
       delete req.body.IsLoggedInUserInCC;
     }
+    
+   
+    var share = new Share(req.body);    
+    share.user = req.user;  
 
     if (share.category == "resize") {
       autoApprove = true;
     }
-   
-    var share = new Share(req.body);    
-    share.user = req.user;  
+    
     if(autoApprove) {
       share.status = "Approved";     
     }
