@@ -42,7 +42,7 @@
     "acl": "^0.4.11",
     "activedirectory": "^0.7.2",
     "amazon-s3-uri": "0.0.3",
-    "async": "~2.5.0",
+    "async": "~2.6.4",
     "aws-sdk": "^2.178.0",
     "body-parser": "^1.18.2",
     "bower": "^1.8.2",
